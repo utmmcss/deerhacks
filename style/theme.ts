@@ -15,7 +15,7 @@ const base = createTheme({
       default: '#FFF',
     },
     text: {
-      primary: '#1D354B',
+      primary: '#fff',
     },
   },
   breakpoints: {
@@ -45,9 +45,6 @@ const theme = createTheme(base, {
     },
     h2: {
       fontSize: '1.5rem',
-    },
-    allVariants: {
-      color: '#1D354B',
     },
   },
   zIndex: {
@@ -84,7 +81,7 @@ const theme = createTheme(base, {
           justifyContent: 'center',
           alignItems: 'center',
           position: 'relative',
-          minHeight: '100vh',
+          minHeight: '100svh',
           ...(ownerState.maxWidth !== false && {
             maxWidth: 1400,
             [base.breakpoints.up('lg')]: {
