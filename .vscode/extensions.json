@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "usernamehw.errorlens",
+    "ms-vsliveshare.vsliveshare",
+    "davidanson.vscode-markdownlint",
+    "streetsidesoftware.code-spell-checker",
+    "alefragnani.Bookmarks",
+    "WallabyJs.console-ninja",
+    "Postman.postman-for-vscode"
+  ]
+}
