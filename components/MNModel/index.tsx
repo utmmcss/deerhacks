@@ -22,10 +22,11 @@ type GLTFResult = GLTF & {
 };
 
 type Props = {
-  onCreated?: () => void;
+  onAfterRender?: () => void;
 };
 
-const Model = () => {
+const Model = (props: Props) => {
+  const { onAfterRender } = props;
   const { nodes } = useGLTF('./mn.glb') as GLTFResult;
 
   return (
@@ -40,7 +41,12 @@ const Model = () => {
         material={nodes.Cube_1.material}
         scale={[0.5, 0.25, 1.75]}
       />
-      <mesh geometry={nodes.MN.geometry} material={nodes.MN.material} scale={[0.5, 0.25, 1.75]} />
+      <mesh
+        geometry={nodes.MN.geometry}
+        material={nodes.MN.material}
+        scale={[0.5, 0.25, 1.75]}
+        onAfterRender={() => onAfterRender?.()}
+      />
       <mesh
         geometry={nodes.MN_Wireframe.geometry}
         material={nodes.MN_Wireframe.material}
@@ -53,7 +59,7 @@ const Model = () => {
 };
 
 const MNModel = (props: Props) => {
-  const { onCreated } = props;
+  const { onAfterRender } = props;
   const [grabbing, setGrabbing] = useState(false);
 
   const xs = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
@@ -73,7 +79,7 @@ const MNModel = (props: Props) => {
   return (
     <Container
       maxWidth={false}
-      sx={{ height: '100svh', p: '0 !important', position: 'fixed', zIndex: 1 }}
+      sx={{ height: '100vh', p: '0 !important', position: 'fixed', zIndex: 1 }}
     >
       <Canvas
         camera={{
@@ -82,11 +88,10 @@ const MNModel = (props: Props) => {
         }}
         onMouseDown={() => setGrabbing(true)}
         onMouseUp={() => setGrabbing(false)}
-        onCreated={() => onCreated?.()}
         style={{ cursor: grabbing ? 'grabbing' : 'grab' }}
       >
         <Suspense fallback={null}>
-          <Model />
+          <Model onAfterRender={() => onAfterRender?.()} />
           <Environment preset="city" />
         </Suspense>
         <OrbitControls

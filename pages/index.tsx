@@ -1,19 +1,21 @@
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { memo, useCallback, useState } from 'react';
 
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
+import FullPageLoader from '@/components/FullPageLoader';
 import MNModel from '@/components/MNModel';
 import AOS from 'aos';
 
 import 'aos/dist/aos.css';
 
 const Home = () => {
-  const [rendered, setRendered] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!rendered) return;
+  const handleRender = useCallback(() => {
+    setLoading(false);
     AOS.init({
       offset: -120, // offset (in px) from the original trigger point
       delay: 100, // values from 0 to 3000, with step 50ms
@@ -23,44 +25,48 @@ const Home = () => {
       mirror: false, // whether elements should animate out while scrolling past them
       anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
     });
-  }, [rendered]);
+  }, []);
 
   return (
     <>
       <Head>
         <title>DeerHacks</title>
       </Head>
-      <MNModel onCreated={() => setRendered(true)} />
+      <FullPageLoader loading={loading} />
+      <MNModel onAfterRender={handleRender} />
       <Container sx={{ justifyContent: { xs: 'center', sm: 'start' }, alignItems: 'end' }}>
-        <Typography
-          variant="body1"
-          fontFamily="monospace"
-          margin="3rem 1rem"
-          data-aos="fade"
-          data-aos-delay="2000"
-          data-aos-duration="1000"
-        >
-          deerhacks v3.0.0{' '}
-          <span
+        <Grid container margin="2.5rem 1rem">
+          <Typography
+            variant="body1"
+            fontFamily="monospace"
+            data-aos="fade"
+            data-aos-delay="2000"
+            data-aos-duration="1000"
+          >
+            deerhacks v3.0.0&nbsp;
+          </Typography>
+          <Typography
+            variant="body1"
+            fontFamily="monospace"
             data-aos="fade"
             data-aos-delay="2250"
-            data-aos-duration="1000"
-            style={{ opacity: 0.5 }}
+            data-aos-duration="1250"
           >
-            / coming soon
-          </span>{' '}
-          <span
+            <span style={{ opacity: 0.5 }}>/ coming soon&nbsp;</span>
+          </Typography>
+          <Typography
+            variant="body1"
+            fontFamily="monospace"
             data-aos="fade"
             data-aos-delay="2500"
-            data-aos-duration="1000"
-            style={{ opacity: 0.5 }}
+            data-aos-duration="1500"
           >
-            / 02.16.24 - 02.18.24
-          </span>
-        </Typography>
+            <span style={{ opacity: 0.5 }}>/ 02.16.24 - 02.18.24</span>
+          </Typography>
+        </Grid>
       </Container>
     </>
   );
 };
 
-export default Home;
+export default memo(Home);

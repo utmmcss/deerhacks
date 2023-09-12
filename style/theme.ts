@@ -6,13 +6,13 @@ const base = createTheme({
       main: '#001834',
     },
     secondary: {
-      main: '#614C4E',
+      main: '#878789',
     },
     error: {
       main: '#FF2424',
     },
     background: {
-      default: '#FFF',
+      default: '#202124',
     },
     text: {
       primary: '#fff',
@@ -54,7 +54,7 @@ const theme = createTheme(base, {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          backgroundColor: '#202124',
+          backgroundColor: base.palette.background.default,
         },
       },
     },
@@ -71,7 +71,12 @@ const theme = createTheme(base, {
     },
     MuiLinearProgress: {
       defaultProps: {
-        color: 'main',
+        color: 'secondary',
+      },
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+        },
       },
     },
     MuiContainer: {
