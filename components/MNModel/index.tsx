@@ -32,27 +32,18 @@ const Model = (props: Props) => {
   return (
     <group dispose={null}>
       <mesh
-        geometry={nodes.Cube.geometry}
-        material={nodes.Cube.material}
-        scale={[0.5, 0.25, 1.75]}
-      />
-      <mesh
-        geometry={nodes.Cube_1.geometry}
-        material={nodes.Cube_1.material}
-        scale={[0.5, 0.25, 1.75]}
-      />
-      <mesh
         geometry={nodes.MN.geometry}
         material={nodes.MN.material}
-        scale={[0.5, 0.25, 1.75]}
-        onAfterRender={() => onAfterRender?.()}
+        scale={[0.45, 0.23, 1.55]}
+        position={[0, 0.1, 0.1]}
       />
       <mesh
         geometry={nodes.MN_Wireframe.geometry}
         material={nodes.MN_Wireframe.material}
-        scale={[0.525, 0.275, 1.775]}
+        scale={[0.5, 0.25, 1.6]}
         material-toneMapped={false}
         material-emissiveIntensity={3.65}
+        onAfterRender={() => onAfterRender?.()}
       />
     </group>
   );
