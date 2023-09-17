@@ -34,13 +34,13 @@ const Model = (props: Props) => {
       <mesh
         geometry={nodes.MN.geometry}
         material={nodes.MN.material}
-        scale={[0.45, 0.23, 1.55]}
-        position={[0, 0.1, 0.1]}
+        scale={[0.49, 0.26, 1.74]}
+        position={[0, 0.15, 0.15]}
       />
       <mesh
         geometry={nodes.MN_Wireframe.geometry}
         material={nodes.MN_Wireframe.material}
-        scale={[0.5, 0.25, 1.6]}
+        scale={[0.525, 0.275, 1.775]}
         material-toneMapped={false}
         material-emissiveIntensity={3.65}
         onAfterRender={() => onAfterRender?.()}
