@@ -32,10 +32,16 @@ const Model = (props: Props) => {
   return (
     <group dispose={null}>
       <mesh
-        geometry={nodes.MN.geometry}
-        material={nodes.MN.material}
-        scale={[0.49, 0.26, 1.74]}
-        position={[0, 0.15, 0.15]}
+        geometry={nodes.Cube.geometry}
+        material={nodes.Cube.material}
+        scale={[0.49, 0.255, 1.7]}
+        position={[0, 0.13, 0.13]}
+      />
+      <mesh
+        geometry={nodes.Cube_1.geometry}
+        material={nodes.Cube_1.material}
+        scale={[0.49, 0.255, 1.7]}
+        position={[0, 0.13, 0.13]}
       />
       <mesh
         geometry={nodes.MN_Wireframe.geometry}
