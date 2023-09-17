@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { memo, useCallback, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -13,8 +13,11 @@ import 'aos/dist/aos.css';
 
 const Home = () => {
   const [loading, setLoading] = useState(true);
+  const [animatingLogo, setAnimatingLogo] = useState(true);
+  const [renderingModel, setRenderingModel] = useState(true);
 
-  const handleRender = useCallback(() => {
+  useEffect(() => {
+    if (animatingLogo || renderingModel) return;
     setLoading(false);
     AOS.init({
       offset: -120, // offset (in px) from the original trigger point
@@ -25,22 +28,23 @@ const Home = () => {
       mirror: false, // whether elements should animate out while scrolling past them
       anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
     });
-  }, []);
+  }, [animatingLogo, renderingModel]);
 
   return (
     <>
       <Head>
         <title>DeerHacks</title>
       </Head>
-      <FullPageLoader loading={loading} />
-      <MNModel onAfterRender={handleRender} />
+      <FullPageLoader loading={loading} onAnimationEnd={() => setAnimatingLogo(false)} />
+      {/* Begin model rendering after loading animation ends for smoother transition */}
+      {!animatingLogo && <MNModel onAfterRender={() => setRenderingModel(false)} />}
       <Container sx={{ justifyContent: { xs: 'center', sm: 'start' }, alignItems: 'end' }}>
         <Grid container margin="2.5rem 1rem">
           <Typography
             variant="body1"
             fontFamily="monospace"
             data-aos="fade"
-            data-aos-delay="2000"
+            data-aos-delay="1000"
             data-aos-duration="1000"
           >
             deerhacks v3.0.0&nbsp;
@@ -49,7 +53,7 @@ const Home = () => {
             variant="body1"
             fontFamily="monospace"
             data-aos="fade"
-            data-aos-delay="2250"
+            data-aos-delay="1250"
             data-aos-duration="1250"
           >
             <span style={{ opacity: 0.5 }}>/ coming soon&nbsp;</span>
@@ -58,7 +62,7 @@ const Home = () => {
             variant="body1"
             fontFamily="monospace"
             data-aos="fade"
-            data-aos-delay="2500"
+            data-aos-delay="1500"
             data-aos-duration="1500"
           >
             <span style={{ opacity: 0.5 }}>/ 02.16.24 - 02.18.24</span>

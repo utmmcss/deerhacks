@@ -4,7 +4,7 @@ import Script from 'next/script';
 import CssBaseline from '@mui/material/CssBaseline';
 import { StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
 
-import theme from 'style/theme';
+import theme from '@/styles/theme';
 
 /**
  * https://nextjs.org/docs/pages/building-your-application/routing/custom-app

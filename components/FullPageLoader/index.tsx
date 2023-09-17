@@ -2,16 +2,17 @@ import { memo } from 'react';
 
 import Container from '@mui/material/Container';
 import Fade from '@mui/material/Fade';
-import LinearProgress from '@mui/material/LinearProgress';
 
-import theme from '@/style/theme';
+import AnimatedLogo from '@/components/AnimatedLogo';
+import theme from '@/styles/theme';
 
 type Props = {
   loading: boolean;
+  onAnimationEnd?: () => void;
 };
 
 const FullPageLoader = (props: Props) => {
-  const { loading } = props;
+  const { loading, onAnimationEnd } = props;
 
   return (
     <Fade in={loading} unmountOnExit>
@@ -25,7 +26,7 @@ const FullPageLoader = (props: Props) => {
           zIndex: 10000,
         }}
       >
-        <LinearProgress sx={{ width: 'clamp(100px, 50%, 500px)' }} />
+        <AnimatedLogo onAnimationEnd={onAnimationEnd} />
       </Container>
     </Fade>
   );

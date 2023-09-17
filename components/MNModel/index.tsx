@@ -4,7 +4,7 @@ import { memo, useMemo, useState } from 'react';
 import Container from '@mui/material/Container';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import theme from '@/style/theme';
+import theme from '@/styles/theme';
 import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
 import { Canvas, extend } from '@react-three/fiber';
 import { Bloom, EffectComposer, Noise, ToneMapping } from '@react-three/postprocessing';
@@ -96,7 +96,7 @@ const MNModel = (props: Props) => {
         </Suspense>
         <OrbitControls
           autoRotate
-          autoRotateSpeed={0.25}
+          autoRotateSpeed={0.5}
           rotateSpeed={1}
           maxPolarAngle={1.6}
           enablePan={false}
