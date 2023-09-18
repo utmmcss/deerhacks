@@ -1,13 +1,17 @@
 {
   "recommendations": [
+    // Required Extensions
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "usernamehw.errorlens",
-    "ms-vsliveshare.vsliveshare",
-    "davidanson.vscode-markdownlint",
     "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+
+    // Extra
+    "ms-vsliveshare.vsliveshare",
     "alefragnani.Bookmarks",
-    "WallabyJs.console-ninja",
-    "Postman.postman-for-vscode"
+    "Postman.postman-for-vscode",
+    "GitHub.vscode-github-actions",
+    "davidanson.vscode-markdownlint",
+    "WallabyJs.console-ninja"
   ]
 }

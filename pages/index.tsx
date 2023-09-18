@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import FullPageLoader from '@/components/FullPageLoader';
 import MNModel from '@/components/MNModel';
+import { useDemoGet } from '@/hooks/useDemoGet';
 import AOS from 'aos';
 
 import 'aos/dist/aos.css';
@@ -16,8 +17,10 @@ const Home = () => {
   const [animatingLogo, setAnimatingLogo] = useState(true);
   const [renderingModel, setRenderingModel] = useState(true);
 
+  const demo = useDemoGet();
+
   useEffect(() => {
-    if (animatingLogo || renderingModel) return;
+    if (animatingLogo || renderingModel || demo.isLoading) return;
     setLoading(false);
     AOS.init({
       offset: -120, // offset (in px) from the original trigger point
@@ -28,7 +31,7 @@ const Home = () => {
       mirror: false, // whether elements should animate out while scrolling past them
       anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
     });
-  }, [animatingLogo, renderingModel]);
+  }, [animatingLogo, renderingModel, demo]);
 
   return (
     <>
