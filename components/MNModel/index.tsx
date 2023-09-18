@@ -34,18 +34,14 @@ const Model = (props: Props) => {
       <mesh
         geometry={nodes.Cube.geometry}
         material={nodes.Cube.material}
-        scale={[0.5, 0.25, 1.75]}
+        scale={[0.49, 0.255, 1.7]}
+        position={[0, 0.13, 0.13]}
       />
       <mesh
         geometry={nodes.Cube_1.geometry}
         material={nodes.Cube_1.material}
-        scale={[0.5, 0.25, 1.75]}
-      />
-      <mesh
-        geometry={nodes.MN.geometry}
-        material={nodes.MN.material}
-        scale={[0.5, 0.25, 1.75]}
-        onAfterRender={() => onAfterRender?.()}
+        scale={[0.49, 0.255, 1.7]}
+        position={[0, 0.13, 0.13]}
       />
       <mesh
         geometry={nodes.MN_Wireframe.geometry}
@@ -53,6 +49,7 @@ const Model = (props: Props) => {
         scale={[0.525, 0.275, 1.775]}
         material-toneMapped={false}
         material-emissiveIntensity={3.65}
+        onAfterRender={() => onAfterRender?.()}
       />
     </group>
   );
