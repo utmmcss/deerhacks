@@ -1,0 +1,79 @@
+{
+  // SVG Snippets
+  "SVG Component (Snippets)": {
+    "isFileTemplate": true,
+    "scope": "typescript, typescriptreact",
+    "prefix": ["svg"],
+    "description": "Snippet to create an SVG component from the filename",
+    "body": [
+      "const ${1:$TM_FILENAME_BASE} = () => {",
+      "  return (",
+      "    $0",
+      "  )",
+      "}",
+      "",
+      "export default ${1:$TM_FILENAME_BASE}",
+      ""
+    ]
+  },
+  "SVG Component with Clipboard (Snippets)": {
+    "isFileTemplate": true,
+    "scope": "typescript, typescriptreact",
+    "prefix": ["svgClipboard"],
+    "description": "Snippet to create an SVG component from the filename with the clipboard content",
+    "body": [
+      "const ${1:$TM_FILENAME_BASE} = () => {",
+      "  return (",
+      "    ${2:$CLIPBOARD}",
+      "  )",
+      "}",
+      "",
+      "export default ${1:$TM_FILENAME_BASE}",
+      ""
+    ]
+  },
+  "SVG Component with Props (Snippets)": {
+    "isFileTemplate": true,
+    "scope": "typescript, typescriptreact",
+    "prefix": ["svgProps"],
+    "description": "Snippet to create an SVG component from the filename with optional props",
+    "body": [
+      "import { SVGProps } from 'react'",
+      "",
+      "const ${1:$TM_FILENAME_BASE} = (props: SVGProps<SVGSVGElement>) => {",
+      "",
+      "  $LINE_COMMENT desctruct props that you want to use here",
+      "  const {} = props",
+      "",
+      "  return (",
+      "    $0",
+      "  )",
+      "}",
+      "",
+      "export default ${1:$TM_FILENAME_BASE}",
+      ""
+    ]
+  },
+  "SVG Component with Props & Clipboard (Snippets)": {
+    "isFileTemplate": true,
+    "scope": "typescript, typescriptreact",
+    "prefix": ["svgPropsClipboard"],
+    "description": "Snippet to create an SVG component from the filename with optional props and clipboard content",
+    "body": [
+      "import { SVGProps } from 'react'",
+      "",
+      "const ${1:$TM_FILENAME_BASE} = (props: SVGProps<SVGSVGElement>) => {",
+      "",
+      "  $LINE_COMMENT desctruct props that you want to use here",
+      "  const {} = props",
+      "",
+      "  return (",
+      "    ${2:$CLIPBOARD}",
+      "  )",
+      "}",
+      "",
+      "export default ${1:$TM_FILENAME_BASE}",
+      ""
+    ]
+  }
+}
