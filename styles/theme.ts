@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 const base = createTheme({
   palette: {
     primary: {
-      main: '#001834',
+      main: '#fff',
     },
     secondary: {
       main: '#878789',
@@ -31,7 +31,7 @@ const base = createTheme({
 
 const theme = createTheme(base, {
   typography: {
-    fontFamily: "'Roboto','Helvetica','BlinkMacSystemFont','Segoe UI','Oxygen'",
+    fontFamily: 'inherit',
     fontSize: 16,
     h1: {
       fontSize: '2rem',
@@ -61,11 +61,23 @@ const theme = createTheme(base, {
     MuiButton: {
       defaultProps: {
         size: 'large',
-        color: 'main',
       },
       styleOverrides: {
         root: {
           textTransform: 'none',
+          gap: '0.5rem',
+          p: '0.75rem 1.5rem',
+        },
+      },
+    },
+    MuiDivider: {
+      defaultProps: {
+        flexItem: true,
+      },
+      styleOverrides: {
+        root: {
+          borderColor: base.palette.primary.main,
+          opacity: 0.1,
         },
       },
     },
@@ -79,6 +91,20 @@ const theme = createTheme(base, {
         },
       },
     },
+    MuiLink: {
+      defaultProps: {
+        underline: 'none',
+      },
+      styleOverrides: {
+        root: {
+          transition: 'opacity 0.2s ease',
+          opacity: 0.5,
+          '&:hover': {
+            opacity: 1,
+          },
+        },
+      },
+    },
     MuiContainer: {
       styleOverrides: {
         root: ({ ownerState }: any) => ({
@@ -86,7 +112,8 @@ const theme = createTheme(base, {
           justifyContent: 'center',
           alignItems: 'center',
           position: 'relative',
-          minHeight: '100svh',
+          padding: '2rem',
+          gap: '1rem',
           ...(ownerState.maxWidth !== false && {
             maxWidth: 1400,
             [base.breakpoints.up('lg')]: {
