@@ -41,11 +41,17 @@ const Home = () => {
       <FullPageLoader loading={loading} onAnimationEnd={() => setAnimatingLogo(false)} />
       {/* Begin model rendering after loading animation ends for smoother transition */}
       {!animatingLogo && <MNModel onAfterRender={() => setRenderingModel(false)} />}
-      <Container sx={{ justifyContent: { xs: 'center', sm: 'start' }, alignItems: 'end' }}>
-        <Grid container margin="2.5rem 1rem">
+      <Container
+        sx={{
+          position: 'absolute',
+          inset: 'auto 0 0 0',
+          m: '0 auto',
+        }}
+      >
+        <Grid container>
           <Typography
             variant="body1"
-            fontFamily="monospace"
+            letterSpacing={1.5}
             data-aos="fade"
             data-aos-delay="1000"
             data-aos-duration="1000"
@@ -53,22 +59,24 @@ const Home = () => {
             deerhacks v3.0.0&nbsp;
           </Typography>
           <Typography
+            color="secondary"
             variant="body1"
-            fontFamily="monospace"
+            letterSpacing={1.5}
             data-aos="fade"
             data-aos-delay="1250"
             data-aos-duration="1250"
           >
-            <span style={{ opacity: 0.5 }}>/ coming soon&nbsp;</span>
+            / coming soon&nbsp;
           </Typography>
           <Typography
+            color="secondary"
             variant="body1"
-            fontFamily="monospace"
+            letterSpacing={1.5}
             data-aos="fade"
             data-aos-delay="1500"
             data-aos-duration="1500"
           >
-            <span style={{ opacity: 0.5 }}>/ 02.16.24 - 02.18.24</span>
+            / 02.16.24 - 02.18.24
           </Typography>
         </Grid>
       </Container>

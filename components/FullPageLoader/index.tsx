@@ -15,7 +15,7 @@ const FullPageLoader = (props: Props) => {
   const { loading, onAnimationEnd } = props;
 
   return (
-    <Fade in={loading} unmountOnExit>
+    <Fade in={loading} appear={false} unmountOnExit>
       <Container
         maxWidth={false}
         sx={{

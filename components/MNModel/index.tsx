@@ -1,10 +1,8 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { memo, useMemo, useState } from 'react';
 
 import Container from '@mui/material/Container';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
-import theme from '@/styles/theme';
 import { Environment, OrbitControls, useGLTF } from '@react-three/drei';
 import { Canvas, extend } from '@react-three/fiber';
 import { Bloom, EffectComposer, Noise, ToneMapping } from '@react-three/postprocessing';
@@ -59,59 +57,75 @@ const MNModel = (props: Props) => {
   const { onAfterRender } = props;
   const [grabbing, setGrabbing] = useState(false);
 
-  const xs = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
-  const sm = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  //const xs = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
+  //const sm = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
   const cameraConfigs = useMemo(() => {
     switch (true) {
+      /*
       case xs:
         return { perspective: 4.5, side: -3 };
       case sm:
         return { perspective: 2.75, side: -1.75 };
+      */
       default:
         return { perspective: 2.5, side: -1.5 };
     }
-  }, [xs, sm]);
+  }, []);
+
+  // Save resource time when developing
+  const hideModel = process.env.NODE_ENV === 'development';
+
+  useEffect(() => {
+    if (hideModel) onAfterRender?.();
+  }, [onAfterRender, hideModel]);
 
   return (
     <Container
       maxWidth={false}
-      sx={{ height: '100vh', p: '0 !important', position: 'fixed', zIndex: 1 }}
+      sx={{
+        height: '100svh',
+        p: '0 !important',
+        backgroundImage:
+          'radial-gradient(circle closest-corner at 75% 60%, rgba(238, 39, 39, 0.25), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 29% 16%, rgba(154, 39, 238, 0.15), rgba(255, 255, 255, 0) 35%), radial-gradient(closest-corner at 68% 38%, rgba(238, 164, 39, 0.1), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 31% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%)',
+      }}
     >
-      <Canvas
-        camera={{
-          position: [cameraConfigs.perspective, 0, cameraConfigs.side],
-          filmOffset: -0.5,
-        }}
-        onMouseDown={() => setGrabbing(true)}
-        onMouseUp={() => setGrabbing(false)}
-        style={{ cursor: grabbing ? 'grabbing' : 'grab' }}
-      >
-        <Suspense fallback={null}>
-          <Model onAfterRender={() => onAfterRender?.()} />
-          <Environment preset="city" />
-        </Suspense>
-        <OrbitControls
-          autoRotate
-          autoRotateSpeed={0.5}
-          rotateSpeed={1}
-          maxPolarAngle={1.6}
-          enablePan={false}
-          enableZoom={false}
-        />
-        <EffectComposer disableNormalPass multisampling={4}>
-          <Bloom mipmapBlur luminanceThreshold={1} />
-          <Noise opacity={0.05} />
-          <ToneMapping
-            adaptive
-            resolution={256}
-            middleGrey={0.4}
-            maxLuminance={16.0}
-            averageLuminance={1.0}
-            adaptationRate={1.0}
+      {!hideModel && (
+        <Canvas
+          camera={{
+            position: [cameraConfigs.perspective, 0, cameraConfigs.side],
+            filmOffset: -0.5,
+          }}
+          onMouseDown={() => setGrabbing(true)}
+          onMouseUp={() => setGrabbing(false)}
+          style={{ cursor: grabbing ? 'grabbing' : 'grab' }}
+        >
+          <Suspense fallback={null}>
+            <Model onAfterRender={() => onAfterRender?.()} />
+            <Environment preset="city" />
+          </Suspense>
+          <OrbitControls
+            autoRotate
+            autoRotateSpeed={0.5}
+            rotateSpeed={1}
+            maxPolarAngle={1.6}
+            enablePan={false}
+            enableZoom={false}
           />
-        </EffectComposer>
-      </Canvas>
+          <EffectComposer disableNormalPass multisampling={4}>
+            <Bloom mipmapBlur luminanceThreshold={1} />
+            <Noise opacity={0.05} />
+            <ToneMapping
+              adaptive
+              resolution={256}
+              middleGrey={0.4}
+              maxLuminance={16.0}
+              averageLuminance={1.0}
+              adaptationRate={1.0}
+            />
+          </EffectComposer>
+        </Canvas>
+      )}
     </Container>
   );
 };
