@@ -51,7 +51,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           </CssBaseline>
         </ThemeProvider>
       </StyledEngineProvider>
-      {<ReactQueryDevtools />}
+      <ReactQueryDevtools />
     </APIProvider>
   );
 }

@@ -1,5 +1,5 @@
 import { Suspense, useEffect } from 'react';
-import { memo, useMemo, useState } from 'react';
+import { memo, useMemo } from 'react';
 
 import Container from '@mui/material/Container';
 
@@ -28,7 +28,7 @@ const Model = (props: Props) => {
   const { nodes } = useGLTF('./mn.glb') as GLTFResult;
 
   return (
-    <group dispose={null}>
+    <group dispose={null} position={[0, 0, -0.25]}>
       <mesh
         geometry={nodes.Cube.geometry}
         material={nodes.Cube.material}
@@ -55,7 +55,6 @@ const Model = (props: Props) => {
 
 const MNModel = (props: Props) => {
   const { onAfterRender } = props;
-  const [grabbing, setGrabbing] = useState(false);
 
   //const xs = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
   //const sm = useMediaQuery(theme.breakpoints.between('sm', 'md'));
@@ -87,7 +86,7 @@ const MNModel = (props: Props) => {
         height: '100svh',
         p: '0 !important',
         backgroundImage:
-          'radial-gradient(circle closest-corner at 75% 60%, rgba(238, 39, 39, 0.25), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 29% 16%, rgba(154, 39, 238, 0.15), rgba(255, 255, 255, 0) 35%), radial-gradient(closest-corner at 68% 38%, rgba(238, 164, 39, 0.1), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 31% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%)',
+          'radial-gradient(circle closest-corner at 25% 60%, rgba(238, 39, 39, 0.25), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 71% 16%, rgba(154, 39, 238, 0.15), rgba(255, 255, 255, 0) 35%), radial-gradient(closest-corner at 32% 38%, rgba(238, 164, 39, 0.1), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%)',
       }}
     >
       {!hideModel && (
@@ -96,9 +95,7 @@ const MNModel = (props: Props) => {
             position: [cameraConfigs.perspective, 0, cameraConfigs.side],
             filmOffset: -0.5,
           }}
-          onMouseDown={() => setGrabbing(true)}
-          onMouseUp={() => setGrabbing(false)}
-          style={{ cursor: grabbing ? 'grabbing' : 'grab' }}
+          style={{ cursor: 'move' }}
         >
           <Suspense fallback={null}>
             <Model onAfterRender={() => onAfterRender?.()} />
