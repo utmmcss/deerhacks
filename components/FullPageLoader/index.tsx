@@ -1,5 +1,3 @@
-import { memo } from 'react';
-
 import Container from '@mui/material/Container';
 import Fade from '@mui/material/Fade';
 
@@ -32,4 +30,4 @@ const FullPageLoader = (props: Props) => {
   );
 };
 
-export default memo(FullPageLoader);
+export default FullPageLoader;

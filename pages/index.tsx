@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -42,48 +42,53 @@ const Home = () => {
       <FullPageLoader loading={loading} onAnimationEnd={() => setAnimatingLogo(false)} />
       {/* Begin model rendering after loading animation ends for smoother transition */}
       {!animatingLogo && <MNModel onAfterRender={() => setRenderingModel(false)} />}
-      <Container
-        sx={{
-          position: 'absolute',
-          inset: 'auto 0 0 0',
-          m: '0 auto',
-        }}
-      >
-        <Grid container>
-          <Typography
-            variant="body1"
-            letterSpacing={1.5}
-            data-aos="fade"
-            data-aos-delay="1000"
-            data-aos-duration="1000"
+      {/* Hide overflow in dynamic viewport changes */}
+      {!loading && (
+        <>
+          <Container
+            sx={{
+              position: 'absolute',
+              inset: 'auto 0 0 0',
+              m: '0 auto',
+            }}
           >
-            deerhacks v3.0.0&nbsp;
-          </Typography>
-          <Typography
-            color="secondary"
-            variant="body1"
-            letterSpacing={1.5}
-            data-aos="fade"
-            data-aos-delay="1250"
-            data-aos-duration="1250"
-          >
-            / coming soon&nbsp;
-          </Typography>
-          <Typography
-            color="secondary"
-            variant="body1"
-            letterSpacing={1.5}
-            data-aos="fade"
-            data-aos-delay="1500"
-            data-aos-duration="1500"
-          >
-            / 02.16.24 - 02.18.24
-          </Typography>
-        </Grid>
-      </Container>
-      <FAQ />
+            <Grid container>
+              <Typography
+                variant="body1"
+                letterSpacing={1.5}
+                data-aos="fade"
+                data-aos-delay="1000"
+                data-aos-duration="1000"
+              >
+                deerhacks v3.0.0&nbsp;
+              </Typography>
+              <Typography
+                color="secondary"
+                variant="body1"
+                letterSpacing={1.5}
+                data-aos="fade"
+                data-aos-delay="1250"
+                data-aos-duration="1250"
+              >
+                / coming soon&nbsp;
+              </Typography>
+              <Typography
+                color="secondary"
+                variant="body1"
+                letterSpacing={1.5}
+                data-aos="fade"
+                data-aos-delay="1500"
+                data-aos-duration="1500"
+              >
+                / 02.16.24 - 02.18.24
+              </Typography>
+            </Grid>
+          </Container>
+          <FAQ />
+        </>
+      )}
     </>
   );
 };
 
-export default memo(Home);
+export default Home;
