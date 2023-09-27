@@ -5,6 +5,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
+import FAQ from '@/components/FAQ';
 import FullPageLoader from '@/components/FullPageLoader';
 import MNModel from '@/components/MNModel';
 import { useDemoGet } from '@/hooks/useDemoGet';
@@ -80,6 +81,7 @@ const Home = () => {
           </Typography>
         </Grid>
       </Container>
+      <FAQ />
     </>
   );
 };

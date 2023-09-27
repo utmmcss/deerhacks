@@ -1,6 +1,13 @@
 {
   // Spell checker
-  "cSpell.words": ["deerhacks", "Hackathon", "MCSS", "Wireframe"],
+  "cSpell.words": [
+    "deerhacks",
+    "DeerHacks",
+    "Hackathon",
+    "MCSS",
+    "Devpost",
+    "Wireframe"
+  ],
   "cSpell.language": "en",
   // Use prettier for code formatting
   "editor.defaultFormatter": "esbenp.prettier-vscode",

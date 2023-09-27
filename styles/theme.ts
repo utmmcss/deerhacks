@@ -12,10 +12,12 @@ const base = createTheme({
       main: '#FF2424',
     },
     background: {
-      default: '#202124',
+      //default: '#202124',
+      default: '#181818',
     },
     text: {
       primary: '#fff',
+      secondary: '#878789',
     },
   },
   breakpoints: {
@@ -55,6 +57,9 @@ const theme = createTheme(base, {
       styleOverrides: {
         body: {
           backgroundColor: base.palette.background.default,
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         },
       },
     },
@@ -112,7 +117,7 @@ const theme = createTheme(base, {
           justifyContent: 'center',
           alignItems: 'center',
           position: 'relative',
-          padding: '2rem',
+          padding: '2rem 1rem',
           gap: '1rem',
           ...(ownerState.maxWidth !== false && {
             maxWidth: 1400,
@@ -124,6 +129,61 @@ const theme = createTheme(base, {
             },
           }),
         }),
+      },
+    },
+    MuiAccordion: {
+      defaultProps: {
+        square: true,
+        disableGutters: true,
+        elevation: 0,
+      },
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          backgroundColor: 'transparent',
+          overflow: 'hidden',
+          '&:before': {
+            display: 'none',
+          },
+        },
+      },
+    },
+    MuiAccordionSummary: {
+      styleOverrides: {
+        root: {
+          padding: '0',
+          gap: '1rem',
+          borderRadius: 8,
+          transition: 'all 0.2s ease',
+          '&:hover, &:focus-visible': {
+            '@media (hover: hover)': {
+              padding: '0 1rem',
+              backgroundColor: 'rgba(255,255,255,0.03)',
+            },
+          },
+        },
+        expandIconWrapper: {
+          color: base.palette.primary.main,
+          transition: 'transform 0.2s ease',
+          '&.Mui-expanded': {
+            transform: 'rotate(-135deg)',
+          },
+        },
+      },
+    },
+    MuiAccordionDetails: {
+      styleOverrides: {
+        root: {
+          padding: '1rem',
+          color: base.palette.text.secondary,
+        },
+      },
+    },
+    MuiCollapse: {
+      styleOverrides: {
+        root: {
+          transition: 'all 0.2s ease',
+        },
       },
     },
   },
