@@ -2,10 +2,11 @@ import styles from '@/styles/logo.module.css';
 
 type Props = {
   onAnimationEnd?: () => void;
+  pulse?: boolean;
 };
 
 const AnimatedLogo = (props: Props) => {
-  const { onAnimationEnd } = props;
+  const { onAnimationEnd, pulse = true } = props;
 
   return (
     <svg
@@ -14,7 +15,7 @@ const AnimatedLogo = (props: Props) => {
       viewBox="0 0 851 1071"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={styles.pulse}
+      {...(pulse && { className: styles.pulse })}
       onAnimationEnd={() => onAnimationEnd?.()}
     >
       <g clipPath="url(#clip0_1_2)">

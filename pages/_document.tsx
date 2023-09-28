@@ -14,6 +14,12 @@ export default function Document() {
           content="DeerHacks is University of Toronto Mississauga's annual hackathon! Join 500+ hackers for a weekend of fun :)"
         />
         <meta name="keywords" content="DeerHacks, MCSS, DeerHacks UTM, DeerHacks Hackathon" />
+        <meta name="theme-color" content="#181818" />
+
+        <link rel="icon" type="image/svg+xml" sizes="512x512" href="/logo.svg" />
+        <link rel="apple-touch-icon" href="/icons/apple.png" />
+        <link rel="shortcut icon" href="/icons/favicon.ico" />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <body>
         <Main />

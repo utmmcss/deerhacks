@@ -1,6 +1,10 @@
 # DeerHacks
 
 <p align="center">
+    <img alt="DeerHacks Logo" width="300" src="public/icons/logo.svg">
+</p>
+
+<p align="center">
    <a href="https://app.netlify.com/sites/deerhacks/deploys">
     <img alt="Build Status" src="https://api.netlify.com/api/v1/badges/e85686f6-63b4-4028-94f2-c27d34c488d7/deploy-status">
   </a>
