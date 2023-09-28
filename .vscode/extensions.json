@@ -5,13 +5,11 @@
     "esbenp.prettier-vscode",
     "streetsidesoftware.code-spell-checker",
     "usernamehw.errorlens",
-
     // Extra
     "ms-vsliveshare.vsliveshare",
     "alefragnani.Bookmarks",
     "Postman.postman-for-vscode",
     "GitHub.vscode-github-actions",
     "davidanson.vscode-markdownlint",
-    "WallabyJs.console-ninja"
   ]
 }

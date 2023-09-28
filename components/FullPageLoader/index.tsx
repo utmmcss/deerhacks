@@ -1,16 +1,19 @@
 import Container from '@mui/material/Container';
 import Fade from '@mui/material/Fade';
+import Typography from '@mui/material/Typography';
 
 import AnimatedLogo from '@/components/AnimatedLogo';
 import theme from '@/styles/theme';
 
 type Props = {
   loading: boolean;
+  pulse?: boolean;
+  text?: string;
   onAnimationEnd?: () => void;
 };
 
 const FullPageLoader = (props: Props) => {
-  const { loading, onAnimationEnd } = props;
+  const { loading, pulse, text, onAnimationEnd } = props;
 
   return (
     <Fade in={loading} appear={false} unmountOnExit>
@@ -19,12 +22,17 @@ const FullPageLoader = (props: Props) => {
         sx={{
           height: '100vh',
           background: theme.palette.background.default,
-          p: '0 !important',
           position: 'fixed',
+          flexDirection: 'column',
+          gap: '2rem',
+          textAlign: 'center',
           zIndex: 10000,
         }}
       >
-        <AnimatedLogo onAnimationEnd={onAnimationEnd} />
+        <AnimatedLogo onAnimationEnd={onAnimationEnd} pulse={pulse} />
+        <Fade in={!!text} timeout={2000}>
+          <Typography color="secondary">{text}</Typography>
+        </Fade>
       </Container>
     </Fade>
   );
