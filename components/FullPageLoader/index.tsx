@@ -26,6 +26,7 @@ const FullPageLoader = (props: Props) => {
           flexDirection: 'column',
           gap: '2rem',
           textAlign: 'center',
+          top: 0,
           zIndex: 10000,
         }}
       >

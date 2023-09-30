@@ -67,8 +67,13 @@ const MNModel = (props: Props) => {
     <Container
       maxWidth={false}
       sx={{
-        height: '100svh',
+        height: 'calc(100svh - 4rem)',
         p: '0 !important',
+        m: { xs: '2rem 1rem', lg: '2rem' },
+        width: { xs: 'calc(100% - 2rem)', lg: 'calc(100% - 4rem)' },
+        borderRadius: '1rem',
+        backgroundImage:
+          'radial-gradient(circle closest-corner at 25% 60%, rgba(238, 39, 39, 0.25), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 71% 16%, rgba(154, 39, 238, 0.15), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(238, 164, 39, 0.1), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%), linear-gradient(#202124, #202124)',
       }}
     >
       <Canvas
@@ -83,7 +88,7 @@ const MNModel = (props: Props) => {
           onIncline={() => setDpr(Math.min(dpr + 0.25, 2))}
           onDecline={() => setDpr(Math.max(dpr - 0.25, 0.75))}
         />
-        <Suspense fallback={null}>
+        <Suspense>
           <Model onAfterRender={() => onAfterRender?.()} />
           <Environment preset="city" />
           <Preload all />
