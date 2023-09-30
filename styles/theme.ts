@@ -57,8 +57,6 @@ const theme = createTheme(base, {
       styleOverrides: {
         body: {
           backgroundColor: base.palette.background.default,
-          backgroundImage:
-            'radial-gradient(circle closest-corner at 25% 60%, rgba(238, 39, 39, 0.25), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 71% 16%, rgba(154, 39, 238, 0.15), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(238, 164, 39, 0.1), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%)',
         },
       },
     },
@@ -122,6 +120,7 @@ const theme = createTheme(base, {
             maxWidth: 1400,
             [base.breakpoints.up('lg')]: {
               maxWidth: 1140,
+              padding: '2rem',
             },
             [base.breakpoints.up('xl')]: {
               maxWidth: 1320,
@@ -182,6 +181,22 @@ const theme = createTheme(base, {
       styleOverrides: {
         root: {
           transition: 'all 0.2s ease',
+        },
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: {
+          boxShadow: 'none',
+          backgroundColor: 'transparent',
+          color: base.palette.text.primary,
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: base.palette.background.default,
         },
       },
     },
