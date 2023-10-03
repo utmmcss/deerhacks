@@ -58,7 +58,7 @@ const Home = () => {
             }}
           >
             <Grid container alignItems="stretch">
-              <Slide in={!loading} direction="up" mountOnEnter>
+              <Slide in={!loading} direction="up" timeout={1000} mountOnEnter>
                 <Grid
                   item
                   xs={10}

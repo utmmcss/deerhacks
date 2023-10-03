@@ -38,11 +38,17 @@ const Footer = () => {
               </Link>
             </Tooltip>
           </Box>
-          <Box component="div" display="inline-flex">
+          <Box component="div">
             ✨ by&nbsp;
-            <Tooltip title="Shameless Plug" placement="top">
+            <Tooltip title="Frontend" placement="top">
               <Link href="https://github.com/anthonytedja" underline="always">
                 Anthony Tedja
+              </Link>
+            </Tooltip>
+            &nbsp;&&nbsp;
+            <Tooltip title="Backend" placement="top">
+              <Link href="https://github.com/Multivalence" underline="always">
+                Shiva Mulwani
               </Link>
             </Tooltip>
           </Box>
