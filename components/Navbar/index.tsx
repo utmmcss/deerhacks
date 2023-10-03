@@ -17,6 +17,8 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
+import MLHBadge from '@/components/MLHBadge';
+import { useFeatureToggle } from '@/contexts/FeatureToggle';
 import theme from '@/styles/theme';
 
 type Props = {
@@ -30,6 +32,7 @@ type MenuProps = {
 
 const Menu = (props: MenuProps) => {
   const { desktop, afterClick } = props;
+  const { toggles } = useFeatureToggle();
 
   const handleClick = (dest: string) => {
     const section = document.querySelector(dest);
@@ -70,6 +73,19 @@ const Menu = (props: MenuProps) => {
       <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
         <Button onClick={() => handleClick('#faq')}>FAQ</Button>
       </Box>
+      {toggles.mlh && (
+        <Box component="div" sx={{ width: 75 }}>
+          <Tooltip title="Major League Hacking">
+            <Link
+              href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=white"
+              target="_blank"
+              sx={{ width: 75, opacity: 1, position: 'absolute', top: 0 }}
+            >
+              <MLHBadge />
+            </Link>
+          </Tooltip>
+        </Box>
+      )}
     </Box>
   );
 };

@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 const INITIAL_FEATURE_TOGGLES = {
   registration: false,
   dashboard: false,
+  mlh: false,
 } as const;
 
 type FeatureToggleKey = keyof typeof INITIAL_FEATURE_TOGGLES;
@@ -29,6 +30,7 @@ export const FeatureToggleProvider = (props: { children: ReactNode }) => {
     setToggles({
       registration: process.env.NEXT_PUBLIC_TOGGLE_REGISTRATION === 'true',
       dashboard: process.env.NEXT_PUBLIC_TOGGLE_DASHBOARD === 'true',
+      mlh: process.env.NEXT_PUBLIC_TOGGLE_MLH === 'true',
     });
   }, []);
 
