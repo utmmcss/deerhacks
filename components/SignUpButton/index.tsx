@@ -9,6 +9,7 @@ const SignUpButton = () => {
     <Button
       variant="outlined"
       color="secondary"
+      href="https://discord.com/oauth2/authorize"
       sx={{
         borderRadius: '1rem',
         width: { xs: '100%', sm: 'auto' },

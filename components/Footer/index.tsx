@@ -8,7 +8,10 @@ import Link from '@mui/material/Link';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
+import { useFeatureToggle } from '@/contexts/FeatureToggle';
+
 const Footer = () => {
+  const { toggles } = useFeatureToggle();
   return (
     <Box component="footer" id="footer">
       <Container sx={{ flexDirection: 'column', pt: 2 }}>
@@ -27,6 +30,11 @@ const Footer = () => {
             <Tooltip title="DeerHacks 2023" placement="top">
               <Link href="https://2023.deerhacks.ca">2023</Link>
             </Tooltip>
+            {toggles.mlh && (
+              <Tooltip title="Behave please" placement="top">
+                <Link href="https://mlh.io/code-of-conduct">Code of Conduct</Link>
+              </Tooltip>
+            )}
             <Tooltip title="Instagram" placement="top">
               <Link href="https://instagram.com/deerhacks" target="_blank" display="flex">
                 <InstagramIcon />
@@ -45,7 +53,7 @@ const Footer = () => {
                 Anthony Tedja
               </Link>
             </Tooltip>
-            &nbsp;&&nbsp;
+            &nbsp;&nbsp;&&nbsp;&nbsp;
             <Tooltip title="Backend" placement="top">
               <Link href="https://github.com/Multivalence" underline="always">
                 Shiva Mulwani
