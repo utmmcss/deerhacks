@@ -18,6 +18,7 @@ import Tooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import MLHBadge from '@/components/MLHBadge';
+import SignUpButton from '@/components/SignUpButton';
 import { useFeatureToggle } from '@/contexts/FeatureToggle';
 import theme from '@/styles/theme';
 
@@ -73,8 +74,20 @@ const Menu = (props: MenuProps) => {
       <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
         <Button onClick={() => handleClick('#faq')}>FAQ</Button>
       </Box>
+      {toggles.registration && (
+        <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
+          <SignUpButton />
+        </Box>
+      )}
+
       {toggles.mlh && (
-        <Box component="div" sx={{ width: 75 }}>
+        <Box
+          component="div"
+          width={75}
+          data-aos="fade"
+          data-aos-delay="1250"
+          data-aos-duration="1250"
+        >
           <Tooltip title="Major League Hacking">
             <Link
               href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=white"
@@ -92,6 +105,7 @@ const Menu = (props: MenuProps) => {
 
 const Navbar = (props: Props) => {
   const { loading } = props;
+  const { toggles } = useFeatureToggle();
 
   const [open, setOpen] = useState(false);
   const [tooltip, setTooltip] = useState(false);
@@ -158,9 +172,8 @@ const Navbar = (props: Props) => {
           onOpen={() => setOpen(true)}
           PaperProps={{
             sx: {
-              minWidth: '60vw',
-              p: '0 1rem 4rem',
-              justifyContent: 'center',
+              p: '0 1rem',
+              justifyContent: toggles.mlh ? 'end' : 'center',
             },
           }}
         >
