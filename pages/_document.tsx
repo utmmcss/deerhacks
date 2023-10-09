@@ -1,4 +1,4 @@
-import { Head, Html, Main, NextScript } from 'next/document';
+import { Head, Html, Main, NextScript } from 'next/document'
 
 /**
  * https://nextjs.org/docs/pages/building-your-application/routing/custom-document
@@ -26,5 +26,5 @@ export default function Document() {
         <NextScript />
       </body>
     </Html>
-  );
+  )
 }

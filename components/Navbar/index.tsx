@@ -1,45 +1,45 @@
-import Image from 'next/image';
-import { Suspense, useState } from 'react';
+import Image from 'next/image'
+import { Suspense, useState } from 'react'
 
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import MenuIcon from '@mui/icons-material/Menu';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import Slide from '@mui/material/Slide';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import Tooltip from '@mui/material/Tooltip';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import InstagramIcon from '@mui/icons-material/Instagram'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import MenuIcon from '@mui/icons-material/Menu'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import ClickAwayListener from '@mui/material/ClickAwayListener'
+import Container from '@mui/material/Container'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import Slide from '@mui/material/Slide'
+import SwipeableDrawer from '@mui/material/SwipeableDrawer'
+import Tooltip from '@mui/material/Tooltip'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
-import MLHBadge from '@/components/MLHBadge';
-import SignUpButton from '@/components/SignUpButton';
-import { useFeatureToggle } from '@/contexts/FeatureToggle';
-import theme from '@/styles/theme';
+import MLHBadge from '@/components/MLHBadge'
+import SignUpButton from '@/components/SignUpButton'
+import { useFeatureToggle } from '@/contexts/FeatureToggle'
+import theme from '@/styles/theme'
 
 type Props = {
-  loading: boolean;
-};
+  loading: boolean
+}
 
 type MenuProps = {
-  desktop: boolean;
-  afterClick: () => void;
-};
+  desktop: boolean
+  afterClick: () => void
+}
 
 const Menu = (props: MenuProps) => {
-  const { desktop, afterClick } = props;
-  const { toggles } = useFeatureToggle();
+  const { desktop, afterClick } = props
+  const { toggles } = useFeatureToggle()
 
   const handleClick = (dest: string) => {
-    const section = document.querySelector(dest);
-    section?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    afterClick();
-  };
+    const section = document.querySelector(dest)
+    section?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    afterClick()
+  }
 
   return (
     <Box
@@ -100,17 +100,17 @@ const Menu = (props: MenuProps) => {
         </Box>
       )}
     </Box>
-  );
-};
+  )
+}
 
 const Navbar = (props: Props) => {
-  const { loading } = props;
-  const { toggles } = useFeatureToggle();
+  const { loading } = props
+  const { toggles } = useFeatureToggle()
 
-  const [open, setOpen] = useState(false);
-  const [tooltip, setTooltip] = useState(false);
+  const [open, setOpen] = useState(false)
+  const [tooltip, setTooltip] = useState(false)
 
-  const desktop = useMediaQuery(theme.breakpoints.up('md'));
+  const desktop = useMediaQuery(theme.breakpoints.up('md'))
 
   return (
     <Container
@@ -132,7 +132,13 @@ const Navbar = (props: Props) => {
             <ClickAwayListener onClickAway={() => setTooltip(false)}>
               <Tooltip title="Welcome to DeerHacks!" placement="right" arrow open={tooltip}>
                 <Button onClick={() => setTooltip(true)} sx={{ p: '0.5rem', borderRadius: '50%' }}>
-                  <Image src="/icons/logo.svg" alt="DeerHacks Logo" width={55} height={55} />
+                  <Image
+                    src="/icons/logo.svg"
+                    alt="DeerHacks Logo"
+                    width={55}
+                    height={55}
+                    priority
+                  />
                 </Button>
               </Tooltip>
             </ClickAwayListener>
@@ -172,7 +178,7 @@ const Navbar = (props: Props) => {
           onOpen={() => setOpen(true)}
           PaperProps={{
             sx: {
-              p: '0 1rem',
+              px: toggles.mlh ? '2rem' : '1rem',
               justifyContent: toggles.mlh ? 'end' : 'center',
             },
           }}
@@ -181,7 +187,7 @@ const Navbar = (props: Props) => {
         </SwipeableDrawer>
       </Suspense>
     </Container>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

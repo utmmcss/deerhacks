@@ -1,15 +1,18 @@
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button'
+import Grid from '@mui/material/Grid'
+import Typography from '@mui/material/Typography'
 
-import AnimatedDiscord from '@/components/AnimatedDiscord';
+import AnimatedDiscord from '@/components/AnimatedDiscord'
 
 const SignUpButton = () => {
+  const getBaseUrl = () => (typeof window !== 'undefined' ? window.location.origin : '')
+
+  const path = `${process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL}${getBaseUrl()}/dashboard`
   return (
     <Button
       variant="outlined"
       color="secondary"
-      href="https://discord.com/oauth2/authorize"
+      href={path}
       sx={{
         borderRadius: '1rem',
         width: { xs: '100%', sm: 'auto' },
@@ -24,7 +27,7 @@ const SignUpButton = () => {
         </Typography>
       </Grid>
     </Button>
-  );
-};
+  )
+}
 
-export default SignUpButton;
+export default SignUpButton

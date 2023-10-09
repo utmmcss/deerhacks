@@ -1,19 +1,19 @@
-import Container from '@mui/material/Container';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container'
+import Fade from '@mui/material/Fade'
+import Typography from '@mui/material/Typography'
 
-import AnimatedLogo from '@/components/AnimatedLogo';
-import theme from '@/styles/theme';
+import AnimatedLogo from '@/components/AnimatedLogo'
+import theme from '@/styles/theme'
 
 type Props = {
-  loading: boolean;
-  pulse?: boolean;
-  text?: string;
-  onAnimationEnd?: () => void;
-};
+  loading: boolean
+  pulse?: boolean
+  text?: string
+  onAnimationEnd?: () => void
+}
 
 const FullPageLoader = (props: Props) => {
-  const { loading, pulse, text, onAnimationEnd } = props;
+  const { loading, pulse, text, onAnimationEnd } = props
 
   return (
     <Fade in={loading} appear={false} unmountOnExit>
@@ -36,7 +36,7 @@ const FullPageLoader = (props: Props) => {
         </Fade>
       </Container>
     </Fade>
-  );
-};
+  )
+}
 
-export default FullPageLoader;
+export default FullPageLoader

@@ -1,31 +1,28 @@
-import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import Head from 'next/head'
+import { useEffect, useState } from 'react'
 
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Slide from '@mui/material/Slide';
-import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
+import Slide from '@mui/material/Slide'
+import Typography from '@mui/material/Typography'
 
-import FAQ from '@/components/FAQ';
-import FullPageLoader from '@/components/FullPageLoader';
-import MNModel from '@/components/MNModel';
-import Navbar from '@/components/Navbar';
-import { useDemoGet } from '@/hooks/useDemoGet';
-import theme from '@/styles/theme';
-import AOS from 'aos';
+import FAQ from '@/components/FAQ'
+import FullPageLoader from '@/components/FullPageLoader'
+import MNModel from '@/components/MNModel'
+import Navbar from '@/components/Navbar'
+import theme from '@/styles/theme'
+import AOS from 'aos'
 
-import 'aos/dist/aos.css';
+import 'aos/dist/aos.css'
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
-  const [animatingLogo, setAnimatingLogo] = useState(true);
-  const [renderingModel, setRenderingModel] = useState(true);
-
-  const demo = useDemoGet();
+  const [loading, setLoading] = useState(true)
+  const [animatingLogo, setAnimatingLogo] = useState(true)
+  const [renderingModel, setRenderingModel] = useState(true)
 
   useEffect(() => {
-    if (animatingLogo || renderingModel || demo.isLoading) return;
-    setLoading(false);
+    if (animatingLogo || renderingModel) return
+    setLoading(false)
     AOS.init({
       offset: -120, // offset (in px) from the original trigger point
       delay: 100, // values from 0 to 3000, with step 50ms
@@ -34,8 +31,8 @@ const Home = () => {
       once: true, // whether animation should happen only once - while scrolling down
       mirror: false, // whether elements should animate out while scrolling past them
       anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
-    });
-  }, [animatingLogo, renderingModel, demo]);
+    })
+  }, [animatingLogo, renderingModel])
 
   return (
     <>
@@ -98,7 +95,7 @@ const Home = () => {
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

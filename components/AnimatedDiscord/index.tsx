@@ -32,7 +32,7 @@ const AnimatedDiscord = () => {
         repeatCount="indefinite"
       />
     </svg>
-  );
-};
+  )
+}
 
-export default AnimatedDiscord;
+export default AnimatedDiscord

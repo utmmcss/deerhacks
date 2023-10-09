@@ -1,14 +1,4 @@
 {
-  // Spell checker
-  "cSpell.words": [
-    "deerhacks",
-    "DeerHacks",
-    "Hackathon",
-    "MCSS",
-    "Devpost",
-    "Wireframe"
-  ],
-  "cSpell.language": "en",
   // Use prettier for code formatting
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   // Fix all autofixable errors on file save
@@ -24,6 +14,7 @@
     "strings": "on",
     "other": "on"
   },
+  "files.eol": "\r\n",
   // Auto save files after TS refactoring
   "files.refactoring.autoSave": true,
   "typescript.tsdk": "node_modules/typescript/lib",
@@ -46,5 +37,17 @@
   "search.exclude": {
     "node_modules": true,
     "build/**": true
-  }
+  },
+  // Spell checker
+  "cSpell.words": [
+    "deerhacks",
+    "DeerHacks",
+    "Devpost",
+    "Hackathon",
+    "hdri",
+    "MCSS",
+    "pmndrs",
+    "Wireframe"
+  ],
+  "cSpell.language": "en"
 }

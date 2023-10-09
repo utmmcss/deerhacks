@@ -1,12 +1,12 @@
-import styles from '@/styles/logo.module.css';
+import styles from '@/styles/logo.module.css'
 
 type Props = {
-  onAnimationEnd?: () => void;
-  pulse?: boolean;
-};
+  onAnimationEnd?: () => void
+  pulse?: boolean
+}
 
 const AnimatedLogo = (props: Props) => {
-  const { onAnimationEnd, pulse = true } = props;
+  const { onAnimationEnd, pulse = true } = props
 
   return (
     <svg
@@ -85,7 +85,7 @@ const AnimatedLogo = (props: Props) => {
         </clipPath>
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default AnimatedLogo;
+export default AnimatedLogo
