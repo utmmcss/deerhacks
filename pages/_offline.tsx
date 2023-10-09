@@ -1,7 +1,7 @@
 import FullPageLoader from '@/components/FullPageLoader'
 
-const Offline = () => {
+const OfflinePage = () => {
   return <FullPageLoader loading pulse={false} text="You're offline, check your connection." />
 }
 
-export default Offline
+export default OfflinePage
