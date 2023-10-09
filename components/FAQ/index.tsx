@@ -1,10 +1,10 @@
-import AddIcon from '@mui/icons-material/Add';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
+import AddIcon from '@mui/icons-material/Add'
+import Accordion from '@mui/material/Accordion'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
 
 const FAQ = () => {
   return (
@@ -129,7 +129,7 @@ const FAQ = () => {
         </Box>
       </Box>
     </Container>
-  );
-};
+  )
+}
 
-export default FAQ;
+export default FAQ

@@ -1,36 +1,33 @@
-import { Suspense, useState } from 'react';
+import { Suspense, useState } from 'react'
 
-import Container from '@mui/material/Container';
+import Container from '@mui/material/Container'
 
-import {
-  Environment,
-  OrbitControls,
-  PerformanceMonitor,
-  Preload,
-  useGLTF,
-} from '@react-three/drei';
-import { Canvas, extend } from '@react-three/fiber';
-import { Bloom, EffectComposer, Noise, ToneMapping } from '@react-three/postprocessing';
-import { GLTF } from 'three-stdlib';
+import { Environment, OrbitControls, PerformanceMonitor, Preload, useGLTF } from '@react-three/drei'
+import { Canvas, extend } from '@react-three/fiber'
+import { Bloom, EffectComposer, Noise, ToneMapping } from '@react-three/postprocessing'
+import { suspend } from 'suspend-react'
+import { GLTF } from 'three-stdlib'
 
-extend({ OrbitControls });
+extend({ OrbitControls })
 
 type GLTFResult = GLTF & {
   nodes: {
-    Cube: THREE.Mesh;
-    Cube_1: THREE.Mesh;
-    MN: THREE.Mesh;
-    MN_Wireframe: THREE.Mesh;
-  };
-};
+    Cube: THREE.Mesh
+    Cube_1: THREE.Mesh
+    MN: THREE.Mesh
+    MN_Wireframe: THREE.Mesh
+  }
+}
 
 type Props = {
-  onAfterRender?: () => void;
-};
+  onAfterRender?: () => void
+}
+
+const environment = import('@pmndrs/assets/hdri/city.exr').then((module) => module.default)
 
 const Model = (props: Props) => {
-  const { onAfterRender } = props;
-  const { nodes } = useGLTF('./mn.glb') as GLTFResult;
+  const { onAfterRender } = props
+  const { nodes } = useGLTF('./mn.glb') as GLTFResult
 
   return (
     <group dispose={null} position={[0, 0, -0.25]}>
@@ -55,13 +52,13 @@ const Model = (props: Props) => {
         onAfterRender={() => onAfterRender?.()}
       />
     </group>
-  );
-};
+  )
+}
 
 const MNModel = (props: Props) => {
-  const { onAfterRender } = props;
+  const { onAfterRender } = props
 
-  const [dpr, setDpr] = useState(1.25);
+  const [dpr, setDpr] = useState(1.25)
 
   return (
     <Container
@@ -90,7 +87,7 @@ const MNModel = (props: Props) => {
         />
         <Suspense>
           <Model onAfterRender={() => onAfterRender?.()} />
-          <Environment preset="city" />
+          <Environment files={suspend(environment) as string} />
           <Preload all />
         </Suspense>
         <OrbitControls
@@ -115,7 +112,7 @@ const MNModel = (props: Props) => {
         </EffectComposer>
       </Canvas>
     </Container>
-  );
-};
+  )
+}
 
-export default MNModel;
+export default MNModel

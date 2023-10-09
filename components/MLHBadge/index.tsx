@@ -7,7 +7,7 @@ const MLHBadge = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <g clip-path="url(#clip0_1_2)" width="100%">
+      <g clipPath="url(#clip0_1_2)" width="100%">
         <path
           d="M22 267.74C22 265.13 27.56 264 31.27 264H363.52C367.23 264 367.99 265.14 367.99 267.74V622.04C367.99 624.65 366.43 627.76 363.14 628.96L204.16 687.11C200.86 688.31 195.75 688.32 192.44 687.14L29.12 628.93C25.81 627.74 21.99 624.64 21.99 622.04V267.74H22Z"
           fill="#F7F7F7"
@@ -204,7 +204,7 @@ const MLHBadge = () => {
         </clipPath>
       </defs>
     </svg>
-  );
-};
+  )
+}
 
-export default MLHBadge;
+export default MLHBadge

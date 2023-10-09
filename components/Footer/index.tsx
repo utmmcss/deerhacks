@@ -1,17 +1,17 @@
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
+import InstagramIcon from '@mui/icons-material/Instagram'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
 
-import { useFeatureToggle } from '@/contexts/FeatureToggle';
+import { useFeatureToggle } from '@/contexts/FeatureToggle'
 
 const Footer = () => {
-  const { toggles } = useFeatureToggle();
+  const { toggles } = useFeatureToggle()
   return (
     <Box component="footer" id="footer">
       <Container sx={{ flexDirection: 'column', pt: 2 }}>
@@ -63,7 +63,7 @@ const Footer = () => {
         </Grid>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default Footer;
+export default Footer

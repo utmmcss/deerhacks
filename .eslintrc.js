@@ -11,7 +11,7 @@ module.exports = {
     },
   ],
   rules: {
-    'no-restricted-imports': ['error', '@mui/material'], // Enforce tree shaking
+    'no-restricted-imports': ['error', '@mui/material', '@mui/icons-material'], // Enforce tree shaking
     'no-console': 'off',
     '@typescript-eslint/comma-dangle': 'off',
     'import/newline-after-import': ['error', { count: 1 }],
@@ -50,4 +50,4 @@ module.exports = {
     ],
   },
   parser: '@typescript-eslint/parser',
-};
+}

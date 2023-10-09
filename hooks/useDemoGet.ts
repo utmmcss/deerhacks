@@ -1,13 +1,12 @@
-import { useAPI } from '@/contexts/useAPI';
-// import type { ExampleReq } from 'types/...'
+import { useAPI } from '@/contexts/API'
 
 type Props = {
-  enabled?: boolean;
-};
+  enabled?: boolean
+}
 
 export const useDemoGet = (props?: Props) => {
   return useAPI().useQuery(['demoGet', null], {
     initialData: null,
     enabled: props?.enabled,
-  });
-};
+  })
+}

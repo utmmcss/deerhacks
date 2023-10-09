@@ -5,7 +5,7 @@ import {
   InferHandlerInput,
   MutationPaths,
   QueryPaths,
-} from '@/api/types';
+} from '@/api/types'
 import {
   InvalidateOptions,
   InvalidateQueryFilters,
@@ -16,36 +16,36 @@ import {
   UseMutationResult,
   useQuery as __useQuery,
   UseQueryOptions,
-} from '@tanstack/react-query';
+} from '@tanstack/react-query'
 
 export class API<const APISchema extends APITemplate> {
-  public queryClient: QueryClient;
+  public queryClient: QueryClient
 
-  private contract: APISchema;
+  private contract: APISchema
 
   constructor(contract: APISchema) {
-    this.queryClient = new QueryClient();
-    this.contract = contract;
+    this.queryClient = new QueryClient()
+    this.contract = contract
   }
 
   private validateApiError() {
     return (apiError: any) => {
-      throw { apiError };
-    };
+      throw { apiError }
+    }
   }
   public useQuery<
     TPath extends QueryPaths<APISchema> & string,
     TQueryOutput extends ClientQueries<APISchema>[TPath]['awaitedResponse'],
     TQueryInput extends InferHandlerInput<APISchema[TPath]>
   >(pathAndInput: [path: TPath, args: TQueryInput], opts?: UseQueryOptions<TQueryOutput>) {
-    const [path, args] = pathAndInput;
-    const endpoint = this.contract[path];
+    const [path, args] = pathAndInput
+    const endpoint = this.contract[path]
 
     return __useQuery(
       pathAndInput as QueryKey,
       () => endpoint(args).catch(this.validateApiError()),
       opts
-    );
+    )
   }
 
   public useMutation<
@@ -56,13 +56,13 @@ export class API<const APISchema extends APITemplate> {
     path: [TPath] | TPath,
     opts?: UseMutationOptions<TMutationOutput, unknown, TMutationInput>
   ): UseMutationResult<TMutationOutput, unknown, TMutationInput> {
-    const actualPath = Array.isArray(path) ? path[0] : path;
-    const endpoint = this.contract[actualPath];
+    const actualPath = Array.isArray(path) ? path[0] : path
+    const endpoint = this.contract[actualPath]
 
     return __useMutation(
       (input: TMutationInput) => endpoint(input).catch(this.validateApiError()),
       opts
-    );
+    )
   }
 
   public invalidateQueries<
@@ -72,6 +72,6 @@ export class API<const APISchema extends APITemplate> {
     filters: InvalidateQueryFilters & { queryKey: [path: TPath, args: Partial<TQueryInput>] },
     options?: InvalidateOptions
   ) {
-    return this.queryClient.invalidateQueries(filters, options);
+    return this.queryClient.invalidateQueries(filters, options)
   }
 }
