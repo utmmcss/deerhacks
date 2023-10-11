@@ -90,7 +90,7 @@ const Menu = (props: MenuProps) => {
         >
           <Tooltip title="Major League Hacking">
             <Link
-              href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=white"
+              href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=black"
               target="_blank"
               sx={{ width: 75, opacity: 1, position: 'absolute', top: 0 }}
             >

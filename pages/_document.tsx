@@ -20,6 +20,9 @@ export default function Document() {
         <link rel="apple-touch-icon" href="/icons/apple.png" />
         <link rel="shortcut icon" href="/icons/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
+
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
       </Head>
       <body>
         <Main />

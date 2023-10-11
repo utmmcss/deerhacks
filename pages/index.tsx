@@ -15,7 +15,7 @@ import AOS from 'aos'
 
 import 'aos/dist/aos.css'
 
-const Home = () => {
+const HomePage = () => {
   const [loading, setLoading] = useState(true)
   const [animatingLogo, setAnimatingLogo] = useState(true)
   const [renderingModel, setRenderingModel] = useState(true)
@@ -39,10 +39,14 @@ const Home = () => {
       <Head>
         <title>DeerHacks</title>
       </Head>
-      <FullPageLoader loading={loading} onAnimationEnd={() => setAnimatingLogo(false)} />
+      <FullPageLoader
+        loading={loading}
+        onAnimationEnd={() => setAnimatingLogo(false)}
+        showTips
+        showLoadingText
+      />
       {/* Begin model rendering after loading animation ends for smoother transition */}
       {!animatingLogo && <MNModel onAfterRender={() => setRenderingModel(false)} />}
-      {/* Hide overflow in dynamic viewport changes */}
       {!loading && (
         <>
           <Navbar loading={loading} />
@@ -98,4 +102,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default HomePage
