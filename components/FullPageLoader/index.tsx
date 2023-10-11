@@ -28,7 +28,7 @@ const tips = [
   'Facts: There are over 60 different species of deer worldwide',
   'Facts: Deers can jump up to 10ft high',
   'Facts: Deers have a 310 degree vision',
-  'Facts: Our homepage features the Maanjiwe nendamowinan building',
+  'Facts: Our homepage features the Maanjiwe Nendamowinan building',
 ]
 
 const FullPageLoader = (props: Props) => {
@@ -46,11 +46,15 @@ const FullPageLoader = (props: Props) => {
   const [randomTip, setRandomTip] = useState('')
 
   useEffect(() => {
+    console.log('useEffect')
     if (!showTips) return
     return () => {
+      console.log('localStorage')
       const visited = localStorage.getItem('deerhacks-2024-visited')
+      console.log('visited', visited)
       setRandomTip(tips[visited === null ? 0 : Math.floor(Math.random() * tips.length)])
       localStorage.setItem('deerhacks-2024-visited', 'true')
+      console.log('localStorage after', localStorage.getItem('deerhacks-2024-visited'))
     }
   }, [showTips])
 
