@@ -1,5 +1,5 @@
 import NextLink from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
@@ -44,19 +44,22 @@ const FullPageLoader = (props: Props) => {
   } = props
 
   const [randomTip, setRandomTip] = useState('')
+  const initialized = useRef(false)
+
+  const setRandomTipOnce = () => {
+    if (initialized.current) return
+    const visited = localStorage.getItem('deerhacks-2024-visited')
+    setRandomTip(tips[visited === null ? 0 : Math.floor(Math.random() * tips.length)])
+    initialized.current = true
+    localStorage.setItem('deerhacks-2024-visited', 'true')
+  }
 
   useEffect(() => {
-    console.log('useEffect')
-    if (!showTips) return
-    return () => {
-      console.log('localStorage')
-      const visited = localStorage.getItem('deerhacks-2024-visited')
-      console.log('visited', visited)
-      setRandomTip(tips[visited === null ? 0 : Math.floor(Math.random() * tips.length)])
-      localStorage.setItem('deerhacks-2024-visited', 'true')
-      console.log('localStorage after', localStorage.getItem('deerhacks-2024-visited'))
-    }
-  }, [showTips])
+    // Workaround since React StrictMode runs twice in development
+    // and window / localStorage is not available in SSR
+    if (initialized.current) return
+    setRandomTipOnce()
+  }, [])
 
   return (
     <Fade in={loading} appear={false} unmountOnExit>
