@@ -1,7 +1,7 @@
 import { APITemplate } from '@/api/types'
 import { CustomFetch } from '@/api/useFetch'
 import { QRCheckInReq, QRCheckInResp } from '@/types/QRCode'
-import { UserGetReq, UserGetResp, UserUpdateReq, UserUpdateResp } from '@/types/User'
+import { UserGetResp, UserLoginReq, UserUpdateReq, UserUpdateResp } from '@/types/User'
 
 export const config = (customFetch: CustomFetch) =>
   ({
@@ -33,9 +33,13 @@ const qrCodes = (customFetch: CustomFetch) =>
 
 const users = (customFetch: CustomFetch) =>
   ({
-    userGet: async (args: UserGetReq) => {
-      const res = await customFetch('GET', 'DH_BE', '/user-get', args)
+    userGet: async () => {
+      const res = await customFetch('GET', 'DH_BE', '/user-get')
       return res.data as UserGetResp
+    },
+    userLogin: async (args: UserLoginReq) => {
+      const res = await customFetch('POST', 'DH_BE', '/user-login', args)
+      return res.data as {}
     },
     userUpdate: async (args: UserUpdateReq) => {
       const res = await customFetch('POST', 'DH_BE', '/user-update', args)

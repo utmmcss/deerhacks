@@ -36,17 +36,24 @@ const theme = createTheme(base, {
     fontFamily: 'inherit',
     fontSize: 16,
     h1: {
+      textAlign: 'center',
+      marginBottom: '2rem',
       fontSize: '2rem',
       [base.breakpoints.up('md')]: {
         fontSize: '3rem',
       },
       [base.breakpoints.up('lg')]: {
+        marginBottom: '3rem',
         fontSize: '4.5rem',
       },
-      fontWeight: 600,
+      fontWeight: 700,
     },
     h2: {
       fontSize: '1.5rem',
+      fontWeight: 600,
+    },
+    subtitle1: {
+      marginBottom: '1rem',
     },
   },
   zIndex: {
@@ -68,9 +75,18 @@ const theme = createTheme(base, {
         root: {
           textTransform: 'none',
           gap: '0.5rem',
-          p: '0.75rem 1.5rem',
+          padding: '0.75rem 1.5rem',
+          minWidth: 0,
         },
       },
+      variants: [
+        {
+          props: { variant: 'outlined' },
+          style: {
+            borderRadius: '1rem',
+          },
+        },
+      ],
     },
     MuiDivider: {
       defaultProps: {

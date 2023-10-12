@@ -48,7 +48,7 @@ const Menu = (props: MenuProps) => {
       flexWrap="wrap"
       flexDirection={{ xs: 'column', md: 'row' }}
       alignItems="center"
-      gap={{ xs: '1.5rem', md: '2rem' }}
+      gap={{ xs: '1.5rem', md: '1.75rem', lg: '2rem' }}
       p="0.5rem 1rem"
     >
       <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
@@ -71,8 +71,23 @@ const Menu = (props: MenuProps) => {
         </Tooltip>
       </Box>
       <Divider variant="middle" orientation={desktop ? 'vertical' : 'horizontal'} />
-      <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
-        <Button onClick={() => handleClick('#faq')}>FAQ</Button>
+      <Box
+        component="div"
+        display="inline-flex"
+        flexDirection="inherit"
+        alignItems="center"
+        gap="0.5rem"
+      >
+        <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
+          <Button sx={{ p: '0.5rem' }} onClick={() => handleClick('#sponsors')}>
+            Sponsors
+          </Button>
+        </Box>
+        <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
+          <Button sx={{ p: '0.5rem' }} onClick={() => handleClick('#faq')}>
+            FAQ
+          </Button>
+        </Box>
       </Box>
       {toggles.registration && (
         <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
@@ -85,8 +100,8 @@ const Menu = (props: MenuProps) => {
           component="div"
           width={75}
           data-aos="fade"
-          data-aos-delay="1250"
-          data-aos-duration="1250"
+          data-aos-delay="1500"
+          data-aos-duration="1500"
         >
           <Tooltip title="Major League Hacking">
             <Link
@@ -178,7 +193,7 @@ const Navbar = (props: Props) => {
           onOpen={() => setOpen(true)}
           PaperProps={{
             sx: {
-              px: toggles.mlh ? '2rem' : '1rem',
+              px: toggles.mlh ? '1rem' : '2rem',
               justifyContent: toggles.mlh ? 'end' : 'center',
             },
           }}

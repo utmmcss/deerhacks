@@ -1,9 +1,9 @@
-export type UserGetReq = {
-  token?: string
-}
-
 export type UserGetResp = {
   user: User
+}
+
+export type UserLoginReq = {
+  code: string
 }
 
 export type UserUpdateReq = {

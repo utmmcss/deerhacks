@@ -2,16 +2,16 @@ import Head from 'next/head'
 
 import FullPageLoader from '@/components/FullPageLoader'
 
-const Error404Page = () => {
+const Error401Page = () => {
   return (
     <>
       <Head>
-        <title>404 | DeerHacks</title>
+        <title>401 | DeerHacks</title>
       </Head>
       <FullPageLoader
         show
         pulse={false}
-        text="Oops! Looks like this page doesn't exist."
+        text="Unauthorized, please login."
         buttonText="Go Home"
         buttonLink="/"
       />
@@ -19,4 +19,4 @@ const Error404Page = () => {
   )
 }
 
-export default Error404Page
+export default Error401Page

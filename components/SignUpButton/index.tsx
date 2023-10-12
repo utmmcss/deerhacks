@@ -7,21 +7,22 @@ import AnimatedDiscord from '@/components/AnimatedDiscord'
 const SignUpButton = () => {
   const getBaseUrl = () => (typeof window !== 'undefined' ? window.location.origin : '')
 
-  const path = `${process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL}${getBaseUrl()}/dashboard`
+  const path = `${process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL}${getBaseUrl()}/login/callback`
   return (
     <Button
       variant="outlined"
       color="secondary"
       href={path}
       sx={{
-        borderRadius: '1rem',
         width: { xs: '100%', sm: 'auto' },
         justifyContent: { xs: 'space-between', sm: 'auto' },
       }}
       endIcon={<AnimatedDiscord />}
     >
       <Grid flexDirection="column" textAlign="left">
-        <Typography variant="body1">sign up / log in</Typography>
+        <Typography variant="body1" color="primary">
+          Register
+        </Typography>
         <Typography variant="body1" fontSize="0.75rem">
           with discord
         </Typography>

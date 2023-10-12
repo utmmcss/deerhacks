@@ -9,7 +9,7 @@ const Error500Page = () => {
         <title>500 | DeerHacks</title>
       </Head>
       <FullPageLoader
-        loading
+        show
         pulse={false}
         text="Oops! Looks like something went wrong."
         buttonText="Go Home"
