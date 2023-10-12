@@ -1,16 +1,12 @@
-import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { createContext, ReactNode, useContext } from 'react'
 
+import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import { useUserGet } from '@/hooks/useUserGet'
 import { User } from '@/types/User'
 
 type Props = {
-  user: User
-  /**
-   * Get the User object when we need authentication
-   */
-  getUser: () => void
+  user?: User
   loading: boolean
   authenticated: boolean
 }
@@ -26,29 +22,18 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = (props: { children: ReactNode }) => {
-  const [authenticated, setAuthenticated] = useState(false)
-  const [getUser, setGetUser] = useState(false)
-
-  const searchParams = useSearchParams()
   const router = useRouter()
+  const { toggles } = useFeatureToggle()
 
-  const userGet = useUserGet(
-    { token: searchParams.get('token') || undefined },
-    {
-      enabled: getUser,
-      onSuccess: () => setAuthenticated(true),
-      onError: () => {
-        setAuthenticated(false)
-        router.push('/')
-      },
-    }
-  )
+  const { data, isLoading, isSuccess } = useUserGet({
+    enabled:
+      toggles.registration && router.pathname !== '/' && router.pathname !== '/login/callback',
+  })
 
   const client = {
-    user: userGet.data!.user,
-    getUser: () => setGetUser(true),
-    loading: userGet.isLoading,
-    authenticated,
+    user: data?.user,
+    loading: isLoading,
+    authenticated: isSuccess,
   }
 
   return <AuthContext.Provider value={client}>{props.children}</AuthContext.Provider>

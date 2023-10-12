@@ -10,6 +10,7 @@ import FAQ from '@/components/FAQ'
 import FullPageLoader from '@/components/FullPageLoader'
 import MNModel from '@/components/MNModel'
 import Navbar from '@/components/Navbar'
+import Sponsors from '@/components/Sponsors'
 import theme from '@/styles/theme'
 import AOS from 'aos'
 
@@ -40,7 +41,7 @@ const HomePage = () => {
         <title>DeerHacks</title>
       </Head>
       <FullPageLoader
-        loading={loading}
+        show={loading}
         onAnimationEnd={() => setAnimatingLogo(false)}
         showTips
         showLoadingText
@@ -94,7 +95,21 @@ const HomePage = () => {
                 </Grid>
               </Slide>
             </Grid>
+            <Typography
+              color="secondary"
+              variant="body1"
+              letterSpacing={1.5}
+              textAlign="right"
+              display={{ xs: 'none', md: 'block' }}
+              sx={{ pb: '3rem', pr: { md: '2rem', lg: '3rem' } }}
+              data-aos="fade"
+              data-aos-delay="2000"
+              data-aos-duration="2000"
+            >
+              43.5505053°, -79.6662651°
+            </Typography>
           </Container>
+          <Sponsors />
           <FAQ />
         </>
       )}

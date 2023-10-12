@@ -14,6 +14,7 @@
     "strings": "on",
     "other": "on"
   },
+  "editor.tabSize": 2,
   "files.eol": "\r\n",
   // Auto save files after TS refactoring
   "files.refactoring.autoSave": true,
@@ -44,10 +45,12 @@
     "DeerHacks",
     "Devpost",
     "Hackathon",
-    "UTMMCSS",
-    "MCSS",
     "hdri",
+    "ICUBE",
+    "MCSS",
+    "MMPA",
     "pmndrs",
+    "UTMMCSS",
     "Wireframe"
   ],
   "cSpell.language": "en"

@@ -10,7 +10,7 @@ import AnimatedLogo from '@/components/AnimatedLogo'
 import theme from '@/styles/theme'
 
 type Props = {
-  loading: boolean
+  show: boolean
   showTips?: boolean
   showLoadingText?: boolean
   pulse?: boolean
@@ -33,7 +33,7 @@ const tips = [
 
 const FullPageLoader = (props: Props) => {
   const {
-    loading,
+    show,
     showTips = false,
     showLoadingText = false,
     pulse,
@@ -62,7 +62,7 @@ const FullPageLoader = (props: Props) => {
   }, [])
 
   return (
-    <Fade in={loading} appear={false} unmountOnExit>
+    <Fade in={show} appear={false} unmountOnExit>
       <Container
         maxWidth={false}
         sx={{

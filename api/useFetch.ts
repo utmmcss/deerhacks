@@ -33,7 +33,7 @@ const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statu
 
   const req = {
     method,
-    body: isForm ? body : JSON.stringify({ ...body, ts: Date.now() }),
+    ...(method !== 'GET' && { body: isForm ? body : JSON.stringify({ ...body, ts: Date.now() }) }),
     headers: {
       ...(!isForm && { 'Content-Type': 'application/json' }),
       ...(base === 'DH_CMS' && {

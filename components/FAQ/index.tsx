@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography'
 
 const FAQ = () => {
   return (
-    <Container id="faq">
+    <Container id="faq" sx={{ flexDirection: 'column' }}>
+      <Typography variant="h1">Frequently Asked Questions</Typography>
       <Box
         component="div"
         display="flex"

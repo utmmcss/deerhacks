@@ -1,9 +1,8 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
 const INITIAL_FEATURE_TOGGLES = {
-  registration: false,
-  dashboard: false,
-  mlh: false,
+  registration: process.env.NEXT_PUBLIC_TOGGLE_REGISTRATION === 'true',
+  mlh: process.env.NEXT_PUBLIC_TOGGLE_MLH === 'true',
 } as const
 
 type FeatureToggleKey = keyof typeof INITIAL_FEATURE_TOGGLES
@@ -11,6 +10,7 @@ type FeatureToggles = { [key in FeatureToggleKey]: boolean }
 
 type Props = {
   toggles: FeatureToggles
+  setToggles: (toggles: FeatureToggles) => void
 }
 
 const FeatureToggleContext = createContext<Props | undefined>(undefined)
@@ -26,16 +26,8 @@ export const useFeatureToggle = () => {
 export const FeatureToggleProvider = (props: { children: ReactNode }) => {
   const [toggles, setToggles] = useState<FeatureToggles>(INITIAL_FEATURE_TOGGLES)
 
-  useEffect(() => {
-    setToggles({
-      registration: process.env.NEXT_PUBLIC_TOGGLE_REGISTRATION === 'true',
-      dashboard: process.env.NEXT_PUBLIC_TOGGLE_DASHBOARD === 'true',
-      mlh: process.env.NEXT_PUBLIC_TOGGLE_MLH === 'true',
-    })
-  }, [])
-
   return (
-    <FeatureToggleContext.Provider value={{ toggles }}>
+    <FeatureToggleContext.Provider value={{ toggles, setToggles }}>
       {props.children}
     </FeatureToggleContext.Provider>
   )
