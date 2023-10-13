@@ -9,12 +9,12 @@ const NeonLogo = (props: Props) => {
 
   return (
     <svg
-      width="min(20rem, 100%)"
+      width="min(30rem, 100%)"
       viewBox="0 0 910 1000"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...(flicker && { className: styles.flicker })}
-      style={{ marginBottom: '-4rem' }}
+      style={{ margin: '-3rem 0' }}
     >
       <g filter="url(#filter)" style={{ transform: 'scale(1.25)', transformOrigin: 'center' }}>
         <path

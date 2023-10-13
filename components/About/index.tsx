@@ -1,6 +1,9 @@
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
+import NeonLogo from '@/components/NeonLogo'
 import SignUpButton from '@/components/SignUpButton'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 
@@ -13,11 +16,50 @@ const About = () => {
       sx={{
         flexDirection: 'column',
         textAlign: 'center',
-        minHeight: '100vh',
       }}
     >
-      <Typography variant="h1">DH III</Typography>
-      {toggles.registration && <SignUpButton text="Sign Up / Login" color />}
+      <Typography variant="h1">Light Up Your Adventure</Typography>
+      <Grid container spacing={2} justifyContent="center">
+        <Grid container item xs={12} md={5} justifyContent="center">
+          <NeonLogo flicker />
+        </Grid>
+        <Grid container item xs={12} md={7}>
+          <Box
+            component="div"
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            textAlign={{ xs: 'center', md: 'start' }}
+          >
+            <Typography variant="h2" mb="1rem">
+              Dare to Glow!
+            </Typography>
+            <Typography color="secondary" mb="1rem">
+              Welcome to the University of Toronto Mississauga's premier hackathon event! DeerHacks
+              offers students the exciting opportunity to showcase their creativity and innovation
+              over a dedicated 36-hour period, designed to empower hackers with enriching workshops,
+              thrilling competitions, and enjoyable activities!
+            </Typography>
+            <Typography color="secondary" mb="1rem" display={{ xs: 'none', lg: 'block' }}>
+              Participants will have the unique chance to present their projects before a
+              distinguished panel of judges and industry experts, fostering valuable networking
+              opportunities with our esteemed sponsors and partners. Whether you're a newcomer or an
+              experienced developer, we invite hackers of all levels to join us for an exhilarating
+              weekend filled with prizes, skill development, and innovation.
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+      {toggles.registration && (
+        <SignUpButton
+          text={
+            toggles.registration === 'true'
+              ? 'Get Started on Your Registration'
+              : 'Take Me to My Dashboard'
+          }
+          color
+        />
+      )}
     </Container>
   )
 }

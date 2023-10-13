@@ -27,12 +27,11 @@ type Props = {
 }
 
 type MenuProps = {
-  desktop: boolean
   afterClick: () => void
 }
 
 const Menu = (props: MenuProps) => {
-  const { desktop, afterClick } = props
+  const { afterClick } = props
   const { toggles } = useFeatureToggle()
 
   const handleClick = (dest: string) => {
@@ -73,8 +72,8 @@ const Menu = (props: MenuProps) => {
       </Box>
       <Divider
         variant="middle"
-        orientation={desktop ? 'vertical' : 'horizontal'}
-        sx={{ display: { xs: 'initial', md: 'none', lg: 'initial' } }}
+        orientation="vertical"
+        sx={{ display: { xs: 'none', lg: 'initial' } }}
       />
       <Box
         component="div"
@@ -83,6 +82,11 @@ const Menu = (props: MenuProps) => {
         alignItems="center"
         gap="0.5rem"
       >
+        <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
+          <Button sx={{ p: '0.5rem' }} onClick={() => handleClick('#about')}>
+            About
+          </Button>
+        </Box>
         <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
           <Button sx={{ p: '0.5rem' }} onClick={() => handleClick('#sponsors')}>
             Sponsors
@@ -96,7 +100,7 @@ const Menu = (props: MenuProps) => {
       </Box>
       {toggles.registration && (
         <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
-          <SignUpButton color {...(toggles.registration === 'false' && { text: 'Login' })} />
+          <SignUpButton navbar color {...(toggles.registration === 'false' && { text: 'Login' })} />
         </Box>
       )}
 
@@ -174,7 +178,7 @@ const Navbar = (props: Props) => {
               }}
             >
               {desktop ? (
-                <Menu desktop afterClick={() => setOpen(false)} />
+                <Menu afterClick={() => setOpen(false)} />
               ) : (
                 <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
                   <Button
@@ -203,7 +207,7 @@ const Navbar = (props: Props) => {
             },
           }}
         >
-          <Menu desktop={false} afterClick={() => setOpen(false)} />
+          <Menu afterClick={() => setOpen(false)} />
         </SwipeableDrawer>
       </Suspense>
     </Container>

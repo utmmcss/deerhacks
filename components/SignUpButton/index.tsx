@@ -7,11 +7,12 @@ import AnimatedDiscord from '@/components/AnimatedDiscord'
 type Props = {
   text?: string
   disabled?: boolean
+  navbar?: boolean
   color?: boolean
 }
 
 const SignUpButton = (props: Props) => {
-  const { text, disabled = false, color } = props
+  const { text, disabled = false, navbar = false, color } = props
 
   const getBaseUrl = () => (typeof window !== 'undefined' ? window.location.origin : '')
 
@@ -30,10 +31,10 @@ const SignUpButton = (props: Props) => {
       endIcon={<AnimatedDiscord color={color} />}
     >
       <Grid flexDirection="column" textAlign="left">
-        <Typography variant="body1" color="primary">
+        <Typography color="primary" fontWeight={500}>
           {text ?? 'Register'}
         </Typography>
-        <Typography variant="body1" fontSize="0.75rem">
+        <Typography fontSize="0.75rem" display={{ xs: 'block', md: navbar ? 'none' : 'block' }}>
           with discord
         </Typography>
       </Grid>

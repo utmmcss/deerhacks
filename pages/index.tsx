@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid'
 import Slide from '@mui/material/Slide'
 import Typography from '@mui/material/Typography'
 
+import About from '@/components/About'
 import FAQ from '@/components/FAQ'
 import FullPageLoader from '@/components/FullPageLoader'
 import MNModel from '@/components/MNModel'
@@ -96,6 +97,7 @@ const HomePage = () => {
               </Slide>
             </Grid>
           </Container>
+          <About />
           <Sponsors />
           <FAQ />
         </>

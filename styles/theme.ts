@@ -76,15 +76,14 @@ const theme = createTheme(base, {
           textTransform: 'none',
           gap: '0.5rem',
           padding: '0.75rem 1.5rem',
+          borderRadius: '1rem',
           minWidth: 0,
         },
       },
       variants: [
         {
           props: { variant: 'outlined' },
-          style: {
-            borderRadius: '1rem',
-          },
+          style: {},
         },
       ],
     },
