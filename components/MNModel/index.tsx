@@ -1,6 +1,7 @@
 import { Suspense, useState } from 'react'
 
 import Container from '@mui/material/Container'
+import Typography from '@mui/material/Typography'
 
 import { Environment, OrbitControls, PerformanceMonitor, Preload, useGLTF } from '@react-three/drei'
 import { Canvas, extend } from '@react-three/fiber'
@@ -111,6 +112,21 @@ const MNModel = (props: Props) => {
           />
         </EffectComposer>
       </Canvas>
+      <Typography
+        color="secondary"
+        variant="body1"
+        letterSpacing={1.5}
+        textAlign="right"
+        display={{ xs: 'none', md: 'grid', lg: 'block' }}
+        position="absolute"
+        sx={{ inset: 'auto 0 0 auto', pb: '2rem', pr: '2rem' }}
+        data-aos="fade"
+        data-aos-delay="2000"
+        data-aos-duration="2000"
+      >
+        <span>43.5505053°,&nbsp;</span>
+        <span>-79.6662651°</span>
+      </Typography>
     </Container>
   )
 }

@@ -74,7 +74,7 @@ const Sponsors = () => {
         pb="2rem"
         justifyContent="center"
       >
-        {toggles.mlh && (
+        {toggles.mlh === 'true' && (
           <Sponsor name="Major League Hacking" logo={<MLH />} link="https://mlh.io" tier="bronze" />
         )}
         <Sponsor

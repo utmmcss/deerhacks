@@ -95,19 +95,6 @@ const HomePage = () => {
                 </Grid>
               </Slide>
             </Grid>
-            <Typography
-              color="secondary"
-              variant="body1"
-              letterSpacing={1.5}
-              textAlign="right"
-              display={{ xs: 'none', md: 'block' }}
-              sx={{ pb: '3rem', pr: { md: '2rem', lg: '3rem' } }}
-              data-aos="fade"
-              data-aos-delay="2000"
-              data-aos-duration="2000"
-            >
-              43.5505053°, -79.6662651°
-            </Typography>
           </Container>
           <Sponsors />
           <FAQ />

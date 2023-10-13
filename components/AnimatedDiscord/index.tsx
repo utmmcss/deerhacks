@@ -1,4 +1,10 @@
-const AnimatedDiscord = () => {
+type Props = {
+  color?: boolean
+}
+
+const AnimatedDiscord = (props: Props) => {
+  const { color = false } = props
+
   return (
     <svg width="2rem" height="2rem" className="discord-logo-container" viewBox="0 0 48 48">
       <defs>
@@ -25,8 +31,9 @@ const AnimatedDiscord = () => {
         fill="freeze"
         dur="4000ms"
         begin="0s"
-        //values="#DA7272;#DABF72;#A6DA72;#72DA8C;#72DADA;#728CDA;#A672DA;#DA72C0;#DA7272"
-        values="#fff"
+        values={
+          color ? '#DA7272;#DABF72;#A6DA72;#72DA8C;#72DADA;#728CDA;#A672DA;#DA72C0;#DA7272' : '#fff'
+        }
         calcMode="linear"
         attributeName="fill"
         repeatCount="indefinite"
