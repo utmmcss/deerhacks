@@ -65,6 +65,9 @@ const theme = createTheme(base, {
         body: {
           backgroundColor: base.palette.background.default,
         },
+        img: {
+          pointerEvents: 'none',
+        },
       },
     },
     MuiButton: {

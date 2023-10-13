@@ -1,9 +1,10 @@
+import Image from 'next/image'
+
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
-import NeonLogo from '@/components/NeonLogo'
 import SignUpButton from '@/components/SignUpButton'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 
@@ -21,7 +22,14 @@ const About = () => {
       <Typography variant="h1">Light Up Your Adventure</Typography>
       <Grid container spacing={2} justifyContent="center">
         <Grid container item xs={12} md={5} justifyContent="center">
-          <NeonLogo flicker />
+          <Image
+            src="/icons/neon.png"
+            alt="DeerHacks Glow"
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: '100%', height: 'auto' }}
+          />
         </Grid>
         <Grid container item xs={12} md={7}>
           <Box
