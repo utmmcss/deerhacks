@@ -83,7 +83,7 @@ const MNModel = (props: Props) => {
         dpr={dpr}
       >
         <PerformanceMonitor
-          onIncline={() => setDpr(Math.min(dpr + 0.25, 2))}
+          onIncline={() => setDpr(Math.min(dpr + 0.25, 1.5))}
           onDecline={() => setDpr(Math.max(dpr - 0.25, 0.75))}
         />
         <Suspense>
