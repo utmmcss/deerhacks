@@ -26,8 +26,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
   const { toggles } = useFeatureToggle()
 
   const { data, isLoading, isSuccess } = useUserGet({
-    enabled:
-      toggles.registration && router.pathname !== '/' && router.pathname !== '/login/callback',
+    enabled: toggles.registration !== undefined && router.pathname.includes('dashboard'),
   })
 
   const client = {
