@@ -2,6 +2,7 @@ import { createTheme } from '@mui/material/styles'
 
 const base = createTheme({
   palette: {
+    mode: 'dark',
     primary: {
       main: '#fff',
     },
@@ -64,9 +65,14 @@ const theme = createTheme(base, {
       styleOverrides: {
         body: {
           backgroundColor: base.palette.background.default,
+          //backgroundSize: '2.5rem 2.5rem',
+          //backgroundImage: 'radial-gradient(circle, rgb(255 255 255 / 15%) 1px 1px, rgba(0, 0, 0, 0) 1px)',
+          //backgroundPosition: 'center',
         },
         img: {
           pointerEvents: 'none',
+          webkitUserSelect: 'none',
+          userSelect: 'none',
         },
       },
     },
@@ -85,8 +91,10 @@ const theme = createTheme(base, {
       },
       variants: [
         {
-          props: { variant: 'outlined' },
-          style: {},
+          props: { variant: 'contained' },
+          style: {
+            backgroundColor: base.palette.primary.main,
+          },
         },
       ],
     },
@@ -134,7 +142,7 @@ const theme = createTheme(base, {
           position: 'relative',
           padding: '2rem 1rem',
           gap: '1rem',
-          ...(ownerState.maxWidth !== false && {
+          ...(ownerState.maxWidth === 'lg' && {
             maxWidth: 1400,
             [base.breakpoints.up('lg')]: {
               maxWidth: 1140,
@@ -215,6 +223,22 @@ const theme = createTheme(base, {
       styleOverrides: {
         root: {
           backgroundColor: base.palette.background.default,
+        },
+      },
+    },
+    MuiChip: {
+      defaultProps: {
+        variant: 'outlined',
+      },
+    },
+    MuiAlert: {
+      defaultProps: {
+        variant: 'outlined',
+      },
+      styleOverrides: {
+        root: {
+          textAlign: 'left',
+          borderRadius: '0.5rem',
         },
       },
     },

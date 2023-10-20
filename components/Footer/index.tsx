@@ -30,7 +30,7 @@ const Footer = () => {
             <Tooltip title="DeerHacks 2023" placement="top">
               <Link href="https://2023.deerhacks.ca">2023</Link>
             </Tooltip>
-            {toggles.mlh === 'true' && (
+            {toggles.mlh && (
               <Tooltip title="Code of Conduct" placement="top">
                 <Link href="https://mlh.io/code-of-conduct">Code of Conduct</Link>
               </Tooltip>

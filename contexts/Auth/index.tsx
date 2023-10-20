@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { createContext, ReactNode, useContext } from 'react'
 
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
-import { useUserGet } from '@/hooks/useUserGet'
+import { useUserGet } from '@/hooks/Users/useUserGet'
 import { User } from '@/types/User'
 
 type Props = {
@@ -26,7 +26,8 @@ export const AuthProvider = (props: { children: ReactNode }) => {
   const { toggles } = useFeatureToggle()
 
   const { data, isLoading, isSuccess } = useUserGet({
-    enabled: toggles.registration !== undefined && router.pathname.includes('dashboard'),
+    enabled: toggles.dashboard && router.pathname.includes('dashboard'),
+    onError: () => router.push('/login?context=auth'),
   })
 
   const client = {

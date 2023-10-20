@@ -5,21 +5,35 @@ import { UserGetResp, UserLoginReq, UserUpdateReq, UserUpdateResp } from '@/type
 
 export const config = (customFetch: CustomFetch) =>
   ({
-    ...demos(customFetch),
+    ..._(),
     ...qrCodes(customFetch),
     ...users(customFetch),
   } as const satisfies APITemplate)
 
-// Delete me after we start adding real endpoints
-const demos = (customFetch: CustomFetch) =>
+// Mock Data Response
+const _ = () =>
   ({
     demoGet: async () => {
-      const res = await customFetch(
-        'GET',
-        'CUSTOM',
-        'https://api.github.com/repos/utmmcss/deerhacks'
-      )
-      return res.data as any // Type Response Outside of Demo ex. res.data as DemoGetResp
+      function getUserWithTimeout(): Promise<UserGetResp> {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              user: {
+                id: '637134163354320896',
+                name: 'Tedja',
+                email: 'user@deerhacks.ca',
+                status: 'admin',
+                avatar: '1f4f0ffa2b50d6c853379d0ef53d245a',
+                qrCode: '',
+                verified: true,
+              },
+            } as UserGetResp)
+          }, 200)
+        })
+      }
+
+      const user = await getUserWithTimeout()
+      return user
     },
   } as const)
 

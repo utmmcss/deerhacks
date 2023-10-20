@@ -3,7 +3,7 @@ export type UserGetResp = {
 }
 
 export type UserLoginReq = {
-  code: string
+  token: string
 }
 
 export type UserUpdateReq = {
@@ -16,26 +16,51 @@ export type UserUpdateResp = {
 }
 
 export type User = {
+  id: string
   name: string
   email: string
   status: UserStatus
   avatar: string
+  avatarURL: string
   qrCode: string
+  verified: boolean
 }
 
 export type UserStatus = keyof typeof UserStatusEnum
 const enum UserStatusEnum {
-  ADMIN = 'admin', // DeerHacks Tech Organizers
-  MODERATOR = 'moderator', // DeerHacks Organizers
-  VOLUNTEER = 'volunteer', // DeerHacks Volunteers
+  admin,
+  moderator,
+  volunteer,
+  pending,
+  registering,
+  applied,
+  selected,
+  accepted,
+  attended,
+  rejected,
+}
 
-  PENDING = 'pending', // Pending Email Verification
-  REGISTERING = 'registering', // Email Verified, Registering for DeerHacks
+type Severity = 'success' | 'info' | 'warning'
+type UserStatusInfo = [Severity, string]
+export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
+  admin: ['info', 'DeerHacks Administrator'],
+  moderator: ['info', 'DeerHacks Organizers'],
+  volunteer: ['info', 'DeerHacks Volunteers'],
 
-  APPLIED = 'applied', // Application Submitted
-  SELECTED = 'selected', // Selected to Attend DeerHacks, Pending Confirmation
-  ACCEPTED = 'accepted', // Accepted to Attend DeerHacks
-  ATTENDED = 'attended', // Signed in at DeerHacks
+  pending: ['warning', 'Welcome to DeerHacks! Please verify your email before registering.'],
+  registering: ['warning', 'Email verified! Please fill out the registration form.'],
 
-  REJECTED = 'rejected', // Application Rejected
+  applied: ['success', 'Application submitted! We will review it shortly.'],
+  selected: [
+    'warning',
+    'Congratulations on being selected to attend DeerHacks! Please confirm your attendance in your email.',
+  ],
+
+  accepted: [
+    'success',
+    'Attendance confirmed, see you at DeerHacks & don’t forget to sign in with your QR code!',
+  ],
+
+  attended: ['info', 'Thank you for attending DeerHacks, we hope have a great time!'],
+  rejected: ['warning', 'Thank you for applying to DeerHacks, we hope to see you next year.'],
 }

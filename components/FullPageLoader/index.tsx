@@ -21,15 +21,17 @@ type Props = {
 }
 
 const tips = [
-  'Tips: Enable browser hardware acceleration for the best experience',
-  'Tips: Follow our socials @deerhacks for announcements and updates',
-  'Tips: Our website is open source! Check it out on GitHub at @utmmcss',
-  'Tips: Download our progressive web app for the best experience on mobile',
-  'Facts: There are over 60 different species of deer worldwide',
-  'Facts: Deers can jump up to 10ft high',
-  'Facts: Deers have a 310 degree vision',
-  'Facts: Our homepage features the Maanjiwe Nendamowinan building',
+  'Enable browser hardware acceleration for the best experience',
+  'Follow our socials @deerhacks for announcements and updates',
+  'Download our progressive web app for the best experience on mobile',
+  'There are over 60 different species of deer worldwide',
+  'Deers can jump up to 10ft high',
+  'Deers have a 310 degree vision',
+  'Our homepage features the Maanjiwe Nendamowinan building',
 ]
+
+// 'Our website is open source! Check it out on GitHub at @utmmcss',
+// 'Open a ticket in our Discord server for the fastest support',
 
 const FullPageLoader = (props: Props) => {
   const {
@@ -91,9 +93,9 @@ const FullPageLoader = (props: Props) => {
             </Typography>
           </Fade>
         )}
-        {(buttonText || buttonLink) && (
+        {buttonText && buttonLink && (
           <Fade in timeout={2500}>
-            <Button href={buttonLink} LinkComponent={NextLink}>
+            <Button href={buttonLink} component={NextLink}>
               {buttonText}
             </Button>
           </Fade>

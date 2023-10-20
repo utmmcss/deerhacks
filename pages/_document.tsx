@@ -16,6 +16,14 @@ export default function Document() {
         <meta name="keywords" content="DeerHacks, MCSS, DeerHacks UTM, DeerHacks Hackathon" />
         <meta name="theme-color" content="#181818" />
 
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="DeerHacks" />
+        <meta property="og:image" content="/backgrounds/banner.png" />
+        <meta
+          property="og:image"
+          content="https://raw.githubusercontent.com/utmmcss/deerhacks/main/public/backgrounds/banner.png"
+        />
+
         <link rel="icon" type="image/svg+xml" sizes="512x512" href="/logo.svg" />
         <link rel="apple-touch-icon" href="/icons/apple.png" />
         <link rel="shortcut icon" href="/icons/favicon.ico" />

@@ -33,6 +33,7 @@ const Sponsors = () => {
         <Grid container item xs={12} md={6}>
           <Tooltip title="UTM MCSS">
             <Button
+              variant="contained"
               fullWidth
               href="https://mcss.club"
               sx={{
@@ -74,7 +75,7 @@ const Sponsors = () => {
         pb="2rem"
         justifyContent="center"
       >
-        {toggles.mlh === 'true' && (
+        {toggles.mlh && (
           <Sponsor name="Major League Hacking" logo={<MLH />} link="https://mlh.io" tier="bronze" />
         )}
         <Sponsor
