@@ -58,13 +58,12 @@ const About = () => {
           </Box>
         </Grid>
       </Grid>
-      {toggles.registration && (
+      {toggles.dashboard && (
         <SignUpButton
           text={
-            toggles.registration === 'true'
-              ? 'Get Started on Your Registration'
-              : 'Take Me to My Dashboard'
+            toggles.signupHacker ? 'Get Started on Your Registration' : 'Take Me to My Dashboard'
           }
+          href="/login"
           color
         />
       )}

@@ -1,3 +1,5 @@
+import NextLink from 'next/link'
+
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
@@ -6,28 +8,30 @@ import AnimatedDiscord from '@/components/AnimatedDiscord'
 
 type Props = {
   text?: string
+  href?: string
   disabled?: boolean
   navbar?: boolean
+  fullWidth?: boolean
   color?: boolean
 }
 
 const SignUpButton = (props: Props) => {
-  const { text, disabled = false, navbar = false, color } = props
+  const { text, href, disabled = false, navbar = false, fullWidth = false, color } = props
 
-  const getBaseUrl = () => (typeof window !== 'undefined' ? window.location.origin : '')
+  // const getBaseUrl = () => (typeof window !== 'undefined' ? window.location.origin : '')
+  const path = process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL ?? ''
 
-  const path = `${process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL}${getBaseUrl()}/login/callback`
   return (
     <Button
       variant="outlined"
       color="secondary"
-      href={path}
-      fullWidth
+      href={href ?? path}
+      fullWidth={fullWidth}
       sx={{
-        width: { xs: '100%', sm: 'auto' },
         justifyContent: { xs: 'space-between', sm: 'auto' },
       }}
       disabled={disabled}
+      component={NextLink}
       endIcon={<AnimatedDiscord color={color} />}
     >
       <Grid flexDirection="column" textAlign="left">

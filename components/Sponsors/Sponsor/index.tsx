@@ -43,6 +43,7 @@ const Sponsor = (props: Props) => {
     <Grid container item xs={tierToSize(tier)}>
       <Tooltip title={name}>
         <Button
+          variant="contained"
           fullWidth
           href={link}
           sx={{

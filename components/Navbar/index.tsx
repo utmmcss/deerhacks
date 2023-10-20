@@ -51,30 +51,34 @@ const Menu = (props: MenuProps) => {
       gap={{ xs: '1.5rem', md: '1.75rem', lg: '2rem' }}
       p="0.5rem 1rem"
     >
-      <Box component="div" data-aos="fade" data-aos-delay="1000" data-aos-duration="1000">
-        <Tooltip title="DeerHacks 2023">
-          <Link href="https://2023.deerhacks.ca">2023</Link>
-        </Tooltip>
-      </Box>
-      <Box component="div" data-aos="fade" data-aos-delay="1000" data-aos-duration="1000">
-        <Tooltip title="Instagram">
-          <Link href="https://instagram.com/deerhacks" target="_blank" display="flex">
-            <InstagramIcon />
-          </Link>
-        </Tooltip>
-      </Box>
-      <Box component="div" data-aos="fade" data-aos-delay="1000" data-aos-duration="1000">
-        <Tooltip title="LinkedIn">
-          <Link href="https://linkedin.com/showcase/deerhacks" target="_blank" display="flex">
-            <LinkedInIcon />
-          </Link>
-        </Tooltip>
-      </Box>
-      <Divider
-        variant="middle"
-        orientation="vertical"
-        sx={{ display: { xs: 'none', lg: 'initial' } }}
-      />
+      {!toggles.dashboard && (
+        <>
+          <Box component="div" data-aos="fade" data-aos-delay="1000" data-aos-duration="1000">
+            <Tooltip title="DeerHacks 2023">
+              <Link href="https://2023.deerhacks.ca">2023</Link>
+            </Tooltip>
+          </Box>
+          <Box component="div" data-aos="fade" data-aos-delay="1000" data-aos-duration="1000">
+            <Tooltip title="Instagram">
+              <Link href="https://instagram.com/deerhacks" target="_blank" display="flex">
+                <InstagramIcon />
+              </Link>
+            </Tooltip>
+          </Box>
+          <Box component="div" data-aos="fade" data-aos-delay="1000" data-aos-duration="1000">
+            <Tooltip title="LinkedIn">
+              <Link href="https://linkedin.com/showcase/deerhacks" target="_blank" display="flex">
+                <LinkedInIcon />
+              </Link>
+            </Tooltip>
+          </Box>
+          <Divider
+            variant="middle"
+            orientation="vertical"
+            sx={{ display: { xs: 'none', lg: 'initial' } }}
+          />
+        </>
+      )}
       <Box
         component="div"
         display="inline-flex"
@@ -98,13 +102,17 @@ const Menu = (props: MenuProps) => {
           </Button>
         </Box>
       </Box>
-      {toggles.registration && (
+      {toggles.dashboard && (
         <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
-          <SignUpButton navbar color {...(toggles.registration === 'false' && { text: 'Login' })} />
+          <SignUpButton
+            href="/login"
+            navbar
+            color
+            {...(!toggles.signupHacker && { text: 'Login' })}
+          />
         </Box>
       )}
-
-      {toggles.mlh === 'true' && (
+      {toggles.mlh && (
         <Box
           component="div"
           width={75}
@@ -145,7 +153,7 @@ const Navbar = (props: Props) => {
         p: '0 !important',
       }}
     >
-      <AppBar position="relative">
+      <AppBar position="relative" elevation={0}>
         <Grid container justifyContent="space-between">
           <Box
             component="div"
@@ -202,8 +210,8 @@ const Navbar = (props: Props) => {
           onOpen={() => setOpen(true)}
           PaperProps={{
             sx: {
-              px: toggles.mlh === 'true' ? '1rem' : '2rem',
-              justifyContent: toggles.mlh === 'true' ? 'end' : 'center',
+              px: toggles.mlh ? '1rem' : '2rem',
+              justifyContent: toggles.mlh ? 'end' : 'center',
             },
           }}
         >
