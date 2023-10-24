@@ -21,7 +21,7 @@ const Sponsors = () => {
   return (
     <Container id="sponsors" sx={{ flexDirection: 'column', textAlign: 'center' }}>
       <Typography variant="h1">Sponsors & Partners</Typography>
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle1" component="h2">
         DeerHacks is made possible by our sponsors and partners. Interested in making DeerHacks a
         reality?
       </Typography>
@@ -58,7 +58,7 @@ const Sponsors = () => {
             <Typography variant="h2" mb="1rem">
               UTM MCSS
             </Typography>
-            <Typography color="secondary" mb="1rem">
+            <Typography mb="1rem">
               MCSS is the official academic society for the Mathematics and Computational Sciences
               Department at the University of Toronto Mississauga and partner of DeerHacks.
             </Typography>

@@ -73,7 +73,7 @@ const HomePage = () => {
                   }}
                 >
                   <Typography
-                    color="secondary"
+                    color="text.secondary"
                     variant="body1"
                     letterSpacing={1.5}
                     textAlign="center"

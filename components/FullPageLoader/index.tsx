@@ -81,16 +81,12 @@ const FullPageLoader = (props: Props) => {
         <AnimatedLogo onAnimationEnd={onAnimationEnd} pulse={pulse} />
         {showLoadingText && (
           <Fade in timeout={2000}>
-            <Typography color="secondary" letterSpacing={2.5}>
-              LOADING...
-            </Typography>
+            <Typography letterSpacing={2.5}>LOADING...</Typography>
           </Fade>
         )}
         {(text || showTips) && (
           <Fade in timeout={2250}>
-            <Typography color="secondary" maxWidth="20rem">
-              {text ?? randomTip}
-            </Typography>
+            <Typography maxWidth="20rem">{text ?? randomTip}</Typography>
           </Fade>
         )}
         {buttonText && buttonLink && (

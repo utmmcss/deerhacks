@@ -113,13 +113,13 @@ const MNModel = (props: Props) => {
         </EffectComposer>
       </Canvas>
       <Typography
-        color="secondary"
-        variant="body1"
+        color="text.secondary"
         letterSpacing={1.5}
         textAlign="right"
         display={{ xs: 'none', md: 'grid', lg: 'block' }}
         position="absolute"
-        sx={{ inset: 'auto 0 0 auto', pb: '2rem', pr: '2rem' }}
+        p="0 2rem 2rem 0"
+        sx={{ inset: 'auto 0 0 auto' }}
         data-aos="fade"
         data-aos-delay="2000"
         data-aos-duration="2000"

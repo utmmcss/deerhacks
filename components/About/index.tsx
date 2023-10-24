@@ -28,7 +28,7 @@ const About = () => {
             width={0}
             height={0}
             sizes="100vw"
-            style={{ width: '100%', height: 'auto' }}
+            style={{ width: '100%', height: 'auto', margin: '-2rem 0' }}
           />
         </Grid>
         <Grid container item xs={12} md={7}>
@@ -42,13 +42,13 @@ const About = () => {
             <Typography variant="h2" mb="1rem">
               Dare to Glow!
             </Typography>
-            <Typography color="secondary" mb="1rem">
+            <Typography mb="1rem">
               Welcome to the University of Toronto Mississauga's premier hackathon event! DeerHacks
               offers students the exciting opportunity to showcase their creativity and innovation
               over a dedicated 36-hour period, designed to empower hackers with enriching workshops,
               thrilling competitions, and enjoyable activities!
             </Typography>
-            <Typography color="secondary" mb="1rem" display={{ xs: 'none', lg: 'block' }}>
+            <Typography mb="1rem" display={{ xs: 'none', lg: 'block' }}>
               Participants will have the unique chance to present their projects before a
               distinguished panel of judges and industry experts, fostering valuable networking
               opportunities with our esteemed sponsors and partners. Whether you're a newcomer or an
@@ -58,15 +58,7 @@ const About = () => {
           </Box>
         </Grid>
       </Grid>
-      {toggles.dashboard && (
-        <SignUpButton
-          text={
-            toggles.signupHacker ? 'Get Started on Your Registration' : 'Take Me to My Dashboard'
-          }
-          href="/login"
-          color
-        />
-      )}
+      {toggles.dashboard && <SignUpButton text="Get Started Now" href="/login" color glow />}
     </Container>
   )
 }

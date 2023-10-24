@@ -27,11 +27,12 @@ type Props = {
 }
 
 type MenuProps = {
+  desktop?: boolean
   afterClick: () => void
 }
 
 const Menu = (props: MenuProps) => {
-  const { afterClick } = props
+  const { desktop = false, afterClick } = props
   const { toggles } = useFeatureToggle()
 
   const handleClick = (dest: string) => {
@@ -106,8 +107,9 @@ const Menu = (props: MenuProps) => {
         <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
           <SignUpButton
             href="/login"
-            navbar
+            navbar={desktop}
             color
+            glow
             {...(!toggles.signupHacker && { text: 'Login' })}
           />
         </Box>
@@ -186,7 +188,7 @@ const Navbar = (props: Props) => {
               }}
             >
               {desktop ? (
-                <Menu afterClick={() => setOpen(false)} />
+                <Menu afterClick={() => setOpen(false)} desktop />
               ) : (
                 <Box component="div" data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
                   <Button
@@ -208,8 +210,10 @@ const Navbar = (props: Props) => {
           anchor="right"
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
+          elevation={0}
           PaperProps={{
             sx: {
+              maxWidth: '80%',
               px: toggles.mlh ? '1rem' : '2rem',
               justifyContent: toggles.mlh ? 'end' : 'center',
             },

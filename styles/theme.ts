@@ -1,24 +1,43 @@
+import { Poppins } from 'next/font/google'
+
 import { createTheme } from '@mui/material/styles'
 
-const base = createTheme({
+const poppins = Poppins({ weight: ['400', '500', '600', '700'], subsets: ['latin'] })
+
+export const base = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#fff',
+      main: '#90caf9',
     },
     secondary: {
-      main: '#878789',
+      main: '#e9e9e9',
     },
     error: {
-      main: '#FF2424',
+      main: '#ff574e',
     },
-    background: {
-      //default: '#202124',
-      default: '#181818',
+    warning: {
+      main: '#ffa726',
+    },
+    info: {
+      main: '#29b6f6',
+    },
+    success: {
+      main: '#66bb6a',
     },
     text: {
       primary: '#fff',
       secondary: '#878789',
+      disabled: 'rgba(255, 255, 255, 0.4)',
+    },
+    background: {
+      default: '#181818',
+      paper: '#121212',
+    },
+    divider: 'rgba(255, 255, 255, 0.1)',
+    common: {
+      white: '#e9e9e9',
+      black: '#181818',
     },
   },
   breakpoints: {
@@ -30,13 +49,33 @@ const base = createTheme({
       xl: 1200,
     },
   },
+  spacing: 8,
+  shape: {
+    borderRadius: 8,
+  },
+  zIndex: {
+    mobileStepper: 1000,
+    fab: 1050,
+    speedDial: 1050,
+    appBar: 1100,
+    drawer: 1200,
+    modal: 1300,
+    snackbar: 1400,
+    tooltip: 1500,
+  },
 })
 
-const theme = createTheme(base, {
+const typography = createTheme({
   typography: {
-    fontFamily: 'inherit',
-    fontSize: 16,
+    fontFamily: poppins.style.fontFamily,
+    fontSize: 14,
+    htmlFontSize: 16,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+    fontWeightBold: 700,
     h1: {
+      color: base.palette.text.primary,
       textAlign: 'center',
       marginBottom: '2rem',
       fontSize: '2rem',
@@ -50,24 +89,39 @@ const theme = createTheme(base, {
       fontWeight: 700,
     },
     h2: {
+      color: base.palette.text.primary,
       fontSize: '1.5rem',
       fontWeight: 600,
     },
     subtitle1: {
       marginBottom: '1rem',
     },
+    subtitle2: {
+      marginBottom: '1rem',
+    },
+    body1: {
+      color: base.palette.text.secondary,
+    },
+    body2: {
+      color: base.palette.text.secondary,
+    },
+    caption: {
+      color: base.palette.text.secondary,
+    },
+    button: {
+      textTransform: 'none',
+    },
   },
-  zIndex: {
-    modal: 2000,
-  },
+}).typography
+
+const theme = createTheme(base, {
+  typography: typography,
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
           backgroundColor: base.palette.background.default,
-          //backgroundSize: '2.5rem 2.5rem',
-          //backgroundImage: 'radial-gradient(circle, rgb(255 255 255 / 15%) 1px 1px, rgba(0, 0, 0, 0) 1px)',
-          //backgroundPosition: 'center',
+          color: base.palette.text.primary,
         },
         img: {
           pointerEvents: 'none',
@@ -79,21 +133,20 @@ const theme = createTheme(base, {
     MuiButton: {
       defaultProps: {
         size: 'large',
+        color: 'secondary',
       },
       styleOverrides: {
         root: {
-          textTransform: 'none',
           gap: '0.5rem',
           padding: '0.75rem 1.5rem',
-          borderRadius: '1rem',
           minWidth: 0,
         },
       },
       variants: [
         {
-          props: { variant: 'contained' },
+          props: { variant: 'outlined' },
           style: {
-            backgroundColor: base.palette.primary.main,
+            borderRadius: '1rem',
           },
         },
       ],
@@ -109,18 +162,9 @@ const theme = createTheme(base, {
         },
       },
     },
-    MuiLinearProgress: {
-      defaultProps: {
-        color: 'secondary',
-      },
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-        },
-      },
-    },
     MuiLink: {
       defaultProps: {
+        color: 'secondary',
         underline: 'none',
       },
       styleOverrides: {
@@ -163,7 +207,7 @@ const theme = createTheme(base, {
       },
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: base.shape.borderRadius,
           backgroundColor: 'transparent',
           overflow: 'hidden',
           '&:before': {
@@ -177,7 +221,7 @@ const theme = createTheme(base, {
         root: {
           padding: '0',
           gap: '1rem',
-          borderRadius: 8,
+          borderRadius: base.shape.borderRadius,
           transition: 'all 0.2s ease',
           '&:hover, &:focus-visible': {
             '@media (hover: hover)': {
@@ -186,8 +230,12 @@ const theme = createTheme(base, {
             },
           },
         },
+        content: {
+          '& .MuiTypography-root': {
+            color: base.palette.text.primary,
+          },
+        },
         expandIconWrapper: {
-          color: base.palette.primary.main,
           transition: 'transform 0.2s ease',
           '&.Mui-expanded': {
             transform: 'rotate(-135deg)',
@@ -219,13 +267,6 @@ const theme = createTheme(base, {
         },
       },
     },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          backgroundColor: base.palette.background.default,
-        },
-      },
-    },
     MuiChip: {
       defaultProps: {
         variant: 'outlined',
@@ -238,7 +279,20 @@ const theme = createTheme(base, {
       styleOverrides: {
         root: {
           textAlign: 'left',
-          borderRadius: '0.5rem',
+        },
+      },
+    },
+    MuiTooltip: {
+      styleOverrides: {
+        tooltip: {
+          borderRadius: 4,
+          backgroundColor: base.palette.common.white,
+          color: base.palette.common.black,
+        },
+        arrow: {
+          '&:before': {
+            backgroundColor: base.palette.common.white,
+          },
         },
       },
     },
