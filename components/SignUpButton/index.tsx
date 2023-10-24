@@ -53,6 +53,7 @@ const SignUpButton = (props: Props) => {
               background:
                 'linear-gradient(to left,#d6551b,#db3a3a,#c844b0,#ae34d0,#8f55f5,#ae34d0,#c844b0,#db3a3a,#d6551b)',
               backgroundSize: '200% 200%',
+              borderRadius: 'inherit',
               transition: 'all 0.5s ease',
               animation: 'animateGlow 2s linear infinite',
             },
