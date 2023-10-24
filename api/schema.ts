@@ -20,14 +20,17 @@ const _ = () =>
             resolve({
               user: {
                 id: '637134163354320896',
-                name: 'Tedja',
+                firstName: 'Anthony',
+                lastName: 'Tedja',
+                username: 'tedja',
                 email: 'user@deerhacks.ca',
                 status: 'admin',
                 avatar: '1f4f0ffa2b50d6c853379d0ef53d245a',
+                avatarURL: '',
                 qrCode: '',
                 verified: true,
               },
-            } as UserGetResp)
+            })
           }, 200)
         })
       }

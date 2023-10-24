@@ -12,7 +12,8 @@ export type Application = {
   /**
    * The following fields are part of the User so they are not in the form
    *
-   * name: string
+   * firstName: string
+   * lastName: string
    * email: string
    */
 

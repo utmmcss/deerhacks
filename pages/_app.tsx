@@ -1,5 +1,4 @@
 import type { AppProps } from 'next/app'
-import { Poppins } from 'next/font/google'
 import Script from 'next/script'
 
 import CssBaseline from '@mui/material/CssBaseline'
@@ -11,8 +10,6 @@ import { AuthProvider } from '@/contexts/Auth'
 import { FeatureToggleProvider } from '@/contexts/FeatureToggle'
 import theme from '@/styles/theme'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-
-const poppins = Poppins({ weight: ['400', '500', '600', '700'], subsets: ['latin'] })
 
 /**
  * https://nextjs.org/docs/pages/building-your-application/routing/custom-app
@@ -37,14 +34,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 });
               `}
             </Script>
-            <style global jsx>
-              {`
-                body,
-                body * {
-                  font-family: ${poppins.style.fontFamily} !important;
-                }
-              `}
-            </style>
             <FeatureToggleProvider>
               <AuthProvider>
                 <Component {...pageProps} />

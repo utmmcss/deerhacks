@@ -6,10 +6,7 @@ export type UserLoginReq = {
   token: string
 }
 
-export type UserUpdateReq = {
-  name?: string
-  email?: string
-}
+export type UserUpdateReq = Partial<Pick<User, 'firstName' | 'lastName' | 'email'>>
 
 export type UserUpdateResp = {
   user: User
@@ -17,7 +14,9 @@ export type UserUpdateResp = {
 
 export type User = {
   id: string
-  name: string
+  firstName: string
+  lastName: string
+  username: string
   email: string
   status: UserStatus
   avatar: string

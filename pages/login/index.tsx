@@ -61,7 +61,7 @@ const Login = () => {
             }}
           >
             <Typography variant="h2">Welcome to DeerHacks</Typography>
-            <Typography color="secondary">
+            <Typography>
               Login to access registration, hacker perks and more on the DeerHacks Dashboard!
             </Typography>
             <Collapse in={showAlert} sx={{ width: '100%' }}>
@@ -72,7 +72,7 @@ const Login = () => {
               </Alert>
             </Collapse>
             <SignUpButton text="Continue" color fullWidth />
-            <Typography color="secondary" fontSize="0.75rem">
+            <Typography fontSize="0.75rem">
               By clicking “Continue with Discord” above, you acknowledge that you have read and
               understood, and agree to DeerHacks'{' '}
               <Link component={NextLink} href="/terms" underline="always" sx={{ opacity: 0.75 }}>

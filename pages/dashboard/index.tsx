@@ -42,7 +42,7 @@ const Dashboard = () => {
           />
           <Stack spacing="1rem">
             <Typography>
-              Welcome <span style={{ fontWeight: 600 }}>{user.name}</span>!
+              Welcome <span style={{ fontWeight: 600 }}>@{user.username}</span>!
             </Typography>
             <Box component="div">
               <Tooltip title={UserStatusDescription[user.status][1]}>
