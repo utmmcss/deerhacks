@@ -37,7 +37,7 @@ const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statu
     headers: {
       ...(!isForm && { 'Content-Type': 'application/json' }),
       ...(base === 'DH_CMS' && {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_DEERHACKS_CMS_JWT_SECRET}`,
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_DEERHACKS_CMS_TOKEN}`,
       }),
     },
   }

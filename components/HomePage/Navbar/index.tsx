@@ -17,8 +17,8 @@ import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import Tooltip from '@mui/material/Tooltip'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import MLHBadge from '@/components/MLHBadge'
-import SignUpButton from '@/components/SignUpButton'
+import MLHBadge from '@/components/HomePage/MLHBadge'
+import SignUpButton from '@/components/HomePage/SignUpButton'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import theme from '@/styles/theme'
 
@@ -56,19 +56,31 @@ const Menu = (props: MenuProps) => {
         <>
           <Box component="div" data-aos="fade" data-aos-delay="1000" data-aos-duration="1000">
             <Tooltip title="DeerHacks 2023">
-              <Link href="https://2023.deerhacks.ca">2023</Link>
+              <Link rel="noopener" href="https://2023.deerhacks.ca">
+                2023
+              </Link>
             </Tooltip>
           </Box>
           <Box component="div" data-aos="fade" data-aos-delay="1000" data-aos-duration="1000">
             <Tooltip title="Instagram">
-              <Link href="https://instagram.com/deerhacks" target="_blank" display="flex">
+              <Link
+                rel="noopener"
+                href="https://instagram.com/deerhacks"
+                target="_blank"
+                display="flex"
+              >
                 <InstagramIcon />
               </Link>
             </Tooltip>
           </Box>
           <Box component="div" data-aos="fade" data-aos-delay="1000" data-aos-duration="1000">
             <Tooltip title="LinkedIn">
-              <Link href="https://linkedin.com/showcase/deerhacks" target="_blank" display="flex">
+              <Link
+                rel="noopener"
+                href="https://linkedin.com/showcase/deerhacks"
+                target="_blank"
+                display="flex"
+              >
                 <LinkedInIcon />
               </Link>
             </Tooltip>
@@ -124,6 +136,7 @@ const Menu = (props: MenuProps) => {
         >
           <Tooltip title="Major League Hacking">
             <Link
+              rel="noopener"
               href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=black"
               target="_blank"
               sx={{ width: 75, opacity: 1, position: 'absolute', top: 0 }}

@@ -11,7 +11,7 @@ import Container from '@mui/material/Container'
 import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
-import SignUpButton from '@/components/SignUpButton'
+import SignUpButton from '@/components/HomePage/SignUpButton'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import Error404Page from '@/pages/404'
 

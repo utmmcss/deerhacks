@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
-import AnimatedDiscord from '@/components/AnimatedDiscord'
+import AnimatedDiscord from '@/components/HomePage/AnimatedDiscord'
 import theme from '@/styles/theme'
 
 type Props = {
@@ -28,7 +28,6 @@ const SignUpButton = (props: Props) => {
     glow = false,
   } = props
 
-  // const getBaseUrl = () => (typeof window !== 'undefined' ? window.location.origin : '')
   const path = process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL ?? ''
 
   return (

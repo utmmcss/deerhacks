@@ -15,6 +15,11 @@ const nextConfig = {
         hostname: 'cdn.discordapp.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'chart.googleapis.com',
+        pathname: '/chart/**',
+      },
     ],
   },
 }

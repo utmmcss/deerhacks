@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
-import FullPageSpinner from '@/components/FullPageSpinner'
+import FullPageSpinner from '@/components/Shared/FullPageSpinner'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import { useUserLogin } from '@/hooks/Users/useUserLogin'
 import Error404Page from '@/pages/404'

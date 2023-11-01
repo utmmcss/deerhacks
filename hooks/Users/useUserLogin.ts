@@ -5,7 +5,7 @@ import { useAPI } from '@/contexts/API'
 export const useUserLogin = () => {
   const api = useAPI()
   const router = useRouter()
-  return api.useMutation('userLogin', {
+  return api.useMutation('mockUserLogin', {
     onSuccess: () => {
       router.replace('/dashboard')
     },

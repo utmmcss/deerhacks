@@ -7,6 +7,19 @@ type Props = {
   onError?: () => void
 }
 
+export const useUserGet = (props?: Props) => {
+  return useAPI().useQuery(['mockUserGet', null], {
+    enabled: props?.enabled,
+    onSuccess: (data) => {
+      data.user.avatar = getAvatar(data.user)
+      data.user.qrCode = getQRCode(data.user.qrCode)
+      if (!data.user.verified) data.user.status = 'unverified'
+      props?.onSuccess?.()
+    },
+    onError: props?.onError,
+  })
+}
+
 /**
  * https://discord.com/developers/docs/reference#image-formatting-image-base-url
  */
@@ -22,13 +35,6 @@ const getAvatar = (user: User) => {
   }
 }
 
-export const useUserGet = (props?: Props) => {
-  return useAPI().useQuery(['userGet', null], {
-    enabled: props?.enabled,
-    onSuccess: (data) => {
-      data.user.avatarURL = getAvatar(data.user)
-      props?.onSuccess?.()
-    },
-    onError: props?.onError,
-  })
+const getQRCode = (qrCode: string) => {
+  return `https://chart.googleapis.com/chart?cht=qr&chl=${qrCode}&chs=500x500`
 }

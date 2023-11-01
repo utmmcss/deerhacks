@@ -106,11 +106,11 @@ const FAQ = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                Having a Discord account is mandatory for registration as Discord is our primary
-                platform for authentication and communication. Discord authentication provides a
-                seamless experience between your DeerHacks dashboard and our Discord server. Our
-                server will enable you to receive hackathon updates and access to our network of
-                mentors and participants.
+                Having a verified Discord account is mandatory for registration as Discord is our
+                primary platform for authentication and communication. Discord authentication
+                provides a seamless experience between your DeerHacks dashboard and our Discord
+                server. Our server will enable you to receive hackathon updates and access to our
+                network of mentors and participants.
               </Typography>
             </AccordionDetails>
           </Accordion>

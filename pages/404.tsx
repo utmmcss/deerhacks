@@ -1,6 +1,6 @@
 import Head from 'next/head'
 
-import FullPageLoader from '@/components/FullPageLoader'
+import FullPageLoader from '@/components/Shared/FullPageLoader'
 
 const Error404Page = () => {
   return (

@@ -12,7 +12,7 @@ const APIContext = createContext<Props | undefined>(undefined)
 
 export const useAPI = () => {
   const context = useContext(APIContext)
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAPI must be used within APIProvider')
   }
   return context
