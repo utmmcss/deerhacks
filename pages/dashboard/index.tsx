@@ -8,13 +8,13 @@ import Navbar from '@/components/Dashboard/Navbar'
 import TileChecklist from '@/components/Dashboard/TileChecklist'
 import TileGallery from '@/components/Dashboard/TileGallery'
 import TileHackerPack from '@/components/Dashboard/TileHackerPack'
-import TileHelp from '@/components/Dashboard/TileHelp'
 import TileInstagram from '@/components/Dashboard/TileInstagram'
 import TileLinkedIn from '@/components/Dashboard/TileLinkedIn'
 import TileRegistration from '@/components/Dashboard/TileRegistration'
 import TileScanner from '@/components/Dashboard/TileScanner'
 import TileSchedule from '@/components/Dashboard/TileSchedule'
 import TileStatus from '@/components/Dashboard/TileStatus'
+import TileTips from '@/components/Dashboard/TileTips'
 import TileUser from '@/components/Dashboard/TileUser'
 import TileUsersTable from '@/components/Dashboard/TileUsersTable'
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
@@ -72,7 +72,7 @@ const Dashboard = () => {
                   <TileChecklist status={user.status} />
                 </Grid>
                 <Grid item xs={6}>
-                  <TileHelp />
+                  <TileTips />
                 </Grid>
               </Grid>
             </Grid>

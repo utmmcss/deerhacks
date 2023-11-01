@@ -13,7 +13,7 @@ import Paper from '@mui/material/Paper'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
-import QRCodeModal from '@/components/Dashboard/QRCodeModal'
+import ModalQRCode from '@/components/Dashboard/ModalQRCode'
 import { User, UserStatusDescription } from '@/types/User'
 
 type Props = {
@@ -35,8 +35,8 @@ const TileUser = (props: Props) => {
           width: '100%',
           m: '2rem 0',
           p: '2rem',
-          position: 'relative',
           borderRadius: '2rem',
+          position: 'relative',
           backgroundImage:
             'radial-gradient(circle closest-corner at 25% 60%, rgba(238, 39, 39, 0.25), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 71% 16%, rgba(154, 39, 238, 0.15), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(238, 164, 39, 0.1), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%), linear-gradient(#292b2f, #121212)',
           '&::after': {
@@ -48,19 +48,9 @@ const TileUser = (props: Props) => {
             height: '100%',
             filter: 'blur(24px)',
             background:
-              'linear-gradient(to left,#d6551b,#db3a3a,#c844b0,#ae34d0,#8f55f5,#ae34d0,#c844b0,#db3a3a,#d6551b)',
+              'linear-gradient(135deg,#d6551b,#db3a3a,#c844b0,#ae34d0,#8f55f5,#ae34d0,#c844b0,#db3a3a,#d6551b)',
             backgroundSize: '200% 200%',
             borderRadius: 'inherit',
-            transition: 'all 0.5s ease',
-            animation: 'animateGlow 3s linear infinite',
-          },
-          '@keyframes animateGlow': {
-            '0%': {
-              backgroundPosition: '0% 50%',
-            },
-            '100%': {
-              backgroundPosition: '200% 50%',
-            },
           },
         }}
       >
@@ -163,11 +153,7 @@ const TileUser = (props: Props) => {
       </Paper>
       {open && (
         <Suspense>
-          <QRCodeModal
-            qrCode={user.qrCode}
-            scanPrivilege={['admin', 'moderator', 'volunteer'].includes(user.status)}
-            setOpen={setOpen}
-          />
+          <ModalQRCode qrCode={user.qrCode} setOpen={setOpen} />
         </Suspense>
       )}
     </>
