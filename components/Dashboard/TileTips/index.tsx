@@ -4,7 +4,7 @@ import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 
-const TileHelp = () => {
+const TileTips = () => {
   return (
     <Card sx={{ backgroundColor: '#e9e9e9' }}>
       <CardActionArea onClick={() => null}>
@@ -18,10 +18,10 @@ const TileHelp = () => {
             gutterBottom
           >
             <HelpIcon fontSize="inherit" />
-            Help
+            Tips
           </Typography>
           <Typography color="common.black" variant="body2">
-            DH Dashboard 101
+            DeerHacks Dashboard 101
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -29,4 +29,4 @@ const TileHelp = () => {
   )
 }
 
-export default TileHelp
+export default TileTips

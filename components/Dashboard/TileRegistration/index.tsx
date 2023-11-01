@@ -46,9 +46,9 @@ const TileRegistration = (props: Props) => {
               ? 'Registration is unavailable while user is unverified'
               : status === 'registering'
               ? 'Get started on your registration for DeerHacks 2024! Hacker applications are open until {TDB DATE}'
-              : !noApplication
-              ? 'Revisit your application to DeerHacks'
-              : ''}
+              : noApplication
+              ? `${status.title()}s cannot register as hackers`
+              : 'Revisit your application to DeerHacks'}
           </Typography>
         </CardContent>
       </CardActionArea>

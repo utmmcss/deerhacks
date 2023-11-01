@@ -19,9 +19,12 @@ export default function Document() {
         <meta property="og:type" content="website" />
         <meta property="og:title" content="DeerHacks" />
         <meta
-          property="og:image"
-          content="https://raw.githubusercontent.com/utmmcss/deerhacks/main/public/backgrounds/banner.jpg"
+          property="og:description"
+          content="DeerHacks is University of Toronto Mississauga's annual hackathon! Join 500+ hackers for a weekend of fun :)"
         />
+        <meta property="og:image" content="/backgrounds/banner.jpg" />
+        <meta property="twitter:image" content="/backgrounds/banner.jpg" />
+        <meta name="twitter:card" content="summary_large_image" />
 
         <link rel="icon" type="image/svg+xml" sizes="512x512" href="/logo.svg" />
         <link rel="apple-touch-icon" href="/icons/apple.png" />

@@ -34,7 +34,7 @@ const TileSchedule = (props: Props) => {
             Schedule
           </Typography>
           <Typography variant="body2">
-            {disabled ? 'Coming Soon' : 'Explore DeerHacks events, workshops & more!'}
+            {disabled ? 'Coming Soon' : 'Explore DeerHacks events, workshops & more'}
           </Typography>
         </CardContent>
       </CardActionArea>

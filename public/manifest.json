@@ -1,6 +1,7 @@
 {
   "name": "DeerHacks",
   "short_name": "DeerHacks",
+  "description": "DeerHacks is University of Toronto Mississauga's annual hackathon! Join 500+ hackers for a weekend of fun :)",
   "icons": [
     {
       "src": "/icons/192.png",
@@ -17,7 +18,7 @@
   ],
   "theme_color": "#181818",
   "background_color": "#181818",
-  "start_url": "/",
+  "start_url": "/dashboard",
   "display": "fullscreen",
   "orientation": "portrait"
 }

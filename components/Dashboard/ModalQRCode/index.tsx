@@ -1,12 +1,9 @@
 import Image from 'next/image'
-import NextLink from 'next/link'
 import { useState } from 'react'
 
 import CloseIcon from '@mui/icons-material/Close'
-import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
@@ -15,12 +12,11 @@ import IconButton from '@mui/material/IconButton'
 
 type Props = {
   qrCode: string
-  scanPrivilege: boolean
   setOpen: (open: boolean) => void
 }
 
-const QRCodeModal = (props: Props) => {
-  const { qrCode, scanPrivilege, setOpen } = props
+const ModalQRCode = (props: Props) => {
+  const { qrCode, setOpen } = props
 
   const [show, setShow] = useState(false)
 
@@ -67,20 +63,10 @@ const QRCodeModal = (props: Props) => {
             draggable={false}
             onLoad={() => setShow(true)}
           />
-          {scanPrivilege && (
-            <Button
-              color="primary"
-              component={NextLink}
-              href="/dashboard/scanner"
-              startIcon={<QrCodeScannerIcon />}
-            >
-              Scan QR Code
-            </Button>
-          )}
         </Box>
       </DialogContent>
     </Dialog>
   )
 }
 
-export default QRCodeModal
+export default ModalQRCode

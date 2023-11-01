@@ -30,7 +30,9 @@ const TileChecklist = (props: Props) => {
             <ChecklistIcon color="success" fontSize="inherit" />
             Checklist
           </Typography>
-          <Typography variant="body2">{disabled ? 'Coming Soon' : 'Hacker Checklist'}</Typography>
+          <Typography variant="body2">
+            {disabled ? 'Coming Soon' : 'DeerHacks Checklist'}
+          </Typography>
         </CardContent>
       </CardActionArea>
     </Card>
