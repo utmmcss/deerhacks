@@ -18,7 +18,6 @@ export default function Document() {
 
         <meta property="og:type" content="website" />
         <meta property="og:title" content="DeerHacks" />
-        <meta property="og:image" content="/backgrounds/banner.jpg" />
         <meta
           property="og:image"
           content="https://raw.githubusercontent.com/utmmcss/deerhacks/main/public/backgrounds/banner.jpg"

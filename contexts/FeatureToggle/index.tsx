@@ -7,6 +7,8 @@ const INITIAL_FEATURE_TOGGLES = {
   mlh: process.env.NEXT_PUBLIC_TOGGLE_MLH === 'true',
   // Toggle for DeerHacks dashboard workflow
   dashboard: process.env.NEXT_PUBLIC_TOGGLE_DASHBOARD === 'true',
+  // Toggle for DeerHacks hacker package
+  hackerPack: process.env.NEXT_PUBLIC_TOGGLE_HACKER_PACK === 'true',
 
   // TIME BASED TOGGLES
 
@@ -29,7 +31,7 @@ const FeatureToggleContext = createContext<Props | undefined>(undefined)
 
 export const useFeatureToggle = () => {
   const context = useContext(FeatureToggleContext)
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useFeatureToggle must be used within FeatureToggleProvider')
   }
   return context

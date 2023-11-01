@@ -6,7 +6,7 @@ import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 
-import AnimatedLogo from '@/components/AnimatedLogo'
+import AnimatedLogo from '@/components/Shared/AnimatedLogo'
 import theme from '@/styles/theme'
 
 type Props = {

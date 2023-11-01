@@ -1,42 +1,26 @@
 import { APITemplate } from '@/api/types'
 import { CustomFetch } from '@/api/useFetch'
+import { EventListResp } from '@/types/Event'
 import { QRCheckInReq, QRCheckInResp } from '@/types/QRCode'
-import { UserGetResp, UserLoginReq, UserUpdateReq, UserUpdateResp } from '@/types/User'
+import { UserGetResp, UserLoginReq, UserUpdateReq } from '@/types/User'
 
 export const config = (customFetch: CustomFetch) =>
   ({
-    ..._(),
+    ...events(customFetch),
     ...qrCodes(customFetch),
     ...users(customFetch),
+    ..._(),
   } as const satisfies APITemplate)
 
-// Mock Data Response
-const _ = () =>
+const events = (customFetch: CustomFetch) =>
   ({
-    demoGet: async () => {
-      function getUserWithTimeout(): Promise<UserGetResp> {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve({
-              user: {
-                id: '637134163354320896',
-                firstName: 'Anthony',
-                lastName: 'Tedja',
-                username: 'tedja',
-                email: 'user@deerhacks.ca',
-                status: 'admin',
-                avatar: '1f4f0ffa2b50d6c853379d0ef53d245a',
-                avatarURL: '',
-                qrCode: '',
-                verified: true,
-              },
-            })
-          }, 200)
-        })
-      }
-
-      const user = await getUserWithTimeout()
-      return user
+    eventList: async () => {
+      const res = await customFetch(
+        'GET',
+        'DH_CMS',
+        '/events?sort[0]=Important&sort[1]=StartTime&sort[2]=EndTime'
+      )
+      return res as EventListResp
     },
   } as const)
 
@@ -60,6 +44,47 @@ const users = (customFetch: CustomFetch) =>
     },
     userUpdate: async (args: UserUpdateReq) => {
       const res = await customFetch('POST', 'DH_BE', '/user-update', args)
-      return res.data as UserUpdateResp
+      return res.data as {}
+    },
+  } as const)
+
+// Mock Data Response
+const _ = () =>
+  ({
+    mockUserGet: async () => {
+      function getUserWithTimeout(): Promise<UserGetResp> {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              user: {
+                id: '637134163354320896',
+                firstName: 'Anthony',
+                lastName: 'Tedja',
+                username: 'tedja',
+                email: 'user@deerhacks.ca',
+                status: 'admin',
+                avatar: '1f4f0ffa2b50d6c853379d0ef53d245a',
+                qrCode: '637134163354320896',
+                verified: true,
+              },
+            })
+          }, 200)
+        })
+      }
+
+      const user = await getUserWithTimeout()
+      return user
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    mockUserLogin: async (_: UserLoginReq) => {
+      function getLoginWithTimeout(): Promise<{}> {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({})
+          }, 200)
+        })
+      }
+
+      return await getLoginWithTimeout()
     },
   } as const)

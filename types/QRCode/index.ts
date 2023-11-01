@@ -4,6 +4,7 @@ export type QRCheckInReq = {
 }
 
 export type QRCheckInResp = {
+  success: boolean
   message: string
 }
 

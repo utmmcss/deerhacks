@@ -26,20 +26,34 @@ const Footer = () => {
           >
             <Typography color="text.primary">DeerHacks © 2024</Typography>
             <Tooltip title="DeerHacks 2023" placement="top">
-              <Link href="https://2023.deerhacks.ca">2023</Link>
+              <Link rel="noopener" href="https://2023.deerhacks.ca">
+                2023
+              </Link>
             </Tooltip>
             {toggles.mlh && (
               <Tooltip title="Code of Conduct" placement="top">
-                <Link href="https://mlh.io/code-of-conduct">Code of Conduct</Link>
+                <Link rel="noopener" href="https://mlh.io/code-of-conduct">
+                  Code of Conduct
+                </Link>
               </Tooltip>
             )}
             <Tooltip title="Instagram" placement="top">
-              <Link href="https://instagram.com/deerhacks" target="_blank" display="flex">
+              <Link
+                rel="noopener"
+                href="https://instagram.com/deerhacks"
+                target="_blank"
+                display="flex"
+              >
                 <InstagramIcon />
               </Link>
             </Tooltip>
             <Tooltip title="LinkedIn" placement="top">
-              <Link href="https://linkedin.com/showcase/deerhacks" target="_blank" display="flex">
+              <Link
+                rel="noopener"
+                href="https://linkedin.com/showcase/deerhacks"
+                target="_blank"
+                display="flex"
+              >
                 <LinkedInIcon />
               </Link>
             </Tooltip>
@@ -47,13 +61,13 @@ const Footer = () => {
           <Box component="div">
             ✨ by&nbsp;
             <Tooltip title="Frontend" placement="top">
-              <Link href="https://github.com/anthonytedja" underline="always">
+              <Link rel="noopener" href="https://github.com/anthonytedja" underline="always">
                 Anthony Tedja
               </Link>
             </Tooltip>
             &nbsp;&nbsp;&&nbsp;&nbsp;
             <Tooltip title="Backend" placement="top">
-              <Link href="https://github.com/Multivalence" underline="always">
+              <Link rel="noopener" href="https://github.com/Multivalence" underline="always">
                 Shiva Mulwani
               </Link>
             </Tooltip>

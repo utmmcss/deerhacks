@@ -93,6 +93,11 @@ const typography = createTheme({
       fontSize: '1.5rem',
       fontWeight: 600,
     },
+    h3: {
+      color: base.palette.text.primary,
+      fontSize: '1rem',
+      fontWeight: 500,
+    },
     subtitle1: {
       marginBottom: '1rem',
     },
@@ -186,7 +191,7 @@ const theme = createTheme(base, {
           position: 'relative',
           padding: '2rem 1rem',
           gap: '1rem',
-          ...(ownerState.maxWidth === 'lg' && {
+          ...(ownerState?.maxWidth === 'lg' && {
             maxWidth: 1400,
             [base.breakpoints.up('lg')]: {
               maxWidth: 1140,
@@ -292,6 +297,41 @@ const theme = createTheme(base, {
         arrow: {
           '&:before': {
             backgroundColor: base.palette.common.white,
+          },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: 2 * base.shape.borderRadius,
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          height: '100%',
+        },
+      },
+    },
+    MuiCardActionArea: {
+      styleOverrides: {
+        root: {
+          height: '100%',
+        },
+      },
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: '1rem',
+          height: '100%',
+          '&:last-child': {
+            paddingBottom: 16,
           },
         },
       },
