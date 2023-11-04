@@ -64,7 +64,7 @@ const _ = () =>
                 email: 'user@deerhacks.ca',
                 status: 'admin',
                 avatar: '1f4f0ffa2b50d6c853379d0ef53d245a',
-                qrCode: '637134163354320896',
+                qrCode: '0123456789',
                 verified: true,
               },
             })

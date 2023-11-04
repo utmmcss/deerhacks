@@ -8,31 +8,39 @@ import Collapse from '@mui/material/Collapse'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
+import Grow from '@mui/material/Grow'
 import IconButton from '@mui/material/IconButton'
 
 type Props = {
   qrCode: string
+  open: boolean
   setOpen: (open: boolean) => void
 }
 
 const ModalQRCode = (props: Props) => {
-  const { qrCode, setOpen } = props
+  const { open, qrCode, setOpen } = props
 
   const [show, setShow] = useState(false)
 
+  const handleClose = () => {
+    setOpen(false)
+    setShow(false)
+  }
+
   return (
     <Dialog
-      open
-      onClose={() => setOpen(false)}
+      open={open}
+      onClose={handleClose}
+      TransitionComponent={Grow}
       PaperProps={{
         elevation: 2,
         sx: { m: '1rem', maxHeight: 'calc(100% - 2rem)', width: 'calc(100% - 2rem)' },
       }}
-      fullWidth
+      maxWidth="xs"
     >
       <DialogTitle sx={{ m: 0, p: 2 }}>My QR Code</DialogTitle>
       <IconButton
-        onClick={() => setOpen(false)}
+        onClick={handleClose}
         sx={{
           position: 'absolute',
           right: 8,

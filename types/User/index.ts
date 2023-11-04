@@ -87,6 +87,6 @@ export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
 
   unverified: [
     'error',
-    'Your Discord account is unverified, verify your discord account to access our dashboard.',
+    'Your Discord account is unverified, verify your account on Discord and re-login to access our dashboard.',
   ],
 }

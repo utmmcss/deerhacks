@@ -142,7 +142,7 @@ const TileUser = (props: Props) => {
                   variant="filled"
                   {...(user.status === 'pending' && { color: 'error' })}
                   icon={<SettingsIcon />}
-                  label="Account"
+                  label={`Account ${user.status === 'pending' ? '*' : ''}`}
                   clickable
                   onClick={() => null}
                 />
@@ -151,11 +151,9 @@ const TileUser = (props: Props) => {
           </Grid>
         </Grid>
       </Paper>
-      {open && (
-        <Suspense>
-          <ModalQRCode qrCode={user.qrCode} setOpen={setOpen} />
-        </Suspense>
-      )}
+      <Suspense>
+        <ModalQRCode qrCode={user.qrCode} open={open} setOpen={setOpen} />
+      </Suspense>
     </>
   )
 }

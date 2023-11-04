@@ -204,6 +204,19 @@ const theme = createTheme(base, {
         }),
       },
     },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          '& code': {
+            color: base.palette.text.primary,
+            backgroundColor: 'rgba(255,255,255,0.1)',
+            padding: '0.15rem 0.25rem',
+            borderRadius: '0.25rem',
+            fontSize: '0.8rem',
+          },
+        },
+      },
+    },
     MuiAccordion: {
       defaultProps: {
         square: true,
