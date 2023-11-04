@@ -72,7 +72,7 @@ const Dashboard = () => {
                   <TileChecklist status={user.status} />
                 </Grid>
                 <Grid item xs={6}>
-                  <TileTips />
+                  <TileTips status={user.status} />
                 </Grid>
               </Grid>
             </Grid>
