@@ -143,9 +143,9 @@ const TileUser = (props: Props) => {
               {(user.status === 'pending' || user.status === 'registering') && (
                 <Chip
                   variant="filled"
-                  {...(user.status === 'pending' && { color: 'error' })}
+                  {...((!user.first_name || !user.last_name) && { color: 'error' })}
                   icon={<SettingsIcon />}
-                  label={`Account ${user.status === 'pending' ? '*' : ''}`}
+                  label={`Account ${!user.first_name || !user.last_name ? '*' : ''}`}
                   clickable
                   onClick={() => setOpenUserUpdate(true)}
                 />

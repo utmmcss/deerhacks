@@ -78,7 +78,7 @@ const ModalAccount = (props: Props) => {
       maxWidth="sm"
       disableRestoreFocus
     >
-      {!['firstUpdate', 'summary'].includes(state) && (
+      {!['firstUpdate', 'firstSuccess', 'summary'].includes(state) && (
         <Button
           size="small"
           onClick={handleChangePage('summary')}
