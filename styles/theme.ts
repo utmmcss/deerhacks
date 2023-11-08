@@ -349,6 +349,25 @@ const theme = createTheme(base, {
         },
       },
     },
+    MuiTextField: {
+      defaultProps: {
+        id: 'outlined-size-normal',
+      },
+      styleOverrides: {
+        root: {
+          flexGrow: 1,
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          '& .capitalize': {
+            textTransform: 'capitalize',
+          },
+        },
+      },
+    },
   },
 })
 

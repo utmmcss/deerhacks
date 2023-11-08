@@ -1,5 +1,6 @@
 import { ToastType } from '@/contexts/Toast'
 import { QRCheckInContext } from '@/types/QRCode'
+import { string } from 'zod'
 
 export type UserGetResp = {
   user: User
@@ -9,7 +10,7 @@ export type UserLoginReq = {
   token: string // Discord OAuth2 token
 }
 
-export type UserUpdateReq = Partial<Pick<User, 'firstName' | 'lastName' | 'email'>>
+export type UserUpdateReq = Partial<Pick<User, 'first_name' | 'last_name' | 'email'>>
 
 export type AdminUserUpdateReq = {
   users: {
@@ -20,14 +21,14 @@ export type AdminUserUpdateReq = {
 }
 
 export type User = {
-  id: string
-  firstName: string
-  lastName: string
+  discord_id: string
+  first_name: string
+  last_name: string
   username: string
   email: string
   status: UserStatus
   avatar: string
-  qrCode: string
+  qr_code: string
   verified: boolean
 
   // Admin only fields
@@ -90,3 +91,14 @@ export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
     'Your Discord account is unverified, verify your account on Discord and re-login to access our dashboard.',
   ],
 }
+
+/* form zod types */
+
+export const nameZod = string()
+  .trim()
+  .min(1, 'Required')
+  .transform((val) => {
+    return val.title()
+  })
+
+export const emailZod = string().trim().toLowerCase().min(1, 'Required').email('Invalid Email')
