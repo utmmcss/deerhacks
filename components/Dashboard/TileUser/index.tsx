@@ -13,6 +13,7 @@ import Paper from '@mui/material/Paper'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
+import ModalAccount from '@/components/Dashboard/ModalAccount'
 import ModalQRCode from '@/components/Dashboard/ModalQRCode'
 import { User, UserStatusDescription } from '@/types/User'
 
@@ -23,7 +24,9 @@ type Props = {
 const TileUser = (props: Props) => {
   const { user } = props
 
-  const [open, setOpen] = useState(false)
+  const [openUserUpdate, setOpenUserUpdate] = useState(false)
+
+  const [openQRCode, setOpenQRCode] = useState(false)
   const qrCodeEnabled = ['admin', 'moderator', 'volunteer', 'accepted', 'attended'].includes(
     user.status
   )
@@ -60,7 +63,7 @@ const TileUser = (props: Props) => {
               <Tooltip title={qrCodeEnabled ? 'Open QR Code' : ''}>
                 <IconButton
                   disabled={!qrCodeEnabled}
-                  onClick={() => setOpen(true)}
+                  onClick={() => setOpenQRCode(true)}
                   sx={{ p: '1rem', position: 'relative' }}
                 >
                   <Image
@@ -106,8 +109,8 @@ const TileUser = (props: Props) => {
                 noWrap
                 sx={{ whiteSpace: 'normal' }}
               >
-                {user.firstName && user.lastName
-                  ? `${user.firstName} ${user.lastName}`
+                {user.first_name && user.last_name
+                  ? `${user.first_name} ${user.last_name}`
                   : 'Welcome to DH III'}
               </Typography>
               <Typography textAlign={{ xs: 'center', md: 'left' }}>{user.email}</Typography>
@@ -144,7 +147,7 @@ const TileUser = (props: Props) => {
                   icon={<SettingsIcon />}
                   label={`Account ${user.status === 'pending' ? '*' : ''}`}
                   clickable
-                  onClick={() => null}
+                  onClick={() => setOpenUserUpdate(true)}
                 />
               )}
             </Box>
@@ -152,7 +155,10 @@ const TileUser = (props: Props) => {
         </Grid>
       </Paper>
       <Suspense>
-        <ModalQRCode qrCode={user.qrCode} open={open} setOpen={setOpen} />
+        <ModalQRCode qrCode={user.qr_code} open={openQRCode} setOpen={setOpenQRCode} />
+      </Suspense>
+      <Suspense>
+        <ModalAccount user={user} open={openUserUpdate} setOpen={setOpenUserUpdate} />
       </Suspense>
     </>
   )

@@ -8,12 +8,11 @@ type Props = {
 }
 
 export const useUserGet = (props?: Props) => {
-  return useAPI().useQuery(['mockUserGet', null], {
+  return useAPI().useQuery(['userGet', null], {
     enabled: props?.enabled,
     onSuccess: (data) => {
       data.user.avatar = getAvatar(data.user)
-      data.user.qrCode = getQRCode(data.user.qrCode)
-      if (!data.user.verified) data.user.status = 'unverified'
+      data.user.qr_code = getQRCode(data.user.qr_code)
       props?.onSuccess?.()
     },
     onError: props?.onError,
@@ -26,11 +25,11 @@ export const useUserGet = (props?: Props) => {
 const getAvatar = (user: User) => {
   const avatar = user.avatar
   if (avatar)
-    return `https://cdn.discordapp.com/avatars/${user.id}/${avatar}.${
+    return `https://cdn.discordapp.com/avatars/${user.discord_id}/${avatar}.${
       avatar.startsWith('a_') ? 'gif' : 'webp'
     }`
   else {
-    const index = (BigInt(user.id) >> BigInt(22)) % BigInt(6)
+    const index = (BigInt(user.discord_id) >> BigInt(22)) % BigInt(6)
     return `https://cdn.discordapp.com/embed/avatars/${index}.png`
   }
 }

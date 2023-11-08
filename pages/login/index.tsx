@@ -2,8 +2,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import NextLink from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { ReactNode } from 'react'
 
-import Alert from '@mui/material/Alert'
+import Alert, { AlertColor } from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
@@ -15,11 +16,46 @@ import SignUpButton from '@/components/HomePage/SignUpButton'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import Error404Page from '@/pages/404'
 
+type AlertDetails = {
+  severity: AlertColor
+  message: ReactNode
+}
+
+const getAlertDetails = (context: string | null): AlertDetails => {
+  switch (context) {
+    case 'auth':
+      return { severity: 'info', message: 'Session expired, please login.' }
+    case 'unverified':
+      return {
+        severity: 'error',
+        message: (
+          <>
+            Your Discord account is unverified,{' '}
+            <Link
+              rel="noopener"
+              target="_blank"
+              underline="always"
+              href="https://support.discord.com/hc/en-us/articles/6181726888215-Verification-Required-FAQ"
+              sx={{ color: 'error.main', opacity: 1 }}
+            >
+              verify your account on Discord
+            </Link>{' '}
+            to continue.
+          </>
+        ),
+      }
+    default:
+      return { severity: 'error', message: 'Something went wrong, try again.' }
+  }
+}
+
 const Login = () => {
   const { toggles } = useFeatureToggle()
   const searchParams = useSearchParams()
   const showAlert = searchParams.has('context')
   const context = searchParams.get('context')
+
+  const alert = showAlert ? getAlertDetails(context) : null
 
   if (!toggles.dashboard) return <Error404Page />
 
@@ -65,10 +101,8 @@ const Login = () => {
               Login to access registration, hacker perks and more on the DeerHacks Dashboard!
             </Typography>
             <Collapse in={showAlert} sx={{ width: '100%' }}>
-              <Alert severity={context === 'auth' ? 'info' : 'error'} sx={{ width: '100%' }}>
-                {context === 'auth'
-                  ? 'Session expired, please login.'
-                  : 'Something went wrong, try again.'}
+              <Alert severity={alert?.severity} sx={{ width: '100%' }}>
+                {alert?.message}
               </Alert>
             </Collapse>
             <SignUpButton text="Continue" color fullWidth />

@@ -32,6 +32,8 @@ const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statu
   }
 
   const req = {
+    credentials: 'include' as RequestCredentials,
+    mode: 'cors' as RequestMode,
     method,
     ...(method !== 'GET' && { body: isForm ? body : JSON.stringify({ ...body, ts: Date.now() }) }),
     headers: {
