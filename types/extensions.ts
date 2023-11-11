@@ -5,5 +5,5 @@ interface String {
 }
 
 String.prototype.title = function () {
-  return !this ? this : this[0].toUpperCase() + this.slice(1).toLowerCase()
+  return this && this.length ? this[0].toUpperCase() + this.slice(1).toLowerCase() : ''
 }

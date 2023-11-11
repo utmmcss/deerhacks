@@ -2,12 +2,19 @@ import Head from 'next/head'
 
 import FullPageLoader from '@/components/Shared/FullPageLoader'
 
-const Error404Page = () => {
+type Props = {
+  noTitle?: boolean
+}
+
+const Error404Page = (props: Props) => {
+  const { noTitle = false } = props
   return (
     <>
-      <Head>
-        <title>404 | DeerHacks</title>
-      </Head>
+      {!noTitle && (
+        <Head>
+          <title>404 | DeerHacks</title>
+        </Head>
+      )}
       <FullPageLoader
         show
         pulse={false}

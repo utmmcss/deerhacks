@@ -1,6 +1,6 @@
-import { ToastType } from '@/contexts/Toast'
+import { AlertColor } from '@mui/material/Alert'
+
 import { QRCheckInContext } from '@/types/QRCode'
-import { string } from 'zod'
 
 export type UserGetResp = {
   user: User
@@ -29,7 +29,7 @@ export type User = {
   status: UserStatus
   avatar: string
   qr_code: string
-  verified: boolean
+  verified: true // In case we want to work with this logic
 
   // Admin only fields
   internalStatus?: UserStatus
@@ -54,7 +54,7 @@ const enum UserStatusEnum {
   unverified, // Not sent by BE, used when verified is false
 }
 
-type UserStatusInfo = [ToastType, string]
+type UserStatusInfo = [AlertColor, string]
 export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
   admin: ['info', 'DeerHacks Administrator'],
   moderator: ['info', 'DeerHacks Organizers'],
@@ -91,14 +91,3 @@ export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
     'Your Discord account is unverified, verify your account on Discord and re-login to access our dashboard.',
   ],
 }
-
-/* form zod types */
-
-export const nameZod = string()
-  .trim()
-  .min(1, 'Required')
-  .transform((val) => {
-    return val.title()
-  })
-
-export const emailZod = string().trim().toLowerCase().min(1, 'Required').email('Invalid Email')

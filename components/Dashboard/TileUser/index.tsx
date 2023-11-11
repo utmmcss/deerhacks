@@ -24,7 +24,7 @@ type Props = {
 const TileUser = (props: Props) => {
   const { user } = props
 
-  const [openUserUpdate, setOpenUserUpdate] = useState(false)
+  const [openAccountDetails, setOpenAccountDetails] = useState(!user.first_name || !user.last_name)
 
   const [openQRCode, setOpenQRCode] = useState(false)
   const qrCodeEnabled = ['admin', 'moderator', 'volunteer', 'accepted', 'attended'].includes(
@@ -100,10 +100,11 @@ const TileUser = (props: Props) => {
             justifyContent="start"
             flexDirection="column"
           >
-            <Box component="div">
+            <Box component="div" maxWidth="100%">
               <Typography
                 variant="h1"
                 textAlign={{ xs: 'center', md: 'left' }}
+                lineHeight="1.25"
                 mb="0.5rem !important"
                 maxWidth="100%"
                 noWrap
@@ -113,8 +114,12 @@ const TileUser = (props: Props) => {
                   ? `${user.first_name} ${user.last_name}`
                   : 'Welcome to DH III'}
               </Typography>
-              <Typography textAlign={{ xs: 'center', md: 'left' }}>{user.email}</Typography>
+              <Typography noWrap textAlign={{ xs: 'center', md: 'left' }}>
+                {user.email}
+              </Typography>
               <Typography
+                noWrap
+                maxWidth="100%"
                 display="flex"
                 alignItems="center"
                 justifyContent={{ xs: 'center', md: 'start' }}
@@ -143,11 +148,13 @@ const TileUser = (props: Props) => {
               {(user.status === 'pending' || user.status === 'registering') && (
                 <Chip
                   variant="filled"
-                  {...((!user.first_name || !user.last_name) && { color: 'error' })}
+                  {...(user.status === 'pending' && {
+                    color: !user.first_name || !user.last_name ? 'error' : 'warning',
+                  })}
                   icon={<SettingsIcon />}
                   label={`Account ${!user.first_name || !user.last_name ? '*' : ''}`}
                   clickable
-                  onClick={() => setOpenUserUpdate(true)}
+                  onClick={() => setOpenAccountDetails(true)}
                 />
               )}
             </Box>
@@ -158,7 +165,7 @@ const TileUser = (props: Props) => {
         <ModalQRCode qrCode={user.qr_code} open={openQRCode} setOpen={setOpenQRCode} />
       </Suspense>
       <Suspense>
-        <ModalAccount user={user} open={openUserUpdate} setOpen={setOpenUserUpdate} />
+        <ModalAccount user={user} open={openAccountDetails} setOpen={setOpenAccountDetails} />
       </Suspense>
     </>
   )

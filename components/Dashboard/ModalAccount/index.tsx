@@ -1,29 +1,23 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CloseIcon from '@mui/icons-material/Close'
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
-import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
-import Grid from '@mui/material/Grid'
 import Grow from '@mui/material/Grow'
 import IconButton from '@mui/material/IconButton'
-import Slide from '@mui/material/Slide'
 import Typography from '@mui/material/Typography'
 
+import AccountCreate from '@/components/Dashboard/ModalAccount/AccountCreate'
+import AccountSummary from '@/components/Dashboard/ModalAccount/AccountSummary'
+import EmailUpdate from '@/components/Dashboard/ModalAccount/EmailUpdate'
+import ModalPage, { ModalAccountState } from '@/components/Dashboard/ModalAccount/ModalPage'
+import NameUpdate from '@/components/Dashboard/ModalAccount/NameUpdate'
 import SuccessPage from '@/components/Dashboard/SuccessPage'
 import { User } from '@/types/User'
 
-import AccountSummary from './AccountSummary'
-import EmailUpdate from './EmailUpdate'
-import FirstUserUpdate from './FirstUserUpdate'
-import NameUpdate from './NameUpdate'
-
-const states = ['firstUpdate', 'summary', 'name', 'email', 'firstSuccess', 'success'] as const
-type State = (typeof states)[number]
-
-const headings: { [key in State]: string } = {
+const headings: { [key in ModalAccountState]: string } = {
   firstUpdate: 'Account Details',
   summary: 'Account Details',
   name: 'Name',
@@ -41,19 +35,18 @@ type Props = {
 const ModalAccount = (props: Props) => {
   const { user, open, setOpen } = props
 
-  // First account configuration requires all flags to be sent
   const firstUpdate = !user.first_name || !user.last_name
-  const [state, setState] = useState<State>(firstUpdate ? 'firstUpdate' : 'summary')
-
-  // don't want to slide in when we open the modal
+  const [state, setState] = useState<ModalAccountState>(firstUpdate ? 'firstUpdate' : 'summary')
   const [disableSlideIn, setDisableSlideIn] = useState(true)
+
+  const showBackButton = !['firstUpdate', 'firstSuccess', 'summary'].includes(state)
 
   const handleClose = () => {
     setOpen(false)
     setDisableSlideIn(true)
   }
 
-  const handleChangePage = (state: State) => {
+  const handleChangePage = (state: ModalAccountState) => {
     return () => {
       setState(state)
       if (['firstSuccess', 'name', 'email'].includes(state)) setDisableSlideIn(false)
@@ -61,7 +54,6 @@ const ModalAccount = (props: Props) => {
   }
 
   useEffect(() => {
-    // flickers before closing if we change on close
     if (open) setState(firstUpdate ? 'firstUpdate' : 'summary')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open])
@@ -78,25 +70,22 @@ const ModalAccount = (props: Props) => {
       maxWidth="sm"
       disableRestoreFocus
     >
-      {!['firstUpdate', 'firstSuccess', 'summary'].includes(state) && (
-        <Button
-          size="small"
+      {showBackButton && (
+        <IconButton
           onClick={handleChangePage('summary')}
-          disabled={false}
-          startIcon={<NavigateBeforeIcon />}
           sx={{
             position: 'absolute',
             left: 8,
-            top: 8,
+            top: 12,
             color: 'text.secondary',
-            padding: '0.75rem',
-            borderRadius: '16px',
           }}
         >
-          Back
-        </Button>
+          <ArrowBackIcon />
+        </IconButton>
       )}
-      <DialogTitle sx={{ m: 0, p: 2, textAlign: 'center' }}>{headings[state]}</DialogTitle>
+      <DialogTitle sx={{ m: 0, p: 2, textAlign: showBackButton ? 'center' : 'start' }}>
+        {headings[state]}
+      </DialogTitle>
       <IconButton
         onClick={handleClose}
         sx={{
@@ -108,109 +97,59 @@ const ModalAccount = (props: Props) => {
       >
         <CloseIcon />
       </IconButton>
-
-      <DialogContent>
-        <ModalPage
-          page="firstUpdate"
-          nextPage={['firstSuccess']}
-          currentState={state}
-          disableSlideIn={disableSlideIn}
-        >
-          <FirstUserUpdate user={user} onSuccess={handleChangePage('firstSuccess')} />
-        </ModalPage>
-
-        <ModalPage
-          page="summary"
-          nextPage={['name', 'email']}
-          currentState={state}
-          disableSlideIn={disableSlideIn}
-        >
-          <AccountSummary
-            user={user}
-            onClickName={handleChangePage('name')}
-            onClickEmail={handleChangePage('email')}
-          />
-        </ModalPage>
-
-        <ModalPage page="name" previousPage={['summary']} currentState={state}>
-          <NameUpdate show={state === 'name'} user={user} onSuccess={handleChangePage('summary')} />
-        </ModalPage>
-
-        <ModalPage
-          page="email"
-          previousPage={['summary']}
-          nextPage={['success']}
-          currentState={state}
-        >
-          <EmailUpdate
-            show={state === 'email'}
-            user={user}
-            onSuccess={handleChangePage('success')}
-          />
-        </ModalPage>
-
-        <ModalPage page="firstSuccess" previousPage={['firstUpdate']} currentState={state}>
+      <ModalPage
+        page="firstUpdate"
+        nextPage={['firstSuccess']}
+        currentState={state}
+        disableSlideIn={disableSlideIn}
+      >
+        <AccountCreate user={user} onSuccess={handleChangePage('firstSuccess')} />
+      </ModalPage>
+      <ModalPage
+        page="summary"
+        nextPage={['name', 'email']}
+        currentState={state}
+        disableSlideIn={disableSlideIn}
+      >
+        <AccountSummary
+          user={user}
+          onClickName={handleChangePage('name')}
+          onClickEmail={handleChangePage('email')}
+        />
+      </ModalPage>
+      <ModalPage page="name" previousPage={['summary']} currentState={state}>
+        <NameUpdate show={state === 'name'} user={user} onSuccess={handleChangePage('summary')} />
+      </ModalPage>
+      <ModalPage
+        page="email"
+        previousPage={['summary']}
+        nextPage={['success']}
+        currentState={state}
+      >
+        <EmailUpdate show={state === 'email'} user={user} onSuccess={handleChangePage('success')} />
+      </ModalPage>
+      <ModalPage page="firstSuccess" previousPage={['firstUpdate']} currentState={state}>
+        <DialogContent sx={{ pb: '2rem' }}>
           <SuccessPage show={state === 'firstSuccess'} heading={'Account Updated Successfully'}>
-            <Typography>
-              A confirmation email will be sent to {user.email}. Please follow the link in the email
-              to update your status to <code>registering</code>.
+            <Typography gutterBottom>
+              A confirmation email was sent to {user.email}. Please follow the link in the email to
+              update your status to <code>registering</code>.
             </Typography>
           </SuccessPage>
-        </ModalPage>
-
-        <ModalPage page="success" previousPage={['email']} currentState={state}>
+        </DialogContent>
+      </ModalPage>
+      <ModalPage page="success" previousPage={['email']} currentState={state}>
+        <DialogContent sx={{ pb: '2rem' }}>
           <SuccessPage show={state === 'success'} heading={'Email Updated Successfully'}>
-            <Typography>
-              A confirmation email was sent to {user.email}. Your status has been reverted to{' '}
-              <code>pending</code>. Please follow the link in the email to change your status back
-              to <code>registering</code>.
+            <Typography gutterBottom>
+              A confirmation email was sent to {user.email}. Please follow the link in the email to
+              update your status to <code>registering</code>.
             </Typography>
           </SuccessPage>
-        </ModalPage>
-      </DialogContent>
+        </DialogContent>
+      </ModalPage>
     </Dialog>
   )
 }
 
 export default ModalAccount
-
-type PageProps = {
-  page: State
-  previousPage?: State[]
-  nextPage?: State[]
-  currentState: State
-  disableSlideIn?: boolean
-  children: ReactNode
-}
-
-const ModalPage = (props: PageProps) => {
-  const { page, previousPage, nextPage, currentState, disableSlideIn, children } = props
-
-  const [direction, setDirection] = useState<'left' | 'right'>('right')
-
-  useEffect(() => {
-    if (previousPage?.includes(currentState)) {
-      setDirection('left')
-    }
-    if (nextPage?.includes(currentState)) {
-      setDirection('right')
-    }
-  }, [currentState, nextPage, previousPage])
-
-  if (disableSlideIn && currentState === page) {
-    return children
-  }
-
-  return (
-    <Grid overflow="hidden" {...(currentState !== page && { height: 0 })}>
-      <Slide
-        direction={direction}
-        in={currentState === page}
-        appear={false}
-        easing={{ enter: 'cubic-bezier(0, 1.1, .8, 1)', exit: 'cubic-bezier(0, 1.1, .8, 1)' }}
-      >
-        <div>{children}</div>
-      </Slide>
-    </Grid>
-  )
-}

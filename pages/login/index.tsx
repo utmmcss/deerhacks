@@ -21,24 +21,24 @@ type AlertDetails = {
   message: ReactNode
 }
 
-const getAlertDetails = (context: string | null): AlertDetails => {
+const getAlertDetails = (context: string): AlertDetails => {
   switch (context) {
     case 'auth':
-      return { severity: 'info', message: 'Session expired, please login.' }
+      return { severity: 'info', message: 'No session found, please login.' }
     case 'unverified':
       return {
-        severity: 'error',
+        severity: 'warning',
         message: (
           <>
-            Your Discord account is unverified,{' '}
+            Your Discord account is unverified, verify your account{' '}
             <Link
               rel="noopener"
               target="_blank"
               underline="always"
               href="https://support.discord.com/hc/en-us/articles/6181726888215-Verification-Required-FAQ"
-              sx={{ color: 'error.main', opacity: 1 }}
+              sx={{ color: 'warning.light', opacity: 0.9 }}
             >
-              verify your account on Discord
+              on Discord
             </Link>{' '}
             to continue.
           </>
@@ -53,7 +53,7 @@ const Login = () => {
   const { toggles } = useFeatureToggle()
   const searchParams = useSearchParams()
   const showAlert = searchParams.has('context')
-  const context = searchParams.get('context')
+  const context = searchParams.get('context') ?? ''
 
   const alert = showAlert ? getAlertDetails(context) : null
 

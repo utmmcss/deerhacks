@@ -28,7 +28,7 @@ const Callback = () => {
       <Head>
         <title>Redirecting | DeerHacks</title>
       </Head>
-      {toggles.dashboard && token ? <FullPageSpinner /> : <Error404Page />}
+      {toggles.dashboard && token ? <FullPageSpinner /> : <Error404Page noTitle />}
     </>
   )
 }

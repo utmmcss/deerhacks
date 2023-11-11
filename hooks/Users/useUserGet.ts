@@ -10,9 +10,11 @@ type Props = {
 export const useUserGet = (props?: Props) => {
   return useAPI().useQuery(['userGet', null], {
     enabled: props?.enabled,
+    refetchOnWindowFocus: false,
     onSuccess: (data) => {
       data.user.avatar = getAvatar(data.user)
       data.user.qr_code = getQRCode(data.user.qr_code)
+      data.user.verified = true
       props?.onSuccess?.()
     },
     onError: props?.onError,

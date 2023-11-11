@@ -1,10 +1,10 @@
 import { createContext, ReactNode, useContext } from 'react'
 
-type Props = {
-  type: ToastType
-}
+import { AlertColor } from '@mui/material/Alert'
 
-export type ToastType = 'success' | 'info' | 'warning' | 'error'
+type Props = {
+  type: AlertColor
+}
 
 const ToastContext = createContext<Props | undefined>(undefined)
 

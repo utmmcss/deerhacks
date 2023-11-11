@@ -351,12 +351,7 @@ const theme = createTheme(base, {
     },
     MuiTextField: {
       defaultProps: {
-        id: 'outlined-size-normal',
-      },
-      styleOverrides: {
-        root: {
-          flexGrow: 1,
-        },
+        fullWidth: true,
       },
     },
     MuiInputBase: {
@@ -365,6 +360,20 @@ const theme = createTheme(base, {
           '& .capitalize': {
             textTransform: 'capitalize',
           },
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          padding: '1rem',
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          padding: '1rem',
         },
       },
     },
