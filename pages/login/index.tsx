@@ -2,8 +2,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 import NextLink from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
+import { ReactNode, useEffect, useRef } from 'react'
 
-import Alert from '@mui/material/Alert'
+import Alert, { AlertColor } from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Collapse from '@mui/material/Collapse'
@@ -15,11 +17,65 @@ import SignUpButton from '@/components/HomePage/SignUpButton'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import Error404Page from '@/pages/404'
 
+type AlertDetails = {
+  severity: AlertColor
+  message: ReactNode
+}
+
+const getAlertDetails = (context: string): AlertDetails => {
+  switch (context) {
+    case 'auth':
+      return { severity: 'info', message: 'No session found, please login.' }
+    case 'unverified':
+      return {
+        severity: 'warning',
+        message: (
+          <>
+            Your Discord account is unverified, verify your account{' '}
+            <Link
+              rel="noopener"
+              target="_blank"
+              underline="always"
+              href="https://support.discord.com/hc/en-us/articles/6181726888215-Verification-Required-FAQ"
+              sx={{ color: 'warning.light', opacity: 0.9 }}
+            >
+              on Discord
+            </Link>{' '}
+            to continue.
+          </>
+        ),
+      }
+    default:
+      return { severity: 'error', message: 'Something went wrong, try again.' }
+  }
+}
+
 const Login = () => {
   const { toggles } = useFeatureToggle()
   const searchParams = useSearchParams()
   const showAlert = searchParams.has('context')
-  const context = searchParams.get('context')
+  const context = searchParams.get('context') ?? ''
+  const alert = showAlert ? getAlertDetails(context) : null
+  const initialized = useRef(false)
+
+  const router = useRouter()
+
+  const path = process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL ?? ''
+
+  const handleStorage = (e: any) => {
+    initialized.current = true
+    const { key } = e
+    if (key === 'deerhacks-last-login') {
+      window.removeEventListener('storage', handleStorage)
+      router.push('/dashboard')
+    }
+  }
+
+  useEffect(() => {
+    if (initialized.current) return
+    window.addEventListener('storage', handleStorage)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (!toggles.dashboard) return <Error404Page />
 
@@ -65,13 +121,16 @@ const Login = () => {
               Login to access registration, hacker perks and more on the DeerHacks Dashboard!
             </Typography>
             <Collapse in={showAlert} sx={{ width: '100%' }}>
-              <Alert severity={context === 'auth' ? 'info' : 'error'} sx={{ width: '100%' }}>
-                {context === 'auth'
-                  ? 'Session expired, please login.'
-                  : 'Something went wrong, try again.'}
+              <Alert severity={alert?.severity} sx={{ width: '100%' }}>
+                {alert?.message}
               </Alert>
             </Collapse>
-            <SignUpButton text="Continue" color fullWidth />
+            <SignUpButton
+              text="Continue"
+              color
+              fullWidth
+              onClick={() => window.open(path, '_blank', 'width=500,height=750')}
+            />
             <Typography fontSize="0.75rem">
               By clicking “Continue with Discord” above, you acknowledge that you have read and
               understood, and agree to DeerHacks'{' '}

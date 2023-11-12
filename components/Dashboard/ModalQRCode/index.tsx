@@ -4,6 +4,7 @@ import { useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
+import CircularProgress from '@mui/material/CircularProgress'
 import Collapse from '@mui/material/Collapse'
 import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
@@ -50,27 +51,36 @@ const ModalQRCode = (props: Props) => {
       >
         <CloseIcon />
       </IconButton>
-      <DialogContent sx={{ p: '0 1rem 1rem' }}>
+      <DialogContent sx={{ pt: 0 }}>
         <Box component="div" display="flex" flexDirection="column" gap="1rem">
           <Collapse in={show}>
             <Alert severity="info">Turn up your brightness & show your code for sign ins.</Alert>
           </Collapse>
-          <Image
-            src={qrCode}
-            alt="User QR Code"
-            width={0}
-            height={0}
-            sizes="100vw"
-            style={{
-              width: '100%',
-              height: 'auto',
-              aspectRatio: '1 / 1',
-              background: 'white',
-              borderRadius: '0.75rem',
-            }}
-            draggable={false}
-            onLoad={() => setShow(true)}
-          />
+          <Box
+            component="div"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            position="relative"
+          >
+            <Image
+              src={qrCode}
+              alt="User QR Code"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{
+                width: '100%',
+                height: 'auto',
+                aspectRatio: '1 / 1',
+                background: 'white',
+                borderRadius: '0.75rem',
+              }}
+              draggable={false}
+              onLoad={() => setShow(true)}
+            />
+            {!show && <CircularProgress sx={{ position: 'absolute' }} />}
+          </Box>
         </Box>
       </DialogContent>
     </Dialog>

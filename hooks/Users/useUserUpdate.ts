@@ -6,7 +6,7 @@ export const useUserUpdate = () => {
     onSuccess: () => {},
     onError: () => {},
     onSettled: () => {
-      api.queryClient.invalidateQueries({ queryKey: ['userGet', null] })
+      api.queryClient.invalidateQueries({ queryKey: ['userGet'] })
     },
   })
 }

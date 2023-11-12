@@ -349,6 +349,37 @@ const theme = createTheme(base, {
         },
       },
     },
+    MuiTextField: {
+      defaultProps: {
+        fullWidth: true,
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          '& .capitalize': {
+            textTransform: 'capitalize',
+          },
+          '& .lowercase': {
+            textTransform: 'lowercase',
+          },
+        },
+      },
+    },
+    MuiDialogContent: {
+      styleOverrides: {
+        root: {
+          padding: '1rem',
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: {
+          padding: '1rem',
+        },
+      },
+    },
   },
 })
 

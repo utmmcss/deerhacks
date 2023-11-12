@@ -13,6 +13,7 @@ import Paper from '@mui/material/Paper'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
+import ModalAccount from '@/components/Dashboard/ModalAccount'
 import ModalQRCode from '@/components/Dashboard/ModalQRCode'
 import { User, UserStatusDescription } from '@/types/User'
 
@@ -23,7 +24,9 @@ type Props = {
 const TileUser = (props: Props) => {
   const { user } = props
 
-  const [open, setOpen] = useState(false)
+  const [openAccountDetails, setOpenAccountDetails] = useState(!user.first_name || !user.last_name)
+
+  const [openQRCode, setOpenQRCode] = useState(false)
   const qrCodeEnabled = ['admin', 'moderator', 'volunteer', 'accepted', 'attended'].includes(
     user.status
   )
@@ -60,7 +63,7 @@ const TileUser = (props: Props) => {
               <Tooltip title={qrCodeEnabled ? 'Open QR Code' : ''}>
                 <IconButton
                   disabled={!qrCodeEnabled}
-                  onClick={() => setOpen(true)}
+                  onClick={() => setOpenQRCode(true)}
                   sx={{ p: '1rem', position: 'relative' }}
                 >
                   <Image
@@ -97,21 +100,26 @@ const TileUser = (props: Props) => {
             justifyContent="start"
             flexDirection="column"
           >
-            <Box component="div">
+            <Box component="div" maxWidth="100%">
               <Typography
                 variant="h1"
                 textAlign={{ xs: 'center', md: 'left' }}
+                lineHeight="1.25"
                 mb="0.5rem !important"
                 maxWidth="100%"
                 noWrap
                 sx={{ whiteSpace: 'normal' }}
               >
-                {user.firstName && user.lastName
-                  ? `${user.firstName} ${user.lastName}`
+                {user.first_name && user.last_name
+                  ? `${user.first_name} ${user.last_name}`
                   : 'Welcome to DH III'}
               </Typography>
-              <Typography textAlign={{ xs: 'center', md: 'left' }}>{user.email}</Typography>
+              <Typography noWrap textAlign={{ xs: 'center', md: 'left' }}>
+                {user.email}
+              </Typography>
               <Typography
+                noWrap
+                maxWidth="100%"
                 display="flex"
                 alignItems="center"
                 justifyContent={{ xs: 'center', md: 'start' }}
@@ -140,11 +148,13 @@ const TileUser = (props: Props) => {
               {(user.status === 'pending' || user.status === 'registering') && (
                 <Chip
                   variant="filled"
-                  {...(user.status === 'pending' && { color: 'error' })}
+                  {...(user.status === 'pending' && {
+                    color: !user.first_name || !user.last_name ? 'error' : 'warning',
+                  })}
                   icon={<SettingsIcon />}
-                  label={`Account ${user.status === 'pending' ? '*' : ''}`}
+                  label={`Account ${!user.first_name || !user.last_name ? '*' : ''}`}
                   clickable
-                  onClick={() => null}
+                  onClick={() => setOpenAccountDetails(true)}
                 />
               )}
             </Box>
@@ -152,7 +162,10 @@ const TileUser = (props: Props) => {
         </Grid>
       </Paper>
       <Suspense>
-        <ModalQRCode qrCode={user.qrCode} open={open} setOpen={setOpen} />
+        <ModalQRCode qrCode={user.qr_code} open={openQRCode} setOpen={setOpenQRCode} />
+      </Suspense>
+      <Suspense>
+        <ModalAccount user={user} open={openAccountDetails} setOpen={setOpenAccountDetails} />
       </Suspense>
     </>
   )

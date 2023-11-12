@@ -32,6 +32,8 @@ const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statu
   }
 
   const req = {
+    credentials: 'include' as RequestCredentials,
+    mode: 'cors' as RequestMode,
     method,
     ...(method !== 'GET' && { body: isForm ? body : JSON.stringify({ ...body, ts: Date.now() }) }),
     headers: {
@@ -50,9 +52,10 @@ const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statu
     statusCode: resp.status,
   }
 
-  if (resp.status !== 200) {
+  if (resp.status >= 400) {
     const error = await resp.json()
     response.error.data = error
+    throw { status: resp.status, err: response.error.data }
   } else {
     const data = await resp.json()
     response.data = data

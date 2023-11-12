@@ -1,0 +1,17 @@
+svg .successCircle {
+  fill: transparent;
+  transition: fill 0.25s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.15s;
+}
+
+svg.active .successCircle {
+  fill: #66bb6a;
+}
+
+svg .successCheckmark {
+  fill: transparent;
+  transition: fill 0.25s cubic-bezier(0.55, 0.085, 0.68, 0.53) 0.3s;
+}
+
+svg.active .successCheckmark {
+  fill: #66bb6a;
+}

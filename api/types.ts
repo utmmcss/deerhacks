@@ -57,3 +57,10 @@ export type InferHandlerInput<TProcedure extends APITemplate[string]> = TProcedu
       : TInput | null | undefined // -> there is optional input
     : TInput // -> input is required
   : undefined | null // -> there is no input
+
+export type APIError = {
+  apiError: {
+    err: any
+    status: number
+  }
+}

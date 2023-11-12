@@ -25,7 +25,7 @@ const Sponsors = () => {
         DeerHacks is made possible by our sponsors and partners. Interested in making DeerHacks a
         reality?
       </Typography>
-      <Button variant="outlined" href="mailto:mcss@utmsu.ca">
+      <Button variant="outlined" href="mailto:sponsorship@deerhacks.ca">
         Become a Sponsor
       </Button>
       {/* Gold and Silver Sponsors Here */}

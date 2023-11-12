@@ -1,4 +1,5 @@
-import { ToastType } from '@/contexts/Toast'
+import { AlertColor } from '@mui/material/Alert'
+
 import { QRCheckInContext } from '@/types/QRCode'
 
 export type UserGetResp = {
@@ -9,7 +10,7 @@ export type UserLoginReq = {
   token: string // Discord OAuth2 token
 }
 
-export type UserUpdateReq = Partial<Pick<User, 'firstName' | 'lastName' | 'email'>>
+export type UserUpdateReq = Partial<Pick<User, 'first_name' | 'last_name' | 'email'>>
 
 export type AdminUserUpdateReq = {
   users: {
@@ -20,15 +21,15 @@ export type AdminUserUpdateReq = {
 }
 
 export type User = {
-  id: string
-  firstName: string
-  lastName: string
+  discord_id: string
+  first_name: string
+  last_name: string
   username: string
   email: string
   status: UserStatus
   avatar: string
-  qrCode: string
-  verified: boolean
+  qr_code: string
+  verified: true // In case we want to work with this logic
 
   // Admin only fields
   internalStatus?: UserStatus
@@ -53,7 +54,7 @@ const enum UserStatusEnum {
   unverified, // Not sent by BE, used when verified is false
 }
 
-type UserStatusInfo = [ToastType, string]
+type UserStatusInfo = [AlertColor, string]
 export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
   admin: ['info', 'DeerHacks Administrator'],
   moderator: ['info', 'DeerHacks Organizers'],
