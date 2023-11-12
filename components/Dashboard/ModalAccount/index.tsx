@@ -140,7 +140,7 @@ const ModalAccount = (props: Props) => {
       </ModalPage>
       <ModalPage page="success" previousPage={['email']} currentState={state}>
         <DialogContent sx={{ pb: '2rem' }}>
-          <SuccessPage show={state === 'success'} heading={'Email Updated Successfully'}>
+          <SuccessPage show={state === 'success'} heading={'Confirmation Email Sent'}>
             <Typography gutterBottom>
               A confirmation email was sent to {user.email}. Please follow the link in the email to
               update your status to <code>registering</code>.

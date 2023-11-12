@@ -12,16 +12,19 @@ const Callback = () => {
 
   const searchParams = useSearchParams()
   const token = searchParams.get('code')
+  const error = searchParams.has('error')
   const initialized = useRef(false)
 
   const { mutate: userLogin } = useUserLogin()
 
   useEffect(() => {
     // Workaround since React StrictMode runs twice in development
-    if (initialized.current || !token || !toggles.dashboard) return
+    if (initialized.current || !toggles.dashboard) return
+    if (error) window.close()
+    if (!token) return
     userLogin({ token })
     initialized.current = true
-  }, [userLogin, token, toggles.dashboard])
+  }, [userLogin, token, error, toggles.dashboard])
 
   return (
     <>

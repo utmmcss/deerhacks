@@ -8,7 +8,8 @@ export const useUserLogin = () => {
   const router = useRouter()
   return api.useMutation('userLogin', {
     onSuccess: () => {
-      router.replace('/dashboard')
+      localStorage.setItem('deerhacks-last-login', Date.now().toString())
+      window.close()
     },
     onError: (err) => {
       if ((err as APIError).apiError.status == 403) {

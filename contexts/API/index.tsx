@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 
 import { API } from '@/api/client'
 import { config } from '@/api/schema'
@@ -19,7 +19,7 @@ export const useAPI = () => {
 }
 
 export const APIProvider = (props: { children: ReactNode }) => {
-  const client = new API(config(useFetch()))
+  const [client] = useState(new API(config(useFetch())))
 
   return (
     <QueryClientProvider client={client.queryClient}>

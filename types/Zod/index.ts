@@ -4,13 +4,13 @@ export const textField = string()
   .trim()
   .min(1, 'Required')
   .transform((val) => {
-    return val.title()
+    return val.capitalize()
   })
 
 export const textFieldOptional = string()
   .trim()
   .transform((val) => {
-    return val.title()
+    return val.capitalize()
   })
   .optional()
 

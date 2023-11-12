@@ -85,7 +85,11 @@ const EmailUpdate = (props: Props) => {
                     error={Boolean(errors.email)}
                     placeholder={user.email}
                     helperText={errors.email?.message}
-                    autoFocus
+                    InputProps={{
+                      classes: {
+                        input: 'lowercase',
+                      },
+                    }}
                     inputRef={ref}
                     {...field}
                   />

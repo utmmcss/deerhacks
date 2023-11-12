@@ -15,6 +15,7 @@ type Props = {
   fullWidth?: boolean
   color?: boolean
   glow?: boolean
+  onClick?: () => void
 }
 
 const SignUpButton = (props: Props) => {
@@ -26,15 +27,15 @@ const SignUpButton = (props: Props) => {
     fullWidth = false,
     color = false,
     glow = false,
+    onClick,
   } = props
-
-  const path = process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL ?? ''
 
   return (
     <Button
       variant="outlined"
-      href={href ?? path}
+      href={href ?? ''}
       fullWidth={fullWidth}
+      onClick={onClick}
       sx={{
         justifyContent: { xs: 'space-between', sm: 'auto' },
         ...(glow &&

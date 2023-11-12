@@ -2,7 +2,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 import NextLink from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { ReactNode } from 'react'
+import { useRouter } from 'next/router'
+import { ReactNode, useEffect, useRef } from 'react'
 
 import Alert, { AlertColor } from '@mui/material/Alert'
 import Box from '@mui/material/Box'
@@ -54,8 +55,27 @@ const Login = () => {
   const searchParams = useSearchParams()
   const showAlert = searchParams.has('context')
   const context = searchParams.get('context') ?? ''
-
   const alert = showAlert ? getAlertDetails(context) : null
+  const initialized = useRef(false)
+
+  const router = useRouter()
+
+  const path = process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL ?? ''
+
+  const handleStorage = (e: any) => {
+    initialized.current = true
+    const { key } = e
+    if (key === 'deerhacks-last-login') {
+      window.removeEventListener('storage', handleStorage)
+      router.push('/dashboard')
+    }
+  }
+
+  useEffect(() => {
+    if (initialized.current) return
+    window.addEventListener('storage', handleStorage)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   if (!toggles.dashboard) return <Error404Page />
 
@@ -105,7 +125,12 @@ const Login = () => {
                 {alert?.message}
               </Alert>
             </Collapse>
-            <SignUpButton text="Continue" color fullWidth />
+            <SignUpButton
+              text="Continue"
+              color
+              fullWidth
+              onClick={() => window.open(path, '_blank', 'width=500,height=750')}
+            />
             <Typography fontSize="0.75rem">
               By clicking “Continue with Discord” above, you acknowledge that you have read and
               understood, and agree to DeerHacks'{' '}

@@ -360,6 +360,9 @@ const theme = createTheme(base, {
           '& .capitalize': {
             textTransform: 'capitalize',
           },
+          '& .lowercase': {
+            textTransform: 'lowercase',
+          },
         },
       },
     },
