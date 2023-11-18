@@ -29,11 +29,7 @@ const events = (customFetch: CustomFetch) =>
 const photos = (customFetch: CustomFetch) =>
   ({
     photoList: async () => {
-      const res = await customFetch(
-        'GET',
-        'DH_CMS',
-        '/photos?populate[0]=Img&pagination[100]&sort[0]=publishedAt'
-      )
+      const res = await customFetch('GET', 'DH_CMS', '/photos?populate[0]=Img&sort[0]=publishedAt')
       return res.data as PhotoListResp
     },
   } as const)
