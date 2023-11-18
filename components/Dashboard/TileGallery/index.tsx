@@ -6,11 +6,18 @@ import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 
-const TileGallery = () => {
+type Props = {
+  resize?: boolean
+}
+
+const TileGallery = (props: Props) => {
+  const { resize = false } = props
+
   return (
     <Card
       elevation={0}
       sx={{
+        width: '100%',
         background:
           "linear-gradient( rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25) ), url('/photos/2023.webp')",
         backgroundSize: 'cover',
@@ -18,7 +25,13 @@ const TileGallery = () => {
       }}
     >
       <CardActionArea href="/gallery" LinkComponent={NextLink}>
-        <CardContent sx={{ justifyContent: 'center', alignItems: 'center', minHeight: '300px' }}>
+        <CardContent
+          sx={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: resize ? { xs: '300px', md: '400px', lg: '500px' } : '300px',
+          }}
+        >
           <Typography
             variant="h1"
             display="flex"

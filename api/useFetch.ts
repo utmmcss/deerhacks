@@ -25,7 +25,7 @@ const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statu
       case 'DH_BE':
         return `${DEERHACKS_BASE_URL}${url}`
       case 'DH_CMS':
-        return `${DEERHACKS_CMS_BASE_URL}${url}`
+        return `${DEERHACKS_CMS_BASE_URL}/api${url}`
       default:
         return url
     }

@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid'
 import Slide from '@mui/material/Slide'
 import Typography from '@mui/material/Typography'
 
+import TileGallery from '@/components/Dashboard/TileGallery'
 import About from '@/components/HomePage/About'
 import FAQ from '@/components/HomePage/FAQ'
 import MNModel from '@/components/HomePage/MNModel'
@@ -99,6 +100,9 @@ const HomePage = () => {
           </Container>
           <About />
           <Sponsors />
+          <Container>
+            <TileGallery resize />
+          </Container>
           <FAQ />
         </>
       )}

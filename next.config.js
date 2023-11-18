@@ -21,6 +21,11 @@ const nextConfig = {
         hostname: 'chart.googleapis.com',
         pathname: '/chart/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cms.deerhacks.ca',
+        pathname: '/uploads/**',
+      },
     ],
   },
 }

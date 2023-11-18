@@ -1,12 +1,14 @@
 import { APITemplate } from '@/api/types'
 import { CustomFetch } from '@/api/useFetch'
 import { EventListResp } from '@/types/Event'
+import { PhotoListResp } from '@/types/Photo'
 import { QRCheckInReq, QRCheckInResp } from '@/types/QRCode'
 import { UserGetResp, UserLoginReq, UserUpdateReq } from '@/types/User'
 
 export const config = (customFetch: CustomFetch) =>
   ({
     ...events(customFetch),
+    ...photos(customFetch),
     ...qrCodes(customFetch),
     ...users(customFetch),
     ..._(),
@@ -21,6 +23,18 @@ const events = (customFetch: CustomFetch) =>
         '/events?sort[0]=Important&sort[1]=StartTime&sort[2]=EndTime'
       )
       return res as EventListResp
+    },
+  } as const)
+
+const photos = (customFetch: CustomFetch) =>
+  ({
+    photoList: async () => {
+      const res = await customFetch(
+        'GET',
+        'DH_CMS',
+        '/photos?populate[0]=Img&pagination[100]&sort[0]=publishedAt'
+      )
+      return res.data as PhotoListResp
     },
   } as const)
 
