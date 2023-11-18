@@ -13,6 +13,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'cms.deerhacks.ca',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'cdn.discordapp.com',
         pathname: '/**',
       },

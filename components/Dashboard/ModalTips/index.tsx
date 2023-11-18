@@ -44,7 +44,7 @@ const ModalTips = (props: Props) => {
         sx: { m: '1rem', maxHeight: 'calc(100% - 2rem)', width: 'calc(100% - 2rem)' },
       }}
       fullWidth
-      maxWidth="lg"
+      maxWidth="md"
     >
       <DialogTitle sx={{ m: 0, p: 2 }}>Tips & Help</DialogTitle>
       <IconButton

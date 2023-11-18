@@ -380,6 +380,13 @@ const theme = createTheme(base, {
         },
       },
     },
+    MuiFormControlLabel: {
+      styleOverrides: {
+        root: {
+          userSelect: 'none',
+        },
+      },
+    },
   },
 })
 

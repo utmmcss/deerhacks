@@ -54,7 +54,7 @@ const ModalQRCode = (props: Props) => {
       <DialogContent sx={{ pt: 0 }}>
         <Box component="div" display="flex" flexDirection="column" gap="1rem">
           <Collapse in={show}>
-            <Alert severity="info">Turn up your brightness & show your code for sign ins.</Alert>
+            <Alert severity="info">Turn up your brightness for sign ins.</Alert>
           </Collapse>
           <Box
             component="div"
