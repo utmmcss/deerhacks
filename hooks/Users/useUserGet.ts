@@ -7,9 +7,12 @@ type Props = {
   onError?: () => void
 }
 
+/** IMPORTANT: Do not use this directly, use useAuth */
 export const useUserGet = (props?: Props) => {
   return useAPI().useQuery(['userGet', null], {
     enabled: props?.enabled,
+    staleTime: Infinity,
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
     onSuccess: (data) => {
       data.user.avatar = getAvatar(data.user)

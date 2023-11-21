@@ -1,5 +1,13 @@
 export type PhotoListResp = {
   data: Photo[]
+  meta: {
+    pagination: {
+      page: number
+      pageSize: number
+      pageCount: number
+      total: number
+    }
+  }
 }
 
 export type Photo = {

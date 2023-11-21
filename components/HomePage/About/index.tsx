@@ -19,9 +19,17 @@ const About = () => {
         textAlign: 'center',
       }}
     >
-      <Typography variant="h1">Light Up Your Adventure</Typography>
       <Grid container spacing={2} justifyContent="center">
-        <Grid container item xs={12} md={5} justifyContent="center">
+        <Grid
+          container
+          item
+          xs={12}
+          md={5}
+          justifyContent="center"
+          data-aos="fade"
+          data-aos-offset="100"
+          data-aos-once="false"
+        >
           <Image
             src="/icons/neon.png"
             alt="DeerHacks Glow"
@@ -58,7 +66,17 @@ const About = () => {
           </Box>
         </Grid>
       </Grid>
-      {toggles.dashboard && <SignUpButton text="Get Started Now" href="/login" color glow />}
+      {toggles.dashboard && (
+        <Box
+          component="div"
+          display="inline-flex"
+          data-aos="zoom-out"
+          data-aos-offset="100"
+          data-aos-once="false"
+        >
+          <SignUpButton text="Get Started Now" href="/login" color glow />
+        </Box>
+      )}
     </Container>
   )
 }

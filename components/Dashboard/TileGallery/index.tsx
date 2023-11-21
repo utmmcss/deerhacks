@@ -16,6 +16,11 @@ const TileGallery = (props: Props) => {
   return (
     <Card
       elevation={0}
+      {...(resize && {
+        'data-aos': 'zoom-out',
+        'data-aos-offset': '25',
+        'data-aos-once': 'false',
+      })}
       sx={{
         width: '100%',
         background:
@@ -39,11 +44,25 @@ const TileGallery = (props: Props) => {
             textAlign="left"
             gap="0.5rem"
             mb="0 !important"
+            {...(resize && {
+              'data-aos': 'fade',
+              'data-aos-offset': '25',
+              'data-aos-once': 'false',
+            })}
           >
             <CameraEnhanceIcon fontSize="inherit" />
             Gallery
           </Typography>
-          <Typography color="text.primary" variant="body2" textAlign="center">
+          <Typography
+            color="text.primary"
+            variant="body2"
+            textAlign="center"
+            {...(resize && {
+              'data-aos': 'fade',
+              'data-aos-offset': '25',
+              'data-aos-once': 'false',
+            })}
+          >
             DeerHacks in photos, contributed by you!
           </Typography>
         </CardContent>

@@ -25,6 +25,7 @@ type Props = {
 }
 
 const environment = import('@pmndrs/assets/hdri/city.exr').then((module) => module.default)
+useGLTF.preload('./mn.glb')
 
 const Model = (props: Props) => {
   const { onAfterRender } = props

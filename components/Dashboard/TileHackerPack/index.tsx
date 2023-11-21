@@ -39,9 +39,7 @@ const TileHackerPack = (props: Props) => {
               Hacker Pack
             </Typography>
             <Typography variant="body2">
-              {disabled
-                ? 'Coming Soon'
-                : 'Your resource center for all things DeerHacks! Please review it before attending for the best experience'}
+              {disabled ? 'Coming Soon' : 'Your resource center for all things DeerHacks!'}
             </Typography>
           </CardContent>
         </CardActionArea>

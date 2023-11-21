@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
@@ -9,7 +11,7 @@ type Tier = 'gold' | 'silver' | 'bronze'
 
 type Props = {
   name: string
-  logo: React.ReactNode
+  logo: ReactNode
   link: string
   tier: Tier
 }
@@ -40,7 +42,14 @@ const Sponsor = (props: Props) => {
   const { name, logo, link, tier } = props
 
   return (
-    <Grid container item xs={tierToSize(tier)}>
+    <Grid
+      container
+      item
+      xs={tierToSize(tier)}
+      data-aos="fade"
+      data-aos-offset="100"
+      data-aos-once="false"
+    >
       <Tooltip title={name}>
         <Button
           variant="contained"

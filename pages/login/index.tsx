@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography'
 import SignUpButton from '@/components/HomePage/SignUpButton'
 import Navbar from '@/components/Shared/Navbar'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
-import Error404Page from '@/pages/404'
+import Error418Page from '@/pages/418'
 
 type AlertDetails = {
   severity: AlertColor
@@ -76,7 +76,7 @@ const Login = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!toggles.dashboard) return <Error404Page />
+  if (!toggles.dashboard) return <Error418Page />
 
   return (
     <>

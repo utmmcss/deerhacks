@@ -34,8 +34,13 @@ const ModalQRCode = (props: Props) => {
       onClose={handleClose}
       TransitionComponent={Grow}
       PaperProps={{
-        elevation: 2,
-        sx: { m: '1rem', maxHeight: 'calc(100% - 2rem)', width: 'calc(100% - 2rem)' },
+        sx: {
+          m: '1rem',
+          maxHeight: 'calc(100% - 2rem)',
+          width: 'calc(100% - 2rem)',
+          backgroundImage:
+            'radial-gradient(circle closest-corner at 25% 60%, rgb(238 39 39 / 44%), rgba(255, 255, 255, 0)),radial-gradient(circle farthest-side at 71% 16%, rgba(154, 39, 238, 0.15), rgba(255, 255, 255, 0) 35%),radial-gradient(circle closest-corner at 32% 38%, rgb(39 238 188 / 36%), rgba(255, 255, 255, 0) 76%),radial-gradient(circle farthest-side at 69% 81%, rgb(255 0 48 / 16%), rgba(255, 255, 255, 0) 76%),linear-gradient(#202124, #202124)',
+        },
       }}
       maxWidth="xs"
     >
@@ -54,7 +59,7 @@ const ModalQRCode = (props: Props) => {
       <DialogContent sx={{ pt: 0 }}>
         <Box component="div" display="flex" flexDirection="column" gap="1rem">
           <Collapse in={show}>
-            <Alert severity="info">Turn up your brightness for sign ins.</Alert>
+            <Alert severity="info">Turn up your brightness for sign-ins.</Alert>
           </Collapse>
           <Box
             component="div"

@@ -35,7 +35,6 @@ const Gallery = () => {
           <Container sx={{ flexDirection: 'column' }}>
             <Navbar />
             <Typography variant="h1">Photo Gallery</Typography>
-
             <ImageList
               variant="masonry"
               cols={desktop ? 3 : tablet ? 2 : 1}
@@ -49,7 +48,7 @@ const Gallery = () => {
                   '-webkit-gradient(linear, left 90%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))',
               }}
             >
-              {data?.data.map((item) => (
+              {data.data.map((item) => (
                 <ImageListItem key={item.id}>
                   <Image
                     src={`${process.env.NEXT_PUBLIC_DEERHACKS_CMS_BASE_URL}${
@@ -78,6 +77,7 @@ const Gallery = () => {
               target="_blank"
               rel="noopener"
               disabled
+              sx={{ mt: '-4rem' }}
             >
               Share your photos, coming soon!
             </Button>

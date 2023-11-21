@@ -22,13 +22,13 @@ import Navbar from '@/components/Shared/Navbar'
 import { useAuth } from '@/contexts/Auth'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import Error401Page from '@/pages/401'
-import Error404Page from '@/pages/404'
+import Error418Page from '@/pages/418'
 
 const Dashboard = () => {
   const { toggles } = useFeatureToggle()
   const { user, loading, authenticated } = useAuth()
 
-  if (!toggles.dashboard) return <Error404Page />
+  if (!toggles.dashboard) return <Error418Page />
   if (!loading && !authenticated) return <Error401Page />
 
   return (
