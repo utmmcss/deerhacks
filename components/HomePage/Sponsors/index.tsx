@@ -25,7 +25,13 @@ const Sponsors = () => {
         DeerHacks is made possible by our sponsors and partners. Interested in making DeerHacks a
         reality?
       </Typography>
-      <Button variant="outlined" href="mailto:sponsorship@deerhacks.ca">
+      <Button
+        variant="outlined"
+        href="mailto:sponsorship@deerhacks.ca"
+        data-aos="fade"
+        data-aos-offset="50"
+        data-aos-once="false"
+      >
         Become a Sponsor
       </Button>
       {/* Gold and Silver Sponsors Here */}
@@ -36,6 +42,9 @@ const Sponsors = () => {
               variant="contained"
               fullWidth
               href="https://mcss.club"
+              data-aos="fade"
+              data-aos-offset="100"
+              data-aos-once="false"
               sx={{
                 height: '12rem',
                 borderRadius: '1rem',

@@ -22,7 +22,7 @@ const TileScanner = () => {
             <QrCodeIcon fontSize="inherit" />
             Staff: QR Scanner
           </Typography>
-          <Typography variant="body2">QR scanner for sign ins</Typography>
+          <Typography variant="body2">QR scanner for sign-ins</Typography>
         </CardContent>
       </CardActionArea>
     </Card>

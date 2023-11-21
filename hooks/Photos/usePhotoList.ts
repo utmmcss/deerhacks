@@ -9,6 +9,9 @@ type Props = {
 export const usePhotoList = (props?: Props) => {
   return useAPI().useQuery(['photoList', null], {
     enabled: props?.enabled,
+    retry: false,
+    staleTime: Infinity,
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
     onSuccess: props?.onSuccess,
     onError: props?.onError,

@@ -40,8 +40,13 @@ const ModalTips = (props: Props) => {
       onClose={() => setOpen(false)}
       TransitionComponent={Grow}
       PaperProps={{
-        elevation: 2,
-        sx: { m: '1rem', maxHeight: 'calc(100% - 2rem)', width: 'calc(100% - 2rem)' },
+        sx: {
+          m: '1rem',
+          maxHeight: 'calc(100% - 2rem)',
+          width: 'calc(100% - 2rem)',
+          backgroundImage:
+            'radial-gradient(circle closest-corner at 25% 60%, rgba(238, 39, 39, 0.25), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 71% 16%, rgba(154, 39, 238, 0.15), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(238, 164, 39, 0.1), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%), linear-gradient(#202124, #202124)',
+        },
       }}
       fullWidth
       maxWidth="md"
@@ -68,11 +73,15 @@ const ModalTips = (props: Props) => {
               <Typography>DeerHacks Dashboard</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>
+              <Typography gutterBottom>
                 The DeerHacks Dashboard is a platform for hackers to register for DeerHacks, acquire
-                information about the event, and obtain resources for success! Organized by the
+                information about events, and obtain resources for success! Organized by the
                 Mathematical and Computational Sciences Society (MCSS), we welcome you to join us in
                 our third iteration of DeerHacks!
+              </Typography>
+              <Typography>
+                To get the most out of DeerHacks, we recommend you frequently check on the dashboard
+                and follow us @deerhacks for any updates or giveaways.
               </Typography>
             </AccordionDetails>
           </Accordion>

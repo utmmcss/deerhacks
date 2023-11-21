@@ -1,4 +1,26 @@
 {
+  // General Snippets
+  "Typescript Component (Snippets)": {
+    "isFileTemplate": true,
+    "scope": "typescript, typescriptreact",
+    "prefix": ["component", "index"],
+    "description": "Snippet for TSX boilerplate",
+    "body": [
+      "type Props = {",
+      "  $2",
+      "}",
+      "",
+      "const ${1:${TM_DIRECTORY/^.+[\\/\\\\]+(.*)$/$1/}} = (props: Props) => {",
+      "  const {} = props",
+      "  return (",
+      "    $0",
+      "  )",
+      "}",
+      "",
+      "export default ${1:${TM_DIRECTORY/^.+[\\/\\\\]+(.*)$/$1/}}",
+      ""
+    ]
+  },
   // SVG Snippets
   "SVG Component (Snippets)": {
     "isFileTemplate": true,

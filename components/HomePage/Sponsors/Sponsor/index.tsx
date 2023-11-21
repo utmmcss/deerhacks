@@ -1,3 +1,5 @@
+import { ReactNode } from 'react'
+
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
@@ -9,7 +11,7 @@ type Tier = 'gold' | 'silver' | 'bronze'
 
 type Props = {
   name: string
-  logo: React.ReactNode
+  logo: ReactNode
   link: string
   tier: Tier
 }
@@ -46,6 +48,9 @@ const Sponsor = (props: Props) => {
           variant="contained"
           fullWidth
           href={link}
+          data-aos="fade"
+          data-aos-offset="100"
+          data-aos-once="false"
           sx={{
             height: { xs: tierToHeight(tier), md: '10rem' },
             borderRadius: '1rem',

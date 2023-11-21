@@ -63,7 +63,7 @@ const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statu
   return response
 }
 
-/** DO NOT use this directly, use useAPI */
+/** IMPORTANT: Do not use this directly, use useAPI */
 const useFetch = () => {
   return useCallback(
     async (method: Method, base: BaseURL, url: string, body?: Object, isForm?: string) => {
