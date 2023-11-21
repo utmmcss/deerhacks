@@ -17,7 +17,7 @@ const FAQ = () => {
         gap={{ xs: '1rem', md: '4rem' }}
       >
         <Box component="div" display="flex" flexDirection="column" gap="1rem">
-          <Accordion defaultExpanded data-aos="fade" data-aos-offset="100" data-aos-once="false">
+          <Accordion defaultExpanded>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>What is DeerHacks?</Typography>
             </AccordionSummary>
@@ -31,7 +31,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion data-aos="fade" data-aos-offset="100" data-aos-once="false">
+          <Accordion>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>Dates to keep an eye on?</Typography>
             </AccordionSummary>
@@ -43,7 +43,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion data-aos="fade" data-aos-offset="100" data-aos-once="false">
+          <Accordion>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>What workshops and activities to expect?</Typography>
             </AccordionSummary>
@@ -58,7 +58,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion data-aos="fade" data-aos-offset="100" data-aos-once="false">
+          <Accordion>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>Is DeerHacks fully in person?</Typography>
             </AccordionSummary>
@@ -74,7 +74,7 @@ const FAQ = () => {
           </Accordion>
         </Box>
         <Box component="div" display="flex" flexDirection="column" gap="1rem">
-          <Accordion data-aos="fade" data-aos-offset="100" data-aos-once="false">
+          <Accordion>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>Who can participate?</Typography>
             </AccordionSummary>
@@ -87,7 +87,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion data-aos="fade" data-aos-offset="100" data-aos-once="false">
+          <Accordion>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>How many people can be on a team?</Typography>
             </AccordionSummary>
@@ -100,7 +100,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion data-aos="fade" data-aos-offset="100" data-aos-once="false">
+          <Accordion>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>Why do I need Discord to apply?</Typography>
             </AccordionSummary>
@@ -114,7 +114,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion data-aos="fade" data-aos-offset="100" data-aos-once="false">
+          <Accordion>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>What do I need for DeerHacks?</Typography>
             </AccordionSummary>

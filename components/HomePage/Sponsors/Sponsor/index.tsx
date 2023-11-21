@@ -42,15 +42,19 @@ const Sponsor = (props: Props) => {
   const { name, logo, link, tier } = props
 
   return (
-    <Grid container item xs={tierToSize(tier)}>
+    <Grid
+      container
+      item
+      xs={tierToSize(tier)}
+      data-aos="fade"
+      data-aos-offset="100"
+      data-aos-once="false"
+    >
       <Tooltip title={name}>
         <Button
           variant="contained"
           fullWidth
           href={link}
-          data-aos="fade"
-          data-aos-offset="100"
-          data-aos-once="false"
           sx={{
             height: { xs: tierToHeight(tier), md: '10rem' },
             borderRadius: '1rem',

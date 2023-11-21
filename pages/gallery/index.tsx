@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react'
 
 import CameraEnhanceIcon from '@mui/icons-material/CameraEnhance'
 import Button from '@mui/material/Button'
@@ -17,6 +18,8 @@ import Error500Page from '@/pages/500'
 import theme from '@/styles/theme'
 
 const Gallery = () => {
+  const [show, setShow] = useState(false)
+
   const { data, isLoading, isError } = usePhotoList()
   const desktop = useMediaQuery(theme.breakpoints.up('md'))
   const tablet = useMediaQuery(theme.breakpoints.up('sm'))
@@ -49,7 +52,7 @@ const Gallery = () => {
                   '-webkit-gradient(linear, left 90%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))',
               }}
             >
-              {data?.data.map((item) => (
+              {data.data.map((item, index) => (
                 <ImageListItem key={item.id}>
                   <Image
                     src={`${process.env.NEXT_PUBLIC_DEERHACKS_CMS_BASE_URL}${
@@ -67,20 +70,26 @@ const Gallery = () => {
                     }}
                     draggable={false}
                     loading="lazy"
+                    {...(index === data.meta.pagination.total - 1 && {
+                      onLoad: () => setShow(true),
+                    })}
                   />
                 </ImageListItem>
               ))}
             </ImageList>
-            <Button
-              variant="contained"
-              startIcon={<CameraEnhanceIcon />}
-              href="https://deerhacks.ca"
-              target="_blank"
-              rel="noopener"
-              disabled
-            >
-              Share your photos, coming soon!
-            </Button>
+            <Fade in={show}>
+              <Button
+                variant="contained"
+                startIcon={<CameraEnhanceIcon />}
+                href="https://deerhacks.ca"
+                target="_blank"
+                rel="noopener"
+                disabled
+                sx={{ mt: '-4rem' }}
+              >
+                Share your photos, coming soon!
+              </Button>
+            </Fade>
           </Container>
         </Fade>
       )}

@@ -13,6 +13,8 @@ import { ToastProvider } from '@/contexts/Toast'
 import theme from '@/styles/theme'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
+import '../styles/global.css'
+
 import '../types/extensions'
 
 /**

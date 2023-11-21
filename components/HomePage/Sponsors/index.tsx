@@ -25,26 +25,33 @@ const Sponsors = () => {
         DeerHacks is made possible by our sponsors and partners. Interested in making DeerHacks a
         reality?
       </Typography>
-      <Button
-        variant="outlined"
-        href="mailto:sponsorship@deerhacks.ca"
-        data-aos="fade"
+      <Box
+        component="div"
+        display="inline-flex"
+        data-aos="zoom-in"
         data-aos-offset="50"
         data-aos-once="false"
       >
-        Become a Sponsor
-      </Button>
+        <Button variant="outlined" href="mailto:sponsorship@deerhacks.ca">
+          Become a Sponsor
+        </Button>
+      </Box>
       {/* Gold and Silver Sponsors Here */}
       <Grid container spacing={{ xs: 2, md: 4 }} pt="2rem" justifyContent="center">
-        <Grid container item xs={12} md={6}>
+        <Grid
+          container
+          item
+          xs={12}
+          md={6}
+          data-aos="fade"
+          data-aos-offset="100"
+          data-aos-once="false"
+        >
           <Tooltip title="UTM MCSS">
             <Button
               variant="contained"
               fullWidth
               href="https://mcss.club"
-              data-aos="fade"
-              data-aos-offset="100"
-              data-aos-once="false"
               sx={{
                 height: '12rem',
                 borderRadius: '1rem',

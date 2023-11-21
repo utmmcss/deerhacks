@@ -66,7 +66,17 @@ const About = () => {
           </Box>
         </Grid>
       </Grid>
-      {toggles.dashboard && <SignUpButton text="Get Started Now" href="/login" color glow />}
+      {toggles.dashboard && (
+        <Box
+          component="div"
+          display="inline-flex"
+          data-aos="zoom-out"
+          data-aos-offset="100"
+          data-aos-once="false"
+        >
+          <SignUpButton text="Get Started Now" href="/login" color glow />
+        </Box>
+      )}
     </Container>
   )
 }

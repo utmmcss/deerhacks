@@ -17,7 +17,7 @@ const TileGallery = (props: Props) => {
     <Card
       elevation={0}
       {...(resize && {
-        'data-aos': 'fade',
+        'data-aos': 'zoom-out',
         'data-aos-offset': '25',
         'data-aos-once': 'false',
       })}

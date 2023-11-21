@@ -121,7 +121,7 @@ const HomePage = () => {
             </Grid>
           </Container>
           <Container
-            data-aos="fade-up"
+            data-aos="zoom-out"
             data-aos-offset="100"
             data-aos-once="false"
             sx={{ pt: '1rem', pb: { xs: '1rem', md: 0 } }}
