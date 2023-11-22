@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography'
 
 import BigDataAIHub from '@/components/HomePage/Sponsors/Assets/BigDataAIHub'
 import Echo3D from '@/components/HomePage/Sponsors/Assets/Echo3D'
+import FDM from '@/components/HomePage/Sponsors/Assets/FDM'
 import ICUBE from '@/components/HomePage/Sponsors/Assets/ICUBE'
 import MCSS from '@/components/HomePage/Sponsors/Assets/MCSS'
 import MLH from '@/components/HomePage/Sponsors/Assets/MLH'
@@ -52,6 +53,8 @@ const Sponsors = () => {
               variant="contained"
               fullWidth
               href="https://mcss.club"
+              target="_blank"
+              rel="noopener"
               sx={{
                 height: '12rem',
                 borderRadius: '1rem',
@@ -100,6 +103,7 @@ const Sponsors = () => {
           link="https://utoronto.ca"
           tier="bronze"
         />
+        <Sponsor name="FDM Group" logo={<FDM />} link="https://fdmgroup.com" tier="bronze" />
         <Sponsor name="Echo3D" logo={<Echo3D />} link="https://echo3d.com" tier="bronze" />
         <Sponsor
           name="Big Data AI Hub"

@@ -12,6 +12,7 @@ import FAQ from '@/components/HomePage/FAQ'
 import MNModel from '@/components/HomePage/MNModel'
 import Navbar from '@/components/HomePage/Navbar'
 import Sponsors from '@/components/HomePage/Sponsors'
+import DeerHacksCollage from '@/components/Shared/DeerHacksCollage'
 import DeerHacksTitle from '@/components/Shared/DeerHacksTitle'
 import FullPageLoader from '@/components/Shared/FullPageLoader'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
@@ -134,6 +135,15 @@ const HomePage = () => {
             <TileGallery resize />
           </Container>
           <FAQ />
+          <Container
+            data-aos="fade"
+            data-aos-offset="50"
+            data-aos-duration="1000"
+            data-aos-once="false"
+            sx={{ py: 0 }}
+          >
+            <DeerHacksCollage />
+          </Container>
         </>
       )}
     </>
