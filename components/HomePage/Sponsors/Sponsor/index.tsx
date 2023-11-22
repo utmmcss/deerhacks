@@ -55,6 +55,8 @@ const Sponsor = (props: Props) => {
           variant="contained"
           fullWidth
           href={link}
+          target="_blank"
+          rel="noopener"
           sx={{
             height: { xs: tierToHeight(tier), md: '10rem' },
             borderRadius: '1rem',
