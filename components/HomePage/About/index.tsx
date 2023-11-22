@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
 import SignUpButton from '@/components/HomePage/SignUpButton'
+import DeerHacksTitle from '@/components/Shared/DeerHacksTitle'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 
 const About = () => {
@@ -19,6 +20,16 @@ const About = () => {
         textAlign: 'center',
       }}
     >
+      <Box
+        component="div"
+        width="100%"
+        mb="1rem"
+        data-aos="zoom-out"
+        data-aos-offset="100"
+        data-aos-once="false"
+      >
+        <DeerHacksTitle />
+      </Box>
       <Grid container spacing={2} justifyContent="center">
         <Grid
           container
@@ -71,7 +82,7 @@ const About = () => {
           component="div"
           display="inline-flex"
           data-aos="zoom-out"
-          data-aos-offset="100"
+          data-aos-offset="50"
           data-aos-once="false"
         >
           <SignUpButton text="Get Started Now" href="/login" color glow />
