@@ -1,9 +1,20 @@
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, ReactNode, useContext, useEffect, useState } from 'react'
 
 import { AlertColor } from '@mui/material/Alert'
 
-type Props = {
+type Toast = {
+  key?: number
   type: AlertColor
+  message: string
+  autoHide?: boolean
+}
+
+type Props = {
+  open: boolean
+  toast: Toast
+  setToast: (toast: Toast) => void
+  onClose: () => void
+  onExited: () => void
 }
 
 const ToastContext = createContext<Props | undefined>(undefined)
@@ -17,5 +28,33 @@ export const useToast = () => {
 }
 
 export const ToastProvider = (props: { children: ReactNode }) => {
-  return <ToastContext.Provider value={{ type: 'success' }}>{props.children}</ToastContext.Provider>
+  const [open, setOpen] = useState(false)
+  const defaultToast: Toast = { type: 'info', message: '' }
+  const [_toast, _setToast] = useState<Toast>(defaultToast)
+  const [toastPack, setToastPack] = useState<Toast[]>([])
+
+  useEffect(() => {
+    if (toastPack.length && !open) {
+      _setToast(toastPack[0])
+      setToastPack((prev) => prev.slice(1))
+      setOpen(true)
+    } else if (toastPack.length && open) {
+      setOpen(false)
+    }
+  }, [toastPack, open])
+
+  return (
+    <ToastContext.Provider
+      value={{
+        open,
+        toast: _toast,
+        setToast: (toast: Toast) =>
+          setToastPack((prev) => [...prev, { ...toast, key: Date.now() }]),
+        onClose: () => setOpen(false),
+        onExited: () => _setToast(defaultToast),
+      }}
+    >
+      {props.children}
+    </ToastContext.Provider>
+  )
 }
