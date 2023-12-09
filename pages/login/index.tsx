@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography'
 
 import SignUpButton from '@/components/HomePage/SignUpButton'
 import Navbar from '@/components/Shared/Navbar'
+import { useAPI } from '@/contexts/API'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import Error418Page from '@/pages/418'
 
@@ -58,6 +59,7 @@ const Login = () => {
   const initialized = useRef(false)
 
   const router = useRouter()
+  const api = useAPI()
 
   const path = process.env.NEXT_PUBLIC_DISCORD_OAUTH2_URL ?? ''
 
@@ -66,6 +68,8 @@ const Login = () => {
     const { key } = e
     if (key === 'deerhacks-last-login') {
       window.removeEventListener('storage', handleStorage)
+      // Invalidation in popup window does not affect main window
+      api.queryClient.invalidateQueries({ queryKey: ['userGet'] })
       router.push('/dashboard')
     }
   }
@@ -76,7 +80,7 @@ const Login = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  if (!toggles.dashboard) return <Error418Page />
+  if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
 
   return (
     <>
@@ -122,7 +126,6 @@ const Login = () => {
               </Collapse>
               <SignUpButton
                 text="Continue"
-                color
                 fullWidth
                 onClick={() => window.open(path, '_blank', 'width=500,height=750')}
               />

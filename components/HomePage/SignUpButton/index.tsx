@@ -25,7 +25,6 @@ const SignUpButton = (props: Props) => {
     disabled = false,
     navbar = false,
     fullWidth = false,
-    color = false,
     glow = false,
     onClick,
   } = props
@@ -72,7 +71,7 @@ const SignUpButton = (props: Props) => {
       }}
       disabled={disabled}
       component={NextLink}
-      endIcon={<AnimatedDiscord color={color} />}
+      endIcon={<AnimatedDiscord />}
     >
       <Grid flexDirection="column" textAlign="left">
         <Typography color="text.primary" fontWeight={500}>

@@ -9,6 +9,11 @@ const Toast = () => {
 
   const autoHideDuration = toast.autoHide === false ? null : 5000
 
+  const handleClose = ({}, reason?: string) => {
+    if (reason === 'clickaway' && !autoHideDuration) return
+    onClose()
+  }
+
   return (
     <Snackbar
       open={open}
@@ -17,11 +22,11 @@ const Toast = () => {
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       TransitionComponent={Slide}
       TransitionProps={{ onExited }}
-      onClose={onClose}
+      onClose={handleClose}
     >
       <Alert
         severity={toast.type}
-        onClose={onClose}
+        onClose={handleClose}
         sx={{
           width: '100%',
           boxShadow: 'inset 0 0 5px 100px rgb(0 0 0 / 30%)',

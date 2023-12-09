@@ -1,12 +1,11 @@
-import NextLink from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 
-import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
 
 import AnimatedLogo from '@/components/Shared/AnimatedLogo'
+import BackButton from '@/components/Shared/BackButton'
 import theme from '@/styles/theme'
 
 type Props = {
@@ -21,7 +20,7 @@ type Props = {
 }
 
 const tips = [
-  'Enable browser hardware acceleration for the best experience',
+  "Looks like it's your first time here, welcome to DeerHacks!",
   'Follow our socials @deerhacks for announcements and updates',
   'Download our progressive web app for the best experience on mobile',
   'There are over 60 different species of deer worldwide',
@@ -51,7 +50,7 @@ const FullPageLoader = (props: Props) => {
   const setRandomTipOnce = () => {
     if (initialized.current) return
     const visited = localStorage.getItem('deerhacks-2024-visited')
-    setRandomTip(tips[visited === null ? 0 : Math.floor(Math.random() * tips.length)])
+    setRandomTip(tips[visited === null ? 0 : Math.floor(Math.random() * (tips.length - 1)) + 1])
     initialized.current = true
     localStorage.setItem('deerhacks-2024-visited', 'true')
   }
@@ -91,9 +90,9 @@ const FullPageLoader = (props: Props) => {
         )}
         {buttonText && buttonLink && (
           <Fade in timeout={2500}>
-            <Button href={buttonLink} component={NextLink}>
-              {buttonText}
-            </Button>
+            <div>
+              <BackButton href={buttonLink} />
+            </div>
           </Fade>
         )}
       </Container>
