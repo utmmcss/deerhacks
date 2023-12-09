@@ -36,10 +36,10 @@ const About = () => {
         display="flex"
         flexDirection="column"
         justifyContent="center"
-        py="2rem"
+        pt="2rem"
         textAlign={{ xs: 'center', md: 'start' }}
       >
-        <Typography variant="h2" color="text.secondary" mb="1rem">
+        <Typography variant="h2" color="text.secondary" gutterBottom>
           Welcome to the University of Toronto Mississauga's premier hackathon event{' '}
           <NearMeRoundedIcon
             color="success"
@@ -67,12 +67,7 @@ const About = () => {
             sx={{ verticalAlign: 'middle', mb: '0.25rem' }}
           />
         </Typography>
-        <Typography
-          variant="h2"
-          color="text.secondary"
-          mb="1rem"
-          display={{ xs: 'none', lg: 'block' }}
-        >
+        <Typography variant="h2" color="text.secondary" display={{ xs: 'none', lg: 'block' }}>
           Participants will have the unique chance to present their projects before a distinguished
           panel of judges and industry experts, fostering valuable networking opportunities with our
           esteemed sponsors and partners. Whether you're a newcomer or an experienced developer, we
@@ -88,7 +83,7 @@ const About = () => {
           data-aos-offset="50"
           data-aos-once="false"
           width="min(100%, 300px)"
-          pt="0.5rem"
+          pt="3rem"
         >
           <SignUpButton text="Dare to Glow!" href="/login" glow fullWidth />
         </Box>
