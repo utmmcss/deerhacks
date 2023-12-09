@@ -5,7 +5,7 @@ import { AlertColor } from '@mui/material/Alert'
 type Toast = {
   key?: number
   type: AlertColor
-  message: string
+  message: ReactNode
   autoHide?: boolean
 }
 

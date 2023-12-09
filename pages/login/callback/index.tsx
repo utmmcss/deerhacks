@@ -4,11 +4,12 @@ import { useEffect, useRef } from 'react'
 
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
-import { useUserLogin } from '@/hooks/Users/useUserLogin'
+import { useUserLogin } from '@/hooks/User/useUserLogin'
 import Error404Page from '@/pages/404'
 
 const Callback = () => {
   const { toggles } = useFeatureToggle()
+  const toggleFeature = toggles.dashboard || toggles.bypassPage
 
   const searchParams = useSearchParams()
   const token = searchParams.get('code')
@@ -19,19 +20,19 @@ const Callback = () => {
 
   useEffect(() => {
     // Workaround since React StrictMode runs twice in development
-    if (initialized.current || !toggles.dashboard) return
+    if (initialized.current || !toggleFeature) return
     if (error) window.close()
     if (!token) return
     userLogin({ token })
     initialized.current = true
-  }, [userLogin, token, error, toggles.dashboard])
+  }, [userLogin, token, error, toggleFeature])
 
   return (
     <>
       <Head>
         <title>Redirecting | DeerHacks</title>
       </Head>
-      {toggles.dashboard && token ? <FullPageSpinner /> : <Error404Page noTitle />}
+      {toggleFeature && token ? <FullPageSpinner /> : <Error404Page noTitle />}
     </>
   )
 }

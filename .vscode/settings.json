@@ -3,7 +3,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   // Fix all autofixable errors on file save
   "editor.codeActionsOnSave": {
-    "source.fixAll": true
+    "source.fixAll": "explicit"
   },
   // Fix formatting issues on file save
   "editor.formatOnSave": true,
@@ -41,6 +41,7 @@
   },
   // Spell checker
   "cSpell.words": [
+    "clickaway",
     "deerhacks",
     "DeerHacks",
     "Devpost",

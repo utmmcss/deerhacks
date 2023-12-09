@@ -28,7 +28,7 @@ const Dashboard = () => {
   const { toggles } = useFeatureToggle()
   const { user, loading, authenticated } = useAuth()
 
-  if (!toggles.dashboard) return <Error418Page />
+  if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
   if (!loading && !authenticated) return <Error401Page />
 
   return (

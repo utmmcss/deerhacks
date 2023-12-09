@@ -120,7 +120,6 @@ const Menu = (props: MenuProps) => {
           <SignUpButton
             href="/login"
             navbar={desktop}
-            color
             glow
             {...(!toggles.signupHacker && { text: 'Login' })}
           />
