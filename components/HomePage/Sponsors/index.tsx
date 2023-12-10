@@ -7,10 +7,13 @@ import Typography from '@mui/material/Typography'
 
 import BigDataAIHub from '@/components/HomePage/Sponsors/Assets/BigDataAIHub'
 import Echo3D from '@/components/HomePage/Sponsors/Assets/Echo3D'
+import FDM from '@/components/HomePage/Sponsors/Assets/FDM'
 import ICUBE from '@/components/HomePage/Sponsors/Assets/ICUBE'
 import MCSS from '@/components/HomePage/Sponsors/Assets/MCSS'
 import MLH from '@/components/HomePage/Sponsors/Assets/MLH'
 import MMPA from '@/components/HomePage/Sponsors/Assets/MMPA'
+import Rotman from '@/components/HomePage/Sponsors/Assets/Rotman'
+import Uber from '@/components/HomePage/Sponsors/Assets/Uber'
 import UofT from '@/components/HomePage/Sponsors/Assets/UofT'
 import Sponsor from '@/components/HomePage/Sponsors/Sponsor'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
@@ -52,6 +55,8 @@ const Sponsors = () => {
               variant="contained"
               fullWidth
               href="https://mcss.club"
+              target="_blank"
+              rel="noopener"
               sx={{
                 height: '12rem',
                 borderRadius: '1rem',
@@ -80,8 +85,15 @@ const Sponsors = () => {
             </Typography>
           </Box>
         </Grid>
+        <Sponsor name="Uber" logo={<Uber />} link="https://uber.com" tier="silver" />
         <Sponsor name="ICUBE UTM" logo={<ICUBE />} link="https://icubeutm.ca" tier="silver" />
         <Sponsor name="MMPA" logo={<MMPA />} link="https://mmpa.utoronto.ca" tier="silver" />
+        <Sponsor
+          name="Rotman"
+          logo={<Rotman />}
+          link="https://www.rotman.utoronto.ca"
+          tier="silver"
+        />
       </Grid>
       {/* Bronze Sponsors Here */}
       <Grid
@@ -100,6 +112,9 @@ const Sponsors = () => {
           link="https://utoronto.ca"
           tier="bronze"
         />
+        {false && (
+          <Sponsor name="FDM Group" logo={<FDM />} link="https://fdmgroup.com" tier="bronze" />
+        )}
         <Sponsor name="Echo3D" logo={<Echo3D />} link="https://echo3d.com" tier="bronze" />
         <Sponsor
           name="Big Data AI Hub"

@@ -1,6 +1,7 @@
 import { APITemplate } from '@/api/types'
 import { CustomFetch } from '@/api/useFetch'
 import { ApplicationGetResp, ApplicationUpdateReq } from '@/types/Application'
+import { EmailVerifyReq, EmailVerifyResp } from '@/types/Email'
 import { EventListResp } from '@/types/Event'
 import { PhotoListResp } from '@/types/Photo'
 import { QRCheckInReq, QRCheckInResp } from '@/types/QRCode'
@@ -8,6 +9,7 @@ import { UserGetResp, UserLoginReq, UserUpdateReq } from '@/types/User'
 
 export const config = (customFetch: CustomFetch) =>
   ({
+    ...email(customFetch),
     ...events(customFetch),
     ...photos(customFetch),
     ...qrCodes(customFetch),
@@ -15,6 +17,14 @@ export const config = (customFetch: CustomFetch) =>
     ...application(customFetch),
     ..._(),
   } as const satisfies APITemplate)
+
+const email = (customFetch: CustomFetch) =>
+  ({
+    emailVerify: async (args: EmailVerifyReq) => {
+      const res = await customFetch('POST', 'DH_BE', '/email-verify', args)
+      return res.data as EmailVerifyResp
+    },
+  } as const)
 
 const events = (customFetch: CustomFetch) =>
   ({

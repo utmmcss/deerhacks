@@ -9,7 +9,7 @@ import DialogContent from '@mui/material/DialogContent'
 import TextField from '@mui/material/TextField'
 
 import LoadingButton from '@/components/Dashboard/LoadingButton'
-import { useUserUpdate } from '@/hooks/Users/useUserUpdate'
+import { useUserUpdate } from '@/hooks/User/useUserUpdate'
 import { User } from '@/types/User'
 import { textField } from '@/types/Zod'
 import { zodResolver } from '@hookform/resolvers/zod'

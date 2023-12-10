@@ -44,8 +44,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
               <FeatureToggleProvider>
                 <AuthProvider>
                   <Component {...pageProps} />
-                  {false && <Toast />}
                   <Footer />
+                  <Toast />
                 </AuthProvider>
               </FeatureToggleProvider>
             </ToastProvider>

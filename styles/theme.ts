@@ -133,6 +133,12 @@ const theme = createTheme(base, {
           webkitUserSelect: 'none',
           userSelect: 'none',
         },
+        input: {
+          '&:-webkit-autofill': {
+            WebkitBoxShadow: `0 0 0 100px ${base.palette.background.paper} inset !important`,
+            WebkitTextFillColor: `${base.palette.text.primary} !important`,
+          },
+        },
       },
     },
     MuiButton: {
@@ -405,6 +411,13 @@ const theme = createTheme(base, {
       styleOverrides: {
         root: {
           userSelect: 'none',
+        },
+      },
+    },
+    MuiSnackbar: {
+      styleOverrides: {
+        root: {
+          inset: 'auto 1rem 1rem',
         },
       },
     },

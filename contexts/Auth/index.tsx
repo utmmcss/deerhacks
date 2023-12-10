@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { createContext, ReactNode, useContext } from 'react'
 
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
-import { useUserGet } from '@/hooks/Users/useUserGet'
+import { useUserGet } from '@/hooks/User/useUserGet'
 import { User } from '@/types/User'
 
 type Props = {

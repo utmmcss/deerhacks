@@ -3,6 +3,8 @@ import { createContext, ReactNode, useContext, useState } from 'react'
 const INITIAL_FEATURE_TOGGLES = {
   // DEV TOGGLES
 
+  // Toggle to bypass page view
+  bypassPage: process.env.NEXT_PUBLIC_TOGGLE_BYPASS_PAGE === 'true',
   // Toggle for MLH support
   mlh: process.env.NEXT_PUBLIC_TOGGLE_MLH === 'true',
   // Toggle for DeerHacks dashboard workflow

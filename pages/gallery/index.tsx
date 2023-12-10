@@ -10,9 +10,9 @@ import ImageListItem from '@mui/material/ImageListItem'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
+import BackButton from '@/components/Shared/BackButton'
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
-import Navbar from '@/components/Shared/Navbar'
-import { usePhotoList } from '@/hooks/Photos/usePhotoList'
+import { usePhotoList } from '@/hooks/Photo/usePhotoList'
 import Error500Page from '@/pages/500'
 import theme from '@/styles/theme'
 
@@ -33,7 +33,7 @@ const Gallery = () => {
       ) : (
         <Fade in timeout={1000}>
           <Container sx={{ flexDirection: 'column' }}>
-            <Navbar />
+            <BackButton navbar />
             <Typography variant="h1">Photo Gallery</Typography>
             <ImageList
               variant="masonry"

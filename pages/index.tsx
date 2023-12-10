@@ -12,7 +12,8 @@ import FAQ from '@/components/HomePage/FAQ'
 import MNModel from '@/components/HomePage/MNModel'
 import Navbar from '@/components/HomePage/Navbar'
 import Sponsors from '@/components/HomePage/Sponsors'
-import DeerHacksTitle from '@/components/Shared/DeerHacksTitle'
+import Stats from '@/components/HomePage/Stats'
+import DeerHacksCollage from '@/components/Shared/DeerHacksCollage'
 import FullPageLoader from '@/components/Shared/FullPageLoader'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import theme from '@/styles/theme'
@@ -33,7 +34,7 @@ const HomePage = () => {
     AOS.init({
       offset: 0, // offset (in px) from the original trigger point
       delay: 100, // values from 0 to 3000, with step 50ms
-      duration: 600, // values from 0 to 3000, with step 50ms
+      duration: 750, // values from 0 to 3000, with step 50ms
       easing: 'ease', // default easing for AOS animations
       once: true, // whether animation should happen only once - while scrolling down
       mirror: false, // whether elements should animate out while scrolling past them
@@ -120,20 +121,22 @@ const HomePage = () => {
               </Slide>
             </Grid>
           </Container>
-          <Container
-            data-aos="zoom-out"
-            data-aos-offset="100"
-            data-aos-once="false"
-            sx={{ pt: '1rem', pb: { xs: '1rem', md: 0 } }}
-          >
-            <DeerHacksTitle />
-          </Container>
           <About />
+          <Stats />
           <Sponsors />
           <Container>
             <TileGallery resize />
           </Container>
           <FAQ />
+          <Container
+            data-aos="fade"
+            data-aos-offset="50"
+            data-aos-duration="1200"
+            data-aos-once="false"
+            sx={{ py: '0 !important' }}
+          >
+            <DeerHacksCollage />
+          </Container>
         </>
       )}
     </>

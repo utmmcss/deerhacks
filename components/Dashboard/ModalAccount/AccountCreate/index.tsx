@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography'
 
 import { APIError } from '@/api/types'
 import LoadingButton from '@/components/Dashboard/LoadingButton'
-import { useUserUpdate } from '@/hooks/Users/useUserUpdate'
+import { useUserUpdate } from '@/hooks/User/useUserUpdate'
 import { User } from '@/types/User'
 import { emailField, textField } from '@/types/Zod'
 import { zodResolver } from '@hookform/resolvers/zod'
