@@ -84,6 +84,7 @@ const AccountCreate = (props: Props) => {
                     error={Boolean(errors.first_name)}
                     helperText={errors.first_name?.message}
                     autoFocus
+                    inputProps={{ maxLength: 128 }}
                     InputProps={{
                       classes: {
                         input: 'capitalize',
@@ -102,6 +103,7 @@ const AccountCreate = (props: Props) => {
                     label="Last Name"
                     error={Boolean(errors.last_name)}
                     helperText={errors.last_name?.message}
+                    inputProps={{ maxLength: 128 }}
                     InputProps={{
                       classes: {
                         input: 'capitalize',
@@ -122,6 +124,7 @@ const AccountCreate = (props: Props) => {
                   error={Boolean(errors.email)}
                   placeholder={user.email}
                   helperText={errors.email?.message}
+                  inputProps={{ maxLength: 128 }}
                   inputRef={ref}
                   {...field}
                 />
@@ -130,6 +133,10 @@ const AccountCreate = (props: Props) => {
             <Typography fontSize="0.75rem" textAlign="center">
               A confirmation email will be sent to the email address you submit. Once verified, your
               user status will be updated to <code>registering</code>.
+            </Typography>
+            <Typography fontSize="0.75rem" textAlign="center">
+              By providing your email, you give DeerHacks permission to send emails containing
+              DeerHacks updates and information from the event sponsors.
             </Typography>
           </Box>
         </form>

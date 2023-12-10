@@ -214,6 +214,11 @@ const theme = createTheme(base, {
             borderRadius: '0.25rem',
             fontSize: '0.8rem',
           },
+          '&.formError': {
+            color: base.palette.error.main,
+            fontSize: '0.75rem',
+            margin: '3px 14px 0',
+          },
         },
       },
     },
@@ -362,6 +367,22 @@ const theme = createTheme(base, {
           },
           '& .lowercase': {
             textTransform: 'lowercase',
+          },
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          height: 'fit-content',
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          '&.MuiCheckbox-colorError': {
+            color: base.palette.error.main,
           },
         },
       },

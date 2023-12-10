@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CloseIcon from '@mui/icons-material/Close'
@@ -53,16 +53,14 @@ const ModalAccount = (props: Props) => {
     }
   }
 
-  useEffect(() => {
-    if (open) setState(firstUpdate ? 'firstUpdate' : 'summary')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open])
-
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       TransitionComponent={Grow}
+      TransitionProps={{
+        onExited: () => setState(firstUpdate ? 'firstUpdate' : 'summary'),
+      }}
       PaperProps={{
         elevation: 2,
         sx: { m: '1rem', maxHeight: 'calc(100% - 2rem)', width: 'calc(100% - 2rem)' },

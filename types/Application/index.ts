@@ -1,170 +1,186 @@
 export type ApplicationGetResp = {
   application: Application
-  isDraft: boolean
+  is_draft: boolean
 }
 
 export type ApplicationUpdateReq = {
   application: Application
-  isDraft: boolean
+  is_draft: boolean
 }
 
 export type Application = {
   /**
    * The following fields are part of the User so they are not in the form
    *
-   * firstName: string
-   * lastName: string
+   * first_name: string
+   * last_name: string
    * email: string
    */
 
-  phone: string
-  emailSubscribe: boolean
+  phone_number: string
+  is_subscribed: boolean
 
   age: number
-  gender: Gender
-  pronouns: Pronouns
-  ethnicity: Ethnicity
+  gender: (typeof genderOptions)[number] | string
+  pronoun: (typeof pronounOptions)[number] | string
+  ethnicity: ((typeof ethnicityOptions)[number] | string)[]
   country: string
   city: string
-  state?: string
+  province?: string
 
-  contactName: string
-  contactPhone: string
-  contactRelationship: ContactRelationship
+  emergency_name: string
+  emergency_number: string
+  emergency_relationship: (typeof relationshipOptions)[number] | string
 
-  shirtSize: ShirtSize
-  dietaryRestrictions: DietaryRestrictions[]
-  additionalInfo: string
+  shirt_size: (typeof shirtSizeOptions)[number]
+  diet_restriction: ((typeof dietaryRestrictionsOptions)[number] | string)[]
+  additional_info?: string
 
-  educationLevel: string
-  school: string
-  programField: string
+  education: (typeof educationOptions)[number] | string
+  school: (typeof schoolOptions)[number] | string
+  program: (typeof programOptions)[number] | string
 
-  resume: string
+  resume_link: string
+  resume_filename: string
+  resume_hash: string
   portfolio?: string
   github?: string
   linkedin?: string
-  confirmDistributeResume: boolean
+  resume_consent: boolean
 
-  hackathonExperience: HackathonExperience
-  deerHacksExperience: boolean
-  teamPreference: TeamPreference
-  interests: Interests[]
+  hackathon_experience: (typeof hackathonExperienceOptions)[number]
+  deerhacks_experience: (typeof deerhacksExperienceOptions)[number][]
+  team_preference: (typeof teamPreferenceOptions)[number]
+  interests: ((typeof interestsOptions)[number] | string)[]
 
-  deerhacksPitch: string
-  sharedProject: string
-  futureTech: string
+  deerhacks_pitch: string
+  shared_project: string
+  future_tech: string
 
-  deerhacksReach: DeerHacksReach
-  mlhCodeAgreement: boolean
-  mlhSubscribe: boolean
-  mlhAuthorize: boolean
+  deerhacks_reach: (typeof deerhacksReachOptions)[number] | string
+
+  day1_dinner: boolean
+  day2_breakfast: boolean
+  day2_lunch: boolean
+  day2_dinner: boolean
+  day3_breakfast: boolean
+
+  mlh_authorize: boolean
+  mlh_code_agreement: boolean
+  mlh_subscribe: boolean
 }
 
-type Gender = keyof typeof GenderEnum
-const enum GenderEnum {
-  MALE = 'male',
-  FEMALE = 'female',
-  PREFER_NOT_TO_SAY = 'prefer_not_to_say',
-  OTHER = 'other',
-}
+export const genderOptions = ['Male', 'Female', 'Prefer not to say', 'Other (Specify)'] as const
 
-type Pronouns = keyof typeof PronounsEnum
-const enum PronounsEnum {
-  HE_HIM = 'he/him',
-  SHE_HER = 'she/her',
-  THEY_THEM = 'they/them',
-  OTHER = 'other',
-}
+export const pronounOptions = ['He / Him', 'She / Her', 'They / Them', 'Other (Specify)'] as const
 
-type Ethnicity = keyof typeof EthnicityEnum
-const enum EthnicityEnum {
-  PREFER_NOT_TO_SAY = 'prefer_not_to_say',
-  OTHER = 'other',
-}
+export const ethnicityOptions = [
+  'Asian',
+  'Black or African',
+  'First Nations',
+  'Hispanic or Latino',
+  'Inuit',
+  'Métis',
+  'White',
+  'Prefer not to say',
+  'Other (Specify)',
+] as const
 
-type ContactRelationship = keyof typeof ContactRelationshipEnum
-const enum ContactRelationshipEnum {
-  GUARDIAN = 'guardian',
-  SIBLING = 'sibling',
-  SPOUSE = 'spouse',
-  FRIEND = 'friend',
-  OTHER = 'other',
-}
+export const relationshipOptions = [
+  'Parent / Guardian',
+  'Sibling',
+  'Spouse',
+  'Friend',
+  'Other (Specify)',
+] as const
 
-type ShirtSize = keyof typeof ShirtSizeEnum
-const enum ShirtSizeEnum {
-  XS = 'xs',
-  S = 's',
-  M = 'm',
-  L = 'l',
-  XL = 'xl',
-  XXL = 'xxl',
-}
+export const shirtSizeOptions = ['XS', 'S', 'M', 'L', 'XL', 'XXL'] as const
 
-type DietaryRestrictions = keyof typeof DietaryRestrictionsEnum
-const enum DietaryRestrictionsEnum {
-  VEGETARIAN = 'vegetarian',
-  VEGAN = 'vegan',
-  GLUTEN_FREE = 'gluten_free',
-  DAIRY_FREE = 'dairy_free',
-  NUT_ALLERGY = 'nut_allergy',
-  HALAL = 'halal',
-  KOSHER = 'kosher',
-  OTHER = 'other',
-}
+export const dietaryRestrictionsOptions = [
+  'None',
+  'Dairy free',
+  'Gluten free',
+  'Halal',
+  'Kosher',
+  'Nut Allergy',
+  'Vegan',
+  'Vegetarian',
+  'Other (Specify)',
+] as const
 
-type HackathonExperience = keyof typeof HackathonExperienceEnum
-const enum HackathonExperienceEnum {
-  ROOKIE = 'rookie',
-  ENTHUSIAST = 'enthusiast',
-  VETERAN = 'veteran',
-  EXPERT = 'expert',
-}
+export const educationOptions = [
+  'Secondary / High School',
+  "Undergraduate (Bachelor's Degree)",
+  "Graduate (Master's Degree)",
+  'Doctoral / PhD',
+  'Other (Specify)',
+] as const
 
-type TeamPreference = keyof typeof TeamPreferenceEnum
-const enum TeamPreferenceEnum {
-  ALONE = 'alone',
-  FRIENDS = 'friends',
-  RANDOM = 'random',
-}
+export const schoolOptions = [
+  'UofT',
+  // hanatodo
+  'Other (Specify)',
+] as const
 
-type Interests = keyof typeof InterestsEnum
-const enum InterestsEnum {
-  AI = 'ai',
-  AR_VR = 'ar_vr',
-  BIO_INFORMATICS = 'bio_informatics',
-  BLOCKCHAIN = 'blockchain',
-  BUSINESS = 'business',
-  CAD_3D = 'cad_3d',
-  CLOUD = 'cloud',
-  COMPUTER_VISION = 'computer_vision',
-  CYBERSECURITY = 'cybersecurity',
-  DATA_SCIENCE = 'data_science',
-  DESIGN = 'design',
-  DIGITAL_MARKETING = 'digital_marketing',
-  EMBEDDED_SYSTEMS = 'embedded_systems',
-  FINANCIAL_TECH = 'financial_tech',
-  GAME_DESIGN = 'game_design',
-  MACHINE_LEARNING = 'machine_learning',
-  MOBILE = 'mobile',
-  NLP = 'nlp',
-  PRODUCT_MANAGEMENT = 'product_management',
-  ROBOTICS = 'robotics',
-  UX_UI = 'ux_ui',
-  WEB = 'web',
-  OTHER = 'other',
-}
+export const programOptions = [
+  'CS',
+  // hanatodo
+  'Other (Specify)',
+] as const
 
-type DeerHacksReach = keyof typeof DeerHacksReachEnum
-const enum DeerHacksReachEnum {
-  DH_WEBSITE = 'dh_website',
-  MLH_WEBSITE = 'mlh_website',
-  EMAIL = 'email',
-  DH_INSTAGRAM = 'dh_instagram',
-  MCSS_INSTAGRAM = 'mcss_instagram',
-  LINKEDIN = 'linkedin',
-  UOFT = 'uoft',
-  WORD_OF_MOUTH = 'word_of_mouth',
-  OTHER = 'other',
-}
+export const hackathonExperienceOptions = [
+  'Rookie (This is my first hackathon)',
+  'Enthusiast (1-2 hackathons)',
+  'Veteran (3-5 hackathons)',
+  'Expert (5+ hackathons)',
+] as const
+
+export const deerhacksExperienceOptions = [
+  'First time attending DeerHacks',
+  'DeerHacks I (April 2022)',
+  'DeerHacks II (April 2023)',
+] as const
+
+export const teamPreferenceOptions = [
+  'Hacker with a team',
+  'Solo hacker looking for a team',
+  'Solo hacker who doesn’t need a team',
+] as const
+
+export const interestsOptions = [
+  'Web Development',
+  'Mobile App Development',
+  'Data Science & Analytics',
+  'Artificial Intelligence',
+  'Machine Learning',
+  'Augmented & Virtual Reality',
+  'Blockchain',
+  'Cybersecurity',
+  'Cloud Technologies',
+  'Game Development',
+  'Robotics',
+  'Natural Language Processing (NLP)',
+  'Computer Vision',
+  'Bioinformatics',
+  'Financial Technology',
+  '3D Printing / CAD',
+  'Product Management',
+  'Business & Entrepreneurship',
+  'Digital Marketing',
+  'UX/UI Design',
+  'Other (Specify)',
+] as const // anthony added embedded systems in enum but its not on doc
+
+export const deerhacksReachOptions = [
+  'DeerHacks Instagram Page',
+  'MCSS Instagram Page',
+  'LinkedIn Announcement',
+  'University or College Announcement', // change this to UofT?
+  'Word of Mouth',
+  'DeerHacks Website',
+  'Major League Hacking Website',
+  'Email Newsletter',
+  'Previous Event Participation',
+  'In-person Advertising',
+  'Other (Specify)',
+] as const

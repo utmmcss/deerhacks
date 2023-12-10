@@ -1,5 +1,6 @@
 import { APITemplate } from '@/api/types'
 import { CustomFetch } from '@/api/useFetch'
+import { ApplicationGetResp, ApplicationUpdateReq } from '@/types/Application'
 import { EventListResp } from '@/types/Event'
 import { PhotoListResp } from '@/types/Photo'
 import { QRCheckInReq, QRCheckInResp } from '@/types/QRCode'
@@ -11,6 +12,7 @@ export const config = (customFetch: CustomFetch) =>
     ...photos(customFetch),
     ...qrCodes(customFetch),
     ...users(customFetch),
+    ...application(customFetch),
     ..._(),
   } as const satisfies APITemplate)
 
@@ -54,6 +56,18 @@ const users = (customFetch: CustomFetch) =>
     },
     userUpdate: async (args: UserUpdateReq) => {
       const res = await customFetch('POST', 'DH_BE', '/user-update', args)
+      return res.data as {}
+    },
+  } as const)
+
+const application = (customFetch: CustomFetch) =>
+  ({
+    applicationGet: async () => {
+      const res = await customFetch('GET', 'DH_BE', '/application-get')
+      return res.data as ApplicationGetResp
+    },
+    applicationUpdate: async (args: ApplicationUpdateReq) => {
+      const res = await customFetch('POST', 'DH_BE', '/application-update', args)
       return res.data as {}
     },
   } as const)
