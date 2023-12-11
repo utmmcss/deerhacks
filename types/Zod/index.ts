@@ -10,7 +10,6 @@ import {
   programOptions,
   pronounOptions,
   relationshipOptions,
-  schoolOptions,
   shirtSizeOptions,
   teamPreferenceOptions,
 } from '@/types/Application'
@@ -50,7 +49,7 @@ const phoneField = textField.refine((str) => {
   const phoneRegex =
     /^([+]?[\s0-9]?(\d{1}|\d{2}|\d{3})[-. ]?)?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
   return phoneRegex.test(str)
-}, 'Invalid phone number') // hanatodo doesn't work with weird country codes 1-353 stuff
+}, 'Invalid phone number')
 
 const checkBoxRequired = literal<boolean>(true, {
   errorMap: () => ({ message: 'Required' }),
@@ -155,81 +154,89 @@ export const aboutYouZodForm = object({
 )
 export type AboutYouZodForm = inferZod<typeof aboutYouZodForm>
 
-export const experienceZodForm = object({
-  // Education
-  education: enumZod(educationOptions, { required_error: 'Required' }),
-  education_other: textFieldOptional,
-  school: enumZod(schoolOptions, { required_error: 'Required' }),
-  school_other: textFieldOptional,
-  program: enumZod(programOptions, { required_error: 'Required' }),
-  program_other: textFieldOptional,
+export const experienceZodForm = (schoolOptions: [string, ...string[]]) => {
+  return object({
+    // Education
+    education: enumZod(educationOptions, { required_error: 'Required' }),
+    education_other: textFieldOptional,
+    school: enumZod(schoolOptions, {
+      required_error: 'Required',
+      invalid_type_error: 'Required',
+    }),
+    school_other: textFieldOptional,
+    program: enumZod(programOptions, {
+      required_error: 'Required',
+      invalid_type_error: 'Required',
+    }),
+    program_other: textFieldOptional,
 
-  // Professional Journey
-  // hanatodo resume stuff
-  // resume_link: urlField.min(1, 'Required'), // hanatodo i dont even know if its a url
-  // resume_filename: textField,
-  // resume_hash: textField,
-  portfolio: urlField.or(literal('')).or(literal(undefined)),
-  github: urlField.or(literal('')).or(literal(undefined)),
-  linkedin: urlField.or(literal('')).or(literal(undefined)),
-  resume_consent: checkBoxRequired,
+    // Professional Journey
+    // hanatodo resume stuff
+    // resume_link: urlField.min(1, 'Required'), // hanatodo i dont even know if its a url
+    // resume_filename: textField,
+    // resume_hash: textField,
+    portfolio: urlField.or(literal('')).or(literal(undefined)),
+    github: urlField.or(literal('')).or(literal(undefined)),
+    linkedin: urlField.or(literal('')).or(literal(undefined)),
+    resume_consent: checkBoxRequired,
 
-  // Hacker Details
-  hackathon_experience: enumZod(hackathonExperienceOptions, { required_error: 'Required' }),
-  deerhacks_experience: enumZod(deerhacksExperienceOptions, { required_error: 'Required' })
-    .array()
-    .min(1, 'Required'),
-  team_preference: enumZod(teamPreferenceOptions, { required_error: 'Required' }),
-  interests: enumZod(interestsOptions, { required_error: 'Required' })
-    .array()
-    .min(1, 'Required')
-    .max(5, 'Maximum Selection Reached'),
-  interests_other: textFieldOptional,
-}).superRefine(
-  (
-    {
-      education,
-      education_other,
-      school,
-      school_other,
-      program,
-      program_other,
-      interests,
-      interests_other,
-    },
-    refinementContext
-  ) => {
-    if (education.includes('Other (Specify)') && !education_other) {
-      return refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['education_other'],
-      })
+    // Hacker Details
+    hackathon_experience: enumZod(hackathonExperienceOptions, { required_error: 'Required' }),
+    deerhacks_experience: enumZod(deerhacksExperienceOptions, { required_error: 'Required' })
+      .array()
+      .min(1, 'Required'),
+    team_preference: enumZod(teamPreferenceOptions, { required_error: 'Required' }),
+    interests: enumZod(interestsOptions, { required_error: 'Required' })
+      .array()
+      .min(1, 'Required')
+      .max(5, 'Maximum Selection Reached'),
+    interests_other: textFieldOptional,
+  }).superRefine(
+    (
+      {
+        education,
+        education_other,
+        school,
+        school_other,
+        program,
+        program_other,
+        interests,
+        interests_other,
+      },
+      refinementContext
+    ) => {
+      if (education.includes('Other (Specify)') && !education_other) {
+        return refinementContext.addIssue({
+          code: 'custom',
+          message: 'Required',
+          path: ['education_other'],
+        })
+      }
+      if (school.includes('Other (Specify)') && !school_other) {
+        return refinementContext.addIssue({
+          code: 'custom',
+          message: 'Required',
+          path: ['school_other'],
+        })
+      }
+      if (program.includes('Other (Specify)') && !program_other) {
+        return refinementContext.addIssue({
+          code: 'custom',
+          message: 'Required',
+          path: ['program_other'],
+        })
+      }
+      if (interests.includes('Other (Specify)') && !interests_other) {
+        return refinementContext.addIssue({
+          code: 'custom',
+          message: 'Required',
+          path: ['interests_other'],
+        })
+      }
     }
-    if (school.includes('Other (Specify)') && !school_other) {
-      return refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['school_other'],
-      })
-    }
-    if (program.includes('Other (Specify)') && !program_other) {
-      return refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['program_other'],
-      })
-    }
-    if (interests.includes('Other (Specify)') && !interests_other) {
-      return refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['interests_other'],
-      })
-    }
-  }
-)
-export type ExperienceZodForm = inferZod<typeof experienceZodForm>
+  )
+}
+export type ExperienceZodForm = inferZod<ReturnType<typeof experienceZodForm>>
 
 export const openEndedResponsesZodForm = object({
   deerhacks_pitch: textArea.min(1, 'Required'),

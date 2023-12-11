@@ -407,6 +407,11 @@ const theme = createTheme(base, {
         },
       },
     },
+    MuiAutocomplete: {
+      defaultProps: {
+        fullWidth: true,
+      },
+    },
     MuiFormControlLabel: {
       styleOverrides: {
         root: {

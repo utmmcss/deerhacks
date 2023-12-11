@@ -11,7 +11,7 @@ import {
   programOptions,
   pronounOptions,
   relationshipOptions,
-  schoolOptions,
+  SchoolListResp,
   shirtSizeOptions,
   teamPreferenceOptions,
 } from '@/types/Application'
@@ -94,7 +94,7 @@ const appToAboutForm = (application: Application) => {
   }
 }
 
-const appToExpForm = (application: Application) => {
+const appToExpForm = (application: Application, schoolOptions: string[]) => {
   const education = toDropdownType(educationOptions, application.education)
   const school = toDropdownType(schoolOptions, application.school)
   const program = toDropdownType(programOptions, application.program)
@@ -300,4 +300,8 @@ export const formToAppMap = {
   Experience: expFormToApp,
   OpenEndedResponses: openResponseFormToApp,
   DeerHacks: deerhacksFormToApp,
+}
+
+export const getSchoolOptions = (data: SchoolListResp) => {
+  return (data?.map((val) => val.name) ?? []).sort().concat('Other (Specify)')
 }

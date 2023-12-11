@@ -6,16 +6,19 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
 import FormCheckbox from '@/components/Dashboard/RegistrationForms/FormComponents/FormCheckbox'
+import FormDynamicSelect from '@/components/Dashboard/RegistrationForms/FormComponents/FormDynamicSelect'
 import FormMultiSelect from '@/components/Dashboard/RegistrationForms/FormComponents/FormMultiSelect'
 import FormSelect from '@/components/Dashboard/RegistrationForms/FormComponents/FormSelect'
 import FormTextField from '@/components/Dashboard/RegistrationForms/FormComponents/FormTextField'
+import { getSchoolOptions } from '@/components/Dashboard/RegistrationForms/helpers'
+import FullPageSpinner from '@/components/Shared/FullPageSpinner'
+import { useSchoolList } from '@/hooks/Application/useSchoolList'
 import {
   deerhacksExperienceOptions,
   educationOptions,
   hackathonExperienceOptions,
   interestsOptions,
   programOptions,
-  schoolOptions,
   teamPreferenceOptions,
 } from '@/types/Application'
 import { ExperienceZodForm } from '@/types/Zod'
@@ -23,10 +26,11 @@ import { ExperienceZodForm } from '@/types/Zod'
 type Props = {
   form: UseFormReturn<ExperienceZodForm>
   onNext: (data: ExperienceZodForm) => void
+  schoolOptions: string[]
 }
 
 const ExperienceForm = (props: Props) => {
-  const { form, onNext } = props
+  const { form, onNext, schoolOptions } = props
 
   const {
     control,
@@ -81,7 +85,7 @@ const ExperienceForm = (props: Props) => {
               name="school"
               control={control}
               render={({ field: { ref, ...field } }) => (
-                <FormSelect
+                <FormDynamicSelect
                   label="School (Last Attended)"
                   options={schoolOptions}
                   errors={errors}
@@ -110,7 +114,7 @@ const ExperienceForm = (props: Props) => {
               name="program"
               control={control}
               render={({ field: { ref, ...field } }) => (
-                <FormSelect
+                <FormDynamicSelect
                   label="Program of Study"
                   options={programOptions}
                   errors={errors}
@@ -274,4 +278,25 @@ const ExperienceForm = (props: Props) => {
   )
 }
 
-export default ExperienceForm
+type ExperienceLoaderProps = {
+  form: UseFormReturn<ExperienceZodForm>
+  onNext: (data: ExperienceZodForm) => void
+}
+
+const ExperienceLoader = (props: ExperienceLoaderProps) => {
+  const { form, onNext } = props
+
+  const { data: schoolList, isLoading } = useSchoolList()
+
+  return isLoading ? (
+    <FullPageSpinner />
+  ) : (
+    <ExperienceForm
+      form={form}
+      onNext={onNext}
+      schoolOptions={getSchoolOptions(schoolList ?? [])}
+    />
+  )
+}
+
+export default ExperienceLoader

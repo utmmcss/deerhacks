@@ -20,7 +20,11 @@ import Typography from '@mui/material/Typography'
 import AboutYou from '@/components/Dashboard/RegistrationForms/AboutYou'
 import DeerhacksForm from '@/components/Dashboard/RegistrationForms/Deerhacks'
 import ExperienceForm from '@/components/Dashboard/RegistrationForms/Experience'
-import { appToFormMap, formToAppMap } from '@/components/Dashboard/RegistrationForms/helpers'
+import {
+  appToFormMap,
+  formToAppMap,
+  getSchoolOptions,
+} from '@/components/Dashboard/RegistrationForms/helpers'
 import OpenEndedResponsesForm from '@/components/Dashboard/RegistrationForms/OpenEndedResponses'
 import FormReview from '@/components/Dashboard/RegistrationForms/Review'
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
@@ -29,6 +33,7 @@ import { useAuth } from '@/contexts/Auth'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import { useApplicationUpdate } from '@/hooks/Application/useApplicationUpdate'
 import { useApplicationGet } from '@/hooks/Application/userApplicationGet'
+import { useSchoolList } from '@/hooks/Application/useSchoolList'
 import Error401Page from '@/pages/401'
 import Error404Page from '@/pages/404'
 import Error500Page from '@/pages/500'
@@ -65,10 +70,11 @@ type FormSections = {
 type Props = {
   user: User
   savedApplication: Application
+  schoolOptions: string[]
 }
 
 const Registration = (props: Props) => {
-  const { user, savedApplication } = props
+  const { user, savedApplication, schoolOptions } = props
 
   const [application, setApplication] = useState(savedApplication)
 
@@ -93,8 +99,8 @@ const Registration = (props: Props) => {
       subHeadings: ['Education', 'Professional Journey', 'Hacker Details'],
       form: useForm<ExperienceZodForm>({
         mode: 'onChange',
-        resolver: zodResolver(experienceZodForm),
-        defaultValues: appToFormMap.Experience(application),
+        resolver: zodResolver(experienceZodForm(schoolOptions as [string, ...string[]])),
+        defaultValues: appToFormMap.Experience(application, schoolOptions),
       }),
     },
     OpenEndedResponses: {
@@ -225,7 +231,12 @@ const Registration = (props: Props) => {
             </Step>
           ))}
         </Stepper>
-        <Button onClick={() => onSubmit({ is_draft: true })}>Save</Button>
+        <Button
+          // hanatodo need to save what's currently inputted (step that's open isn't saved)
+          onClick={() => onSubmit({ is_draft: true })}
+        >
+          Save
+        </Button>
       </Grid>
       <Grid item xs={12} md={9}>
         {formKeys.map((section, i) => {
@@ -308,6 +319,8 @@ const RegistrationLoader = () => {
     enabled: user?.status && allowedStatuses.includes(user.status),
   })
 
+  const { data: schoolList, isLoading: schoolLoading } = useSchoolList()
+
   if (!toggles.dashboard) return <Error404Page />
   if (!loading && !authenticated) return <Error401Page />
 
@@ -320,7 +333,7 @@ const RegistrationLoader = () => {
       <Head>
         <title>Registration | DeerHacks</title>
       </Head>
-      {loading || !authenticated || !user || applicationLoading ? (
+      {loading || !authenticated || !user || applicationLoading || schoolLoading ? (
         <FullPageSpinner />
       ) : (
         <Fade in timeout={1000}>
@@ -330,7 +343,11 @@ const RegistrationLoader = () => {
             <Navbar
             // hanatodo add some way to get back to dashboard
             />
-            <Registration user={user} savedApplication={data.application} />
+            <Registration
+              user={user}
+              savedApplication={data.application}
+              schoolOptions={getSchoolOptions(schoolList ?? [])}
+            />
           </Container>
         </Fade>
       )}

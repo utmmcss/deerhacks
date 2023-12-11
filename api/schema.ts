@@ -1,6 +1,6 @@
 import { APITemplate } from '@/api/types'
 import { CustomFetch } from '@/api/useFetch'
-import { ApplicationGetResp, ApplicationUpdateReq } from '@/types/Application'
+import { ApplicationGetResp, ApplicationUpdateReq, SchoolListResp } from '@/types/Application'
 import { EmailVerifyReq, EmailVerifyResp } from '@/types/Email'
 import { EventListResp } from '@/types/Event'
 import { PhotoListResp } from '@/types/Photo'
@@ -79,6 +79,14 @@ const application = (customFetch: CustomFetch) =>
     applicationUpdate: async (args: ApplicationUpdateReq) => {
       const res = await customFetch('POST', 'DH_BE', '/application-update', args)
       return res.data as {}
+    },
+    schoolList: async () => {
+      const res = await customFetch(
+        'GET',
+        'CUSTOM',
+        'http://universities.hipolabs.com/search?&country=Canada'
+      )
+      return res.data as SchoolListResp
     },
   } as const)
 
