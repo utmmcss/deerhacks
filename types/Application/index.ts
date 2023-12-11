@@ -70,9 +70,11 @@ export type Application = {
   mlh_subscribe: boolean
 }
 
-export const genderOptions = ['Male', 'Female', 'Prefer not to say', 'Other (Specify)'] as const
+export const OTHER_SPECIFY = 'Other (Specify)'
 
-export const pronounOptions = ['He / Him', 'She / Her', 'They / Them', 'Other (Specify)'] as const
+export const genderOptions = ['Male', 'Female', 'Prefer not to say', OTHER_SPECIFY] as const
+
+export const pronounOptions = ['He / Him', 'She / Her', 'They / Them', OTHER_SPECIFY] as const
 
 export const ethnicityOptions = [
   'Asian',
@@ -83,7 +85,7 @@ export const ethnicityOptions = [
   'Métis',
   'White',
   'Prefer not to say',
-  'Other (Specify)',
+  OTHER_SPECIFY,
 ] as const
 
 export const relationshipOptions = [
@@ -91,7 +93,7 @@ export const relationshipOptions = [
   'Sibling',
   'Spouse',
   'Friend',
-  'Other (Specify)',
+  OTHER_SPECIFY,
 ] as const
 
 export const shirtSizeOptions = ['XS', 'S', 'M', 'L', 'XL', 'XXL'] as const
@@ -105,7 +107,7 @@ export const dietaryRestrictionsOptions = [
   'Nut Allergy',
   'Vegan',
   'Vegetarian',
-  'Other (Specify)',
+  OTHER_SPECIFY,
 ] as const
 
 export const educationOptions = [
@@ -113,7 +115,7 @@ export const educationOptions = [
   "Undergraduate (Bachelor's Degree)",
   "Graduate (Master's Degree)",
   'Doctoral / PhD',
-  'Other (Specify)',
+  OTHER_SPECIFY,
 ] as const
 
 // get school options with API
@@ -297,7 +299,7 @@ export const programOptions = [
   'United States History',
   'Visual and Performing Arts',
   'Zoology',
-  'Other (Specify)',
+  OTHER_SPECIFY,
 ] as const
 
 export const hackathonExperienceOptions = [
@@ -340,7 +342,7 @@ export const interestsOptions = [
   'Business & Entrepreneurship',
   'Digital Marketing',
   'UX/UI Design',
-  'Other (Specify)',
+  OTHER_SPECIFY,
 ] as const // anthony added embedded systems in enum but its not on doc
 
 export const deerhacksReachOptions = [
@@ -354,5 +356,5 @@ export const deerhacksReachOptions = [
   'Email Newsletter',
   'Previous Event Participation',
   'In-person Advertising',
-  'Other (Specify)',
+  OTHER_SPECIFY,
 ] as const

@@ -18,6 +18,7 @@ import {
   educationOptions,
   hackathonExperienceOptions,
   interestsOptions,
+  OTHER_SPECIFY,
   programOptions,
   teamPreferenceOptions,
 } from '@/types/Application'
@@ -65,7 +66,7 @@ const ExperienceForm = (props: Props) => {
                 />
               )}
             />
-            {watch('education') == 'Other (Specify)' && (
+            {watch('education') == OTHER_SPECIFY && (
               <Controller
                 name="education_other"
                 control={control}
@@ -94,7 +95,7 @@ const ExperienceForm = (props: Props) => {
                 />
               )}
             />
-            {watch('school') == 'Other (Specify)' && (
+            {watch('school') == OTHER_SPECIFY && (
               <Controller
                 name="school_other"
                 control={control}
@@ -123,7 +124,7 @@ const ExperienceForm = (props: Props) => {
                 />
               )}
             />
-            {watch('program') == 'Other (Specify)' && (
+            {watch('program') == OTHER_SPECIFY && (
               <Controller
                 name="program_other"
                 control={control}
@@ -260,7 +261,7 @@ const ExperienceForm = (props: Props) => {
                 />
               )}
             />
-            {watch('interests')?.includes('Other (Specify)') && (
+            {watch('interests')?.includes(OTHER_SPECIFY) && (
               <Controller
                 name="interests_other"
                 control={control}

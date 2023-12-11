@@ -4,6 +4,8 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete'
 import TextField, { TextFieldProps } from '@mui/material/TextField'
 import { FilterOptionsState } from '@mui/material/useAutocomplete'
 
+import { OTHER_SPECIFY } from '@/types/Application'
+
 type Props = {
   name: string
   label: string
@@ -19,8 +21,8 @@ const FormDynamicSelect = (props: Props) => {
   const filterOptions = (options: unknown[], state: FilterOptionsState<unknown>) => {
     const results = _filterOptions(options, state)
     // always show 'Other (Specify)'
-    if (!results.includes('Other (Specify)')) {
-      results.push('Other (Specify)')
+    if (!results.includes(OTHER_SPECIFY)) {
+      results.push(OTHER_SPECIFY)
     }
     return results
   }

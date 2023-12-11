@@ -8,6 +8,7 @@ import {
   genderOptions,
   hackathonExperienceOptions,
   interestsOptions,
+  OTHER_SPECIFY,
   programOptions,
   pronounOptions,
   relationshipOptions,
@@ -27,7 +28,7 @@ export const toDropdownType = <T extends any>(
   value: string
 ): T | undefined => {
   if (!value) return
-  return (options as unknown as string[]).includes(value) ? (value as T) : ('Other (Specify)' as T)
+  return (options as unknown as string[]).includes(value) ? (value as T) : (OTHER_SPECIFY as T)
 }
 
 export const toMultiSelectType = <T extends any>(
@@ -65,9 +66,9 @@ const appToAboutForm = (application: Application) => {
     // Profile Details
     age: application.age == 0 ? undefined : application.age.toString(),
     gender,
-    ...(gender == 'Other (Specify)' && { gender_other: application.gender }),
+    ...(gender == OTHER_SPECIFY && { gender_other: application.gender }),
     pronoun,
-    ...(pronoun == 'Other (Specify)' && { pronoun_other: application.pronoun }),
+    ...(pronoun == OTHER_SPECIFY && { pronoun_other: application.pronoun }),
     ethnicity,
     ethnicity_other,
 
@@ -80,7 +81,7 @@ const appToAboutForm = (application: Application) => {
     emergency_name: application.emergency_name,
     emergency_number: application.emergency_number,
     emergency_relationship,
-    ...(emergency_relationship == 'Other (Specify)' && {
+    ...(emergency_relationship == OTHER_SPECIFY && {
       emergency_relationship_other: application.emergency_relationship,
     }),
 
@@ -115,11 +116,11 @@ const appToExpForm = (application: Application, schoolOptions: string[]) => {
   return {
     // Education
     education,
-    ...(education == 'Other (Specify)' && { education_other: application.education }),
+    ...(education == OTHER_SPECIFY && { education_other: application.education }),
     school,
-    ...(school == 'Other (Specify)' && { school_other: application.school }),
+    ...(school == OTHER_SPECIFY && { school_other: application.school }),
     program,
-    ...(program == 'Other (Specify)' && { program_other: application.program }),
+    ...(program == OTHER_SPECIFY && { program_other: application.program }),
 
     // Professional Journey
     // hanatodo
@@ -154,7 +155,7 @@ const appToDeerHacksForm = (application: Application) => {
   return {
     // Reach
     deerhacks_reach,
-    ...(deerhacks_reach == 'Other (Specify)' && {
+    ...(deerhacks_reach == OTHER_SPECIFY && {
       deerhacks_reach_other: application.deerhacks_reach,
     }),
 
@@ -181,13 +182,13 @@ export const appToFormMap = {
 
 const aboutFormToApp = (form: AboutYouZodForm, currApplication: Application) => {
   const currEthnicity = [...currApplication.ethnicity] ?? []
-  const newEthnicity = form.ethnicity.includes('Other (Specify)')
+  const newEthnicity = form.ethnicity.includes(OTHER_SPECIFY)
     ? (form.ethnicity as string[]).concat([form.ethnicity_other ?? ''])
     : form.ethnicity
   const ethnicity = currEthnicity.toSpliced(0, currEthnicity.length, ...newEthnicity)
 
   const currDiet = [...currApplication.diet_restriction] ?? []
-  const newDiet = form.diet_restriction.includes('Other (Specify)')
+  const newDiet = form.diet_restriction.includes(OTHER_SPECIFY)
     ? (form.diet_restriction as string[]).concat([form.diet_restriction_other ?? ''])
     : form.diet_restriction
   const diet_restriction = currDiet.toSpliced(0, currDiet.length, ...newDiet)
@@ -201,8 +202,8 @@ const aboutFormToApp = (form: AboutYouZodForm, currApplication: Application) => 
 
     // Profile Details
     age: parseInt(form.age),
-    gender: form.gender == 'Other (Specify)' ? form.gender_other ?? '' : form.gender,
-    pronoun: form.pronoun == 'Other (Specify)' ? form.pronoun_other ?? '' : form.pronoun,
+    gender: form.gender == OTHER_SPECIFY ? form.gender_other ?? '' : form.gender,
+    pronoun: form.pronoun == OTHER_SPECIFY ? form.pronoun_other ?? '' : form.pronoun,
     ethnicity,
 
     // Location
@@ -214,7 +215,7 @@ const aboutFormToApp = (form: AboutYouZodForm, currApplication: Application) => 
     emergency_name: form.emergency_name,
     emergency_number: form.emergency_number,
     emergency_relationship:
-      form.emergency_relationship == 'Other (Specify)'
+      form.emergency_relationship == OTHER_SPECIFY
         ? form.emergency_relationship_other ?? ''
         : form.emergency_relationship,
 
@@ -227,7 +228,7 @@ const aboutFormToApp = (form: AboutYouZodForm, currApplication: Application) => 
 
 const expFormToApp = (form: ExperienceZodForm, currApplication: Application): Application => {
   const currInterests = [...currApplication.interests] ?? []
-  const newInterests = form.interests.includes('Other (Specify)')
+  const newInterests = form.interests.includes(OTHER_SPECIFY)
     ? (form.interests as string[]).concat([form.interests_other ?? ''])
     : form.interests
   const interests = currInterests.toSpliced(0, currInterests.length, ...newInterests)
@@ -236,9 +237,9 @@ const expFormToApp = (form: ExperienceZodForm, currApplication: Application): Ap
     ...currApplication,
 
     // Education
-    education: form.education == 'Other (Specify)' ? form.education_other ?? '' : form.education,
-    school: form.school == 'Other (Specify)' ? form.school_other ?? '' : form.school,
-    program: form.program == 'Other (Specify)' ? form.program_other ?? '' : form.program,
+    education: form.education == OTHER_SPECIFY ? form.education_other ?? '' : form.education,
+    school: form.school == OTHER_SPECIFY ? form.school_other ?? '' : form.school,
+    program: form.program == OTHER_SPECIFY ? form.program_other ?? '' : form.program,
 
     // Professional Journey
     // hanatodo
@@ -277,7 +278,7 @@ const deerhacksFormToApp = (form: DeerhacksZodForm, currApplication: Application
 
     // Reach
     deerhacks_reach:
-      form.deerhacks_reach == 'Other (Specify)'
+      form.deerhacks_reach == OTHER_SPECIFY
         ? form.deerhacks_reach_other ?? ''
         : form.deerhacks_reach,
 
@@ -303,5 +304,5 @@ export const formToAppMap = {
 }
 
 export const getSchoolOptions = (data: SchoolListResp) => {
-  return (data?.map((val) => val.name) ?? []).sort().concat('Other (Specify)')
+  return (data?.map((val) => val.name) ?? []).sort().concat(OTHER_SPECIFY)
 }

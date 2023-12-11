@@ -7,6 +7,7 @@ import {
   genderOptions,
   hackathonExperienceOptions,
   interestsOptions,
+  OTHER_SPECIFY,
   programOptions,
   pronounOptions,
   relationshipOptions,
@@ -115,35 +116,35 @@ export const aboutYouZodForm = object({
     },
     refinementContext
   ) => {
-    if (gender.includes('Other (Specify)') && !gender_other) {
+    if (gender.includes(OTHER_SPECIFY) && !gender_other) {
       return refinementContext.addIssue({
         code: 'custom',
         message: 'Required',
         path: ['gender_other'],
       })
     }
-    if (pronoun.includes('Other (Specify)') && !pronoun_other) {
+    if (pronoun.includes(OTHER_SPECIFY) && !pronoun_other) {
       return refinementContext.addIssue({
         code: 'custom',
         message: 'Required',
         path: ['pronoun_other'],
       })
     }
-    if (ethnicity.includes('Other (Specify)') && !ethnicity_other) {
+    if (ethnicity.includes(OTHER_SPECIFY) && !ethnicity_other) {
       return refinementContext.addIssue({
         code: 'custom',
         message: 'Required',
         path: ['ethnicity_other'],
       })
     }
-    if (emergency_relationship.includes('Other (Specify)') && !emergency_relationship_other) {
+    if (emergency_relationship.includes(OTHER_SPECIFY) && !emergency_relationship_other) {
       return refinementContext.addIssue({
         code: 'custom',
         message: 'Required',
         path: ['emergency_relationship_other'],
       })
     }
-    if (diet_restriction.includes('Other (Specify)') && !diet_restriction_other) {
+    if (diet_restriction.includes(OTHER_SPECIFY) && !diet_restriction_other) {
       return refinementContext.addIssue({
         code: 'custom',
         message: 'Required',
@@ -205,28 +206,28 @@ export const experienceZodForm = (schoolOptions: [string, ...string[]]) => {
       },
       refinementContext
     ) => {
-      if (education.includes('Other (Specify)') && !education_other) {
+      if (education.includes(OTHER_SPECIFY) && !education_other) {
         return refinementContext.addIssue({
           code: 'custom',
           message: 'Required',
           path: ['education_other'],
         })
       }
-      if (school.includes('Other (Specify)') && !school_other) {
+      if (school.includes(OTHER_SPECIFY) && !school_other) {
         return refinementContext.addIssue({
           code: 'custom',
           message: 'Required',
           path: ['school_other'],
         })
       }
-      if (program.includes('Other (Specify)') && !program_other) {
+      if (program.includes(OTHER_SPECIFY) && !program_other) {
         return refinementContext.addIssue({
           code: 'custom',
           message: 'Required',
           path: ['program_other'],
         })
       }
-      if (interests.includes('Other (Specify)') && !interests_other) {
+      if (interests.includes(OTHER_SPECIFY) && !interests_other) {
         return refinementContext.addIssue({
           code: 'custom',
           message: 'Required',
@@ -262,7 +263,7 @@ export const deerhacksZodForm = object({
   mlh_code_agreement: checkBoxRequired,
   mlh_subscribe: boolean(),
 }).superRefine(({ deerhacks_reach, deerhacks_reach_other }, refinementContext) => {
-  if (deerhacks_reach.includes('Other (Specify)') && !deerhacks_reach_other) {
+  if (deerhacks_reach.includes(OTHER_SPECIFY) && !deerhacks_reach_other) {
     return refinementContext.addIssue({
       code: 'custom',
       message: 'Required',

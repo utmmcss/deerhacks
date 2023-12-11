@@ -15,6 +15,7 @@ import {
   dietaryRestrictionsOptions,
   ethnicityOptions,
   genderOptions,
+  OTHER_SPECIFY,
   pronounOptions,
   relationshipOptions,
   shirtSizeOptions,
@@ -121,7 +122,7 @@ const AboutYou = (props: Props) => {
                 />
               )}
             />
-            {watch('gender') == 'Other (Specify)' && (
+            {watch('gender') == OTHER_SPECIFY && (
               <Controller
                 name="gender_other"
                 control={control}
@@ -150,7 +151,7 @@ const AboutYou = (props: Props) => {
                 />
               )}
             />
-            {watch('pronoun') == 'Other (Specify)' && (
+            {watch('pronoun') == OTHER_SPECIFY && (
               <Controller
                 name="pronoun_other"
                 control={control}
@@ -191,7 +192,7 @@ const AboutYou = (props: Props) => {
                 />
               )}
             />
-            {watch('ethnicity')?.includes('Other (Specify)') && (
+            {watch('ethnicity')?.includes(OTHER_SPECIFY) && (
               <Controller
                 name="ethnicity_other"
                 control={control}
@@ -292,7 +293,7 @@ const AboutYou = (props: Props) => {
                 />
               )}
             />
-            {watch('emergency_relationship') == 'Other (Specify)' && (
+            {watch('emergency_relationship') == OTHER_SPECIFY && (
               <Controller
                 name="emergency_relationship_other"
                 control={control}
@@ -351,7 +352,7 @@ const AboutYou = (props: Props) => {
                 />
               )}
             />
-            {watch('diet_restriction')?.includes('Other (Specify)') && (
+            {watch('diet_restriction')?.includes(OTHER_SPECIFY) && (
               <Controller
                 name="diet_restriction_other"
                 control={control}

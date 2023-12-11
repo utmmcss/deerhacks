@@ -10,7 +10,7 @@ import FormCheckbox from '@/components/Dashboard/RegistrationForms/FormComponent
 import FormSelect from '@/components/Dashboard/RegistrationForms/FormComponents/FormSelect'
 import FormTextField from '@/components/Dashboard/RegistrationForms/FormComponents/FormTextField'
 import { base } from '@/styles/theme'
-import { deerhacksReachOptions } from '@/types/Application'
+import { deerhacksReachOptions, OTHER_SPECIFY } from '@/types/Application'
 import { DeerhacksZodForm } from '@/types/Zod'
 
 type Props = {
@@ -52,7 +52,7 @@ const DeerhacksForm = (props: Props) => {
                 />
               )}
             />
-            {watch('deerhacks_reach') == 'Other (Specify)' && (
+            {watch('deerhacks_reach') == OTHER_SPECIFY && (
               <Controller
                 name="deerhacks_reach_other"
                 control={control}
