@@ -52,6 +52,7 @@ const ExperienceForm = (props: Props) => {
             display="flex"
             flexDirection={{ xs: 'column', sm: 'row' }}
             gap="1rem"
+            width="100%"
           >
             <Controller
               name="education"

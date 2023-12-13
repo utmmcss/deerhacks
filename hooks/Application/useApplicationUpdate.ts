@@ -5,8 +5,11 @@ export const useApplicationUpdate = () => {
   return api.useMutation('applicationUpdate', {
     onSuccess: () => {},
     onError: () => {},
-    onSettled: () => {
+    onSettled: (_d, _e, req) => {
       api.queryClient.invalidateQueries({ queryKey: ['applicationGet'] })
+      if (!req.is_draft) {
+        api.queryClient.invalidateQueries({ queryKey: ['userGet'] })
+      }
     },
   })
 }

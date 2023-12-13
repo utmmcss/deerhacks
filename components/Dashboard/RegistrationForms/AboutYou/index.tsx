@@ -50,27 +50,45 @@ const AboutYou = (props: Props) => {
             component="div"
             display="flex"
             flexDirection={{ xs: 'column', sm: 'row' }}
-            alignItems="center"
+            alignItems={{ xs: 'start', sm: 'center' }}
             gap="1rem"
           >
             <Typography>Name</Typography>
-            <Typography variant="h3">{user.first_name + ' ' + user.last_name}</Typography>
-            <Tooltip title={'Update in account settings'} placement="right" arrow>
-              <InfoIcon color="disabled" />
-            </Tooltip>
+            <Typography
+              variant="h3"
+              display="flex"
+              alignItems="center"
+              gap="0.5rem"
+              width={{ xs: '100%', sm: 'inherit' }}
+              justifyContent={{ xs: 'space-between', sm: 'inherit' }}
+            >
+              {user.first_name + ' ' + user.last_name}
+              <Tooltip title={'Update in account settings'} arrow>
+                <InfoIcon color="disabled" />
+              </Tooltip>
+            </Typography>
           </Box>
           <Box
             component="div"
             display="flex"
             flexDirection={{ xs: 'column', sm: 'row' }}
-            alignItems="center"
+            alignItems={{ xs: 'start', sm: 'center' }}
             gap="1rem"
           >
             <Typography>Email</Typography>
-            <Typography variant="h3">{user.email}</Typography>
-            <Tooltip title={'Update in account settings'} placement="right" arrow>
-              <InfoIcon color="disabled" />
-            </Tooltip>
+            <Box
+              component="div"
+              display="flex"
+              alignItems="center"
+              gap="0.5rem"
+              width={{ xs: '100%', sm: 'inherit' }}
+              justifyContent={{ xs: 'space-between', sm: 'inherit' }}
+            >
+              <Typography variant="h3">{user.email}</Typography>
+              <Tooltip title={'Update in account settings'} arrow>
+                <InfoIcon color="disabled" />
+              </Tooltip>
+            </Box>
           </Box>
           <Controller
             name="phone_number"

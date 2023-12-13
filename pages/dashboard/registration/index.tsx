@@ -1,8 +1,11 @@
 import Head from 'next/head'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
 
+import AdjustIcon from '@mui/icons-material/Adjust'
 import Check from '@mui/icons-material/Check'
+import ErrorIcon from '@mui/icons-material/Error'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
@@ -12,11 +15,16 @@ import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
 import Step from '@mui/material/Step'
+import StepButton from '@mui/material/StepButton'
+import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import StepContent from '@mui/material/StepContent'
 import StepLabel from '@mui/material/StepLabel'
 import Stepper from '@mui/material/Stepper'
+import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
+import Modal from '@/components/Dashboard/Modal'
 import AboutYou from '@/components/Dashboard/RegistrationForms/AboutYou'
 import DeerhacksForm from '@/components/Dashboard/RegistrationForms/Deerhacks'
 import ExperienceForm from '@/components/Dashboard/RegistrationForms/Experience'
@@ -27,10 +35,12 @@ import {
 } from '@/components/Dashboard/RegistrationForms/helpers'
 import OpenEndedResponsesForm from '@/components/Dashboard/RegistrationForms/OpenEndedResponses'
 import FormReview from '@/components/Dashboard/RegistrationForms/Review'
+import BackButton from '@/components/Shared/BackButton'
+import FullPageLoader from '@/components/Shared/FullPageLoader'
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
-import Navbar from '@/components/Shared/Navbar'
 import { useAuth } from '@/contexts/Auth'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
+import { useToast } from '@/contexts/Toast'
 import { useApplicationUpdate } from '@/hooks/Application/useApplicationUpdate'
 import { useApplicationGet } from '@/hooks/Application/userApplicationGet'
 import { useSchoolList } from '@/hooks/Application/useSchoolList'
@@ -50,6 +60,24 @@ import {
   openEndedResponsesZodForm,
 } from '@/types/Zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+
+const StyledStepConnector = styled(StepConnector)(() => ({
+  [`&.${stepConnectorClasses.alternativeLabel}`]: {
+    top: 10,
+    left: 'calc(-50% + 16px)',
+    right: 'calc(50% + 16px)',
+  },
+  [`&.${stepConnectorClasses.active}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor: '#fff',
+    },
+  },
+  [`&.${stepConnectorClasses.completed}`]: {
+    [`& .${stepConnectorClasses.line}`]: {
+      borderColor: '#fff',
+    },
+  },
+}))
 
 const formKeys = ['AboutYou', 'Experience', 'OpenEndedResponses', 'DeerHacks', 'Review'] as const
 
@@ -76,7 +104,14 @@ type Props = {
 const Registration = (props: Props) => {
   const { user, savedApplication, schoolOptions } = props
 
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  const { setToast } = useToast()
+
   const [application, setApplication] = useState(savedApplication)
+
+  const [openConfirmation, setOpenConfirmation] = useState(false)
 
   const formSections: FormSections = {
     AboutYou: {
@@ -124,9 +159,94 @@ const Registration = (props: Props) => {
     Review: { heading: 'Review & Submit', subHeadings: [] },
   }
 
-  const [activeStep, setActiveStep] = useState(0)
+  const { mutate: applicationUpdate } = useApplicationUpdate()
+  const onSubmit = (props: { is_draft: boolean }) => {
+    saveForm() // hanatodo currently open page doesn't get saved before it gets submitted
+    const { is_draft } = props
+    applicationUpdate(
+      { is_draft, application },
+      {
+        onSuccess: () => {
+          if (is_draft) {
+            setToast({
+              type: 'success',
+              message: 'Form saved. This does NOT count as a submission.',
+            })
+          } else {
+            window.scrollTo(0, 0)
+            setToast({
+              type: 'success',
+              message: 'Form submitted successfully.',
+            })
+          }
+        },
+        onError: () => {
+          setToast({
+            type: 'error',
+            message: 'Something went wrong, please try again.',
+          })
+        },
+      }
+    )
+  }
+
+  const saveForm = () => {
+    const currentStep = formKeys[activeStep]
+    // save state and update errors when accordion is closed
+    // typescript complains unless its in this switch statement :(
+    switch (currentStep) {
+      case 'AboutYou':
+        setApplication(
+          formToAppMap[currentStep](formSections[currentStep].form.getValues(), application)
+        )
+        formSections[currentStep].form.trigger()
+        break
+      case 'Experience':
+        setApplication(
+          formToAppMap[currentStep](formSections[currentStep].form.getValues(), application)
+        )
+        formSections[currentStep].form.trigger()
+        break
+      case 'OpenEndedResponses':
+        setApplication(
+          formToAppMap[currentStep](formSections[currentStep].form.getValues(), application)
+        )
+        formSections[currentStep].form.trigger()
+        break
+      case 'DeerHacks':
+        setApplication(
+          formToAppMap[currentStep](formSections[currentStep].form.getValues(), application)
+        )
+        formSections[currentStep].form.trigger()
+        break
+    }
+  }
+
+  const [activeStep, setActiveStep] = useState(() => {
+    // hanatodo form not loaded fast enough so first form is invalid here
+    /*
+    for (var i = 0; i < formKeys.length; i++) {
+      const stepKey = formKeys[i]
+      if (stepKey === 'Review') return i
+      if (!formSections[stepKey].form.formState.isValid) {
+        return i
+      }
+    }
+    */
+    return -1
+  })
+
   const handleNextStep = () => {
+    const closedStep = formKeys[activeStep]
+    if (closedStep !== 'Review') {
+      formSections[closedStep].form.trigger()
+    }
     setActiveStep((step) => step + 1)
+  }
+
+  const handleAccordionChange = (i: number) => {
+    saveForm()
+    setActiveStep((curr) => (curr === i ? -1 : i))
   }
 
   const getStepDisabled = (stepIndex: number, activeIndex: number) => {
@@ -142,87 +262,37 @@ const Registration = (props: Props) => {
     }
   }
 
-  const { mutate: applicationUpdate } = useApplicationUpdate()
-  const onSubmit = (props: { is_draft: boolean }) => {
-    const { is_draft } = props
-    applicationUpdate(
-      { is_draft, application },
-      {
-        onSuccess: () => {
-          console.log('updated')
-          if (is_draft) {
-            // hanatodo go to home
-          } else {
-            // hanatodo go to a you have submitted page
-          }
-        },
-        onError: () => {
-          console.log('oh no')
-          // hanatodo something went wrong toast :D
-        },
+  const getStepIcon = (i: number) => {
+    const stepKey = formKeys[i]
+    const color = i <= activeStep ? 'white' : 'grey'
+
+    if (stepKey !== 'Review') {
+      const form = formSections[stepKey].form
+
+      if (form.formState.isValid) return <Check style={{ color }} />
+
+      if (Object.keys(form.formState.errors).length) {
+        return <ErrorIcon color="error" />
       }
-    )
-  }
-
-  const handleAccordionChange = (i: number) => {
-    const closedStep = formKeys[activeStep]
-    // save state and update errors when accordion is closed
-    // typescript complains unless its in this switch statement :(
-    switch (closedStep) {
-      case 'AboutYou':
-        setApplication(
-          formToAppMap[closedStep](formSections[closedStep].form.getValues(), application)
-        )
-        formSections[closedStep].form.trigger()
-        break
-      case 'Experience':
-        setApplication(
-          formToAppMap[closedStep](formSections[closedStep].form.getValues(), application)
-        )
-        formSections[closedStep].form.trigger()
-        break
-      case 'OpenEndedResponses':
-        setApplication(
-          formToAppMap[closedStep](formSections[closedStep].form.getValues(), application)
-        )
-        formSections[closedStep].form.trigger()
-        break
-      case 'DeerHacks':
-        setApplication(
-          formToAppMap[closedStep](formSections[closedStep].form.getValues(), application)
-        )
-        formSections[closedStep].form.trigger()
-        break
     }
-
-    setActiveStep((curr) => (curr === i ? -1 : i))
+    return <FiberManualRecordIcon style={{ color }} />
   }
 
-  // hanatodo disable submit when toggles.signupHacker (can still see review / what they submitted)
-  // only show review page if toggles.signupHacker is false
+  // hanatodo styles
+  // accordion :)
+  // hover on steps you can click on (or make clickable stuff look different somehow) (make previous stuff white? idk)
+  // want to scroll to top of accordion when clicked :)
+  // want stepper to scroll with screen on desktop
 
-  return (
-    <Grid container flexGrow={1}>
+  const RegistrationStepper = () => {
+    return (
       <Grid item xs={0} md={3}>
-        <Stepper activeStep={activeStep} orientation="vertical">
+        <Stepper activeStep={activeStep} orientation="vertical" connector={<StyledStepConnector />}>
           {formKeys.map((section, i) => (
-            <Step key={section}>
-              <StepLabel
-                icon={
-                  i < activeStep ? (
-                    // hanatodo make this better later
-                    <Check />
-                  ) : (
-                    <FiberManualRecordIcon
-                      style={{
-                        color: i == activeStep ? 'white' : 'grey',
-                      }}
-                    />
-                  )
-                }
-              >
+            <Step key={section} disabled={getStepDisabled(i, activeStep)}>
+              <StepButton icon={getStepIcon(i)} onClick={() => handleAccordionChange(i)}>
                 {formSections[section].heading}
-              </StepLabel>
+              </StepButton>
               <StepContent>
                 {formSections[section].subHeadings.map((subHeading) => (
                   <Typography key={`${section} - ${subHeading}`}>{subHeading}</Typography>
@@ -232,12 +302,52 @@ const Registration = (props: Props) => {
           ))}
         </Stepper>
         <Button
-          // hanatodo need to save what's currently inputted (step that's open isn't saved)
-          onClick={() => onSubmit({ is_draft: true })}
+          onClick={() => {
+            onSubmit({ is_draft: true })
+          }}
         >
-          Save
+          Save for Later
         </Button>
       </Grid>
+    )
+  }
+
+  return (
+    <Grid container flexGrow={1}>
+      {!isMobile && <RegistrationStepper />}
+      {isMobile && (
+        <Grid
+          position="fixed"
+          left={0}
+          bottom={0}
+          width="100%"
+          zIndex={100}
+          style={{ backgroundColor: 'black' }}
+        >
+          <Accordion>
+            <AccordionSummary>
+              <Stepper
+                activeStep={activeStep}
+                connector={<StyledStepConnector />}
+                style={{ width: '100%' }}
+              >
+                {formKeys.map((section, i) => (
+                  <Step key={section}>
+                    <StepLabel icon={getStepIcon(i)}></StepLabel>
+                  </Step>
+                ))}
+              </Stepper>
+              {
+                // hanatodo does it even need to expand? maybe just the save for later button???
+              }
+              <ExpandLessIcon />
+            </AccordionSummary>
+            <AccordionDetails>
+              <RegistrationStepper />
+            </AccordionDetails>
+          </Accordion>
+        </Grid>
+      )}
       <Grid item xs={12} md={9}>
         {formKeys.map((section, i) => {
           return (
@@ -246,7 +356,11 @@ const Registration = (props: Props) => {
               disabled={getStepDisabled(i, activeStep)}
               onChange={() => handleAccordionChange(i)}
               key={section}
-              style={{ width: '100%' }}
+              sx={{
+                width: '100%',
+                padding: { md: '1rem' },
+                backgroundColor: activeStep == i ? 'navy' : 'transparent',
+              }}
             >
               <AccordionSummary>
                 <Typography>{formSections[section].heading}</Typography>
@@ -293,7 +407,7 @@ const Registration = (props: Props) => {
                   <FormReview
                     user={user}
                     application={application}
-                    onSubmit={() => onSubmit({ is_draft: false })}
+                    onSubmit={() => setOpenConfirmation(true)}
                   />
                 )}
               </AccordionDetails>
@@ -301,6 +415,19 @@ const Registration = (props: Props) => {
           )
         })}
       </Grid>
+      <Suspense>
+        <Modal
+          open={openConfirmation}
+          setOpen={setOpenConfirmation}
+          title="Submit Application"
+          content={
+            <Typography>
+              You will not be able to re-submit your application. Are you sure you want to proceed?
+            </Typography>
+          }
+          onSubmit={() => onSubmit({ is_draft: false })}
+        />
+      </Suspense>
     </Grid>
   )
 }
@@ -324,9 +451,31 @@ const RegistrationLoader = () => {
   if (!toggles.dashboard) return <Error404Page />
   if (!loading && !authenticated) return <Error401Page />
 
-  if (applicationError) return <Error500Page />
+  if (user?.status && !allowedStatuses.includes(user.status)) {
+    return (
+      <FullPageLoader
+        show
+        pulse={false}
+        text="Invalid user status. Cannot register."
+        buttonText="Go Back"
+        buttonLink="/dashboard"
+      />
+    )
+  }
 
-  // hanatodo if not allowed status, show some other thing
+  if (!toggles.signupHacker && user?.status && user.status === 'registering') {
+    return (
+      <FullPageLoader
+        show
+        pulse={false}
+        text="Sign up period has ended."
+        buttonText="Go Back"
+        buttonLink="/dashboard"
+      />
+    )
+  }
+
+  if (applicationError) return <Error500Page />
 
   return (
     <>
@@ -340,14 +489,26 @@ const RegistrationLoader = () => {
           <Container
             sx={{ minHeight: '100vh', flexDirection: 'column', justifyContent: 'space-between' }}
           >
-            <Navbar
-            // hanatodo add some way to get back to dashboard
-            />
-            <Registration
-              user={user}
-              savedApplication={data.application}
-              schoolOptions={getSchoolOptions(schoolList ?? [])}
-            />
+            <BackButton navbar />
+            <Typography
+              variant="h1"
+              display="flex"
+              alignItems="center"
+              textAlign="left"
+              gap="0.5rem"
+            >
+              <AdjustIcon color="error" fontSize="inherit" />
+              Hacker Registration
+            </Typography>
+            {user.status === 'registering' ? (
+              <Registration
+                user={user}
+                savedApplication={data.application}
+                schoolOptions={getSchoolOptions(schoolList ?? [])}
+              />
+            ) : (
+              <FormReview user={user} application={data.application} />
+            )}
           </Container>
         </Fade>
       )}

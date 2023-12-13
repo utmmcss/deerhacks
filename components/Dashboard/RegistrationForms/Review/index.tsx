@@ -13,7 +13,7 @@ import { User } from '@/types/User'
 type Props = {
   user: User
   application: Application
-  onSubmit: () => void
+  onSubmit?: () => void
 }
 
 const FormReview = (props: Props) => {
@@ -23,18 +23,14 @@ const FormReview = (props: Props) => {
     <Grid container direction="column" gap="2.5rem">
       <Grid container direction="column" gap="1.25rem">
         <Typography variant="h2">Personal Information</Typography>
-        <FieldReview
-          name="Name"
-          value={user.first_name + ' ' + user.last_name}
-          tooltipTitle="Update in account settings"
-        />
-        <FieldReview name="Email" value={user.email} tooltipTitle="Update in account settings" />
+        <FieldReview name="Name" value={user.first_name + ' ' + user.last_name} />
+        <FieldReview name="Email" value={user.email} />
         <FieldReview name="Phone Number" value={application.phone_number} />
         <br />
         <FieldReview name="Age" value={application.age.toString()} />
         <FieldReview name="Gender" value={application.gender} />
         <FieldReview name="Pronoun" value={application.pronoun} />
-        <FieldReview name="Ethnicity" value={application.ethnicity.join(', ')} />
+        <FieldReview name="Ethnicity" value={application.ethnicity.join(',\n')} isList />
         <br />
         <FieldReview
           name="Address"
@@ -56,13 +52,13 @@ const FormReview = (props: Props) => {
         />
         <br />
         <FieldReview name="Shirt Size" value={application.shirt_size} />
-        <FieldReview name="Dietary Restrictions" value={application.diet_restriction.join(', ')} />
+        <FieldReview
+          name="Dietary Restrictions"
+          value={application.diet_restriction.join(',\n')}
+          isList
+        />
         {application.additional_info && (
-          <FieldReview
-            name="Additional Info"
-            value={application.additional_info}
-            direction="column"
-          />
+          <FieldReview name="Additional Info" value={application.additional_info} isShortAnswer />
         )}
       </Grid>
 
@@ -85,10 +81,11 @@ const FormReview = (props: Props) => {
         />
         <FieldReview
           name="Previous DeerHacks Attendance"
-          value={application.deerhacks_experience.join(', ')}
+          value={application.deerhacks_experience.join(',\n')}
+          isList
         />
         <FieldReview name="Team Preferences" value={application.team_preference} />
-        <FieldReview name="Areas of Interest" value={application.interests.join(', ')} />
+        <FieldReview name="Areas of Interest" value={application.interests.join(',\n')} isList />
       </Grid>
 
       <Grid container direction="column" gap="1.25rem">
@@ -96,17 +93,17 @@ const FormReview = (props: Props) => {
         <FieldReview
           name="Why do you want to take part in DeerHacks?"
           value={application.deerhacks_pitch}
-          direction="column"
+          isShortAnswer
         />
         <FieldReview
           name="Share a project or initiative you've worked on that you're particularly proud of. What was your role, and what impact did it have?"
           value={application.shared_project}
-          direction="column"
+          isShortAnswer
         />
         <FieldReview
           name="In your opinion, what is the most exciting or groundbreaking technology trend right now, and how might it impact our daily lives in the future?"
           value={application.future_tech}
-          direction="column"
+          isShortAnswer
         />
       </Grid>
 
@@ -114,7 +111,7 @@ const FormReview = (props: Props) => {
         <Typography variant="h2">DeerHacks</Typography>
         <FieldReview name="How did you hear about DeerHacks?" value={application.deerhacks_reach} />
         <br />
-        <FieldReview name="Meals" value={getMeals(application)} />
+        <FieldReview name="Meals" value={getMeals(application)} isList />
         <br />
         <CheckBoxReview
           name="MLH Terms and Conditions & Privacy Policy"
@@ -124,7 +121,7 @@ const FormReview = (props: Props) => {
         <CheckBoxReview name="MLH Email Subscription" value={application.mlh_subscribe} />
       </Grid>
 
-      <Button onClick={onSubmit}>submit</Button>
+      {onSubmit && <Button onClick={onSubmit}>submit</Button>}
     </Grid>
   )
 }
@@ -132,32 +129,35 @@ const FormReview = (props: Props) => {
 type FieldReviewProps = {
   name: string
   value: string
-  tooltipTitle?: string
-  direction?: 'row' | 'column'
+  isList?: boolean
+  isShortAnswer?: boolean
 }
 
 const FieldReview = (props: FieldReviewProps) => {
-  const { name, value, tooltipTitle, direction = 'row' } = props
+  const { name, value, isList = false, isShortAnswer = false } = props
   return (
     <Box
       component="div"
       display="flex"
-      flexDirection={{ xs: 'column', sm: direction }}
-      alignItems={{ xs: 'start', sm: direction == 'row' ? 'center' : 'start' }}
+      flexDirection={{ xs: 'column', sm: isShortAnswer ? 'column' : 'row' }}
+      alignItems={{ xs: 'start', sm: isShortAnswer ? 'start' : 'center' }}
       justifyContent="space-between"
+      width="100%"
     >
       <Typography>{name}</Typography>
       <Box component="div" display="flex" gap="1rem" alignItems="center">
         {value && value.trim() ? (
-          <Typography variant="h3">{value}</Typography>
+          <Typography
+            variant="h3"
+            {...(isList && { whiteSpace: 'pre' })}
+            textAlign={{ xs: 'start', sm: isShortAnswer ? 'start' : 'end' }}
+            textOverflow=""
+          >
+            {value}
+          </Typography>
         ) : (
-          <Tooltip title="Missing" placement="right" arrow>
+          <Tooltip title="Missing" placement="left" arrow>
             <InfoIcon color="error" />
-          </Tooltip>
-        )}
-        {tooltipTitle && (
-          <Tooltip title={tooltipTitle} placement="right" arrow>
-            <InfoIcon color="disabled" />
           </Tooltip>
         )}
       </Box>
@@ -182,7 +182,7 @@ const CheckBoxReview = (props: CheckBoxReviewProps) => {
     >
       <Typography>{name}</Typography>
       <Box component="div" display="flex" gap="1rem" alignItems="center">
-        {value ? <CheckIcon /> : <DoDisturbIcon />}
+        {value ? <CheckIcon color="secondary" /> : <DoDisturbIcon color="secondary" />}
       </Box>
     </Box>
   )
@@ -197,7 +197,7 @@ const getMeals = (app: Application) => {
   if (app.day2_dinner) meals.push('Day 2 Dinner')
   if (app.day3_breakfast) meals.push('Day 3 Breakfast')
 
-  return meals.length ? meals.join(', ') : 'None'
+  return meals.length ? meals.join(',\n') : 'None'
 }
 
 export default FormReview

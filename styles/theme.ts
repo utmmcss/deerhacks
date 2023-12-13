@@ -375,12 +375,23 @@ const theme = createTheme(base, {
             textTransform: 'lowercase',
           },
         },
+        input: {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
       },
     },
     MuiSelect: {
       styleOverrides: {
         root: {
           height: 'fit-content',
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          whiteSpace: 'normal',
         },
       },
     },

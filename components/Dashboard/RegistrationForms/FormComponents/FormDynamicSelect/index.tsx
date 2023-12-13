@@ -43,7 +43,7 @@ const FormDynamicSelect = (props: Props) => {
           defaultValue=""
           {...textFieldProps}
           {...params}
-        ></TextField>
+        />
       )}
     />
   )

@@ -138,6 +138,9 @@ const AccountCreate = (props: Props) => {
               By providing your email, you give DeerHacks permission to send emails containing
               DeerHacks updates and information from the event sponsors.
             </Typography>
+            {
+              // hanatodo this is a lot of text :)
+            }
           </Box>
         </form>
       </DialogContent>
