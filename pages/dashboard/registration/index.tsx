@@ -47,7 +47,7 @@ import { useSchoolList } from '@/hooks/Application/useSchoolList'
 import Error401Page from '@/pages/401'
 import Error404Page from '@/pages/404'
 import Error500Page from '@/pages/500'
-import { Application } from '@/types/Application'
+import { Application, ApplicationUpdateReq } from '@/types/Application'
 import { User } from '@/types/User'
 import {
   AboutYouZodForm,
@@ -160,66 +160,67 @@ const Registration = (props: Props) => {
   }
 
   const { mutate: applicationUpdate } = useApplicationUpdate()
-  const onSubmit = (props: { is_draft: boolean }) => {
-    saveForm() // hanatodo currently open page doesn't get saved before it gets submitted
-    const { is_draft } = props
-    applicationUpdate(
-      { is_draft, application },
-      {
-        onSuccess: () => {
-          if (is_draft) {
-            setToast({
-              type: 'success',
-              message: 'Form saved. This does NOT count as a submission.',
-            })
-          } else {
-            window.scrollTo(0, 0)
-            setToast({
-              type: 'success',
-              message: 'Form submitted successfully.',
-            })
-          }
-        },
-        onError: () => {
+  const onSubmit = (req: ApplicationUpdateReq) => {
+    applicationUpdate(req, {
+      onSuccess: () => {
+        if (req.is_draft) {
           setToast({
-            type: 'error',
-            message: 'Something went wrong, please try again.',
+            type: 'success',
+            message: 'Form saved. This does NOT count as your submission.',
           })
-        },
-      }
-    )
+        } else {
+          window.scrollTo(0, 0)
+          setToast({
+            type: 'success',
+            message: 'Form submitted successfully.',
+          })
+        }
+      },
+      onError: () => {
+        setToast({
+          type: 'error',
+          message: 'Something went wrong, please try again.',
+        })
+      },
+    })
   }
 
   const saveForm = () => {
+    var updatedApp = application
+
     const currentStep = formKeys[activeStep]
-    // save state and update errors when accordion is closed
+    if (!currentStep || currentStep === 'Review') return updatedApp
+
     // typescript complains unless its in this switch statement :(
     switch (currentStep) {
       case 'AboutYou':
-        setApplication(
-          formToAppMap[currentStep](formSections[currentStep].form.getValues(), application)
+        updatedApp = formToAppMap[currentStep](
+          formSections[currentStep].form.getValues(),
+          application
         )
-        formSections[currentStep].form.trigger()
         break
       case 'Experience':
-        setApplication(
-          formToAppMap[currentStep](formSections[currentStep].form.getValues(), application)
+        updatedApp = formToAppMap[currentStep](
+          formSections[currentStep].form.getValues(),
+          application
         )
-        formSections[currentStep].form.trigger()
         break
       case 'OpenEndedResponses':
-        setApplication(
-          formToAppMap[currentStep](formSections[currentStep].form.getValues(), application)
+        updatedApp = formToAppMap[currentStep](
+          formSections[currentStep].form.getValues(),
+          application
         )
-        formSections[currentStep].form.trigger()
         break
       case 'DeerHacks':
-        setApplication(
-          formToAppMap[currentStep](formSections[currentStep].form.getValues(), application)
+        updatedApp = formToAppMap[currentStep](
+          formSections[currentStep].form.getValues(),
+          application
         )
-        formSections[currentStep].form.trigger()
         break
     }
+    setApplication(updatedApp)
+    formSections[currentStep].form.trigger()
+    return updatedApp
   }
 
   const [activeStep, setActiveStep] = useState(() => {
@@ -283,6 +284,7 @@ const Registration = (props: Props) => {
   // hover on steps you can click on (or make clickable stuff look different somehow) (make previous stuff white? idk)
   // want to scroll to top of accordion when clicked :)
   // want stepper to scroll with screen on desktop
+  // do we want a diff icon for review
 
   const RegistrationStepper = () => {
     return (
@@ -290,7 +292,16 @@ const Registration = (props: Props) => {
         <Stepper activeStep={activeStep} orientation="vertical" connector={<StyledStepConnector />}>
           {formKeys.map((section, i) => (
             <Step key={section} disabled={getStepDisabled(i, activeStep)}>
-              <StepButton icon={getStepIcon(i)} onClick={() => handleAccordionChange(i)}>
+              <StepButton
+                icon={getStepIcon(i)}
+                onClick={() => handleAccordionChange(i)}
+                sx={{
+                  '&:hover': {
+                    opacity: 0.8,
+                    // idk
+                  },
+                }}
+              >
                 {formSections[section].heading}
               </StepButton>
               <StepContent>
@@ -303,7 +314,10 @@ const Registration = (props: Props) => {
         </Stepper>
         <Button
           onClick={() => {
-            onSubmit({ is_draft: true })
+            onSubmit({
+              is_draft: true,
+              application: saveForm(), // state not updated fast enough so have to pass it in
+            })
           }}
         >
           Save for Later
@@ -359,7 +373,7 @@ const Registration = (props: Props) => {
               sx={{
                 width: '100%',
                 padding: { md: '1rem' },
-                backgroundColor: activeStep == i ? 'navy' : 'transparent',
+                boxShadow: activeStep == i ? '2px 2px 5px 2px' : 'transparent', // idk
               }}
             >
               <AccordionSummary>
@@ -425,7 +439,7 @@ const Registration = (props: Props) => {
               You will not be able to re-submit your application. Are you sure you want to proceed?
             </Typography>
           }
-          onSubmit={() => onSubmit({ is_draft: false })}
+          onSubmit={() => onSubmit({ is_draft: false, application })}
         />
       </Suspense>
     </Grid>
