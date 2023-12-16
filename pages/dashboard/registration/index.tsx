@@ -1,16 +1,15 @@
 import Head from 'next/head'
-import { Suspense, useState } from 'react'
+import { useRouter } from 'next/router'
+import { Suspense, useEffect, useState } from 'react'
 import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
 
 import AdjustIcon from '@mui/icons-material/Adjust'
-import Check from '@mui/icons-material/Check'
-import ErrorIcon from '@mui/icons-material/Error'
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
-import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
@@ -24,15 +23,12 @@ import { styled, useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
+import LoadingButton from '@/components/Dashboard/LoadingButton'
 import Modal from '@/components/Dashboard/Modal'
 import AboutYou from '@/components/Dashboard/RegistrationForms/AboutYou'
 import DeerhacksForm from '@/components/Dashboard/RegistrationForms/Deerhacks'
 import ExperienceForm from '@/components/Dashboard/RegistrationForms/Experience'
-import {
-  appToFormMap,
-  formToAppMap,
-  getSchoolOptions,
-} from '@/components/Dashboard/RegistrationForms/helpers'
+import { appToFormMap, formToAppMap } from '@/components/Dashboard/RegistrationForms/helpers'
 import OpenEndedResponsesForm from '@/components/Dashboard/RegistrationForms/OpenEndedResponses'
 import FormReview from '@/components/Dashboard/RegistrationForms/Review'
 import BackButton from '@/components/Shared/BackButton'
@@ -43,7 +39,6 @@ import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import { useToast } from '@/contexts/Toast'
 import { useApplicationUpdate } from '@/hooks/Application/useApplicationUpdate'
 import { useApplicationGet } from '@/hooks/Application/userApplicationGet'
-import { useSchoolList } from '@/hooks/Application/useSchoolList'
 import Error401Page from '@/pages/401'
 import Error404Page from '@/pages/404'
 import Error500Page from '@/pages/500'
@@ -79,6 +74,10 @@ const StyledStepConnector = styled(StepConnector)(() => ({
   },
 }))
 
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+}
+
 const formKeys = ['AboutYou', 'Experience', 'OpenEndedResponses', 'DeerHacks', 'Review'] as const
 
 type Section<Values extends FieldValues> = {
@@ -98,11 +97,12 @@ type FormSections = {
 type Props = {
   user: User
   savedApplication: Application
-  schoolOptions: string[]
 }
 
 const Registration = (props: Props) => {
-  const { user, savedApplication, schoolOptions } = props
+  const { user, savedApplication } = props
+
+  const router = useRouter()
 
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -134,8 +134,8 @@ const Registration = (props: Props) => {
       subHeadings: ['Education', 'Professional Journey', 'Hacker Details'],
       form: useForm<ExperienceZodForm>({
         mode: 'onChange',
-        resolver: zodResolver(experienceZodForm(schoolOptions as [string, ...string[]])),
-        defaultValues: appToFormMap.Experience(application, schoolOptions),
+        resolver: zodResolver(experienceZodForm),
+        defaultValues: appToFormMap.Experience(application),
       }),
     },
     OpenEndedResponses: {
@@ -159,20 +159,30 @@ const Registration = (props: Props) => {
     Review: { heading: 'Review & Submit', subHeadings: [] },
   }
 
-  const { mutate: applicationUpdate } = useApplicationUpdate()
-  const onSubmit = (req: ApplicationUpdateReq) => {
+  const { isLoading, mutate: applicationUpdate } = useApplicationUpdate()
+  const onSubmit = (props: { req: ApplicationUpdateReq; hideToast?: boolean }) => {
+    const { req, hideToast = false } = props
     applicationUpdate(req, {
       onSuccess: () => {
         if (req.is_draft) {
-          setToast({
-            type: 'success',
-            message: 'Form saved. This does NOT count as your submission.',
+          if (!hideToast) {
+            setToast({
+              type: 'success',
+              message: 'Application saved as draft.',
+            })
+          }
+          // reset so can reload without warning if saved
+          formKeys.forEach((key) => {
+            if (key !== 'Review')
+              formSections[key].form.reset(appToFormMap[key](req.application), {
+                keepErrors: true,
+              })
           })
         } else {
-          window.scrollTo(0, 0)
+          scrollToTop()
           setToast({
             type: 'success',
-            message: 'Form submitted successfully.',
+            message: 'Hacker application submitted successfully!',
           })
         }
       },
@@ -219,35 +229,24 @@ const Registration = (props: Props) => {
         break
     }
     setApplication(updatedApp)
-    formSections[currentStep].form.trigger()
     return updatedApp
   }
 
-  const [activeStep, setActiveStep] = useState(() => {
-    // hanatodo form not loaded fast enough so first form is invalid here
-    /*
-    for (var i = 0; i < formKeys.length; i++) {
-      const stepKey = formKeys[i]
-      if (stepKey === 'Review') return i
-      if (!formSections[stepKey].form.formState.isValid) {
-        return i
-      }
-    }
-    */
-    return -1
-  })
+  const [activeStep, setActiveStep] = useState(0)
 
-  const handleNextStep = () => {
+  const handleNextStep = (newApp: Application) => {
     const closedStep = formKeys[activeStep]
     if (closedStep !== 'Review') {
       formSections[closedStep].form.trigger()
     }
     setActiveStep((step) => step + 1)
+    scrollToTop()
+    setApplication(newApp)
   }
 
   const handleAccordionChange = (i: number) => {
     saveForm()
-    setActiveStep((curr) => (curr === i ? -1 : i))
+    setActiveStep(i)
   }
 
   const getStepDisabled = (stepIndex: number, activeIndex: number) => {
@@ -265,30 +264,75 @@ const Registration = (props: Props) => {
 
   const getStepIcon = (i: number) => {
     const stepKey = formKeys[i]
-    const color = i <= activeStep ? 'white' : 'grey'
+    const opacity = i === activeStep ? 1 : 0.5
 
     if (stepKey !== 'Review') {
       const form = formSections[stepKey].form
 
-      if (form.formState.isValid) return <Check style={{ color }} />
+      if (form.formState.isValid) return <TaskAltRoundedIcon color="success" sx={{ opacity }} />
 
       if (Object.keys(form.formState.errors).length) {
-        return <ErrorIcon color="error" />
+        return <ErrorOutlineRoundedIcon color="error" />
       }
     }
-    return <FiberManualRecordIcon style={{ color }} />
+    return <AdjustIcon color="secondary" sx={{ opacity }} />
   }
 
-  // hanatodo styles
-  // accordion :)
-  // hover on steps you can click on (or make clickable stuff look different somehow) (make previous stuff white? idk)
-  // want to scroll to top of accordion when clicked :)
-  // want stepper to scroll with screen on desktop
-  // do we want a diff icon for review
+  const unsavedChanges =
+    Object.keys(formSections.AboutYou.form.formState.dirtyFields).length ||
+    Object.keys(formSections.Experience.form.formState.dirtyFields).length ||
+    Object.keys(formSections.OpenEndedResponses.form.formState.dirtyFields).length ||
+    Object.keys(formSections.DeerHacks.form.formState.dirtyFields).length
+
+  useEffect(() => {
+    const handleWindowClose = (e: any) => {
+      if (!unsavedChanges) return
+      e.preventDefault()
+      return (e.returnValue = 'You have unsaved changes')
+    }
+    const handleBrowseAway = () => {
+      if (!unsavedChanges) return
+      if (window.confirm('You have unsaved changes')) return
+      router.events.emit('routeChangeError')
+      throw 'routeChange aborted.'
+    }
+    window.addEventListener('beforeunload', handleWindowClose)
+    router.events.on('routeChangeStart', handleBrowseAway)
+    return () => {
+      window.removeEventListener('beforeunload', handleWindowClose)
+      router.events.off('routeChangeStart', handleBrowseAway)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unsavedChanges])
 
   const RegistrationStepper = () => {
     return (
-      <Grid item xs={0} md={3}>
+      <Grid
+        container
+        flexDirection="column"
+        item
+        xs={0}
+        md={3}
+        gap={2}
+        alignSelf="start"
+        position="sticky"
+        top={0}
+      >
+        <LoadingButton
+          loading={isLoading}
+          disabled={!unsavedChanges}
+          size="medium"
+          onClick={() => {
+            onSubmit({
+              req: {
+                is_draft: true,
+                application: saveForm(), // state not updated fast enough so have to pass it in
+              },
+            })
+          }}
+        >
+          Save as Draft
+        </LoadingButton>
         <Stepper activeStep={activeStep} orientation="vertical" connector={<StyledStepConnector />}>
           {formKeys.map((section, i) => (
             <Step key={section} disabled={getStepDisabled(i, activeStep)}>
@@ -296,13 +340,17 @@ const Registration = (props: Props) => {
                 icon={getStepIcon(i)}
                 onClick={() => handleAccordionChange(i)}
                 sx={{
+                  transition: '0.5s all ease',
                   '&:hover': {
-                    opacity: 0.8,
-                    // idk
+                    textDecoration: 'underline',
                   },
                 }}
               >
-                {formSections[section].heading}
+                <Typography
+                  color={!getStepDisabled(i, activeStep) ? 'text.primary' : 'text.secondary'}
+                >
+                  {formSections[section].heading}
+                </Typography>
               </StepButton>
               <StepContent>
                 {formSections[section].subHeadings.map((subHeading) => (
@@ -312,22 +360,12 @@ const Registration = (props: Props) => {
             </Step>
           ))}
         </Stepper>
-        <Button
-          onClick={() => {
-            onSubmit({
-              is_draft: true,
-              application: saveForm(), // state not updated fast enough so have to pass it in
-            })
-          }}
-        >
-          Save for Later
-        </Button>
       </Grid>
     )
   }
 
   return (
-    <Grid container flexGrow={1}>
+    <Grid container flexGrow={1} spacing={4}>
       {!isMobile && <RegistrationStepper />}
       {isMobile && (
         <Grid
@@ -368,25 +406,24 @@ const Registration = (props: Props) => {
             <Accordion
               expanded={activeStep == i}
               disabled={getStepDisabled(i, activeStep)}
-              onChange={() => handleAccordionChange(i)}
               key={section}
               sx={{
                 width: '100%',
                 padding: { md: '1rem' },
-                boxShadow: activeStep == i ? '2px 2px 5px 2px' : 'transparent', // idk
+                borderRadius: '1rem',
+                transition: activeStep === i ? '0.5s all ease' : 'none',
+                opacity: activeStep === i ? '1' : '0',
+                boxShadow: activeStep === i ? '0px 0px 16px 0px #ffffff80' : 'transparent',
+                ...(activeStep !== i && { height: 0, padding: 0 }),
               }}
             >
-              <AccordionSummary>
-                <Typography>{formSections[section].heading}</Typography>
-              </AccordionSummary>
               <AccordionDetails>
                 {section == 'AboutYou' && (
                   <AboutYou
                     user={user}
                     form={formSections[section].form}
                     onNext={(data: AboutYouZodForm) => {
-                      setApplication(formToAppMap.AboutYou(data, application))
-                      handleNextStep()
+                      handleNextStep(formToAppMap.AboutYou(data, application))
                     }}
                   />
                 )}
@@ -394,8 +431,7 @@ const Registration = (props: Props) => {
                   <ExperienceForm
                     form={formSections[section].form}
                     onNext={(data: ExperienceZodForm) => {
-                      setApplication(formToAppMap.Experience(data, application))
-                      handleNextStep()
+                      handleNextStep(formToAppMap.Experience(data, application))
                     }}
                   />
                 )}
@@ -403,8 +439,7 @@ const Registration = (props: Props) => {
                   <OpenEndedResponsesForm
                     form={formSections[section].form}
                     onNext={(data: OpenEndedResponsesZodForm) => {
-                      setApplication(formToAppMap.OpenEndedResponses(data, application))
-                      handleNextStep()
+                      handleNextStep(formToAppMap.OpenEndedResponses(data, application))
                     }}
                   />
                 )}
@@ -412,8 +447,7 @@ const Registration = (props: Props) => {
                   <DeerhacksForm
                     form={formSections[section].form}
                     onNext={(data: DeerhacksZodForm) => {
-                      setApplication(formToAppMap.DeerHacks(data, application))
-                      handleNextStep()
+                      handleNextStep(formToAppMap.DeerHacks(data, application))
                     }}
                   />
                 )}
@@ -432,6 +466,7 @@ const Registration = (props: Props) => {
       <Suspense>
         <Modal
           open={openConfirmation}
+          loading={isLoading}
           setOpen={setOpenConfirmation}
           title="Submit Application"
           content={
@@ -439,7 +474,7 @@ const Registration = (props: Props) => {
               You will not be able to re-submit your application. Are you sure you want to proceed?
             </Typography>
           }
-          onSubmit={() => onSubmit({ is_draft: false, application })}
+          onSubmit={() => onSubmit({ req: { is_draft: false, application } })}
         />
       </Suspense>
     </Grid>
@@ -459,8 +494,6 @@ const RegistrationLoader = () => {
   } = useApplicationGet({
     enabled: user?.status && allowedStatuses.includes(user.status),
   })
-
-  const { data: schoolList, isLoading: schoolLoading } = useSchoolList()
 
   if (!toggles.dashboard) return <Error404Page />
   if (!loading && !authenticated) return <Error401Page />
@@ -496,14 +529,14 @@ const RegistrationLoader = () => {
       <Head>
         <title>Registration | DeerHacks</title>
       </Head>
-      {loading || !authenticated || !user || applicationLoading || schoolLoading ? (
+      {loading || !authenticated || !user || applicationLoading ? (
         <FullPageSpinner />
       ) : (
         <Fade in timeout={1000}>
           <Container
             sx={{ minHeight: '100vh', flexDirection: 'column', justifyContent: 'space-between' }}
           >
-            <BackButton navbar />
+            <BackButton navbar text="Dashboard" href="/dashboard" />
             <Typography
               variant="h1"
               display="flex"
@@ -511,15 +544,10 @@ const RegistrationLoader = () => {
               textAlign="left"
               gap="0.5rem"
             >
-              <AdjustIcon color="error" fontSize="inherit" />
-              Hacker Registration
+              My Application
             </Typography>
             {user.status === 'registering' ? (
-              <Registration
-                user={user}
-                savedApplication={data.application}
-                schoolOptions={getSchoolOptions(schoolList ?? [])}
-              />
+              <Registration user={user} savedApplication={data.application} />
             ) : (
               <FormReview user={user} application={data.application} />
             )}

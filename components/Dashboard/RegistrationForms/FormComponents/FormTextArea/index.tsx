@@ -45,7 +45,7 @@ const FormTextArea = (props: Props) => {
         multiline
         minRows={2}
         inputProps={{ maxLength }}
-        value={value}
+        value={value ?? ''}
         {...textFieldProps}
       />
     </Box>

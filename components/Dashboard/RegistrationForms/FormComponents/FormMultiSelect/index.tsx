@@ -24,7 +24,6 @@ const FormMultiSelect = (props: Props) => {
       error={Boolean(errors[name])}
       helperText={errors[name]?.message as string}
       value={value}
-      defaultValue={[]}
       {...textFieldProps}
     >
       {options.map((option, i) => {

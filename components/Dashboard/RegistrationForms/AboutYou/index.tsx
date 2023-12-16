@@ -22,6 +22,7 @@ import {
 } from '@/types/Application'
 import { User } from '@/types/User'
 import { AboutYouZodForm } from '@/types/Zod'
+import { MuiTelInput } from 'mui-tel-input'
 
 type Props = {
   user: User
@@ -63,7 +64,7 @@ const AboutYou = (props: Props) => {
               justifyContent={{ xs: 'space-between', sm: 'inherit' }}
             >
               {user.first_name + ' ' + user.last_name}
-              <Tooltip title={'Update in account settings'} arrow>
+              <Tooltip title={'Update in account settings'} arrow placement="right">
                 <InfoIcon color="disabled" />
               </Tooltip>
             </Typography>
@@ -85,7 +86,7 @@ const AboutYou = (props: Props) => {
               justifyContent={{ xs: 'space-between', sm: 'inherit' }}
             >
               <Typography variant="h3">{user.email}</Typography>
-              <Tooltip title={'Update in account settings'} arrow>
+              <Tooltip title={'Update in account settings'} arrow placement="right">
                 <InfoIcon color="disabled" />
               </Tooltip>
             </Box>
@@ -94,10 +95,13 @@ const AboutYou = (props: Props) => {
             name="phone_number"
             control={control}
             render={({ field: { ref, ...field } }) => (
-              <FormTextField
+              <MuiTelInput
                 label="Phone Number"
-                type="tel"
-                errors={errors}
+                defaultCountry="CA"
+                forceCallingCode
+                focusOnSelectCountry
+                error={!!form.formState.errors.phone_number?.message}
+                helperText={form.formState.errors.phone_number?.message}
                 inputRef={ref}
                 {...field}
               />
@@ -190,7 +194,7 @@ const AboutYou = (props: Props) => {
               control={control}
               render={({ field: { ref, ...field } }) => (
                 <FormMultiSelect
-                  label="Ethnicity"
+                  label="Ethnic Origins"
                   options={ethnicityOptions}
                   errors={errors}
                   inputRef={ref}
@@ -283,10 +287,13 @@ const AboutYou = (props: Props) => {
             name="emergency_number"
             control={control}
             render={({ field: { ref, ...field } }) => (
-              <FormTextField
+              <MuiTelInput
                 label="Phone Number"
-                type="tel"
-                errors={errors}
+                defaultCountry="CA"
+                forceCallingCode
+                focusOnSelectCountry
+                error={!!form.formState.errors.emergency_number?.message}
+                helperText={form.formState.errors.emergency_number?.message}
                 inputRef={ref}
                 {...field}
               />

@@ -1,6 +1,6 @@
 import { APITemplate } from '@/api/types'
 import { CustomFetch } from '@/api/useFetch'
-import { ApplicationGetResp, ApplicationUpdateReq, SchoolListResp } from '@/types/Application'
+import { ApplicationGetResp, ApplicationUpdateReq } from '@/types/Application'
 import { EmailVerifyReq, EmailVerifyResp } from '@/types/Email'
 import { EventListResp } from '@/types/Event'
 import { PhotoListResp } from '@/types/Photo'
@@ -9,14 +9,26 @@ import { UserGetResp, UserLoginReq, UserUpdateReq } from '@/types/User'
 
 export const config = (customFetch: CustomFetch) =>
   ({
+    ...application(customFetch),
     ...email(customFetch),
     ...events(customFetch),
     ...photos(customFetch),
     ...qrCodes(customFetch),
     ...users(customFetch),
-    ...application(customFetch),
     ..._(),
   } as const satisfies APITemplate)
+
+const application = (customFetch: CustomFetch) =>
+  ({
+    applicationGet: async () => {
+      const res = await customFetch('GET', 'DH_BE', '/application-get')
+      return res.data as ApplicationGetResp
+    },
+    applicationUpdate: async (args: ApplicationUpdateReq) => {
+      const res = await customFetch('POST', 'DH_BE', '/application-update', args)
+      return res.data as {}
+    },
+  } as const)
 
 const email = (customFetch: CustomFetch) =>
   ({
@@ -70,27 +82,7 @@ const users = (customFetch: CustomFetch) =>
     },
   } as const)
 
-const application = (customFetch: CustomFetch) =>
-  ({
-    applicationGet: async () => {
-      const res = await customFetch('GET', 'DH_BE', '/application-get')
-      return res.data as ApplicationGetResp
-    },
-    applicationUpdate: async (args: ApplicationUpdateReq) => {
-      const res = await customFetch('POST', 'DH_BE', '/application-update', args)
-      return res.data as {}
-    },
-    schoolList: async () => {
-      const res = await customFetch(
-        'GET',
-        'CUSTOM',
-        'http://universities.hipolabs.com/search?&country=Canada'
-      )
-      return res.data as SchoolListResp
-    },
-  } as const)
-
-// Mock Data Response
+// Mock Data Response for
 const _ = () =>
   ({
     mockUserGet: async () => {

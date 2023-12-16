@@ -19,8 +19,8 @@ const FormSelect = (props: Props) => {
       label={label}
       error={Boolean(errors[name])}
       helperText={errors[name]?.message as string}
-      defaultValue=""
       {...textFieldProps}
+      {...(!textFieldProps.value && { value: '' })}
     >
       {options.map((option, i) => {
         return (

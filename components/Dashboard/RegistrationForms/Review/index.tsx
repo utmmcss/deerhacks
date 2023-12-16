@@ -30,14 +30,14 @@ const FormReview = (props: Props) => {
         <FieldReview name="Age" value={application.age.toString()} />
         <FieldReview name="Gender" value={application.gender} />
         <FieldReview name="Pronoun" value={application.pronoun} />
-        <FieldReview name="Ethnicity" value={application.ethnicity.join(',\n')} isList />
+        <FieldReview name="Ethnic Origins" value={application.ethnicity.join(',\n')} isList />
         <br />
         <FieldReview
           name="Address"
           value={
             application.province
-              ? application.city + ' ' + application.province + ' ' + application.country
-              : application.city + ' ' + application.country
+              ? `${application.city} ${application.province}, ${application.country}`
+              : `${application.city}, ${application.country}`
           }
         />
         <br />
@@ -85,7 +85,7 @@ const FormReview = (props: Props) => {
           isList
         />
         <FieldReview name="Team Preferences" value={application.team_preference} />
-        <FieldReview name="Areas of Interest" value={application.interests.join(',\n')} isList />
+        <FieldReview name="Topics of Interest" value={application.interests.join(',\n')} isList />
       </Grid>
 
       <Grid container direction="column" gap="1.25rem">
@@ -109,7 +109,10 @@ const FormReview = (props: Props) => {
 
       <Grid container direction="column" gap="1.25rem">
         <Typography variant="h2">DeerHacks</Typography>
-        <FieldReview name="How did you hear about DeerHacks?" value={application.deerhacks_reach} />
+        <FieldReview
+          name="Where Did You First Hear About DeerHacks?"
+          value={application.deerhacks_reach}
+        />
         <br />
         <FieldReview name="Meals" value={getMeals(application)} isList />
         <br />
@@ -121,7 +124,7 @@ const FormReview = (props: Props) => {
         <CheckBoxReview name="MLH Email Subscription" value={application.mlh_subscribe} />
       </Grid>
 
-      {onSubmit && <Button onClick={onSubmit}>submit</Button>}
+      {onSubmit && <Button onClick={onSubmit}>Submit Application</Button>}
     </Grid>
   )
 }

@@ -36,6 +36,7 @@ const DeerhacksForm = (props: Props) => {
           <Box
             component="div"
             display="flex"
+            width="100%"
             flexDirection={{ xs: 'column', sm: 'row' }}
             gap="1rem"
           >
@@ -44,7 +45,7 @@ const DeerhacksForm = (props: Props) => {
               control={control}
               render={({ field: { ref, ...field } }) => (
                 <FormSelect
-                  label="How did you hear about DeerHacks?"
+                  label="Where Did You First Hear About DeerHacks?"
                   options={deerhacksReachOptions}
                   errors={errors}
                   inputRef={ref}

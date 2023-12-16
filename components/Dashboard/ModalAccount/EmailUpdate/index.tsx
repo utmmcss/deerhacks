@@ -96,21 +96,18 @@ const EmailUpdate = (props: Props) => {
                 )}
               />
             </Box>
-            {
-              user.status === 'pending' ? (
-                <Typography fontSize="0.75rem" textAlign="center">
-                  A confirmation email will be sent to the email address you submit. Once verified,
-                  your user status will be updated to <code>registering</code>.
-                </Typography>
-              ) : (
-                <Typography fontSize="0.75rem" textAlign="center">
-                  Important: Updating your email will revert your status to <code>pending</code>.
-                  You will need to reverify your account via the confirmation email to update your
-                  status back to <code>registering</code>.
-                </Typography>
-              )
-              // hanatodo do we add text here too about how we'll send them emails
-            }
+            {user.status === 'pending' ? (
+              <Typography fontSize="0.75rem" textAlign="center">
+                A confirmation email will be sent to the email address you submit. Once verified,
+                your user status will be updated to <code>registering</code>.
+              </Typography>
+            ) : (
+              <Typography fontSize="0.75rem" textAlign="center">
+                Important: Updating your email will revert your status to <code>pending</code>. You
+                will need to reverify your account via the confirmation email to update your status
+                back to <code>registering</code>.
+              </Typography>
+            )}
           </Box>
         </form>
       </DialogContent>

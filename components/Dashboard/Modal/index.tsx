@@ -9,15 +9,20 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Grow from '@mui/material/Grow'
 import IconButton from '@mui/material/IconButton'
 
+import LoadingButton from '@/components/Dashboard/LoadingButton'
+
 type Props = {
   open: boolean
+  loading?: boolean
+  disabled?: boolean
   setOpen: (open: boolean) => void
   title: string
   content: ReactNode
   onSubmit: () => void
 }
+
 const Modal = (props: Props) => {
-  const { open, setOpen, title, content, onSubmit } = props
+  const { open, loading = false, disabled = false, setOpen, title, content, onSubmit } = props
   return (
     <Dialog
       open={open}
@@ -43,8 +48,12 @@ const Modal = (props: Props) => {
       </IconButton>
       <DialogContent>{content}</DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpen(false)}>Cancel</Button>
-        <Button onClick={onSubmit}>Submit</Button>
+        <Button size="small" onClick={() => setOpen(false)} sx={{ p: '0.5rem 1rem' }}>
+          Cancel
+        </Button>
+        <LoadingButton loading={loading} onClick={onSubmit} disabled={disabled}>
+          Submit
+        </LoadingButton>
       </DialogActions>
     </Dialog>
   )

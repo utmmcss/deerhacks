@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { FieldErrors } from 'react-hook-form'
 
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete'
@@ -9,13 +10,17 @@ import { OTHER_SPECIFY } from '@/types/Application'
 type Props = {
   name: string
   label: string
+  value: string
   options: readonly string[]
   errors: FieldErrors
   onChange: (...event: any[]) => void
+  setOtherField: (value: string) => void
 } & TextFieldProps
 
 const FormDynamicSelect = (props: Props) => {
-  const { name, label, errors, options, onChange, value, ...textFieldProps } = props
+  const { name, label, errors, options, onChange, value, setOtherField, ...textFieldProps } = props
+
+  const [input, setInput] = useState(value)
 
   const _filterOptions = createFilterOptions()
   const filterOptions = (options: unknown[], state: FilterOptionsState<unknown>) => {
@@ -30,17 +35,28 @@ const FormDynamicSelect = (props: Props) => {
   return (
     <Autocomplete
       options={options}
-      onChange={(e, value) => {
-        onChange(value)
+      onChange={(e, value, reason) => {
+        if (reason === 'selectOption' || reason === 'blur') {
+          if (value === OTHER_SPECIFY) {
+            setOtherField(input)
+          }
+          onChange(value)
+        }
+      }}
+      onInputChange={(e, value, reason) => {
+        if (reason === 'input') setInput(value)
       }}
       value={value}
       filterOptions={filterOptions}
+      forcePopupIcon
+      autoComplete
+      autoSelect
+      autoHighlight
       renderInput={(params) => (
         <TextField
           label={label}
           error={Boolean(errors[name])}
           helperText={errors[name]?.message as string}
-          defaultValue=""
           {...textFieldProps}
           {...params}
         />

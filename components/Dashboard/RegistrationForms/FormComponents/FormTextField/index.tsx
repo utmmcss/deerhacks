@@ -26,6 +26,7 @@ const FormTextField = (props: Props) => {
       helperText={errors[name]?.message as string}
       inputProps={{ maxLength: 128 }}
       {...textFieldProps}
+      {...(!textFieldProps.value && { value: '' })}
     />
   )
 }

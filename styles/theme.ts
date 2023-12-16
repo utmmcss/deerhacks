@@ -135,7 +135,7 @@ const theme = createTheme(base, {
         },
         input: {
           '&:-webkit-autofill': {
-            WebkitBoxShadow: `0 0 0 100px ${base.palette.background.paper} inset !important`,
+            WebkitBoxShadow: `0 0 0 100px ${base.palette.background.default} inset !important`,
             WebkitTextFillColor: `${base.palette.text.primary} !important`,
           },
         },
