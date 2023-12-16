@@ -10,6 +10,7 @@ import TileGallery from '@/components/Dashboard/TileGallery'
 import TileHackerPack from '@/components/Dashboard/TileHackerPack'
 import TileInstagram from '@/components/Dashboard/TileInstagram'
 import TileLinkedIn from '@/components/Dashboard/TileLinkedIn'
+import TileMentorForm from '@/components/Dashboard/TileMentorForm'
 import TileRegistration from '@/components/Dashboard/TileRegistration'
 import TileScanner from '@/components/Dashboard/TileScanner'
 import TileSchedule from '@/components/Dashboard/TileSchedule'
@@ -17,6 +18,7 @@ import TileStatus from '@/components/Dashboard/TileStatus'
 import TileTips from '@/components/Dashboard/TileTips'
 import TileUser from '@/components/Dashboard/TileUser'
 import TileUsersTable from '@/components/Dashboard/TileUsersTable'
+import TileVolunteerForm from '@/components/Dashboard/TileVolunteerForm'
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
 import Navbar from '@/components/Shared/Navbar'
 import { useAuth } from '@/contexts/Auth'
@@ -27,6 +29,12 @@ import Error418Page from '@/pages/418'
 const Dashboard = () => {
   const { toggles } = useFeatureToggle()
   const { user, loading, authenticated } = useAuth()
+
+  const volunteerForm = process.env.NEXT_PUBLIC_TOGGLE_VOLUNTEER_FORM
+  const showVolunteerForm = !!volunteerForm && toggles.signupVolunteer
+
+  const mentorForm = process.env.NEXT_PUBLIC_TOGGLE_MENTOR_FORM
+  const showMentorForm = !!mentorForm && toggles.signupMentor
 
   if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
   if (!loading && !authenticated) return <Error401Page />
@@ -46,6 +54,21 @@ const Dashboard = () => {
             <Navbar />
             <Box component="div" display="flex" flexDirection="column" gap="1rem" width="100%">
               <TileUser user={user} />
+              {(showMentorForm || showVolunteerForm) &&
+                !['unverified', 'moderator', 'volunteer', 'attended'].includes(user.status) && (
+                  <Grid container spacing={2} py={4}>
+                    {showVolunteerForm && (
+                      <Grid item xs={12} md>
+                        <TileVolunteerForm href={volunteerForm} />
+                      </Grid>
+                    )}
+                    {showMentorForm && (
+                      <Grid item xs={12} md>
+                        <TileMentorForm href={mentorForm} />
+                      </Grid>
+                    )}
+                  </Grid>
+                )}
               {['admin', 'moderator', 'volunteer'].includes(user.status) && (
                 <Grid container spacing={2}>
                   <Grid item xs={12} md>
