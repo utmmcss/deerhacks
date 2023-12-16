@@ -22,8 +22,8 @@ export default function Document() {
           property="og:description"
           content="DeerHacks is the largest annual hackathon at University of Toronto Mississauga. Join 500+ hackers on February 16-18, 2024 for a weekend of prizes, development, and innovation!"
         />
-        <meta property="og:image" content="/backgrounds/banner.jpg" />
-        <meta property="twitter:image" content="/backgrounds/banner.jpg" />
+        <meta property="og:image" content="/backgrounds/collage_close.jpg" />
+        <meta property="twitter:image" content="/backgrounds/collage_close.jpg" />
         <meta name="twitter:card" content="summary_large_image" />
 
         <link rel="icon" type="image/svg+xml" sizes="512x512" href="/logo.svg" />

@@ -22,7 +22,7 @@ const TileUsersTable = () => {
             <SupervisedUserCircleIcon fontSize="inherit" />
             Staff: Users Table
           </Typography>
-          <Typography variant="body2">Interact with Hacker Data & Applications</Typography>
+          <Typography variant="body2">Interact with User Data & Applications</Typography>
         </CardContent>
       </CardActionArea>
     </Card>

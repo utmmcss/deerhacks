@@ -1,6 +1,6 @@
 # DeerHacks
 
-[![DeerHacks Banner](public/backgrounds/banner.jpg)](https://deerhacks.ca)
+[![DeerHacks Image](public/backgrounds/collage_close.jpg)](https://deerhacks.ca)
 
 > DeerHacks Hackathon 2024 Dashboard
 
