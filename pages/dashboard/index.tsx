@@ -59,12 +59,18 @@ const Dashboard = () => {
                   <Grid container spacing={2} py={4}>
                     {showVolunteerForm && (
                       <Grid item xs={12} md>
-                        <TileVolunteerForm href={volunteerForm} />
+                        <TileVolunteerForm
+                          href={volunteerForm}
+                          disabled={['pending'].includes(user.status)}
+                        />
                       </Grid>
                     )}
                     {showMentorForm && (
                       <Grid item xs={12} md>
-                        <TileMentorForm href={mentorForm} />
+                        <TileMentorForm
+                          href={mentorForm}
+                          disabled={['pending'].includes(user.status)}
+                        />
                       </Grid>
                     )}
                   </Grid>
