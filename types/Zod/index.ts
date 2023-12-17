@@ -34,7 +34,7 @@ export const textFieldOptional = string()
   })
   .optional()
 
-export const textArea = string().trim().max(1300, 'Maximum Character Count Reached')
+export const textArea = string().trim().max(1500, 'Maximum Character Count Reached')
 
 export const emailField = string()
   .trim()

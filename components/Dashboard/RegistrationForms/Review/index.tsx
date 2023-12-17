@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
-import { Application } from '@/types/Application'
+import { Application, OTHER_SPECIFY } from '@/types/Application'
 import { User } from '@/types/User'
 
 type Props = {
@@ -18,6 +18,8 @@ type Props = {
 
 const FormReview = (props: Props) => {
   const { user, application, onSubmit } = props
+
+  // hanatodo don't show other specify in review page
 
   return (
     <Grid container direction="column" gap="2.5rem">
@@ -30,7 +32,7 @@ const FormReview = (props: Props) => {
         <FieldReview name="Age" value={application.age.toString()} />
         <FieldReview name="Gender" value={application.gender} />
         <FieldReview name="Pronoun" value={application.pronoun} />
-        <FieldReview name="Ethnic Origins" value={application.ethnicity.join(',\n')} isList />
+        <FieldReview name="Ethnic Origins" value={formatList(application.ethnicity)} isList />
         <br />
         <FieldReview
           name="Address"
@@ -54,11 +56,15 @@ const FormReview = (props: Props) => {
         <FieldReview name="Shirt Size" value={application.shirt_size} />
         <FieldReview
           name="Dietary Restrictions"
-          value={application.diet_restriction.join(',\n')}
+          value={formatList(application.diet_restriction)}
           isList
         />
         {application.additional_info && (
-          <FieldReview name="Additional Info" value={application.additional_info} isShortAnswer />
+          <FieldReview
+            name="Additional Accommodations"
+            value={application.additional_info}
+            isShortAnswer
+          />
         )}
       </Grid>
 
@@ -81,11 +87,11 @@ const FormReview = (props: Props) => {
         />
         <FieldReview
           name="Previous DeerHacks Attendance"
-          value={application.deerhacks_experience.join(',\n')}
+          value={formatList(application.deerhacks_experience)}
           isList
         />
         <FieldReview name="Team Preferences" value={application.team_preference} />
-        <FieldReview name="Topics of Interest" value={application.interests.join(',\n')} isList />
+        <FieldReview name="Topics of Interest" value={formatList(application.interests)} isList />
       </Grid>
 
       <Grid container direction="column" gap="1.25rem">
@@ -127,6 +133,10 @@ const FormReview = (props: Props) => {
       {onSubmit && <Button onClick={onSubmit}>Submit Application</Button>}
     </Grid>
   )
+}
+
+const formatList = (values: string[]) => {
+  return values.filter((val) => val !== OTHER_SPECIFY).join(',\n')
 }
 
 type FieldReviewProps = {
@@ -200,7 +210,7 @@ const getMeals = (app: Application) => {
   if (app.day2_dinner) meals.push('Day 2 Dinner')
   if (app.day3_breakfast) meals.push('Day 3 Breakfast')
 
-  return meals.length ? meals.join(',\n') : 'None'
+  return meals.length ? formatList(meals) : 'None'
 }
 
 export default FormReview

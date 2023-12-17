@@ -5,11 +5,10 @@ import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
 
 import AdjustIcon from '@mui/icons-material/Adjust'
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
-import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
-import AccordionSummary from '@mui/material/AccordionSummary'
+import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
@@ -17,9 +16,9 @@ import Step from '@mui/material/Step'
 import StepButton from '@mui/material/StepButton'
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 import StepContent from '@mui/material/StepContent'
-import StepLabel from '@mui/material/StepLabel'
 import Stepper from '@mui/material/Stepper'
 import { styled, useTheme } from '@mui/material/styles'
+import SwipeableDrawer from '@mui/material/SwipeableDrawer'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
@@ -111,6 +110,7 @@ const Registration = (props: Props) => {
 
   const [application, setApplication] = useState(savedApplication)
 
+  const [openDrawer, setOpenDrawer] = useState(isMobile)
   const [openConfirmation, setOpenConfirmation] = useState(false)
 
   const formSections: FormSections = {
@@ -364,41 +364,90 @@ const Registration = (props: Props) => {
     )
   }
 
+  const Puller = styled(Box)(({ theme }) => ({
+    width: 30,
+    height: 6,
+    backgroundColor: theme.palette.mode === 'light' ? 'grey' : 'grey',
+    borderRadius: 3,
+    position: 'absolute',
+    top: 8,
+    left: 'calc(50% - 15px)',
+  }))
+
   return (
     <Grid container flexGrow={1} spacing={4}>
       {!isMobile && <RegistrationStepper />}
       {isMobile && (
-        <Grid
-          position="fixed"
-          left={0}
-          bottom={0}
-          width="100%"
-          zIndex={100}
-          style={{ backgroundColor: 'black' }}
+        <SwipeableDrawer
+          //container={container}
+          anchor="bottom"
+          open={openDrawer}
+          onClose={() => setOpenDrawer(false)}
+          onOpen={() => setOpenDrawer(true)}
+          swipeAreaWidth={56}
+          disableSwipeToOpen={false}
+          ModalProps={{
+            keepMounted: true,
+          }}
         >
-          <Accordion>
-            <AccordionSummary>
-              <Stepper
-                activeStep={activeStep}
-                connector={<StyledStepConnector />}
-                style={{ width: '100%' }}
-              >
-                {formKeys.map((section, i) => (
-                  <Step key={section}>
-                    <StepLabel icon={getStepIcon(i)}></StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
-              {
-                // hanatodo does it even need to expand? maybe just the save for later button???
-              }
-              <ExpandLessIcon />
-            </AccordionSummary>
-            <AccordionDetails>
-              <RegistrationStepper />
-            </AccordionDetails>
-          </Accordion>
-        </Grid>
+          <Box
+            component="div"
+            sx={{
+              position: 'absolute',
+              top: -56,
+              borderTopLeftRadius: 8,
+              borderTopRightRadius: 8,
+              visibility: 'visible',
+              right: 0,
+              left: 0,
+            }}
+          >
+            <Puller />
+            <Typography sx={{ p: 2, color: 'text.secondary' }}>Heading</Typography>
+          </Box>
+          <Box
+            component="div"
+            sx={{
+              px: 2,
+              pb: 2,
+              height: '100%',
+              overflow: 'auto',
+            }}
+          >
+            <Typography sx={{ p: 2, color: 'text.secondary' }}>Content</Typography>
+          </Box>
+        </SwipeableDrawer>
+        // <Grid
+        //   position="fixed"
+        //   left={0}
+        //   bottom={0}
+        //   width="100%"
+        //   zIndex={100}
+        //   style={{ backgroundColor: 'black' }}
+        // >
+        //   <Accordion>
+        //     <AccordionSummary>
+        //       <Stepper
+        //         activeStep={activeStep}
+        //         connector={<StyledStepConnector />}
+        //         style={{ width: '100%' }}
+        //       >
+        //         {formKeys.map((section, i) => (
+        //           <Step key={section}>
+        //             <StepLabel icon={getStepIcon(i)}></StepLabel>
+        //           </Step>
+        //         ))}
+        //       </Stepper>
+        //       {
+        //         // hanatodo does it even need to expand? maybe just the save for later button???
+        //       }
+        //       <ExpandLessIcon />
+        //     </AccordionSummary>
+        //     <AccordionDetails>
+        //       <RegistrationStepper />
+        //     </AccordionDetails>
+        //   </Accordion>
+        // </Grid>
       )}
       <Grid item xs={12} md={9}>
         {formKeys.map((section, i) => {

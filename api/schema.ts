@@ -82,7 +82,7 @@ const users = (customFetch: CustomFetch) =>
     },
   } as const)
 
-// Mock Data Response for
+// Mock Data Response for Development
 const _ = () =>
   ({
     mockUserGet: async () => {
@@ -109,8 +109,8 @@ const _ = () =>
       const user = await getUserWithTimeout()
       return user
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     mockUserLogin: async (_: UserLoginReq) => {
+      console.log(_)
       function getLoginWithTimeout(): Promise<{}> {
         return new Promise((resolve) => {
           setTimeout(() => {

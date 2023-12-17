@@ -34,7 +34,6 @@ const OpenEndedResponsesForm = (props: Props) => {
                 label="Why do you want to take part in DeerHacks?"
                 errors={errors}
                 inputRef={ref}
-                maxLength={1500}
                 {...field}
               />
             )}
@@ -51,7 +50,6 @@ const OpenEndedResponsesForm = (props: Props) => {
                 label="Share a project or initiative you've worked on that you're particularly proud of. What was your role, and what impact did it have?"
                 errors={errors}
                 inputRef={ref}
-                maxLength={1500}
                 {...field}
               />
             )}
@@ -68,7 +66,6 @@ const OpenEndedResponsesForm = (props: Props) => {
                 label="In your opinion, what is the most exciting or groundbreaking technology trend right now, and how might it impact our daily lives in the future?"
                 errors={errors}
                 inputRef={ref}
-                maxLength={1500}
                 {...field}
               />
             )}

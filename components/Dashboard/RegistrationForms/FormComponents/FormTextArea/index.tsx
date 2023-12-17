@@ -21,7 +21,7 @@ const FormTextArea = (props: Props) => {
     name,
     value,
     errors,
-    maxLength = 1300,
+    maxLength = 1500,
     optional = false,
     ...textFieldProps
   } = props
