@@ -495,7 +495,7 @@ export const interestsOptions = [
   'Digital Marketing',
   'UX/UI Design',
   OTHER_SPECIFY,
-] as const // anthony added embedded systems in enum but its not on doc
+] as const
 
 export const deerhacksReachOptions = [
   'DeerHacks Instagram Page',

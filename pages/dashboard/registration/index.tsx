@@ -1,34 +1,25 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { Suspense, useEffect, useState } from 'react'
-import { FieldValues, useForm, UseFormReturn } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
-import AdjustIcon from '@mui/icons-material/Adjust'
-import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
-import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
-import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
-import Step from '@mui/material/Step'
-import StepButton from '@mui/material/StepButton'
-import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
-import StepContent from '@mui/material/StepContent'
-import Stepper from '@mui/material/Stepper'
-import { styled, useTheme } from '@mui/material/styles'
-import SwipeableDrawer from '@mui/material/SwipeableDrawer'
+import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import LoadingButton from '@/components/Dashboard/LoadingButton'
 import Modal from '@/components/Dashboard/Modal'
 import AboutYou from '@/components/Dashboard/RegistrationForms/AboutYou'
 import DeerhacksForm from '@/components/Dashboard/RegistrationForms/Deerhacks'
 import ExperienceForm from '@/components/Dashboard/RegistrationForms/Experience'
 import { appToFormMap, formToAppMap } from '@/components/Dashboard/RegistrationForms/helpers'
 import OpenEndedResponsesForm from '@/components/Dashboard/RegistrationForms/OpenEndedResponses'
+import RegistrationDrawer from '@/components/Dashboard/RegistrationForms/RegistrationDrawer'
+import RegistrationStepper from '@/components/Dashboard/RegistrationForms/RegistrationStepper'
 import FormReview from '@/components/Dashboard/RegistrationForms/Review'
 import BackButton from '@/components/Shared/BackButton'
 import FullPageLoader from '@/components/Shared/FullPageLoader'
@@ -42,6 +33,7 @@ import Error401Page from '@/pages/401'
 import Error404Page from '@/pages/404'
 import Error500Page from '@/pages/500'
 import { Application, ApplicationUpdateReq } from '@/types/Application'
+import { formKeys, FormSections } from '@/types/Registration'
 import { User } from '@/types/User'
 import {
   AboutYouZodForm,
@@ -55,42 +47,8 @@ import {
 } from '@/types/Zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-const StyledStepConnector = styled(StepConnector)(() => ({
-  [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 10,
-    left: 'calc(-50% + 16px)',
-    right: 'calc(50% + 16px)',
-  },
-  [`&.${stepConnectorClasses.active}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      borderColor: '#fff',
-    },
-  },
-  [`&.${stepConnectorClasses.completed}`]: {
-    [`& .${stepConnectorClasses.line}`]: {
-      borderColor: '#fff',
-    },
-  },
-}))
-
 const scrollToTop = () => {
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-}
-
-const formKeys = ['AboutYou', 'Experience', 'OpenEndedResponses', 'DeerHacks', 'Review'] as const
-
-type Section<Values extends FieldValues> = {
-  heading: string
-  subHeadings: readonly string[]
-  form: UseFormReturn<Values>
-}
-
-type FormSections = {
-  AboutYou: Section<AboutYouZodForm>
-  Experience: Section<ExperienceZodForm>
-  OpenEndedResponses: Section<OpenEndedResponsesZodForm>
-  DeerHacks: Section<DeerhacksZodForm>
-  Review: Omit<Section<any>, 'form'>
 }
 
 type Props = {
@@ -109,6 +67,8 @@ const Registration = (props: Props) => {
   const { setToast } = useToast()
 
   const [application, setApplication] = useState(savedApplication)
+
+  const [activeStep, setActiveStep] = useState(0)
 
   const [openDrawer, setOpenDrawer] = useState(isMobile)
   const [openConfirmation, setOpenConfirmation] = useState(false)
@@ -232,7 +192,14 @@ const Registration = (props: Props) => {
     return updatedApp
   }
 
-  const [activeStep, setActiveStep] = useState(0)
+  const onSaveLater = () => {
+    onSubmit({
+      req: {
+        is_draft: true,
+        application: saveForm(), // state not updated fast enough so have to pass it in
+      },
+    })
+  }
 
   const handleNextStep = (newApp: Application) => {
     const closedStep = formKeys[activeStep]
@@ -247,35 +214,6 @@ const Registration = (props: Props) => {
   const handleAccordionChange = (i: number) => {
     saveForm()
     setActiveStep(i)
-  }
-
-  const getStepDisabled = (stepIndex: number, activeIndex: number) => {
-    if (stepIndex === activeIndex) return false
-
-    // disable all future steps after an invalid step
-    for (var i = 0; i < formKeys.length; i++) {
-      const stepKey = formKeys[i]
-      if (stepKey === 'Review') return false
-      if (!formSections[stepKey].form.formState.isValid) {
-        return stepIndex > i
-      }
-    }
-  }
-
-  const getStepIcon = (i: number) => {
-    const stepKey = formKeys[i]
-    const opacity = i === activeStep ? 1 : 0.5
-
-    if (stepKey !== 'Review') {
-      const form = formSections[stepKey].form
-
-      if (form.formState.isValid) return <TaskAltRoundedIcon color="success" sx={{ opacity }} />
-
-      if (Object.keys(form.formState.errors).length) {
-        return <ErrorOutlineRoundedIcon color="error" />
-      }
-    }
-    return <AdjustIcon color="secondary" sx={{ opacity }} />
   }
 
   const unsavedChanges =
@@ -305,156 +243,44 @@ const Registration = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unsavedChanges])
 
-  const RegistrationStepper = () => {
-    return (
-      <Grid
-        container
-        flexDirection="column"
-        item
-        xs={0}
-        md={3}
-        gap={2}
-        alignSelf="start"
-        position="sticky"
-        top={0}
-      >
-        <LoadingButton
-          loading={isLoading}
-          disabled={!unsavedChanges}
-          size="medium"
-          onClick={() => {
-            onSubmit({
-              req: {
-                is_draft: true,
-                application: saveForm(), // state not updated fast enough so have to pass it in
-              },
-            })
-          }}
-        >
-          Save as Draft
-        </LoadingButton>
-        <Stepper activeStep={activeStep} orientation="vertical" connector={<StyledStepConnector />}>
-          {formKeys.map((section, i) => (
-            <Step key={section} disabled={getStepDisabled(i, activeStep)}>
-              <StepButton
-                icon={getStepIcon(i)}
-                onClick={() => handleAccordionChange(i)}
-                sx={{
-                  transition: '0.5s all ease',
-                  '&:hover': {
-                    textDecoration: 'underline',
-                  },
-                }}
-              >
-                <Typography
-                  color={!getStepDisabled(i, activeStep) ? 'text.primary' : 'text.secondary'}
-                >
-                  {formSections[section].heading}
-                </Typography>
-              </StepButton>
-              <StepContent>
-                {formSections[section].subHeadings.map((subHeading) => (
-                  <Typography key={`${section} - ${subHeading}`}>{subHeading}</Typography>
-                ))}
-              </StepContent>
-            </Step>
-          ))}
-        </Stepper>
-      </Grid>
-    )
-  }
-
-  const Puller = styled(Box)(({ theme }) => ({
-    width: 30,
-    height: 6,
-    backgroundColor: theme.palette.mode === 'light' ? 'grey' : 'grey',
-    borderRadius: 3,
-    position: 'absolute',
-    top: 8,
-    left: 'calc(50% - 15px)',
-  }))
-
   return (
     <Grid container flexGrow={1} spacing={4}>
-      {!isMobile && <RegistrationStepper />}
-      {isMobile && (
-        <SwipeableDrawer
-          //container={container}
-          anchor="bottom"
-          open={openDrawer}
-          onClose={() => setOpenDrawer(false)}
-          onOpen={() => setOpenDrawer(true)}
-          swipeAreaWidth={56}
-          disableSwipeToOpen={false}
-          ModalProps={{
-            keepMounted: true,
+      {!isMobile && (
+        <RegistrationStepper
+          activeStep={activeStep}
+          formSections={formSections}
+          handleAccordionChange={handleAccordionChange}
+          saveForLaterButton={{
+            isLoading,
+            disabled: !unsavedChanges,
+            onClick: onSaveLater,
           }}
+        />
+      )}
+      {isMobile && (
+        <RegistrationDrawer
+          open={openDrawer}
+          setOpen={setOpenDrawer}
+          activeStep={activeStep}
+          formSections={formSections}
         >
-          <Box
-            component="div"
-            sx={{
-              position: 'absolute',
-              top: -56,
-              borderTopLeftRadius: 8,
-              borderTopRightRadius: 8,
-              visibility: 'visible',
-              right: 0,
-              left: 0,
+          <RegistrationStepper
+            activeStep={activeStep}
+            formSections={formSections}
+            handleAccordionChange={handleAccordionChange}
+            saveForLaterButton={{
+              isLoading,
+              disabled: !unsavedChanges,
+              onClick: onSaveLater,
             }}
-          >
-            <Puller />
-            <Typography sx={{ p: 2, color: 'text.secondary' }}>Heading</Typography>
-          </Box>
-          <Box
-            component="div"
-            sx={{
-              px: 2,
-              pb: 2,
-              height: '100%',
-              overflow: 'auto',
-            }}
-          >
-            <Typography sx={{ p: 2, color: 'text.secondary' }}>Content</Typography>
-          </Box>
-        </SwipeableDrawer>
-        // <Grid
-        //   position="fixed"
-        //   left={0}
-        //   bottom={0}
-        //   width="100%"
-        //   zIndex={100}
-        //   style={{ backgroundColor: 'black' }}
-        // >
-        //   <Accordion>
-        //     <AccordionSummary>
-        //       <Stepper
-        //         activeStep={activeStep}
-        //         connector={<StyledStepConnector />}
-        //         style={{ width: '100%' }}
-        //       >
-        //         {formKeys.map((section, i) => (
-        //           <Step key={section}>
-        //             <StepLabel icon={getStepIcon(i)}></StepLabel>
-        //           </Step>
-        //         ))}
-        //       </Stepper>
-        //       {
-        //         // hanatodo does it even need to expand? maybe just the save for later button???
-        //       }
-        //       <ExpandLessIcon />
-        //     </AccordionSummary>
-        //     <AccordionDetails>
-        //       <RegistrationStepper />
-        //     </AccordionDetails>
-        //   </Accordion>
-        // </Grid>
+          />
+        </RegistrationDrawer>
       )}
       <Grid item xs={12} md={9}>
         {formKeys.map((section, i) => {
           return (
             <Accordion
               expanded={activeStep == i}
-              disabled={getStepDisabled(i, activeStep)}
               key={section}
               sx={{
                 width: '100%',
