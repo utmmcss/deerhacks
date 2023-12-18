@@ -85,12 +85,15 @@ const RegistrationStepper = (props: Props) => {
       alignSelf="start"
       position="sticky"
       top={0}
+      alignItems="center"
+      padding={1}
     >
       <LoadingButton
         loading={saveForLaterButton.isLoading}
         disabled={saveForLaterButton.disabled}
         size="medium"
         onClick={saveForLaterButton.onClick}
+        fullWidth
       >
         Save as Draft
       </LoadingButton>

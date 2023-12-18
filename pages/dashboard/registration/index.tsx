@@ -70,7 +70,7 @@ const Registration = (props: Props) => {
 
   const [activeStep, setActiveStep] = useState(0)
 
-  const [openDrawer, setOpenDrawer] = useState(isMobile)
+  const [openDrawer, setOpenDrawer] = useState(false)
   const [openConfirmation, setOpenConfirmation] = useState(false)
 
   const formSections: FormSections = {
