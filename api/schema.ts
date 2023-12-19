@@ -107,4 +107,20 @@ const _ = () =>
 
       return await getLoginWithTimeout()
     },
+    mockEmailVerify: async (_: EmailVerifyReq) => {
+      console.log(_)
+      function emailVerifyWithTimeout(): Promise<EmailVerifyResp> {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({
+              status: 'invalid',
+              context: 'invalid',
+            })
+          }, 200)
+        })
+      }
+
+      const user = await emailVerifyWithTimeout()
+      return user
+    },
   } as const)

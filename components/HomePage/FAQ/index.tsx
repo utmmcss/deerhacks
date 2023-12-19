@@ -38,7 +38,7 @@ const FAQ = () => {
             <AccordionDetails>
               <Typography>
                 DeerHacks will take place on the weekend of February 16 - 18, 2024 and the tentative
-                opening date for hacker registration is December 22, 2023. Keep an eye on this page
+                opening date for hacker registration is January 5, 2024. Keep an eye on this page
                 and our socials (@deerhacks) for any updates including when registration opens for
                 mentors and volunteers.
               </Typography>
