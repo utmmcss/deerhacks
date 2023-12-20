@@ -119,7 +119,7 @@ const AboutYou = (props: Props) => {
                 label="Age"
                 type="number"
                 errors={errors}
-                inputProps={{ min: 1, max: 100 }}
+                inputProps={{ min: 18, max: 100 }}
                 inputRef={ref}
                 {...field}
               />
