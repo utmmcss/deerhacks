@@ -213,6 +213,7 @@ const Registration = (props: Props) => {
 
   const handleAccordionChange = (i: number) => {
     saveForm()
+    scrollToTop()
     setActiveStep(i)
   }
 

@@ -164,7 +164,8 @@ const FieldReview = (props: FieldReviewProps) => {
             variant="h3"
             {...(isList && { whiteSpace: 'pre' })}
             textAlign={{ xs: 'start', sm: isShortAnswer ? 'start' : 'end' }}
-            textOverflow=""
+            textOverflow="ellipsis"
+            style={{ overflowWrap: 'anywhere' }}
           >
             {value}
           </Typography>

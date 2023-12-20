@@ -16,7 +16,15 @@ import {
   teamPreferenceOptions,
 } from '@/types/Application'
 import { matchIsValidTel } from 'mui-tel-input'
-import { boolean, enum as enumZod, infer as inferZod, literal, object, string } from 'zod'
+import {
+  boolean,
+  enum as enumZod,
+  infer as inferZod,
+  intersection,
+  literal,
+  object,
+  string,
+} from 'zod'
 
 export const textField = string()
   .trim()
@@ -66,176 +74,211 @@ const ageField = string()
   }, 'Invalid age')
   .refine((str) => parseInt(str) >= 18, 'Must be 18 or older to apply')
 
-export const aboutYouZodForm = object({
-  // Personal Information
-  //first_name
-  //last_name
-  //email
-  phone_number: phoneField,
-
-  // Profile Details
-  age: ageField,
+const gender = object({
   gender: enumZod(genderOptions, { required_error: 'Required' }),
   gender_other: textFieldOptional,
+}).superRefine(({ gender, gender_other }, refinementContext) => {
+  if (gender.includes(OTHER_SPECIFY) && !gender_other) {
+    refinementContext.addIssue({
+      code: 'custom',
+      message: 'Required',
+      path: ['gender_other'],
+    })
+  }
+  return refinementContext
+})
+
+const pronoun = object({
   pronoun: enumZod(pronounOptions, { required_error: 'Required' }),
   pronoun_other: textFieldOptional,
+}).superRefine(({ pronoun, pronoun_other }, refinementContext) => {
+  if (pronoun.includes(OTHER_SPECIFY) && !pronoun_other) {
+    refinementContext.addIssue({
+      code: 'custom',
+      message: 'Required',
+      path: ['pronoun_other'],
+    })
+  }
+  return refinementContext
+})
+
+const ethnicity = object({
   ethnicity: enumZod(ethnicityOptions, { required_error: 'Required' }).array().min(1, 'Required'),
   ethnicity_other: textFieldOptional,
+}).superRefine(({ ethnicity, ethnicity_other }, refinementContext) => {
+  if (ethnicity.includes(OTHER_SPECIFY) && !ethnicity_other) {
+    refinementContext.addIssue({
+      code: 'custom',
+      message: 'Required',
+      path: ['ethnicity_other'],
+    })
+  }
+  return refinementContext
+})
 
-  // Location
-  city: textField,
-  country: textField,
-  province: textFieldOptional,
-
-  // Emergency Contact
-  emergency_name: textField,
-  emergency_number: phoneField,
+const emergency_relationship = object({
   emergency_relationship: enumZod(relationshipOptions, { required_error: 'Required' }),
   emergency_relationship_other: textFieldOptional,
+}).superRefine(({ emergency_relationship, emergency_relationship_other }, refinementContext) => {
+  if (emergency_relationship.includes(OTHER_SPECIFY) && !emergency_relationship_other) {
+    refinementContext.addIssue({
+      code: 'custom',
+      message: 'Required',
+      path: ['emergency_relationship_other'],
+    })
+  }
+  return refinementContext
+})
 
-  // Event Preferences
-  shirt_size: enumZod(shirtSizeOptions, { required_error: 'Required' }),
+const diet_restriction = object({
   diet_restriction: enumZod(dietaryRestrictionsOptions, { required_error: 'Required' })
     .array()
     .min(1, 'Required'),
   diet_restriction_other: textFieldOptional,
-  additional_info: textArea.optional(),
-}).superRefine(
-  (
-    {
-      gender,
-      gender_other,
-      pronoun,
-      pronoun_other,
-      ethnicity,
-      ethnicity_other,
-      emergency_relationship,
-      emergency_relationship_other,
-      diet_restriction,
-      diet_restriction_other,
-    },
-    refinementContext
-  ) => {
-    if (gender.includes(OTHER_SPECIFY) && !gender_other) {
-      refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['gender_other'],
-      })
-    }
-    if (pronoun.includes(OTHER_SPECIFY) && !pronoun_other) {
-      refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['pronoun_other'],
-      })
-    }
-    if (ethnicity.includes(OTHER_SPECIFY) && !ethnicity_other) {
-      refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['ethnicity_other'],
-      })
-    }
-    if (emergency_relationship.includes(OTHER_SPECIFY) && !emergency_relationship_other) {
-      refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['emergency_relationship_other'],
-      })
-    }
-    if (diet_restriction.includes(OTHER_SPECIFY) && !diet_restriction_other) {
-      refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['diet_restriction_other'],
-      })
-    }
-    return refinementContext
+}).superRefine(({ diet_restriction, diet_restriction_other }, refinementContext) => {
+  if (diet_restriction.includes(OTHER_SPECIFY) && !diet_restriction_other) {
+    refinementContext.addIssue({
+      code: 'custom',
+      message: 'Required',
+      path: ['diet_restriction_other'],
+    })
   }
+  return refinementContext
+})
+
+export const aboutYouZodForm = intersection(
+  gender.and(pronoun).and(ethnicity).and(emergency_relationship).and(diet_restriction),
+  object({
+    // Personal Information
+    //first_name
+    //last_name
+    //email
+    phone_number: phoneField,
+
+    // Profile Details
+    age: ageField,
+    // gender
+    // gender_other
+    // pronoun
+    // pronoun_other
+    // ethnicity
+    // ethnicity_other
+
+    // Location
+    city: textField,
+    country: textField,
+    province: textFieldOptional,
+
+    // Emergency Contact
+    emergency_name: textField,
+    emergency_number: phoneField,
+    // emergency_relationship
+    // emergency_relationship_other
+
+    // Event Preferences
+    shirt_size: enumZod(shirtSizeOptions, { required_error: 'Required' }),
+    // diet_restriction
+    // diet_restriction_other
+    additional_info: textArea.max(128, 'Maximum Character Count Reached').optional(),
+  })
 )
 export type AboutYouZodForm = inferZod<typeof aboutYouZodForm>
 
-export const experienceZodForm = object({
-  // Education
+const education = object({
   education: enumZod(educationOptions, { required_error: 'Required' }),
   education_other: textFieldOptional,
+}).superRefine(({ education, education_other }, refinementContext) => {
+  if (education.includes(OTHER_SPECIFY) && !education_other) {
+    refinementContext.addIssue({
+      code: 'custom',
+      message: 'Required',
+      path: ['education_other'],
+    })
+  }
+  return refinementContext
+})
+
+const school = object({
   school: enumZod(schoolOptions, {
     // need to overwrite invalid enum value error
     errorMap: () => ({ message: 'Required' }),
   }),
   school_other: textFieldOptional,
+}).superRefine(({ school, school_other }, refinementContext) => {
+  if (school.includes(OTHER_SPECIFY) && !school_other) {
+    refinementContext.addIssue({
+      code: 'custom',
+      message: 'Required',
+      path: ['school_other'],
+    })
+  }
+  return refinementContext
+})
+
+const program = object({
   program: enumZod(programOptions, {
     // need to overwrite invalid enum value error
     errorMap: () => ({ message: 'Required' }),
   }),
   program_other: textFieldOptional,
+}).superRefine(({ program, program_other }, refinementContext) => {
+  if (program.includes(OTHER_SPECIFY) && !program_other) {
+    refinementContext.addIssue({
+      code: 'custom',
+      message: 'Required',
+      path: ['program_other'],
+    })
+  }
+  return refinementContext
+})
 
-  // Professional Journey
-  // hanatodo resume stuff
-  // resume_link: urlField.min(1, 'Required'), // hanatodo i dont even know if its a url
-  // resume_filename: textField,
-  // resume_hash: textField,
-  portfolio: urlField.or(literal('')).or(literal(undefined)),
-  github: urlField.or(literal('')).or(literal(undefined)),
-  linkedin: urlField.or(literal('')).or(literal(undefined)),
-  resume_consent: checkBoxRequired,
-
-  // Hacker Details
-  hackathon_experience: enumZod(hackathonExperienceOptions, { required_error: 'Required' }),
-  deerhacks_experience: enumZod(deerhacksExperienceOptions, { required_error: 'Required' })
-    .array()
-    .min(1, 'Required'),
-  team_preference: enumZod(teamPreferenceOptions, { required_error: 'Required' }),
+const interests = object({
   interests: enumZod(interestsOptions, { required_error: 'Required' })
     .array()
     .min(1, 'Required')
     .max(5, 'Maximum Selection Reached'),
   interests_other: textFieldOptional,
-}).superRefine(
-  (
-    {
-      education,
-      education_other,
-      school,
-      school_other,
-      program,
-      program_other,
-      interests,
-      interests_other,
-    },
-    refinementContext
-  ) => {
-    if (education.includes(OTHER_SPECIFY) && !education_other) {
-      refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['education_other'],
-      })
-    }
-    if (school.includes(OTHER_SPECIFY) && !school_other) {
-      refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['school_other'],
-      })
-    }
-    if (program.includes(OTHER_SPECIFY) && !program_other) {
-      refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['program_other'],
-      })
-    }
-    if (interests.includes(OTHER_SPECIFY) && !interests_other) {
-      refinementContext.addIssue({
-        code: 'custom',
-        message: 'Required',
-        path: ['interests_other'],
-      })
-    }
-    return refinementContext
+}).superRefine(({ interests, interests_other }, refinementContext) => {
+  if (interests.includes(OTHER_SPECIFY) && !interests_other) {
+    refinementContext.addIssue({
+      code: 'custom',
+      message: 'Required',
+      path: ['interests_other'],
+    })
   }
+  return refinementContext
+})
+
+export const experienceZodForm = intersection(
+  education.and(school).and(program).and(interests),
+  object({
+    // Education
+    //education
+    //education_other
+    // school
+    // school_other
+    // program
+    // program_other
+
+    // Professional Journey
+    // hanatodo resume stuff
+    // resume_link: urlField.min(1, 'Required'), // hanatodo i dont even know if its a url
+    // resume_filename: textField,
+    // resume_hash: textField,
+    portfolio: urlField.or(literal('')).or(literal(undefined)),
+    github: urlField.or(literal('')).or(literal(undefined)),
+    linkedin: urlField.or(literal('')).or(literal(undefined)),
+    resume_consent: checkBoxRequired,
+
+    // Hacker Details
+    hackathon_experience: enumZod(hackathonExperienceOptions, { required_error: 'Required' }),
+    deerhacks_experience: enumZod(deerhacksExperienceOptions, { required_error: 'Required' })
+      .array()
+      .min(1, 'Required'),
+    team_preference: enumZod(teamPreferenceOptions, { required_error: 'Required' }),
+    // interests
+    // interests_other
+  })
 )
 export type ExperienceZodForm = inferZod<typeof experienceZodForm>
 
@@ -246,22 +289,9 @@ export const openEndedResponsesZodForm = object({
 })
 export type OpenEndedResponsesZodForm = inferZod<typeof openEndedResponsesZodForm>
 
-export const deerhacksZodForm = object({
-  // Reach
+const deerhacks_reach = object({
   deerhacks_reach: enumZod(deerhacksReachOptions, { required_error: 'Required' }),
   deerhacks_reach_other: textFieldOptional,
-
-  // Meals
-  day1_dinner: boolean(),
-  day2_breakfast: boolean(),
-  day2_lunch: boolean(),
-  day2_dinner: boolean(),
-  day3_breakfast: boolean(),
-
-  // MLH Consent
-  mlh_authorize: checkBoxRequired,
-  mlh_code_agreement: checkBoxRequired,
-  mlh_subscribe: boolean(),
 }).superRefine(({ deerhacks_reach, deerhacks_reach_other }, refinementContext) => {
   if (deerhacks_reach.includes(OTHER_SPECIFY) && !deerhacks_reach_other) {
     refinementContext.addIssue({
@@ -272,4 +302,25 @@ export const deerhacksZodForm = object({
   }
   return refinementContext
 })
+
+export const deerhacksZodForm = intersection(
+  deerhacks_reach,
+  object({
+    // Reach
+    // deerhacks_reach
+    // deerhacks_reach_other
+
+    // Meals
+    day1_dinner: boolean(),
+    day2_breakfast: boolean(),
+    day2_lunch: boolean(),
+    day2_dinner: boolean(),
+    day3_breakfast: boolean(),
+
+    // MLH Consent
+    mlh_authorize: checkBoxRequired,
+    mlh_code_agreement: checkBoxRequired,
+    mlh_subscribe: boolean(),
+  })
+)
 export type DeerhacksZodForm = inferZod<typeof deerhacksZodForm>
