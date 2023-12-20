@@ -458,7 +458,7 @@ const Privacy = () => {
             .
           </Typography>
           <Typography variant="caption">
-            This privacy policy was last modified on December 20th, 2023
+            This privacy policy was last modified on December 20th, 2023.
           </Typography>
         </Container>
       </Fade>

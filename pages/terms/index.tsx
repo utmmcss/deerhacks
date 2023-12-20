@@ -6,12 +6,12 @@ import Typography from '@mui/material/Typography'
 
 import BackButton from '@/components/Shared/BackButton'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
-import Error404Page from '@/pages/404'
+import Error418Page from '@/pages/418'
 
 const Terms = () => {
   const { toggles } = useFeatureToggle()
 
-  if (!toggles.dashboard && !toggles.bypassPage) return <Error404Page />
+  if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
 
   return (
     <>
