@@ -45,7 +45,7 @@ const TileRegistration = (props: Props) => {
             {disabled
               ? 'Registration is unavailable while user is unverified'
               : status === 'registering'
-              ? 'Get started on your registration for DeerHacks 2024! Hacker applications are open until {TDB DATE}'
+              ? 'Get started on your registration for DeerHacks 2024! Hacker applications are open until January 25, 2024'
               : noApplication
               ? `${status.title()}s cannot register as hackers`
               : 'Revisit your application to DeerHacks'}
