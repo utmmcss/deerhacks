@@ -65,13 +65,11 @@ const Footer = () => {
                 Privacy Policy
               </Link>
             </Tooltip>
-            {toggles.mlh && (
-              <Tooltip title="Code of Conduct" placement="top">
-                <Link rel="noopener" href="https://mlh.io/code-of-conduct">
-                  Code of Conduct
-                </Link>
-              </Tooltip>
-            )}
+            <Tooltip title="Code of Conduct" placement="top">
+              <Link rel="noopener" href="https://mlh.io/code-of-conduct">
+                Code of Conduct
+              </Link>
+            </Tooltip>
           </Box>
           <Box component="div">
             ✨ by&nbsp;

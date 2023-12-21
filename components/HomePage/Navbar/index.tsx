@@ -125,33 +125,30 @@ const Menu = (props: MenuProps) => {
           />
         </Box>
       )}
-      {toggles.mlh && (
-        <Box
-          component="div"
-          width={75}
-          data-aos="fade"
-          data-aos-delay="1500"
-          data-aos-duration="1500"
-        >
-          <Tooltip title="Major League Hacking">
-            <Link
-              rel="noopener"
-              href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=black"
-              target="_blank"
-              sx={{ width: 75, opacity: 1, position: 'absolute', top: 0 }}
-            >
-              <MLHBadge />
-            </Link>
-          </Tooltip>
-        </Box>
-      )}
+      <Box
+        component="div"
+        width={75}
+        data-aos="fade"
+        data-aos-delay="1500"
+        data-aos-duration="1500"
+      >
+        <Tooltip title="Major League Hacking">
+          <Link
+            rel="noopener"
+            href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2024-season&utm_content=black"
+            target="_blank"
+            sx={{ width: 75, opacity: 1, position: 'absolute', top: 0 }}
+          >
+            <MLHBadge />
+          </Link>
+        </Tooltip>
+      </Box>
     </Box>
   )
 }
 
 const Navbar = (props: Props) => {
   const { loading } = props
-  const { toggles } = useFeatureToggle()
 
   const [open, setOpen] = useState(false)
 
@@ -221,8 +218,8 @@ const Navbar = (props: Props) => {
           PaperProps={{
             sx: {
               maxWidth: '80%',
-              px: toggles.mlh ? '1rem' : '2rem',
-              justifyContent: toggles.mlh ? 'end' : 'center',
+              px: '1rem',
+              justifyContent: 'end',
             },
           }}
         >

@@ -13,14 +13,12 @@ import MCSS from '@/components/HomePage/Sponsors/Assets/MCSS'
 import MLH from '@/components/HomePage/Sponsors/Assets/MLH'
 import MMPA from '@/components/HomePage/Sponsors/Assets/MMPA'
 import Rotman from '@/components/HomePage/Sponsors/Assets/Rotman'
+import StandoutStickers from '@/components/HomePage/Sponsors/Assets/StandoutStickers'
 import Uber from '@/components/HomePage/Sponsors/Assets/Uber'
 import UofT from '@/components/HomePage/Sponsors/Assets/UofT'
 import Sponsor from '@/components/HomePage/Sponsors/Sponsor'
-import { useFeatureToggle } from '@/contexts/FeatureToggle'
 
 const Sponsors = () => {
-  const { toggles } = useFeatureToggle()
-
   return (
     <Container id="sponsors" sx={{ flexDirection: 'column', textAlign: 'center' }}>
       <Typography variant="h1">Sponsors & Partners</Typography>
@@ -103,9 +101,7 @@ const Sponsors = () => {
         pb="2rem"
         justifyContent="center"
       >
-        {toggles.mlh && (
-          <Sponsor name="Major League Hacking" logo={<MLH />} link="https://mlh.io" tier="bronze" />
-        )}
+        <Sponsor name="Major League Hacking" logo={<MLH />} link="https://mlh.io" tier="bronze" />
         <Sponsor
           name="University of Toronto"
           logo={<UofT />}
@@ -120,6 +116,12 @@ const Sponsors = () => {
           name="Big Data AI Hub"
           logo={<BigDataAIHub />}
           link="https://www.utm.utoronto.ca/bigdataaihub"
+          tier="bronze"
+        />
+        <Sponsor
+          name="Standout Stickers"
+          logo={<StandoutStickers />}
+          link="https://standoutstickers.com"
           tier="bronze"
         />
       </Grid>
