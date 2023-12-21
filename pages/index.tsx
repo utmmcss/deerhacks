@@ -15,7 +15,6 @@ import Sponsors from '@/components/HomePage/Sponsors'
 import Stats from '@/components/HomePage/Stats'
 import DeerHacksCollage from '@/components/Shared/DeerHacksCollage'
 import FullPageLoader from '@/components/Shared/FullPageLoader'
-import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import theme from '@/styles/theme'
 import AOS from 'aos'
 
@@ -25,8 +24,6 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true)
   const [animatingLogo, setAnimatingLogo] = useState(true)
   const [renderingModel, setRenderingModel] = useState(true)
-
-  const { toggles } = useFeatureToggle()
 
   useEffect(() => {
     if (animatingLogo || renderingModel) return
@@ -84,35 +81,17 @@ const HomePage = () => {
                     letterSpacing={1.5}
                     textAlign="center"
                   >
-                    {toggles.mlh ? (
-                      <>
-                        <span
-                          data-aos="fade"
-                          data-aos-delay="1000"
-                          data-aos-duration="1000"
-                          style={{ color: 'white' }}
-                        >
-                          deerhacks&nbsp;
-                        </span>
-                        <span data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
-                          / MLH partnered event&nbsp;
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <span
-                          data-aos="fade"
-                          data-aos-delay="1000"
-                          data-aos-duration="1000"
-                          style={{ color: 'white' }}
-                        >
-                          deerhacks v3.0.0&nbsp;
-                        </span>
-                        <span data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
-                          / coming soon&nbsp;
-                        </span>
-                      </>
-                    )}
+                    <span
+                      data-aos="fade"
+                      data-aos-delay="1000"
+                      data-aos-duration="1000"
+                      style={{ color: 'white' }}
+                    >
+                      deerhacks&nbsp;
+                    </span>
+                    <span data-aos="fade" data-aos-delay="1250" data-aos-duration="1250">
+                      / MLH partnered event&nbsp;
+                    </span>
                     <span data-aos="fade" data-aos-delay="1500" data-aos-duration="1500">
                       / 02.16.24 - 02.18.24
                     </span>
