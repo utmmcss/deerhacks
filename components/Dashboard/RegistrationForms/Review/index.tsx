@@ -19,8 +19,6 @@ type Props = {
 const FormReview = (props: Props) => {
   const { user, application, onSubmit } = props
 
-  // hanatodo don't show other specify in review page
-
   return (
     <Grid container direction="column" gap="2.5rem">
       <Grid container direction="column" gap="1.25rem">
@@ -60,11 +58,7 @@ const FormReview = (props: Props) => {
           isList
         />
         {application.additional_info && (
-          <FieldReview
-            name="Additional Accommodations"
-            value={application.additional_info}
-            isShortAnswer
-          />
+          <FieldReview name="Additional Accommodations" value={application.additional_info} />
         )}
       </Grid>
 
@@ -74,7 +68,7 @@ const FormReview = (props: Props) => {
         <FieldReview name="School" value={application.school} />
         <FieldReview name="Program" value={application.program} />
         <br />
-        <FieldReview name="Resume" value={'hanatodo'} />
+        <FieldReview name="Resume" value={'TODO:'} />
         {application.portfolio && (
           <FieldReview name="Personal Website / Portfolio" value={application.portfolio} />
         )}
@@ -99,17 +93,14 @@ const FormReview = (props: Props) => {
         <FieldReview
           name="Why do you want to take part in DeerHacks?"
           value={application.deerhacks_pitch}
-          isShortAnswer
         />
         <FieldReview
           name="Share a project or initiative you've worked on that you're particularly proud of. What was your role, and what impact did it have?"
           value={application.shared_project}
-          isShortAnswer
         />
         <FieldReview
           name="In your opinion, what is the most exciting or groundbreaking technology trend right now, and how might it impact our daily lives in the future?"
           value={application.future_tech}
-          isShortAnswer
         />
       </Grid>
 
@@ -143,27 +134,18 @@ type FieldReviewProps = {
   name: string
   value: string
   isList?: boolean
-  isShortAnswer?: boolean
 }
 
 const FieldReview = (props: FieldReviewProps) => {
-  const { name, value, isList = false, isShortAnswer = false } = props
+  const { name, value, isList = false } = props
   return (
-    <Box
-      component="div"
-      display="flex"
-      flexDirection={{ xs: 'column', sm: isShortAnswer ? 'column' : 'row' }}
-      alignItems={{ xs: 'start', sm: isShortAnswer ? 'start' : 'center' }}
-      justifyContent="space-between"
-      width="100%"
-    >
+    <Box component="div" display="flex" flexDirection="column">
       <Typography>{name}</Typography>
-      <Box component="div" display="flex" gap="1rem" alignItems="center">
+      <Box component="div" display="flex" gap="1rem">
         {value && value.trim() ? (
           <Typography
             variant="h3"
             {...(isList && { whiteSpace: 'pre' })}
-            textAlign={{ xs: 'start', sm: isShortAnswer ? 'start' : 'end' }}
             textOverflow="ellipsis"
             style={{ overflowWrap: 'anywhere' }}
           >
@@ -187,13 +169,7 @@ type CheckBoxReviewProps = {
 const CheckBoxReview = (props: CheckBoxReviewProps) => {
   const { name, value } = props
   return (
-    <Box
-      component="div"
-      display="flex"
-      flexDirection={{ xs: 'column', sm: 'row' }}
-      alignItems={{ xs: 'start', sm: 'center' }}
-      justifyContent="space-between"
-    >
+    <Box component="div" display="flex" flexDirection="column">
       <Typography>{name}</Typography>
       <Box component="div" display="flex" gap="1rem" alignItems="center">
         {value ? <CheckIcon color="secondary" /> : <DoDisturbIcon color="secondary" />}

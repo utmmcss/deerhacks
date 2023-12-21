@@ -85,7 +85,7 @@ const RegistrationStepper = (props: Props) => {
       alignSelf="start"
       position="sticky"
       top={0}
-      alignItems="center"
+      alignItems={{ xs: 'center', md: 'start' }}
       padding={1}
     >
       <LoadingButton
@@ -94,6 +94,7 @@ const RegistrationStepper = (props: Props) => {
         size="medium"
         onClick={saveForLaterButton.onClick}
         fullWidth
+        sx={{ maxWidth: '300px' }}
       >
         Save as Draft
       </LoadingButton>

@@ -149,36 +149,14 @@ const diet_restriction = object({
 export const aboutYouZodForm = intersection(
   gender.and(pronoun).and(ethnicity).and(emergency_relationship).and(diet_restriction),
   object({
-    // Personal Information
-    //first_name
-    //last_name
-    //email
     phone_number: phoneField,
-
-    // Profile Details
     age: ageField,
-    // gender
-    // gender_other
-    // pronoun
-    // pronoun_other
-    // ethnicity
-    // ethnicity_other
-
-    // Location
     city: textField,
     country: textField,
     province: textFieldOptional,
-
-    // Emergency Contact
     emergency_name: textField,
     emergency_number: phoneField,
-    // emergency_relationship
-    // emergency_relationship_other
-
-    // Event Preferences
     shirt_size: enumZod(shirtSizeOptions, { required_error: 'Required' }),
-    // diet_restriction
-    // diet_restriction_other
     additional_info: textArea.max(128, 'Maximum Character Count Reached').optional(),
   })
 )
@@ -252,32 +230,19 @@ const interests = object({
 export const experienceZodForm = intersection(
   education.and(school).and(program).and(interests),
   object({
-    // Education
-    //education
-    //education_other
-    // school
-    // school_other
-    // program
-    // program_other
-
-    // Professional Journey
-    // hanatodo resume stuff
-    // resume_link: urlField.min(1, 'Required'), // hanatodo i dont even know if its a url
+    // TODO: Resume Stuff
+    // resume_link: urlField.min(1, 'Required'),
     // resume_filename: textField,
     // resume_hash: textField,
     portfolio: urlField.or(literal('')).or(literal(undefined)),
     github: urlField.or(literal('')).or(literal(undefined)),
     linkedin: urlField.or(literal('')).or(literal(undefined)),
     resume_consent: checkBoxRequired,
-
-    // Hacker Details
     hackathon_experience: enumZod(hackathonExperienceOptions, { required_error: 'Required' }),
     deerhacks_experience: enumZod(deerhacksExperienceOptions, { required_error: 'Required' })
       .array()
       .min(1, 'Required'),
     team_preference: enumZod(teamPreferenceOptions, { required_error: 'Required' }),
-    // interests
-    // interests_other
   })
 )
 export type ExperienceZodForm = inferZod<typeof experienceZodForm>
@@ -306,18 +271,11 @@ const deerhacks_reach = object({
 export const deerhacksZodForm = intersection(
   deerhacks_reach,
   object({
-    // Reach
-    // deerhacks_reach
-    // deerhacks_reach_other
-
-    // Meals
     day1_dinner: boolean(),
     day2_breakfast: boolean(),
     day2_lunch: boolean(),
     day2_dinner: boolean(),
     day3_breakfast: boolean(),
-
-    // MLH Consent
     mlh_authorize: checkBoxRequired,
     mlh_code_agreement: checkBoxRequired,
     mlh_subscribe: boolean(),

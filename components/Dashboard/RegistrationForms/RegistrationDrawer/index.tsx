@@ -1,7 +1,10 @@
 import { ReactNode } from 'react'
 
 import CloseIcon from '@mui/icons-material/Close'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Backdrop from '@mui/material/Backdrop'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Drawer from '@mui/material/Drawer'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
@@ -23,24 +26,49 @@ const RegistrationDrawer = (props: Props) => {
 
   return (
     <>
-      <Grid
+      <Box
         component="div"
         position="fixed"
-        left={1}
-        right={1}
-        bottom={1}
-        zIndex={100}
-        style={{ backgroundColor: 'rgba(0,0,0,0.85)' }}
-        borderRadius={1}
-        margin={1}
-        onClick={() => setOpen(true)}
-        overflow="hidden"
+        zIndex={1000}
+        width="100%"
+        p="0 0.5rem 0.5rem"
+        sx={{ inset: 'auto 0 0' }}
       >
-        <Typography sx={{ p: 2, color: 'text.primary' }}>
-          {formSections[formKeys[activeStep]].heading}
-        </Typography>
-        <LinearProgress variant="determinate" value={((activeStep + 1) / formKeys.length) * 100} />
-      </Grid>
+        <Button
+          fullWidth
+          onClick={() => setOpen(true)}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'start',
+            pt: 2,
+            pb: 0,
+            px: 2,
+            gap: '1rem',
+            boxShadow: 'inset 0 0 5px 100px rgb(0 0 0 / 50%)',
+            backdropFilter: 'blur(10px)',
+          }}
+        >
+          <Typography sx={{ color: 'text.primary' }}>
+            {formSections[formKeys[activeStep]].heading}
+          </Typography>
+          <ExpandMoreIcon
+            sx={{
+              position: 'absolute',
+              m: 1,
+              right: 8,
+              top: 10,
+              color: 'text.secondary',
+            }}
+          />
+
+          <LinearProgress
+            variant="determinate"
+            value={((activeStep + 1) / formKeys.length) * 100}
+            sx={{ width: '100%', borderRadius: '0.25rem' }}
+          />
+        </Button>
+      </Box>
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer - 1 }}
         open={open}
@@ -55,8 +83,8 @@ const RegistrationDrawer = (props: Props) => {
           keepMounted: true,
         }}
       >
-        <Grid display="flex" flexDirection="column" gap="1rem">
-          <Typography sx={{ p: 2, color: 'text.primary', paddingBottom: 0 }}>
+        <Grid display="flex" flexDirection="column" gap="1rem" py={2} px={2}>
+          <Typography sx={{ color: 'text.primary' }}>
             {formSections[formKeys[activeStep]].heading}
           </Typography>
           <IconButton
@@ -73,6 +101,7 @@ const RegistrationDrawer = (props: Props) => {
           <LinearProgress
             variant="determinate"
             value={((activeStep + 1) / formKeys.length) * 100}
+            sx={{ borderRadius: '0.25rem' }}
           />
           {children}
         </Grid>

@@ -123,7 +123,7 @@ const appToExpForm = (application: Application) => {
     ...(program == OTHER_SPECIFY && { program_other: application.program }),
 
     // Professional Journey
-    // hanatodo
+    // TODO:
     //resume_link: string
     //resume_filename: string
     //resume_hash: string
@@ -242,7 +242,7 @@ const expFormToApp = (form: ExperienceZodForm, currApplication: Application): Ap
     program: form.program == OTHER_SPECIFY ? form.program_other ?? '' : form.program,
 
     // Professional Journey
-    // hanatodo
+    // TODO:
     //resume_link: string
     //resume_filename: string
     //resume_hash: string
