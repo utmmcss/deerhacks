@@ -11,6 +11,7 @@ type Props = {
 export const useUserGet = (props?: Props) => {
   return useAPI().useQuery(['userGet', null], {
     enabled: props?.enabled,
+    retry: false,
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,

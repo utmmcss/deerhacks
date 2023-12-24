@@ -135,7 +135,7 @@ const theme = createTheme(base, {
         },
         input: {
           '&:-webkit-autofill': {
-            WebkitBoxShadow: `0 0 0 100px ${base.palette.background.paper} inset !important`,
+            WebkitBoxShadow: `0 0 0 100px ${base.palette.background.default} inset !important`,
             WebkitTextFillColor: `${base.palette.text.primary} !important`,
           },
         },
@@ -219,6 +219,11 @@ const theme = createTheme(base, {
             padding: '0.15rem 0.25rem',
             borderRadius: '0.25rem',
             fontSize: '0.8rem',
+          },
+          '&.formError': {
+            color: base.palette.error.main,
+            fontSize: '0.75rem',
+            margin: '3px 14px 0',
           },
         },
       },
@@ -370,6 +375,33 @@ const theme = createTheme(base, {
             textTransform: 'lowercase',
           },
         },
+        input: {
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+      },
+    },
+    MuiSelect: {
+      styleOverrides: {
+        root: {
+          height: 'fit-content',
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          whiteSpace: 'normal',
+        },
+      },
+    },
+    MuiCheckbox: {
+      styleOverrides: {
+        root: {
+          '&.MuiCheckbox-colorError': {
+            color: base.palette.error.main,
+          },
+        },
       },
     },
     MuiDialogContent: {
@@ -384,6 +416,11 @@ const theme = createTheme(base, {
         root: {
           padding: '1rem',
         },
+      },
+    },
+    MuiAutocomplete: {
+      defaultProps: {
+        fullWidth: true,
       },
     },
     MuiFormControlLabel: {

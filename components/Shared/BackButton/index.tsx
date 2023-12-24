@@ -25,21 +25,23 @@ const BackButton = (props: Props) => {
   }, [])
 
   const onClick = () => {
-    if (hasHistory) {
+    if (href) {
+      router.push(href)
+    } else if (hasHistory) {
       router.back()
     } else {
-      router.push(href ?? '/')
+      router.push('/')
     }
   }
 
-  return navbar && !hasHistory ? (
+  return navbar && !href && !hasHistory ? (
     <Navbar />
   ) : (
     <Box component="div" sx={{ width: navbar ? '100%' : 'initial' }}>
       <Button
         onClick={onClick}
-        {...(hasHistory && { startIcon: <ChevronLeftRoundedIcon /> })}
-        sx={{ gap: 0 }}
+        startIcon={<ChevronLeftRoundedIcon />}
+        sx={{ gap: 0, p: '0.75rem 1.125rem 0.75rem 1rem' }}
       >
         {text ?? (hasHistory ? 'Go Back' : 'Go Home')}
       </Button>

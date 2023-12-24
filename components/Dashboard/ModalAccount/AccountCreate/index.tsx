@@ -3,9 +3,11 @@ import { Controller, useForm } from 'react-hook-form'
 
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
+import Checkbox from '@mui/material/Checkbox'
 import Collapse from '@mui/material/Collapse'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
+import FormControlLabel from '@mui/material/FormControlLabel'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
@@ -33,6 +35,7 @@ const AccountCreate = (props: Props) => {
   const { user, onSuccess } = props
 
   const [showAlert, setShowAlert] = useState(false)
+  const [consent, setConsent] = useState(false)
 
   const { isLoading, mutate: userUpdate } = useUserUpdate()
 
@@ -84,6 +87,7 @@ const AccountCreate = (props: Props) => {
                     error={Boolean(errors.first_name)}
                     helperText={errors.first_name?.message}
                     autoFocus
+                    inputProps={{ maxLength: 128 }}
                     InputProps={{
                       classes: {
                         input: 'capitalize',
@@ -102,6 +106,7 @@ const AccountCreate = (props: Props) => {
                     label="Last Name"
                     error={Boolean(errors.last_name)}
                     helperText={errors.last_name?.message}
+                    inputProps={{ maxLength: 128 }}
                     InputProps={{
                       classes: {
                         input: 'capitalize',
@@ -122,10 +127,21 @@ const AccountCreate = (props: Props) => {
                   error={Boolean(errors.email)}
                   placeholder={user.email}
                   helperText={errors.email?.message}
+                  inputProps={{ maxLength: 128 }}
                   inputRef={ref}
                   {...field}
                 />
               )}
+            />
+            <FormControlLabel
+              sx={{ ml: 0 }}
+              label={
+                <Typography fontSize="0.9rem">
+                  I allow DeerHacks to send me emails, containing updates and information from the
+                  event sponsors.
+                </Typography>
+              }
+              control={<Checkbox checked={consent} onChange={() => setConsent((curr) => !curr)} />}
             />
             <Typography fontSize="0.75rem" textAlign="center">
               A confirmation email will be sent to the email address you submit. Once verified, your
@@ -138,7 +154,7 @@ const AccountCreate = (props: Props) => {
         <LoadingButton
           loading={isLoading}
           onClick={handleSubmit(onSubmit)}
-          disabled={!isDirty || !isValid}
+          disabled={!isDirty || !isValid || !consent}
         >
           Submit
         </LoadingButton>

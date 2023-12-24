@@ -83,6 +83,7 @@ const NameUpdate = (props: Props) => {
                     label="First Name"
                     error={Boolean(errors.first_name)}
                     helperText={errors.first_name?.message}
+                    inputProps={{ maxLength: 128 }}
                     InputProps={{
                       classes: {
                         input: 'capitalize',
@@ -101,6 +102,7 @@ const NameUpdate = (props: Props) => {
                     label="Last Name"
                     error={Boolean(errors.last_name)}
                     helperText={errors.last_name?.message}
+                    inputProps={{ maxLength: 128 }}
                     InputProps={{
                       classes: {
                         input: 'capitalize',

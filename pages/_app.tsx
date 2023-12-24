@@ -26,12 +26,14 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={theme}>
           <CssBaseline>
-            <Script
-              strategy="lazyOnload"
-              src="https://www.googletagmanager.com/gtag/js?id=G-W6CQEYBHZ5"
-            />
-            <Script id="analytics" strategy="lazyOnload">
-              {`
+            {process.env.NODE_ENV !== 'development' && (
+              <>
+                <Script
+                  strategy="lazyOnload"
+                  src="https://www.googletagmanager.com/gtag/js?id=G-W6CQEYBHZ5"
+                />
+                <Script id="analytics" strategy="lazyOnload">
+                  {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
@@ -39,7 +41,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 page_path: window.location.pathname,
                 });
               `}
-            </Script>
+                </Script>
+              </>
+            )}
             <ToastProvider>
               <FeatureToggleProvider>
                 <AuthProvider>

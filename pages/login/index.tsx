@@ -17,39 +17,6 @@ import { useAPI } from '@/contexts/API'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import Error418Page from '@/pages/418'
 
-type AlertDetails = {
-  severity: AlertColor
-  message: ReactNode
-}
-
-const getAlertDetails = (context: string): AlertDetails => {
-  switch (context) {
-    case 'auth':
-      return { severity: 'info', message: 'No session found, please login.' }
-    case 'unverified':
-      return {
-        severity: 'warning',
-        message: (
-          <>
-            Your Discord account is unverified, verify your account{' '}
-            <Link
-              rel="noopener"
-              target="_blank"
-              underline="always"
-              href="https://support.discord.com/hc/en-us/articles/6181726888215-Verification-Required-FAQ"
-              sx={{ color: 'warning.light', opacity: 0.9 }}
-            >
-              on Discord
-            </Link>{' '}
-            to continue.
-          </>
-        ),
-      }
-    default:
-      return { severity: 'error', message: 'Something went wrong, try again.' }
-  }
-}
-
 const Login = () => {
   const { toggles } = useFeatureToggle()
   const searchParams = useSearchParams()
@@ -153,6 +120,39 @@ const Login = () => {
       </Fade>
     </>
   )
+}
+
+type AlertDetails = {
+  severity: AlertColor
+  message: ReactNode
+}
+
+const getAlertDetails = (context: string): AlertDetails => {
+  switch (context) {
+    case 'auth':
+      return { severity: 'info', message: 'No session found, please login.' }
+    case 'unverified':
+      return {
+        severity: 'warning',
+        message: (
+          <>
+            Your Discord account is unverified, verify your account{' '}
+            <Link
+              rel="noopener"
+              target="_blank"
+              underline="always"
+              href="https://support.discord.com/hc/en-us/articles/6181726888215-Verification-Required-FAQ"
+              sx={{ color: 'warning.light', opacity: 0.9 }}
+            >
+              on Discord
+            </Link>{' '}
+            to continue.
+          </>
+        ),
+      }
+    default:
+      return { severity: 'error', message: 'Something went wrong, try again.' }
+  }
 }
 
 export default Login

@@ -9,7 +9,7 @@ const Toast = () => {
 
   const autoHideDuration = toast.autoHide === false ? null : 5000
 
-  const handleClose = ({}, reason?: string) => {
+  const handleClose = (_: any, reason?: string) => {
     if (reason === 'clickaway' && !autoHideDuration) return
     onClose()
   }

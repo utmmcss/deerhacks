@@ -85,6 +85,7 @@ const EmailUpdate = (props: Props) => {
                     error={Boolean(errors.email)}
                     placeholder={user.email}
                     helperText={errors.email?.message}
+                    inputProps={{ maxLength: 128 }}
                     InputProps={{
                       classes: {
                         input: 'lowercase',
