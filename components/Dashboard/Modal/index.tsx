@@ -16,13 +16,14 @@ type Props = {
   loading?: boolean
   disabled?: boolean
   setOpen: (open: boolean) => void
+  onSubmit: () => void
   title: string
   content: ReactNode
-  onSubmit: () => void
 }
 
 const Modal = (props: Props) => {
-  const { open, loading = false, disabled = false, setOpen, title, content, onSubmit } = props
+  const { open, loading = false, disabled = false, setOpen, onSubmit, title, content } = props
+
   return (
     <Dialog
       open={open}

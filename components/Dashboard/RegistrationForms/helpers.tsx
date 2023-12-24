@@ -61,7 +61,9 @@ const appToAboutForm = (application: Application) => {
   return {
     // Personal Information
     phone_number: application.phone_number,
-    is_subscribed: true, // always true because we mention it in user update modal
+
+    // Set in first user update
+    is_subscribed: true,
 
     // Profile Details
     age: application.age == 0 ? undefined : application.age.toString(),
@@ -198,7 +200,9 @@ const aboutFormToApp = (form: AboutYouZodForm, currApplication: Application) => 
 
     // Personal Information
     phone_number: form.phone_number,
-    is_subscribed: true, // always true because we mention it in user update modal
+
+    // Set in first user update
+    is_subscribed: true,
 
     // Profile Details
     age: parseInt(form.age),

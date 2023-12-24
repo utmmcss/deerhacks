@@ -33,6 +33,9 @@ const DeerhacksForm = (props: Props) => {
       <Grid container direction="column" gap="2.5rem">
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Reach</Typography>
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            👀 Which team gets the bonus. jk we don't get paid 😩
+          </Typography>
           <Box
             component="div"
             display="flex"
@@ -65,47 +68,79 @@ const DeerhacksForm = (props: Props) => {
           </Box>
         </Grid>
 
-        <Grid container direction="column" gap="1.25rem">
+        <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Meals</Typography>
-          <Controller
-            name="day1_dinner"
-            control={control}
-            render={({ field: { ref, ...field } }) => (
-              <FormCheckbox label="Friday Dinner" errors={errors} inputRef={ref} {...field} />
-            )}
-          />
-          <Controller
-            name="day2_breakfast"
-            control={control}
-            render={({ field: { ref, ...field } }) => (
-              <FormCheckbox label="Saturday Breakfast" errors={errors} inputRef={ref} {...field} />
-            )}
-          />
-          <Controller
-            name="day2_lunch"
-            control={control}
-            render={({ field: { ref, ...field } }) => (
-              <FormCheckbox label="Saturday Lunch" errors={errors} inputRef={ref} {...field} />
-            )}
-          />
-          <Controller
-            name="day2_dinner"
-            control={control}
-            render={({ field: { ref, ...field } }) => (
-              <FormCheckbox label="Saturday Dinner" errors={errors} inputRef={ref} {...field} />
-            )}
-          />
-          <Controller
-            name="day3_breakfast"
-            control={control}
-            render={({ field: { ref, ...field } }) => (
-              <FormCheckbox label="Sunday Breakfast" errors={errors} inputRef={ref} {...field} />
-            )}
-          />
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            🍔 To budget between prizes and grub
+          </Typography>
+          <Box component="div">
+            <Controller
+              name="day1_dinner"
+              control={control}
+              render={({ field: { ref, ...field } }) => (
+                <FormCheckbox
+                  label="Friday Dinner (Feb 16)"
+                  errors={errors}
+                  inputRef={ref}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name="day2_breakfast"
+              control={control}
+              render={({ field: { ref, ...field } }) => (
+                <FormCheckbox
+                  label="Saturday Breakfast (Feb 17)"
+                  errors={errors}
+                  inputRef={ref}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name="day2_lunch"
+              control={control}
+              render={({ field: { ref, ...field } }) => (
+                <FormCheckbox
+                  label="Saturday Lunch (Feb 17)"
+                  errors={errors}
+                  inputRef={ref}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name="day2_dinner"
+              control={control}
+              render={({ field: { ref, ...field } }) => (
+                <FormCheckbox
+                  label="Saturday Dinner (Feb 17)"
+                  errors={errors}
+                  inputRef={ref}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name="day3_breakfast"
+              control={control}
+              render={({ field: { ref, ...field } }) => (
+                <FormCheckbox
+                  label="Sunday Breakfast (Feb 18)"
+                  errors={errors}
+                  inputRef={ref}
+                  {...field}
+                />
+              )}
+            />
+          </Box>
         </Grid>
 
-        <Grid container direction="column" gap="1.25rem">
-          <Typography variant="h2">MLH Permissions</Typography>
+        <Grid container direction="column" gap="1rem">
+          <Typography variant="h2" gutterBottom>
+            MLH Permissions
+          </Typography>
           <Controller
             name="mlh_authorize"
             control={control}

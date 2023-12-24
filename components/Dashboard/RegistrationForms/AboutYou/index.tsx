@@ -45,8 +45,11 @@ const AboutYou = (props: Props) => {
   return (
     <form noValidate onSubmit={handleSubmit(onNext)}>
       <Grid container direction="column" gap="2.5rem">
-        <Grid container direction="column" gap="1.25rem">
+        <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Personal Information</Typography>
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            😏 Your details so we can hit you up
+          </Typography>
           <Box
             component="div"
             display="flex"
@@ -75,6 +78,7 @@ const AboutYou = (props: Props) => {
             flexDirection={{ xs: 'column', sm: 'row' }}
             alignItems={{ xs: 'start', sm: 'center' }}
             gap="1rem"
+            mb="1rem"
           >
             <Typography>Email</Typography>
             <Box
@@ -111,6 +115,9 @@ const AboutYou = (props: Props) => {
 
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Profile Details</Typography>
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            💍 Tell me about yourself girlll
+          </Typography>
           <Controller
             name="age"
             control={control}
@@ -229,6 +236,9 @@ const AboutYou = (props: Props) => {
 
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Location</Typography>
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            🫣 So I can meet your mama
+          </Typography>
           <Controller
             name="city"
             control={control}
@@ -267,6 +277,9 @@ const AboutYou = (props: Props) => {
 
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Emergency Contact</Typography>
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            🚑 In case you get too lit
+          </Typography>
           <Controller
             name="emergency_name"
             control={control}
@@ -274,6 +287,9 @@ const AboutYou = (props: Props) => {
               <FormTextField
                 label="Full Name"
                 errors={errors}
+                inputProps={{
+                  autoComplete: 'none',
+                }}
                 InputProps={{
                   classes: {
                     input: 'capitalize',
@@ -333,6 +349,9 @@ const AboutYou = (props: Props) => {
 
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Event Preferences</Typography>
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            🥳 Let's have a good time
+          </Typography>
           <Controller
             name="shirt_size"
             control={control}

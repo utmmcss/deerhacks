@@ -49,7 +49,7 @@ export const emailField = string()
   .toLowerCase()
   .min(1, 'Required')
   .max(128, 'Maximum Character Count Reached')
-  .email('Invalid email address')
+  .email('Invalid Email Address')
 
 export const urlField = string()
   .trim()
@@ -58,7 +58,7 @@ export const urlField = string()
 
 const phoneField = textField.refine((str) => {
   return matchIsValidTel(str)
-}, 'Invalid phone number')
+}, 'Invalid Phone Number')
 
 const checkBoxRequired = literal<boolean>(true, {
   errorMap: () => ({ message: 'Required' }),
@@ -71,8 +71,8 @@ const ageField = string()
     if (age < 0) return false
     if (age > 100) return false
     return /^\d+$/.test(str)
-  }, 'Invalid age')
-  .refine((str) => parseInt(str) >= 18, 'Must be 18 or older to apply')
+  }, 'Invalid Age')
+  .refine((str) => parseInt(str) >= 18, 'Must be 18+ to Apply')
 
 const gender = object({
   gender: enumZod(genderOptions, { required_error: 'Required' }),

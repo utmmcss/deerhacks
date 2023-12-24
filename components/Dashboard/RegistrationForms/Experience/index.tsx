@@ -44,6 +44,9 @@ const ExperienceForm = (props: Props) => {
       <Grid container direction="column" gap="2.5rem">
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Education</Typography>
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            📚 Taking notes, breaking hearts
+          </Typography>
           <Box
             component="div"
             display="flex"
@@ -142,6 +145,9 @@ const ExperienceForm = (props: Props) => {
 
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Professional Journey</Typography>
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            🚀 Flex that Hello World python script
+          </Typography>
           <Typography> --- Resume goes here --- </Typography>
           <Controller
             name="resume_consent"
@@ -186,6 +192,9 @@ const ExperienceForm = (props: Props) => {
 
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Hacker Details</Typography>
+          <Typography variant="h3" color="text.secondary" gutterBottom>
+            💻 Spill the code beans, what makes your circuits buzz
+          </Typography>
           <Controller
             name="hackathon_experience"
             control={control}

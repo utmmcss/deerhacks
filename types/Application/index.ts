@@ -10,7 +10,7 @@ export type ApplicationUpdateReq = {
 
 export type Application = {
   /**
-   * The following fields are part of the User so they are not in the form
+   * User Fields, Outside of Application
    *
    * first_name: string
    * last_name: string

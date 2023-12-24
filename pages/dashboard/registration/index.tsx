@@ -8,7 +8,6 @@ import AccordionDetails from '@mui/material/AccordionDetails'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
-import { useTheme } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
@@ -30,8 +29,9 @@ import { useToast } from '@/contexts/Toast'
 import { useApplicationUpdate } from '@/hooks/Application/useApplicationUpdate'
 import { useApplicationGet } from '@/hooks/Application/userApplicationGet'
 import Error401Page from '@/pages/401'
-import Error404Page from '@/pages/404'
+import Error418Page from '@/pages/418'
 import Error500Page from '@/pages/500'
+import theme from '@/styles/theme'
 import { Application, ApplicationUpdateReq } from '@/types/Application'
 import { formKeys, FormSections } from '@/types/Registration'
 import { User } from '@/types/User'
@@ -47,10 +47,6 @@ import {
 } from '@/types/Zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
-}
-
 type Props = {
   user: User
   savedApplication: Application
@@ -60,16 +56,11 @@ const Registration = (props: Props) => {
   const { user, savedApplication } = props
 
   const router = useRouter()
-
-  const theme = useTheme()
+  const { setToast } = useToast()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
-  const { setToast } = useToast()
-
   const [application, setApplication] = useState(savedApplication)
-
   const [activeStep, setActiveStep] = useState(0)
-
   const [openDrawer, setOpenDrawer] = useState(false)
   const [openConfirmation, setOpenConfirmation] = useState(false)
 
@@ -142,7 +133,7 @@ const Registration = (props: Props) => {
           scrollToTop()
           setToast({
             type: 'success',
-            message: 'Hacker application submitted successfully!',
+            message: 'Your Application was Submitted Successfully!',
           })
         }
       },
@@ -161,7 +152,6 @@ const Registration = (props: Props) => {
     const currentStep = formKeys[activeStep]
     if (!currentStep || currentStep === 'Review') return updatedApp
 
-    // typescript complains unless its in this switch statement :(
     switch (currentStep) {
       case 'AboutYou':
         updatedApp = formToAppMap[currentStep](
@@ -285,12 +275,12 @@ const Registration = (props: Props) => {
               key={section}
               sx={{
                 width: '100%',
-                padding: { md: '1rem' },
+                padding: '1rem',
                 borderRadius: '1rem',
                 transition: activeStep === i ? '0.5s all ease' : 'none',
                 opacity: activeStep === i ? '1' : '0',
                 boxShadow: activeStep === i ? '0px 0px 16px 0px #ffffff80' : 'transparent',
-                ...(activeStep !== i && { height: 0, padding: 0 }),
+                ...(activeStep !== i && { height: 0, paddingY: 0 }),
               }}
             >
               <AccordionDetails>
@@ -344,13 +334,14 @@ const Registration = (props: Props) => {
           open={openConfirmation}
           loading={isLoading}
           setOpen={setOpenConfirmation}
+          onSubmit={() => onSubmit({ req: { is_draft: false, application } })}
           title="Submit Application"
           content={
             <Typography>
-              You will not be able to re-submit your application. Are you sure you want to proceed?
+              You will not be able to re-submit your application. Likewise, you will be unable to
+              change your name and email after registering. Are you sure you want to proceed?
             </Typography>
           }
-          onSubmit={() => onSubmit({ req: { is_draft: false, application } })}
         />
       </Suspense>
     </Grid>
@@ -368,10 +359,14 @@ const RegistrationLoader = () => {
     isLoading: applicationLoading,
     isError: applicationError,
   } = useApplicationGet({
-    enabled: user?.status && allowedStatuses.includes(user.status),
+    enabled:
+      authenticated &&
+      user?.status &&
+      allowedStatuses.includes(user.status) &&
+      (toggles.signupHacker || user.status !== 'registering'),
   })
 
-  if (!toggles.dashboard) return <Error404Page />
+  if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
   if (!loading && !authenticated) return <Error401Page />
 
   if (user?.status && !allowedStatuses.includes(user.status)) {
@@ -379,7 +374,7 @@ const RegistrationLoader = () => {
       <FullPageLoader
         show
         pulse={false}
-        text="Invalid user status. Cannot register."
+        text="User unauthorized to register."
         buttonText="Go Back"
         buttonLink="/dashboard"
       />
@@ -391,7 +386,7 @@ const RegistrationLoader = () => {
       <FullPageLoader
         show
         pulse={false}
-        text="Sign up period has ended."
+        text="Registration is unavailable at this time."
         buttonText="Go Back"
         buttonLink="/dashboard"
       />
@@ -432,6 +427,10 @@ const RegistrationLoader = () => {
       )}
     </>
   )
+}
+
+const scrollToTop = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
 }
 
 export default RegistrationLoader

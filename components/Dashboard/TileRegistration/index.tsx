@@ -6,6 +6,7 @@ import CardActionArea from '@mui/material/CardActionArea'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 
+import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import { UserStatus } from '@/types/User'
 
 type Props = {
@@ -15,7 +16,10 @@ type Props = {
 const TileRegistration = (props: Props) => {
   const { status } = props
 
-  const disabled = ['pending', 'unverified'].includes(status)
+  const { toggles } = useFeatureToggle()
+
+  const disabledUser = ['pending', 'unverified'].includes(status)
+  const disabled = disabledUser || (!toggles.signupHacker && status === 'registering')
   const noApplication = ['admin', 'moderator', 'volunteer'].includes(status)
 
   return (
@@ -43,7 +47,9 @@ const TileRegistration = (props: Props) => {
           </Typography>
           <Typography variant="body2">
             {disabled
-              ? 'Registration is unavailable while user is unverified'
+              ? `Registration is unavailable ${
+                  disabledUser ? 'while email is unverified' : 'during this time'
+                }`
               : status === 'registering'
               ? 'Get started on your registration for DeerHacks! Hacker applications are open until January 25, 2024'
               : noApplication
