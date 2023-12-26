@@ -1,9 +1,12 @@
+import { ReactNode } from 'react'
+
 import CheckIcon from '@mui/icons-material/Check'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
 import InfoIcon from '@mui/icons-material/Info'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
+import Link from '@mui/material/Link'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
@@ -68,7 +71,15 @@ const FormReview = (props: Props) => {
         <FieldReview name="School" value={application.school} />
         <FieldReview name="Program" value={application.program} />
         <br />
-        <FieldReview name="Resume" value={'TODO:'} />
+        <FieldReview
+          name="Resume"
+          value={application.resume_file_name}
+          valueNode={
+            <Link href={application.resume_link} rel="noopener" target="_blank">
+              {application.resume_file_name}
+            </Link>
+          }
+        />
         {application.portfolio && (
           <FieldReview name="Personal Website / Portfolio" value={application.portfolio} />
         )}
@@ -133,16 +144,19 @@ const formatList = (values: string[]) => {
 type FieldReviewProps = {
   name: string
   value: string
+  valueNode?: ReactNode
   isList?: boolean
 }
 
 const FieldReview = (props: FieldReviewProps) => {
-  const { name, value, isList = false } = props
+  const { name, value, valueNode, isList = false } = props
   return (
     <Box component="div" display="flex" flexDirection="column">
       <Typography>{name}</Typography>
       <Box component="div" display="flex" gap="1rem">
-        {value && value.trim() ? (
+        {valueNode ? (
+          valueNode
+        ) : value && value.trim() ? (
           <Typography
             variant="h3"
             {...(isList && { whiteSpace: 'pre' })}

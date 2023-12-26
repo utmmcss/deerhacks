@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import FormCheckbox from '@/components/Dashboard/RegistrationForms/FormComponents/FormCheckbox'
 import FormDynamicSelect from '@/components/Dashboard/RegistrationForms/FormComponents/FormDynamicSelect'
 import FormMultiSelect from '@/components/Dashboard/RegistrationForms/FormComponents/FormMultiSelect'
+import FormResumeUpload from '@/components/Dashboard/RegistrationForms/FormComponents/FormResumeUpload'
 import FormSelect from '@/components/Dashboard/RegistrationForms/FormComponents/FormSelect'
 import FormTextField from '@/components/Dashboard/RegistrationForms/FormComponents/FormTextField'
 import {
@@ -17,6 +18,7 @@ import {
   interestsOptions,
   OTHER_SPECIFY,
   programOptions,
+  ResumeGetResp,
   schoolOptions,
   teamPreferenceOptions,
 } from '@/types/Application'
@@ -92,7 +94,7 @@ const ExperienceForm = (props: Props) => {
                   options={schoolOptions}
                   errors={errors}
                   setOtherField={(val: string) => {
-                    form.setValue('school_other', val)
+                    setValue('school_other', val, { shouldValidate: true })
                   }}
                   inputRef={ref}
                   {...field}
@@ -124,7 +126,7 @@ const ExperienceForm = (props: Props) => {
                   options={programOptions}
                   errors={errors}
                   setOtherField={(val: string) => {
-                    form.setValue('program_other', val)
+                    setValue('program_other', val, { shouldValidate: true })
                   }}
                   inputRef={ref}
                   {...field}
@@ -148,7 +150,17 @@ const ExperienceForm = (props: Props) => {
           <Typography variant="h3" color="text.secondary" gutterBottom>
             🚀 Flex that Hello World python script
           </Typography>
-          <Typography> --- Resume goes here --- </Typography>
+          <FormResumeUpload
+            name={getValues('resume_file_name')}
+            link={getValues('resume_link')}
+            updateCount={getValues('resume_update_count')}
+            error={errors.resume_link}
+            onSuccess={(resp: ResumeGetResp) => {
+              setValue('resume_file_name', resp.resume_file_name, { shouldValidate: true })
+              setValue('resume_link', resp.resume_link, { shouldValidate: true })
+              setValue('resume_update_count', resp.resume_update_count, { shouldValidate: true })
+            }}
+          />
           <Controller
             name="resume_consent"
             control={control}

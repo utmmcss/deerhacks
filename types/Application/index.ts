@@ -1,5 +1,5 @@
 export type ApplicationGetResp = {
-  application: Application
+  application: Omit<Application, 'resume_file_name' | 'resume_link' | 'resume_update_count'>
   is_draft: boolean
 }
 
@@ -40,9 +40,11 @@ export type Application = {
   school: string
   program: (typeof programOptions)[number] | string
 
+  // Resume Fields, Outside of Application Endpoint
   resume_link: string
-  resume_filename: string
-  resume_hash: string
+  resume_file_name: string
+  resume_update_count: number
+
   portfolio?: string
   github?: string
   linkedin?: string
@@ -511,3 +513,9 @@ export const deerhacksReachOptions = [
   'Word of Mouth',
   OTHER_SPECIFY,
 ] as const
+
+export type ResumeGetResp = {
+  resume_file_name: string
+  resume_link: string
+  resume_update_count: number
+}
