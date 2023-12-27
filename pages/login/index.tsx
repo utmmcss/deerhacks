@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography'
 import SignUpButton from '@/components/HomePage/SignUpButton'
 import Navbar from '@/components/Shared/Navbar'
 import { useAPI } from '@/contexts/API'
+import { useAuth } from '@/contexts/Auth'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import Error418Page from '@/pages/418'
 
@@ -25,6 +26,7 @@ const Login = () => {
   const alert = showAlert ? getAlertDetails(context) : null
   const initialized = useRef(false)
 
+  const { authenticated } = useAuth()
   const router = useRouter()
   const api = useAPI()
 
@@ -42,6 +44,9 @@ const Login = () => {
   }
 
   useEffect(() => {
+    if (authenticated) {
+      router.push('/dashboard')
+    }
     if (initialized.current) return
     window.addEventListener('storage', handleStorage)
     // eslint-disable-next-line react-hooks/exhaustive-deps

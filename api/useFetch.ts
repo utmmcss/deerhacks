@@ -55,8 +55,8 @@ const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statu
   }
 
   if (resp.status >= 400) {
-    const error = await resp.json()
-    response.error.data = error
+    const error = await resp.text()
+    response.error.data = error ? JSON.parse(error) : {}
     throw { status: resp.status, err: response.error.data }
   } else {
     const data = await resp.json()
