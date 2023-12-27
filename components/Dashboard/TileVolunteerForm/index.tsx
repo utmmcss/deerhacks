@@ -38,7 +38,7 @@ const TileVolunteerForm = (props: Props) => {
           <Typography variant="body2" color={disabled ? 'text.disabled' : 'text.primary'}>
             {disabled
               ? 'Signup is unavailable while user is unverified'
-              : 'Want to volunteer for DeerHacks? Apply to be a volunteer before {TBD DATE}'}
+              : 'Want to volunteer for DeerHacks? Apply to be a volunteer before January 30, 2024'}
           </Typography>
         </CardContent>
       </CardActionArea>

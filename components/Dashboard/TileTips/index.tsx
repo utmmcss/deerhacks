@@ -32,7 +32,7 @@ const TileTips = (props: Props) => {
               gutterBottom
             >
               <HelpIcon fontSize="inherit" />
-              Tips
+              Help
             </Typography>
             <Typography color="common.black" variant="body2">
               DeerHacks Dashboard 101

@@ -272,7 +272,7 @@ const Registration = (props: Props) => {
         {formKeys.map((section, i) => {
           return (
             <Accordion
-              expanded={activeStep == i}
+              expanded={activeStep === i}
               key={section}
               sx={{
                 width: '100%',
@@ -285,45 +285,49 @@ const Registration = (props: Props) => {
               }}
             >
               <AccordionDetails sx={{ px: { xs: 0, md: '1rem' } }}>
-                {section == 'AboutYou' && (
-                  <AboutYou
-                    user={user}
-                    form={formSections[section].form}
-                    onNext={(data: AboutYouZodForm) => {
-                      handleNextStep(formToAppMap.AboutYou(data, application))
-                    }}
-                  />
-                )}
-                {section == 'Experience' && (
-                  <ExperienceForm
-                    form={formSections[section].form}
-                    onNext={(data: ExperienceZodForm) => {
-                      handleNextStep(formToAppMap.Experience(data, application))
-                    }}
-                  />
-                )}
-                {section == 'OpenEndedResponses' && (
-                  <OpenEndedResponsesForm
-                    form={formSections[section].form}
-                    onNext={(data: OpenEndedResponsesZodForm) => {
-                      handleNextStep(formToAppMap.OpenEndedResponses(data, application))
-                    }}
-                  />
-                )}
-                {section == 'DeerHacks' && (
-                  <DeerhacksForm
-                    form={formSections[section].form}
-                    onNext={(data: DeerhacksZodForm) => {
-                      handleNextStep(formToAppMap.DeerHacks(data, application))
-                    }}
-                  />
-                )}
-                {section == 'Review' && (
-                  <FormReview
-                    user={user}
-                    application={application}
-                    onSubmit={() => setOpenConfirmation(true)}
-                  />
+                {i === activeStep && (
+                  <>
+                    {section === 'AboutYou' && (
+                      <AboutYou
+                        user={user}
+                        form={formSections[section].form}
+                        onNext={(data: AboutYouZodForm) => {
+                          handleNextStep(formToAppMap.AboutYou(data, application))
+                        }}
+                      />
+                    )}
+                    {section === 'Experience' && (
+                      <ExperienceForm
+                        form={formSections[section].form}
+                        onNext={(data: ExperienceZodForm) => {
+                          handleNextStep(formToAppMap.Experience(data, application))
+                        }}
+                      />
+                    )}
+                    {section === 'OpenEndedResponses' && (
+                      <OpenEndedResponsesForm
+                        form={formSections[section].form}
+                        onNext={(data: OpenEndedResponsesZodForm) => {
+                          handleNextStep(formToAppMap.OpenEndedResponses(data, application))
+                        }}
+                      />
+                    )}
+                    {section === 'DeerHacks' && (
+                      <DeerhacksForm
+                        form={formSections[section].form}
+                        onNext={(data: DeerhacksZodForm) => {
+                          handleNextStep(formToAppMap.DeerHacks(data, application))
+                        }}
+                      />
+                    )}
+                    {section === 'Review' && (
+                      <FormReview
+                        user={user}
+                        application={application}
+                        onSubmit={() => setOpenConfirmation(true)}
+                      />
+                    )}
+                  </>
                 )}
               </AccordionDetails>
             </Accordion>
