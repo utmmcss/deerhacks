@@ -52,7 +52,7 @@ const TileRegistration = (props: Props) => {
                   disabledUser ? 'while email is unverified' : 'during this time'
                 }`
               : status === 'registering'
-              ? 'Get started on your registration for DeerHacks! Hacker applications are open until January 25, 2024'
+              ? 'Get started on your registration for DeerHacks! Hacker applications are open until January 25'
               : noApplication
               ? `${status.title()}s cannot register as hackers`
               : 'Revisit your application to DeerHacks'}

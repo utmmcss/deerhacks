@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { Suspense, useState } from 'react'
 
 import InfoIcon from '@mui/icons-material/Info'
+import OutboundTwoToneIcon from '@mui/icons-material/OutboundTwoTone'
 import QrCodeIcon from '@mui/icons-material/QrCode'
 import SettingsIcon from '@mui/icons-material/Settings'
 import VerifiedIcon from '@mui/icons-material/Verified'
@@ -15,6 +16,7 @@ import Typography from '@mui/material/Typography'
 
 import ModalAccount from '@/components/Dashboard/ModalAccount'
 import ModalQRCode from '@/components/Dashboard/ModalQRCode'
+import { useAPI } from '@/contexts/API'
 import { User, UserStatusDescription } from '@/types/User'
 
 type Props = {
@@ -23,6 +25,8 @@ type Props = {
 
 const TileUser = (props: Props) => {
   const { user } = props
+
+  const api = useAPI()
 
   const [openAccountDetails, setOpenAccountDetails] = useState(!user.first_name || !user.last_name)
 
@@ -157,6 +161,15 @@ const TileUser = (props: Props) => {
                   onClick={() => setOpenAccountDetails(true)}
                 />
               )}
+              <Chip
+                label="Sign Out"
+                icon={<OutboundTwoToneIcon />}
+                clickable
+                onClick={() => {
+                  document.cookie = 'Authorization=; expires=Tue, 27 Feb 2001 13:00:00 UTC; path=/;'
+                  api.queryClient.invalidateQueries({ queryKey: ['userGet'] })
+                }}
+              />
             </Box>
           </Grid>
         </Grid>
