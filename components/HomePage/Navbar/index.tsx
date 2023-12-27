@@ -152,6 +152,8 @@ const Navbar = (props: Props) => {
 
   const [open, setOpen] = useState(false)
 
+  const { toggles } = useFeatureToggle()
+
   const desktop = useMediaQuery(theme.breakpoints.up('md'))
 
   return (
@@ -171,10 +173,15 @@ const Navbar = (props: Props) => {
             top="2.5rem"
             left={{ xs: '1.5rem', lg: '2.5rem' }}
           >
-            <Tooltip title="Take me to my dashboard" placement="right" arrow>
+            <Tooltip
+              title={toggles.bypassPage ? 'Take me to my dashboard' : ''}
+              placement="right"
+              arrow
+            >
               <Button
                 href="/dashboard"
                 component={NextLink}
+                disabled={!toggles.bypassPage}
                 sx={{ p: '0.5rem', borderRadius: '50%' }}
               >
                 <Image src="/icons/logo.svg" alt="DeerHacks Logo" width={55} height={55} priority />
