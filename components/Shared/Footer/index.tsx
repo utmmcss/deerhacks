@@ -10,11 +10,7 @@ import Link from '@mui/material/Link'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
-import { useFeatureToggle } from '@/contexts/FeatureToggle'
-
 const Footer = () => {
-  const { toggles } = useFeatureToggle()
-
   return (
     <Box component="footer" id="footer">
       <Container sx={{ flexDirection: 'column', pt: 2 }}>
@@ -53,13 +49,11 @@ const Footer = () => {
                 <LinkedInIcon />
               </Link>
             </Tooltip>
-            {toggles.dashboard && (
-              <Tooltip title="Code of Conduct" placement="top">
-                <Link href="/code" component={NextLink}>
-                  Code of Conduct
-                </Link>
-              </Tooltip>
-            )}
+            <Tooltip title="Code of Conduct" placement="top">
+              <Link href="/code" component={NextLink}>
+                Code of Conduct
+              </Link>
+            </Tooltip>
             <Tooltip title="Privacy Policy" placement="top">
               <Link href="/privacy" component={NextLink}>
                 Privacy Policy
