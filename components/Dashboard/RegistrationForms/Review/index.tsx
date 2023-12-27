@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 
 import CheckIcon from '@mui/icons-material/Check'
 import DoDisturbIcon from '@mui/icons-material/DoDisturb'
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded'
 import InfoIcon from '@mui/icons-material/Info'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -75,8 +76,22 @@ const FormReview = (props: Props) => {
           name="Resume"
           value={application.resume_file_name}
           valueNode={
-            <Link href={application.resume_link} rel="noopener" target="_blank">
-              {application.resume_file_name}
+            <Link
+              href={application.resume_link}
+              rel="noopener"
+              target="_blank"
+              sx={{
+                opacity: 1,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                '&:hover': {
+                  textDecoration: 'underline',
+                },
+              }}
+            >
+              <Typography color="text.primary">{application.resume_file_name}</Typography>
+              <DownloadRoundedIcon fontSize="inherit" />
             </Link>
           }
         />

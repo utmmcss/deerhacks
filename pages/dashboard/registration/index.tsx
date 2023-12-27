@@ -284,7 +284,7 @@ const Registration = (props: Props) => {
                 ...(activeStep !== i && { height: 0, paddingY: 0 }),
               }}
             >
-              <AccordionDetails>
+              <AccordionDetails sx={{ px: { xs: 0, md: '1rem' } }}>
                 {section == 'AboutYou' && (
                   <AboutYou
                     user={user}
@@ -371,7 +371,7 @@ const RegistrationLoader = () => {
     data: resumeData,
     isLoading: resumeLoading,
     isError: resumeError,
-  } = useResumeGet({ enabled })
+  } = useResumeGet({ enabled: enabled && !!applicationData })
 
   if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
   if (!loading && !authenticated) return <Error401Page />
@@ -427,12 +427,24 @@ const RegistrationLoader = () => {
             {user.status === 'registering' ? (
               <Registration
                 user={user}
-                savedApplication={{ ...applicationData.application, ...resumeData }}
+                savedApplication={{
+                  ...applicationData.application,
+                  resume_file_name: '',
+                  resume_link: '',
+                  resume_update_count: 0,
+                  ...(resumeData && { ...resumeData }),
+                }}
               />
             ) : (
               <FormReview
                 user={user}
-                application={{ ...applicationData.application, ...resumeData }}
+                application={{
+                  ...applicationData.application,
+                  resume_file_name: '',
+                  resume_link: '',
+                  resume_update_count: 0,
+                  ...(resumeData && { ...resumeData }),
+                }}
               />
             )}
           </Container>

@@ -387,11 +387,7 @@ const Privacy = () => {
           <Typography variant="body1" component="div">
             <Typography variant="subtitle1" color="text.primary">
               You can request access, update, or deletion of your personal data at{' '}
-              <Link
-                href="mailto:sponsorship@deerhacks.ca"
-                underline="always"
-                sx={{ opacity: 0.75 }}
-              >
+              <Link href="mailto:hello@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
                 hello@deerhacks.ca
               </Link>
               . Compliance with your request will occur within 30 days, barring legal or exceptional
@@ -452,7 +448,7 @@ const Privacy = () => {
           <Typography variant="subtitle1">
             We are always open to feedback! For suggestions or questions about this Policy or our
             Service, please contact us at{' '}
-            <Link href="mailto:sponsorship@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
+            <Link href="mailto:hello@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
               hello@deerhacks.ca
             </Link>
             .

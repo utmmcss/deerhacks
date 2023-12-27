@@ -8,6 +8,14 @@ export type ApplicationUpdateReq = {
   is_draft: boolean
 }
 
+export type ResumeUpdateResp = {
+  resume_file_name: string
+  resume_link: string
+  resume_update_count: number
+}
+
+export type ResumeGetResp = ResumeUpdateResp | {}
+
 export type Application = {
   /**
    * User Fields, Outside of Application
@@ -513,9 +521,3 @@ export const deerhacksReachOptions = [
   'Word of Mouth',
   OTHER_SPECIFY,
 ] as const
-
-export type ResumeGetResp = {
-  resume_file_name: string
-  resume_link: string
-  resume_update_count: number
-}

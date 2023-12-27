@@ -3,7 +3,8 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   // Fix all autofixable errors on file save
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit"
+    "source.fixAll": "explicit",
+    "source.organizeImports": "never"
   },
   // Fix formatting issues on file save
   "editor.formatOnSave": true,

@@ -18,7 +18,7 @@ import {
   interestsOptions,
   OTHER_SPECIFY,
   programOptions,
-  ResumeGetResp,
+  ResumeUpdateResp,
   schoolOptions,
   teamPreferenceOptions,
 } from '@/types/Application'
@@ -155,7 +155,7 @@ const ExperienceForm = (props: Props) => {
             link={getValues('resume_link')}
             updateCount={getValues('resume_update_count')}
             error={errors.resume_link}
-            onSuccess={(resp: ResumeGetResp) => {
+            onSuccess={(resp: ResumeUpdateResp) => {
               setValue('resume_file_name', resp.resume_file_name, { shouldValidate: true })
               setValue('resume_link', resp.resume_link, { shouldValidate: true })
               setValue('resume_update_count', resp.resume_update_count, { shouldValidate: true })

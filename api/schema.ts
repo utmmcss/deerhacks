@@ -1,6 +1,11 @@
 import { APITemplate } from '@/api/types'
 import { CustomFetch } from '@/api/useFetch'
-import { ApplicationGetResp, ApplicationUpdateReq, ResumeGetResp } from '@/types/Application'
+import {
+  ApplicationGetResp,
+  ApplicationUpdateReq,
+  ResumeGetResp,
+  ResumeUpdateResp,
+} from '@/types/Application'
 import { EmailVerifyReq, EmailVerifyResp } from '@/types/Email'
 import { EventListResp } from '@/types/Event'
 import { PhotoListResp } from '@/types/Photo'
@@ -36,7 +41,7 @@ const application = (customFetch: CustomFetch) =>
       const res = await customFetch('POST', 'DH_BE', '/resume-update', args, {
         isForm: true,
       })
-      return res.data as ResumeGetResp
+      return res.data as ResumeUpdateResp
     },
   } as const)
 

@@ -1,16 +1,26 @@
 import { useRef } from 'react'
 import { FieldError } from 'react-hook-form'
 
-import Box from '@mui/material/Box'
-import Link from '@mui/material/Link'
+import CloudDownloadIcon from '@mui/icons-material/CloudDownload'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import UploadFileIcon from '@mui/icons-material/UploadFile'
+import Alert from '@mui/material/Alert'
+import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
+import Collapse from '@mui/material/Collapse'
+import Fab from '@mui/material/Fab'
+import Grid from '@mui/material/Grid'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
+import { APIError } from '@/api/types'
 import LoadingButton from '@/components/Dashboard/LoadingButton'
 import { useToast } from '@/contexts/Toast'
 import { useResumeUpdate } from '@/hooks/Application/useResumeUpdate'
-import { ResumeGetResp } from '@/types/Application'
+import theme from '@/styles/theme'
+import { ResumeUpdateResp } from '@/types/Application'
 
-const MAX_FILE_SIZE = 2000000 // 2MB
+const MAX_FILE_SIZE = 2000000 // 2 MB
 const MAX_UPDATE_COUNT = 3
 
 type Props = {
@@ -18,7 +28,7 @@ type Props = {
   link: string
   updateCount: number
   error?: FieldError
-  onSuccess: (resp: ResumeGetResp) => void
+  onSuccess: (resp: ResumeUpdateResp) => void
 }
 
 const FormResumeUpload = (props: Props) => {
@@ -34,6 +44,11 @@ const FormResumeUpload = (props: Props) => {
     const file = e.currentTarget.files[0]
     if (!file) return
 
+    // Reset the input field so that the same file can be handled again
+    if (inputRef.current) {
+      inputRef.current.value = ''
+    }
+
     const fileName = file.name
     if (fileName.length > 128) {
       setToast({
@@ -47,7 +62,7 @@ const FormResumeUpload = (props: Props) => {
     if (fileName.split('.').pop() !== 'pdf') {
       setToast({
         type: 'error',
-        message: 'File type must be a pdf',
+        message: 'File type must be PDF',
         autoHide: false,
       })
       return
@@ -56,7 +71,7 @@ const FormResumeUpload = (props: Props) => {
     if (file.size > MAX_FILE_SIZE) {
       setToast({
         type: 'error',
-        message: 'File size must be less than 2MB',
+        message: 'Max file size is 2 MB',
         autoHide: false,
       })
       return
@@ -66,17 +81,27 @@ const FormResumeUpload = (props: Props) => {
     data.append('file', file)
     updateResume(data, {
       onSuccess: (resp) => {
-        onSuccess(resp)
         // want toast on success so it hides any errors that didn't auto-hide
-        setToast({
-          type: 'success',
-          message: 'Resume successfully uploaded',
-        })
+        if (updateCount === resp.resume_update_count) {
+          setToast({
+            type: 'info',
+            message: 'No changes detected in resume',
+          })
+        } else {
+          setToast({
+            type: 'success',
+            message: 'Resume successfully uploaded',
+          })
+          onSuccess(resp)
+        }
       },
-      onError: () => {
+      onError: (err) => {
         setToast({
           type: 'error',
-          message: 'something went wrong :(',
+          message:
+            (err as APIError).apiError.status == 400
+              ? 'Bad Request. Please review your resume and try again.'
+              : 'Oops, something went wrong. Please try again.',
           autoHide: false,
         })
       },
@@ -84,26 +109,92 @@ const FormResumeUpload = (props: Props) => {
   }
 
   return (
-    <Box component="div">
-      <Box component="div">
+    <>
+      <Grid container flexDirection="column">
         <input type="file" ref={inputRef} onChange={onFileSelected} accept=".pdf" hidden />
-        <LoadingButton
-          loading={isLoading}
-          onClick={(e) => {
-            e.stopPropagation()
-            inputRef.current?.click()
+        <Collapse in={updateCount < MAX_UPDATE_COUNT}>
+          <Alert severity="info" sx={{ mb: '1rem' }}>
+            <Grid container flexDirection="column">
+              {`${MAX_UPDATE_COUNT - updateCount} update(s) remaining (bc we're broke bois).`}
+              <Typography color="secondary" variant="caption">
+                ACCEPTED FILE FORMAT: PDF - MAX SIZE 2 MB
+              </Typography>
+            </Grid>
+          </Alert>
+        </Collapse>
+        <Collapse
+          in={updateCount > 0}
+          sx={{
+            width: '100%',
+            '& .MuiCollapse-wrapperInner': {
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: '1rem',
+            },
           }}
-          disabled={updateCount >= MAX_UPDATE_COUNT}
         >
-          Upload Resume
-        </LoadingButton>
-        <Typography>{MAX_UPDATE_COUNT - updateCount} uploads left</Typography>
-      </Box>
-      <Link href={link} rel="noopener" target="_blank">
-        {name}
-      </Link>
-      {error && <Typography color="error">{error.message}</Typography>}
-    </Box>
+          <Button
+            variant="outlined"
+            fullWidth
+            href={link}
+            rel="noopener"
+            target="_blank"
+            startIcon={<CloudDownloadIcon />}
+            sx={{ justifyContent: 'start', borderRadius: '1rem' }}
+          >
+            <Typography
+              variant="button"
+              color="text.secondary"
+              textAlign="left"
+              fontSize="0.75rem"
+              noWrap
+            >
+              Download Resume
+              <Typography color="primary" noWrap sx={{ textDecoration: 'underline' }}>
+                {name}
+              </Typography>
+            </Typography>
+          </Button>
+          {updateCount < MAX_UPDATE_COUNT && (
+            <Tooltip title="Upload New Resume">
+              <Fab
+                disabled={isLoading}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  inputRef.current?.click()
+                }}
+                sx={{ minWidth: '56px', zIndex: 1 }}
+              >
+                {isLoading ? <CircularProgress size={24} color="inherit" /> : <UploadFileIcon />}
+              </Fab>
+            </Tooltip>
+          )}
+        </Collapse>
+        <Collapse in={updateCount == 0}>
+          <LoadingButton
+            variant="outlined"
+            fullWidth
+            loading={isLoading}
+            disabled={updateCount >= MAX_UPDATE_COUNT}
+            onClick={(e) => {
+              e.stopPropagation()
+              inputRef.current?.click()
+            }}
+            sx={{
+              border: '1px dashed rgba(255, 255, 255, 0.4)',
+              ...(error && { border: `1px dashed ${theme.palette.error.main}` }),
+              flexDirection: 'column',
+              p: '1rem',
+            }}
+          >
+            <CloudUploadIcon fontSize="large" />
+            <Typography variant="button">Upload Resume</Typography>
+          </LoadingButton>
+          {error && <Typography className="formError">{error.message}</Typography>}
+        </Collapse>
+      </Grid>
+    </>
   )
 }
 
