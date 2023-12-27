@@ -46,7 +46,7 @@ const FormDynamicSelect = (props: Props) => {
       onInputChange={(e, value, reason) => {
         if (reason === 'input') setInput(value)
       }}
-      value={value}
+      value={value || null}
       filterOptions={filterOptions}
       forcePopupIcon
       autoComplete

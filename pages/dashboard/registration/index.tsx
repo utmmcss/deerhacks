@@ -134,7 +134,7 @@ const Registration = (props: Props) => {
           scrollToTop()
           setToast({
             type: 'success',
-            message: 'Your Application was Submitted Successfully!',
+            message: 'Your application was submitted successfully!',
           })
         }
       },
