@@ -363,7 +363,7 @@ const RegistrationLoader = () => {
     authenticated &&
     user?.status &&
     allowedStatuses.includes(user.status) &&
-    (toggles.signupHacker || user.status !== 'registering')
+    (toggles.signupHacker || user.status !== 'registering' || toggles.bypassPage)
 
   const {
     data: applicationData,
@@ -392,7 +392,12 @@ const RegistrationLoader = () => {
     )
   }
 
-  if (!toggles.signupHacker && user?.status && user.status === 'registering') {
+  if (
+    !toggles.signupHacker &&
+    user?.status &&
+    user.status === 'registering' &&
+    !toggles.bypassPage
+  ) {
     return (
       <FullPageLoader
         show
