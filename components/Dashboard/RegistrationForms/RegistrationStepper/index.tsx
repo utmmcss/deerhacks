@@ -98,16 +98,23 @@ const RegistrationStepper = (props: Props) => {
       >
         Save as Draft
       </LoadingButton>
-      <Stepper activeStep={activeStep} orientation="vertical" connector={<StyledStepConnector />}>
+      <Stepper
+        activeStep={activeStep}
+        orientation="vertical"
+        connector={<StyledStepConnector />}
+        sx={{ width: '100%', p: '0.5rem' }}
+      >
         {formKeys.map((section, i) => (
           <Step key={section} disabled={getStepDisabled(i, activeStep, formSections)}>
             <StepButton
               icon={getStepIcon(i, activeStep, formSections)}
               onClick={() => handleAccordionChange(i)}
               sx={{
-                transition: '0.5s all ease',
-                '&:hover': {
+                transition: '0.3s all ease',
+                borderRadius: '0.5rem',
+                '&:hover, &:focus-visible': {
                   textDecoration: 'underline',
+                  backgroundColor: 'rgba(255,255,255,0.05)',
                 },
               }}
             >
@@ -119,7 +126,7 @@ const RegistrationStepper = (props: Props) => {
                 {formSections[section].heading}
               </Typography>
             </StepButton>
-            <StepContent>
+            <StepContent sx={{ transition: '0.3s all ease', pt: i === activeStep ? '1rem' : 0 }}>
               {formSections[section].subHeadings.map((subHeading) => (
                 <Typography key={`${section} - ${subHeading}`}>{subHeading}</Typography>
               ))}

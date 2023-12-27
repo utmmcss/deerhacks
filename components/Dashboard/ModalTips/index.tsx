@@ -12,6 +12,7 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grow from '@mui/material/Grow'
 import IconButton from '@mui/material/IconButton'
+import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 import { UserStatus } from '@/types/User'
@@ -135,7 +136,11 @@ const ModalTips = (props: Props) => {
                 ticket related assistance will be ignored.
               </Typography>
               <Typography>
-                We are always open to feedback and suggestions at DeerHacks. If you have any
+                Alternatively, you can email us at{' '}
+                <Link href="mailto:hello@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
+                  hello@deerhacks.ca
+                </Link>
+                . We are always open to feedback and suggestions at DeerHacks. If you have any
                 concerns, ideas, or found a bug in our dashboard please let us know!
               </Typography>
             </AccordionDetails>

@@ -99,8 +99,8 @@ const Login = () => {
               <Typography fontSize="0.75rem">
                 By clicking “Continue with Discord” above, you acknowledge that you have read and
                 understood, and agree to DeerHacks'{' '}
-                <Link component={NextLink} href="/terms" underline="always" sx={{ opacity: 0.75 }}>
-                  Terms & Conditions
+                <Link component={NextLink} href="/code" underline="always" sx={{ opacity: 0.75 }}>
+                  Code of Conduct
                 </Link>{' '}
                 and{' '}
                 <Link

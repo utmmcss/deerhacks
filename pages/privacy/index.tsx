@@ -57,8 +57,8 @@ const Privacy = () => {
             participating in the DeerHacks hackathon, you signify that you agree to the collection,
             storage, use, and disclosure of your personal information as described in this Privacy
             Policy and agree to the DeerHacks{' '}
-            <Link component={NextLink} href="/terms" underline="always" sx={{ opacity: 0.75 }}>
-              Terms & Conditions
+            <Link component={NextLink} href="/code" underline="always" sx={{ opacity: 0.75 }}>
+              Code of Conduct
             </Link>
             {'.'}
           </Typography>
@@ -119,26 +119,32 @@ const Privacy = () => {
             </ul>
           </Typography>
           <Typography variant="body1" component="div">
-            Cookies
+            Use of Cookies
             <ul>
               <li>
-                Cookies are used for authentication and management of the signup process and general
-                administration. You can opt out of non-essential cookies.
+                Cookies are used for management of the signup process and general administration.
+                For example, we may use cookies only as unique session identifiers or to identify
+                you as an authorized user of the site (if you access secured areas of the site).
               </li>
               <li>
-                Additionally, our analytics, bug reporting, and DNS providers also use cookies to
+                Our third party analytics, bug reporting, and DNS providers also use cookies to
                 facilitate their services.
               </li>
             </ul>
           </Typography>
           <Typography variant="body1" component="div">
-            Widgets
+            Use of Widgets
             <ul>
               <li>
-                Our Service may include social media features (e.g., LinkedIn, Instagram widgets)
-                and external links to DeerHacks official partners. These companies may collect
-                information about your visit. If you follow hyperlinks from our site, please note
-                that we are not responsible for their privacy policies and practices.
+                For your convenience only, Our Service may include social media features (e.g.,
+                LinkedIn, Instagram widgets) and external links to our official partners, not owned,
+                operated or controlled by DeerHacks (“External Sites”) that may be of interest to
+                you.
+              </li>
+              <li>
+                Please familiarize yourself with the privacy policies of the External Sites as we
+                are not responsible for any information you may provide to, or that is collected by,
+                those External Sites.
               </li>
             </ul>
           </Typography>
@@ -387,8 +393,8 @@ const Privacy = () => {
           <Typography variant="body1" component="div">
             <Typography variant="subtitle1" color="text.primary">
               You can request access, update, or deletion of your personal data at{' '}
-              <Link href="mailto:hello@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
-                hello@deerhacks.ca
+              <Link href="mailto:support@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
+                support@deerhacks.ca
               </Link>
               . Compliance with your request will occur within 30 days, barring legal or exceptional
               circumstances. Please note that deleted data may be retained in our backups for up to
@@ -429,7 +435,7 @@ const Privacy = () => {
           >
             Changes to Privacy Policy
           </Link>
-          <Typography variant="subtitle1">
+          <Typography variant="body1" gutterBottom>
             We reserve the right to modify this Privacy Policy. Review this page periodically for
             changes. Significant changes will be notified and the "last modified" date at the bottom
             of this page will be updated. Continuing to use our Service after we publish changes to
@@ -445,16 +451,37 @@ const Privacy = () => {
           >
             Contact Information
           </Link>
-          <Typography variant="subtitle1">
-            We are always open to feedback! For suggestions or questions about this Policy or our
-            Service, please contact us at{' '}
-            <Link href="mailto:hello@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
-              hello@deerhacks.ca
-            </Link>
-            .
+          <Typography variant="body1" component="div">
+            <Typography variant="subtitle1" color="text.primary">
+              We are always open to feedback and inquiries! For any questions about this Policy, our
+              Service, or if you need assistance, please reach out to us.
+            </Typography>
+            <ul>
+              <li>
+                General Inquiries and Feedback: Contact us at{' '}
+                <Link href="mailto:hello@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
+                  hello@deerhacks.ca
+                </Link>{' '}
+                for any general questions or feedback regarding DeerHacks.
+              </li>
+              <li>
+                Bug Reporting: If you encounter technical issues or bugs with our Service, please
+                email us at{' '}
+                <Link href="mailto:support@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
+                  support@deerhacks.ca
+                </Link>
+                . Your detailed reports help us continually improve the experience at DeerHacks.
+              </li>
+              <li>
+                Discord Support: Alternatively, for real-time assistance and inquiries, join our
+                Discord server. Open a ticket related to your inquiry and our team will be there to
+                provide guidance or address your concerns.
+              </li>
+            </ul>
           </Typography>
+
           <Typography variant="caption">
-            This privacy policy was last modified on December 20th, 2023.
+            This privacy policy was last modified on December 27th, 2023.
           </Typography>
         </Container>
       </Fade>

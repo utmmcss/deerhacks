@@ -54,20 +54,15 @@ const Footer = () => {
               </Link>
             </Tooltip>
             {toggles.dashboard && (
-              <Tooltip title="Terms & Conditions" placement="top">
-                <Link href="/terms" component={NextLink}>
-                  Terms & Conditions
+              <Tooltip title="Code of Conduct" placement="top">
+                <Link href="/code" component={NextLink}>
+                  Code of Conduct
                 </Link>
               </Tooltip>
             )}
             <Tooltip title="Privacy Policy" placement="top">
               <Link href="/privacy" component={NextLink}>
                 Privacy Policy
-              </Link>
-            </Tooltip>
-            <Tooltip title="Code of Conduct" placement="top">
-              <Link rel="noopener" href="https://mlh.io/code-of-conduct">
-                Code of Conduct
               </Link>
             </Tooltip>
           </Box>
