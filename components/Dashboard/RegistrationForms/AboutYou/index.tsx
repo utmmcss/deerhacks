@@ -116,7 +116,7 @@ const AboutYou = (props: Props) => {
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Profile Details</Typography>
           <Typography variant="h3" color="text.secondary" gutterBottom>
-            💍 Tell me about yourself girlll
+            💍 Tell me about yourself girl
           </Typography>
           <Controller
             name="age"
@@ -237,7 +237,7 @@ const AboutYou = (props: Props) => {
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Location</Typography>
           <Typography variant="h3" color="text.secondary" gutterBottom>
-            🫣 So I can meet your mama
+            😝 Where's the party at?
           </Typography>
           <Controller
             name="city"

@@ -22,6 +22,7 @@ import {
   infer as inferZod,
   intersection,
   literal,
+  number,
   object,
   string,
 } from 'zod'
@@ -230,10 +231,9 @@ const interests = object({
 export const experienceZodForm = intersection(
   education.and(school).and(program).and(interests),
   object({
-    // TODO: Resume Stuff
-    // resume_link: urlField.min(1, 'Required'),
-    // resume_filename: textField,
-    // resume_hash: textField,
+    resume_file_name: string().min(1, 'Required'),
+    resume_link: string().min(1, 'Required'),
+    resume_update_count: number(),
     portfolio: urlField.or(literal('')).or(literal(undefined)),
     github: urlField.or(literal('')).or(literal(undefined)),
     linkedin: urlField.or(literal('')).or(literal(undefined)),

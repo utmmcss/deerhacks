@@ -125,10 +125,9 @@ const appToExpForm = (application: Application) => {
     ...(program == OTHER_SPECIFY && { program_other: application.program }),
 
     // Professional Journey
-    // TODO:
-    //resume_link: string
-    //resume_filename: string
-    //resume_hash: string
+    resume_link: application.resume_link,
+    resume_file_name: application.resume_file_name,
+    resume_update_count: application.resume_update_count,
     ...(application.portfolio && { portfolio: application.portfolio }),
     ...(application.github && { github: application.github }),
     ...(application.linkedin && { linkedin: application.linkedin }),
@@ -241,15 +240,14 @@ const expFormToApp = (form: ExperienceZodForm, currApplication: Application): Ap
     ...currApplication,
 
     // Education
+    resume_link: form.resume_link,
+    resume_file_name: form.resume_file_name,
+    resume_update_count: form.resume_update_count,
     education: form.education == OTHER_SPECIFY ? form.education_other ?? '' : form.education,
     school: form.school == OTHER_SPECIFY ? form.school_other ?? '' : form.school,
     program: form.program == OTHER_SPECIFY ? form.program_other ?? '' : form.program,
 
     // Professional Journey
-    // TODO:
-    //resume_link: string
-    //resume_filename: string
-    //resume_hash: string
     portfolio: form.portfolio,
     github: form.github,
     linkedin: form.linkedin,

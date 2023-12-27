@@ -28,6 +28,7 @@ import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import { useToast } from '@/contexts/Toast'
 import { useApplicationUpdate } from '@/hooks/Application/useApplicationUpdate'
 import { useApplicationGet } from '@/hooks/Application/userApplicationGet'
+import { useResumeGet } from '@/hooks/Application/useResumeGet'
 import Error401Page from '@/pages/401'
 import Error418Page from '@/pages/418'
 import Error500Page from '@/pages/500'
@@ -133,7 +134,7 @@ const Registration = (props: Props) => {
           scrollToTop()
           setToast({
             type: 'success',
-            message: 'Your Application was Submitted Successfully!',
+            message: 'Your application was submitted successfully!',
           })
         }
       },
@@ -283,7 +284,7 @@ const Registration = (props: Props) => {
                 ...(activeStep !== i && { height: 0, paddingY: 0 }),
               }}
             >
-              <AccordionDetails>
+              <AccordionDetails sx={{ px: { xs: 0, md: '1rem' } }}>
                 {section == 'AboutYou' && (
                   <AboutYou
                     user={user}
@@ -354,17 +355,23 @@ const RegistrationLoader = () => {
 
   const allowedStatuses = ['registering', 'applied', 'selected', 'accepted', 'attended', 'rejected']
 
+  const enabled =
+    authenticated &&
+    user?.status &&
+    allowedStatuses.includes(user.status) &&
+    (toggles.signupHacker || user.status !== 'registering')
+
   const {
-    data,
+    data: applicationData,
     isLoading: applicationLoading,
     isError: applicationError,
-  } = useApplicationGet({
-    enabled:
-      authenticated &&
-      user?.status &&
-      allowedStatuses.includes(user.status) &&
-      (toggles.signupHacker || user.status !== 'registering'),
-  })
+  } = useApplicationGet({ enabled })
+
+  const {
+    data: resumeData,
+    isLoading: resumeLoading,
+    isError: resumeError,
+  } = useResumeGet({ enabled: enabled && !!applicationData })
 
   if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
   if (!loading && !authenticated) return <Error401Page />
@@ -393,14 +400,14 @@ const RegistrationLoader = () => {
     )
   }
 
-  if (applicationError) return <Error500Page />
+  if (applicationError || resumeError) return <Error500Page />
 
   return (
     <>
       <Head>
         <title>Registration | DeerHacks</title>
       </Head>
-      {loading || !authenticated || !user || applicationLoading ? (
+      {loading || !authenticated || !user || applicationLoading || resumeLoading ? (
         <FullPageSpinner />
       ) : (
         <Fade in timeout={1000}>
@@ -418,9 +425,27 @@ const RegistrationLoader = () => {
               My Application
             </Typography>
             {user.status === 'registering' ? (
-              <Registration user={user} savedApplication={data.application} />
+              <Registration
+                user={user}
+                savedApplication={{
+                  ...applicationData.application,
+                  resume_file_name: '',
+                  resume_link: '',
+                  resume_update_count: 0,
+                  ...(resumeData && { ...resumeData }),
+                }}
+              />
             ) : (
-              <FormReview user={user} application={data.application} />
+              <FormReview
+                user={user}
+                application={{
+                  ...applicationData.application,
+                  resume_file_name: '',
+                  resume_link: '',
+                  resume_update_count: 0,
+                  ...(resumeData && { ...resumeData }),
+                }}
+              />
             )}
           </Container>
         </Fade>

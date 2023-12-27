@@ -14,7 +14,7 @@ type Props = {
   base: BaseURL
   url: string
   body?: any
-  isForm?: string
+  isForm?: boolean
 }
 
 const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statusCode: any }> => {
@@ -68,14 +68,20 @@ const fetchHelper = async (props: Props): Promise<{ data: any; error: any; statu
 /** IMPORTANT: Do not use this directly, use useAPI */
 const useFetch = () => {
   return useCallback(
-    async (method: Method, base: BaseURL, url: string, body?: Object, isForm?: string) => {
+    async (
+      method: Method,
+      base: BaseURL,
+      url: string,
+      body?: Object,
+      options?: { isForm: boolean }
+    ) => {
       try {
         return await fetchHelper({
           method,
           base,
           url,
           body,
-          isForm,
+          isForm: options?.isForm,
         })
       } catch (error) {
         throw error
