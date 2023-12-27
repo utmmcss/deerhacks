@@ -16,7 +16,8 @@ import Typography from '@mui/material/Typography'
 
 import ModalAccount from '@/components/Dashboard/ModalAccount'
 import ModalQRCode from '@/components/Dashboard/ModalQRCode'
-import { useAPI } from '@/contexts/API'
+import { useToast } from '@/contexts/Toast'
+import { useUserLogout } from '@/hooks/User/useUserLogout'
 import { User, UserStatusDescription } from '@/types/User'
 
 type Props = {
@@ -26,7 +27,8 @@ type Props = {
 const TileUser = (props: Props) => {
   const { user } = props
 
-  const api = useAPI()
+  const { setToast } = useToast()
+  const { isLoading, mutate: userLogout } = useUserLogout()
 
   const [openAccountDetails, setOpenAccountDetails] = useState(!user.first_name || !user.last_name)
 
@@ -164,11 +166,14 @@ const TileUser = (props: Props) => {
               <Chip
                 label="Sign Out"
                 icon={<OutboundTwoToneIcon />}
+                disabled={isLoading}
                 clickable
-                onClick={() => {
-                  document.cookie = 'Authorization=; expires=Tue, 27 Feb 2001 13:00:00 UTC; path=/;'
-                  api.queryClient.invalidateQueries({ queryKey: ['userGet'] })
-                }}
+                onClick={() =>
+                  userLogout(null, {
+                    onError: () =>
+                      setToast({ type: 'error', message: 'Something went wrong, try again.' }),
+                  })
+                }
               />
             </Box>
           </Grid>

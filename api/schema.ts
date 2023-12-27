@@ -95,6 +95,10 @@ const users = (customFetch: CustomFetch) =>
       const res = await customFetch('POST', 'DH_BE', '/user-update', args)
       return res.data as {}
     },
+    userLogout: async () => {
+      const res = await customFetch('POST', 'DH_BE', '/user-logout')
+      return res.data as {}
+    },
   } as const)
 
 // Mock Data Response for Development
