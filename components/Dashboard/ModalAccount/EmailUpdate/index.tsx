@@ -99,8 +99,9 @@ const EmailUpdate = (props: Props) => {
             </Box>
             {user.status === 'pending' ? (
               <Typography fontSize="0.75rem" textAlign="center">
-                A confirmation email will be sent to the email address you submit. Once verified,
-                your user status will be updated to <code>registering</code>.
+                A confirmation email will be sent to this email address. Check your spam folder if
+                it's not in your inbox. Once verified, your user status will be updated to{' '}
+                <code>registering</code>.
               </Typography>
             ) : (
               <Typography fontSize="0.75rem" textAlign="center">
