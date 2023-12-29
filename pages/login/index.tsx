@@ -12,6 +12,7 @@ import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 import SignUpButton from '@/components/HomePage/SignUpButton'
+import FullPageSpinner from '@/components/Shared/FullPageSpinner'
 import Navbar from '@/components/Shared/Navbar'
 import { useAPI } from '@/contexts/API'
 import { useAuth } from '@/contexts/Auth'
@@ -26,7 +27,7 @@ const Login = () => {
   const alert = showAlert ? getAlertDetails(context) : null
   const initialized = useRef(false)
 
-  const { authenticated } = useAuth()
+  const { loading, authenticated } = useAuth()
   const router = useRouter()
   const api = useAPI()
 
@@ -44,15 +45,18 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (authenticated) {
-      router.push('/dashboard')
-    }
     if (initialized.current) return
     window.addEventListener('storage', handleStorage)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (loading || !authenticated) return
+    router.replace('/dashboard')
+  }, [loading, authenticated, router, toggles.dashboard, toggles.bypassPage])
+
   if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
+  if ((loading && !authenticated) || (!loading && authenticated)) return <FullPageSpinner />
 
   return (
     <>
