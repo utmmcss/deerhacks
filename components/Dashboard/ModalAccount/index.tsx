@@ -130,18 +130,20 @@ const ModalAccount = (props: Props) => {
         <DialogContent sx={{ pb: '2rem' }}>
           <SuccessPage show={state === 'firstSuccess'} heading={'Account Updated Successfully'}>
             <Typography gutterBottom>
-              A confirmation email was sent to {user.email}. Please follow the link in the email to
-              update your status to <code>registering</code>.
+              A confirmation email is being sent to {user.email}. Please follow the link in the
+              email to update your status to <code>registering</code>. (Check spam folder if not in
+              inbox).
             </Typography>
           </SuccessPage>
         </DialogContent>
       </ModalPage>
       <ModalPage page="success" previousPage={['email']} currentState={state}>
         <DialogContent sx={{ pb: '2rem' }}>
-          <SuccessPage show={state === 'success'} heading={'Confirmation Email Sent'}>
+          <SuccessPage show={state === 'success'} heading={'Sending Confirmation Email'}>
             <Typography gutterBottom>
-              A confirmation email was sent to {user.email}. Please follow the link in the email to
-              update your status to <code>registering</code>.
+              A confirmation email is being sent to {user.email}. Please follow the link in the
+              email to update your status to <code>registering</code>. (Check spam folder if not in
+              inbox).
             </Typography>
           </SuccessPage>
         </DialogContent>

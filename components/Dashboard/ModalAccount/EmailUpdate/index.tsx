@@ -106,7 +106,7 @@ const EmailUpdate = (props: Props) => {
             ) : (
               <Typography fontSize="0.75rem" textAlign="center">
                 Important: Updating your email will revert your status to <code>pending</code>. You
-                will need to reverify your account via the confirmation email to update your status
+                will need to reverify your account via a confirmation email to update your status
                 back to <code>registering</code>.
               </Typography>
             )}

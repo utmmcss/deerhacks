@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { Suspense, useState } from 'react'
 
 import InfoIcon from '@mui/icons-material/Info'
-import OutboundTwoToneIcon from '@mui/icons-material/OutboundTwoTone'
+import OutboundRoundedIcon from '@mui/icons-material/OutboundRounded'
 import QrCodeIcon from '@mui/icons-material/QrCode'
 import SettingsIcon from '@mui/icons-material/Settings'
 import VerifiedIcon from '@mui/icons-material/Verified'
@@ -133,7 +133,7 @@ const TileUser = (props: Props) => {
               >
                 @{user.username}
                 {user.verified && (
-                  <Tooltip title="Discord Verified" placement="right">
+                  <Tooltip title="Discord Verified" placement="right" arrow>
                     <VerifiedIcon color="primary" fontSize="small" />
                   </Tooltip>
                 )}
@@ -164,8 +164,9 @@ const TileUser = (props: Props) => {
                 />
               )}
               <Chip
+                variant="filled"
                 label="Sign Out"
-                icon={<OutboundTwoToneIcon />}
+                icon={<OutboundRoundedIcon />}
                 disabled={isLoading}
                 clickable
                 onClick={() =>

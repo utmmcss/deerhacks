@@ -112,9 +112,14 @@ const RegistrationStepper = (props: Props) => {
               sx={{
                 transition: '0.3s all ease',
                 borderRadius: '0.5rem',
-                '&:hover, &:focus-visible': {
-                  textDecoration: 'underline',
-                  backgroundColor: 'rgba(255,255,255,0.05)',
+                '&:hover': {
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                },
+                '&:focus-visible': {
+                  backgroundColor: 'rgba(255,255,255,0.25)',
+                },
+                '& .MuiStepLabel-root': {
+                  paddingY: '0.25rem',
                 },
               }}
             >
@@ -126,7 +131,7 @@ const RegistrationStepper = (props: Props) => {
                 {formSections[section].heading}
               </Typography>
             </StepButton>
-            <StepContent sx={{ transition: '0.3s all ease', pt: i === activeStep ? '1rem' : 0 }}>
+            <StepContent sx={{ transition: '0.3s all ease', pt: i === activeStep ? '1.5rem' : 0 }}>
               {formSections[section].subHeadings.map((subHeading) => (
                 <Typography key={`${section} - ${subHeading}`}>{subHeading}</Typography>
               ))}

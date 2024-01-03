@@ -27,6 +27,13 @@ const TileRegistration = (props: Props) => {
     <Card
       variant={disabled || noApplication ? 'outlined' : 'elevation'}
       elevation={disabled || noApplication ? 0 : 5}
+      {...(!disabled &&
+        !noApplication && {
+          sx: {
+            backgroundImage:
+              'radial-gradient(circle closest-corner at 62% 44%, rgb(209 52 132 / 30%), rgba(255, 255, 255, 0)),radial-gradient(circle farthest-side at 75% 16%, rgb(255 255 255 / 10%), rgba(255, 255, 255, 0) 35%),radial-gradient(circle closest-corner at 32% 38%, rgb(87 65 174 / 20%), rgba(255, 255, 255, 0) 76%),radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%),linear-gradient(#202124, #202124)',
+          },
+        })}
     >
       <CardActionArea
         href="/dashboard/registration"

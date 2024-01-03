@@ -218,11 +218,11 @@ const Registration = (props: Props) => {
     const handleWindowClose = (e: any) => {
       if (!unsavedChanges) return
       e.preventDefault()
-      return (e.returnValue = 'You have unsaved changes')
+      return (e.returnValue = 'You have unsaved changes. Are you sure you want to leave?')
     }
     const handleBrowseAway = () => {
       if (!unsavedChanges) return
-      if (window.confirm('You have unsaved changes')) return
+      if (window.confirm('You have unsaved changes. Are you sure you want to leave?')) return
       router.events.emit('routeChangeError')
       throw 'routeChange aborted.'
     }
