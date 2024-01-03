@@ -179,7 +179,7 @@ const Navbar = (props: Props) => {
               arrow
             >
               <Button
-                href="/dashboard"
+                href="/login"
                 component={NextLink}
                 disabled={toggles.bypassPage}
                 sx={{ p: '0.5rem', borderRadius: '50%' }}

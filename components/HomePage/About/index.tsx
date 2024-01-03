@@ -1,9 +1,12 @@
+import NextLink from 'next/link'
+
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
 import FlagRoundedIcon from '@mui/icons-material/FlagRounded'
 import NearMeRoundedIcon from '@mui/icons-material/NearMeRounded'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 import SignUpButton from '@/components/HomePage/SignUpButton'
@@ -86,6 +89,20 @@ const About = () => {
           pt="3rem"
         >
           <SignUpButton text="Dare to Glow!" href="/login" glow fullWidth />
+        </Box>
+      )}
+      {toggles.signupVolunteer && toggles.signupMentor && (
+        <Box
+          component="div"
+          display="inline-flex"
+          data-aos="fade"
+          data-aos-offset="50"
+          data-aos-once="false"
+          pt="2rem"
+        >
+          <Link href="/login" component={NextLink} underline="always">
+            Interested in becoming a volunteer or mentor?
+          </Link>
         </Box>
       )}
     </Container>
