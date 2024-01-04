@@ -113,7 +113,7 @@ const Verify = () => {
                       height={125}
                       priority
                     />
-                    <Typography>The token is invalid.</Typography>
+                    <Typography>The token is invalid / has already been redeemed.</Typography>
                   </>
                 )}
                 <Button variant="outlined" fullWidth onClick={() => router.replace('/dashboard')}>
