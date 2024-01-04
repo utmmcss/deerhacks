@@ -23,8 +23,11 @@ import {
   OpenEndedResponsesZodForm,
 } from '@/types/Zod'
 
-export const toDropdownType = <T extends any>(options: readonly T[], value: string): T | '' => {
-  if (!value) return ''
+export const toDropdownType = <T extends any>(
+  options: readonly T[],
+  value: string
+): T | undefined => {
+  if (!value) return undefined
   return (options as unknown as string[]).includes(value) ? (value as T) : (OTHER_SPECIFY as T)
 }
 
