@@ -47,6 +47,9 @@ const AboutYou = (props: Props) => {
       <Grid container direction="column" gap="2.5rem">
         <Grid container direction="column" gap="1.5rem">
           <Typography variant="h2">Personal Information</Typography>
+          <Typography variant="h3" color="primary" gutterBottom>
+            Important: We will be checking IDs at the event for identification & age purposes.
+          </Typography>
           <Typography variant="h3" color="text.secondary" gutterBottom>
             😏 Your details so we can hit you up
           </Typography>

@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 
 import Container from '@mui/material/Container'
 import Link from '@mui/material/Link'
@@ -10,47 +10,62 @@ import { Environment, OrbitControls, PerformanceMonitor, Preload, useGLTF } from
 import { Canvas, extend } from '@react-three/fiber'
 import { Bloom, EffectComposer, Noise, ToneMapping } from '@react-three/postprocessing'
 import { suspend } from 'suspend-react'
-import { GLTF } from 'three-stdlib'
+import { Mesh } from 'three'
+import { GLTF, GLTFLoader } from 'three-stdlib'
 
 extend({ OrbitControls })
-
-type GLTFResult = GLTF & {
-  nodes: {
-    Cube: THREE.Mesh
-    Cube_1: THREE.Mesh
-    MN: THREE.Mesh
-    MN_Wireframe: THREE.Mesh
-  }
-}
 
 type Props = {
   onAfterRender?: () => void
 }
 
+type ModelProps = Props & {
+  onError: () => void
+}
+
 const environment = import('@pmndrs/assets/hdri/city.exr').then((module) => module.default)
 useGLTF.preload('./mn.glb')
 
-const Model = (props: Props) => {
-  const { onAfterRender } = props
-  const { nodes } = useGLTF('./mn.glb') as GLTFResult
+const Model = (props: ModelProps) => {
+  const { onAfterRender, onError } = props
+
+  const [model, setModel] = useState<GLTF>()
+
+  useEffect(() => {
+    const loadModel = async () => {
+      try {
+        const gltf = await new GLTFLoader().loadAsync('./mn.glb')
+        setModel(gltf)
+      } catch (err) {
+        onError()
+      }
+    }
+    loadModel()
+  }, [onError])
+
+  if (!model) return null
+
+  const MN_Cube = model.scenes[0].children[0].children[0] as Mesh
+  const MN_Cube_1 = model.scenes[0].children[0].children[1] as Mesh
+  const MN_Wireframe = model.scenes[0].children[1] as Mesh
 
   return (
     <group dispose={null} position={[0, 0, -0.25]}>
       <mesh
-        geometry={nodes.Cube.geometry}
-        material={nodes.Cube.material}
+        geometry={MN_Cube.geometry}
+        material={MN_Cube.material}
         scale={[0.49, 0.255, 1.7]}
         position={[0, 0.13, 0.13]}
       />
       <mesh
-        geometry={nodes.Cube_1.geometry}
-        material={nodes.Cube_1.material}
+        geometry={MN_Cube_1.geometry}
+        material={MN_Cube_1.material}
         scale={[0.49, 0.255, 1.7]}
         position={[0, 0.13, 0.13]}
       />
       <mesh
-        geometry={nodes.MN_Wireframe.geometry}
-        material={nodes.MN_Wireframe.material}
+        geometry={MN_Wireframe.geometry}
+        material={MN_Wireframe.material}
         scale={[0.525, 0.275, 1.775]}
         material-toneMapped={false}
         material-emissiveIntensity={3.65}
@@ -64,6 +79,7 @@ const MNModel = (props: Props) => {
   const { onAfterRender } = props
 
   const [dpr, setDpr] = useState(1.25)
+  const [fallback, setFallback] = useState(false)
   const [hasHWA] = useState(() => {
     const test = (force: boolean) => {
       const canvas = new OffscreenCanvas(200, 200)
@@ -98,7 +114,7 @@ const MNModel = (props: Props) => {
           'radial-gradient(circle closest-corner at 25% 60%, rgba(238, 39, 39, 0.25), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 71% 16%, rgba(154, 39, 238, 0.15), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(238, 164, 39, 0.1), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%), linear-gradient(#202124, #202124)',
       }}
     >
-      {hasHWA ? (
+      {hasHWA && !fallback ? (
         <Canvas
           camera={{
             position: [2.5, 0, -1.5],
@@ -112,7 +128,7 @@ const MNModel = (props: Props) => {
             onDecline={() => setDpr(Math.max(dpr - 0.25, 0.75))}
           />
           <Suspense>
-            <Model onAfterRender={() => onAfterRender?.()} />
+            <Model onAfterRender={() => onAfterRender?.()} onError={() => setFallback(true)} />
             <Environment files={suspend(environment) as string} />
             <Preload all />
           </Suspense>
@@ -149,6 +165,7 @@ const MNModel = (props: Props) => {
             priority
             onLoad={() => {
               onAfterRender?.()
+              if (hasHWA) return
               setToast({
                 type: 'info',
                 message: (
