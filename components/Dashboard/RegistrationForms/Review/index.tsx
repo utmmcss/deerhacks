@@ -27,6 +27,9 @@ const FormReview = (props: Props) => {
     <Grid container direction="column" gap="2.5rem">
       <Grid container direction="column" gap="1.25rem">
         <Typography variant="h2">Personal Information</Typography>
+        <Typography variant="h3" color="primary" gutterBottom>
+          Important: We will be checking IDs at the event for identification & age purposes.
+        </Typography>
         <FieldReview name="Name" value={user.first_name + ' ' + user.last_name} />
         <FieldReview name="Email" value={user.email} />
         <FieldReview name="Phone Number" value={application.phone_number} />
