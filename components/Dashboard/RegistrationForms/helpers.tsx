@@ -27,7 +27,7 @@ export const toDropdownType = <T extends any>(
   options: readonly T[],
   value: string
 ): T | undefined => {
-  if (!value) return
+  if (!value) return undefined
   return (options as unknown as string[]).includes(value) ? (value as T) : (OTHER_SPECIFY as T)
 }
 
@@ -36,7 +36,9 @@ export const toMultiSelectType = <T extends any>(
   value: string[]
 ): { options: T[]; other: string } => {
   if (!value) return { options: [], other: '' }
-  const selected = [...value]
+  const selected = value.filter(function (item, pos, self) {
+    return self.indexOf(item) == pos
+  })
   const i = selected.findIndex((val) => !(options as unknown as string[]).includes(val))
   const other = i !== -1 ? selected.splice(i, 1)[0] : ''
   return { options: selected as T[], other }
@@ -186,13 +188,15 @@ const aboutFormToApp = (form: AboutYouZodForm, currApplication: Application) => 
   const newEthnicity = form.ethnicity.includes(OTHER_SPECIFY)
     ? (form.ethnicity as string[]).concat([form.ethnicity_other ?? ''])
     : form.ethnicity
-  const ethnicity = currEthnicity.toSpliced(0, currEthnicity.length, ...newEthnicity)
+  const ethnicity = currEthnicity.slice()
+  ethnicity.splice(0, currEthnicity.length, ...newEthnicity)
 
   const currDiet = [...currApplication.diet_restriction] ?? []
   const newDiet = form.diet_restriction.includes(OTHER_SPECIFY)
     ? (form.diet_restriction as string[]).concat([form.diet_restriction_other ?? ''])
     : form.diet_restriction
-  const diet_restriction = currDiet.toSpliced(0, currDiet.length, ...newDiet)
+  const diet_restriction = currDiet.slice()
+  diet_restriction.splice(0, currDiet.length, ...newDiet)
 
   return {
     ...currApplication,
@@ -234,7 +238,8 @@ const expFormToApp = (form: ExperienceZodForm, currApplication: Application): Ap
   const newInterests = form.interests.includes(OTHER_SPECIFY)
     ? (form.interests as string[]).concat([form.interests_other ?? ''])
     : form.interests
-  const interests = currInterests.toSpliced(0, currInterests.length, ...newInterests)
+  const interests = currInterests.slice()
+  interests.splice(0, currInterests.length, ...newInterests)
 
   return {
     ...currApplication,

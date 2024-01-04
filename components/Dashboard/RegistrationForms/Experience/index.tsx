@@ -94,7 +94,11 @@ const ExperienceForm = (props: Props) => {
                   options={schoolOptions}
                   errors={errors}
                   setOtherField={(val: string) => {
-                    setValue('school_other', val, { shouldValidate: true })
+                    setValue(
+                      'school_other',
+                      (schoolOptions as readonly string[]).includes(val) ? '' : val,
+                      { shouldValidate: true }
+                    )
                   }}
                   inputRef={ref}
                   {...field}
@@ -126,7 +130,11 @@ const ExperienceForm = (props: Props) => {
                   options={programOptions}
                   errors={errors}
                   setOtherField={(val: string) => {
-                    setValue('program_other', val, { shouldValidate: true })
+                    setValue(
+                      'program_other',
+                      (programOptions as readonly string[]).includes(val) ? '' : val,
+                      { shouldValidate: true }
+                    )
                   }}
                   inputRef={ref}
                   {...field}
@@ -234,6 +242,7 @@ const ExperienceForm = (props: Props) => {
                   if (e.target.value.slice(-1) == deerhacksExperienceOptions[0]) {
                     setValue('deerhacks_experience', [deerhacksExperienceOptions[0]], {
                       shouldValidate: true,
+                      shouldDirty: true,
                     })
                   } else {
                     field.onChange(e)
@@ -274,9 +283,6 @@ const ExperienceForm = (props: Props) => {
               control={control}
               render={({ field: { ref, ...field } }) => (
                 <FormMultiSelect
-                  // do we really need other, just make them choose ones that fit best??
-                  // can only check 5
-                  // does checking other uncheck all others?
                   label="Topics of Interest (Choose up to 5)"
                   options={interestsOptions}
                   errors={errors}

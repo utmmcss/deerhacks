@@ -209,7 +209,10 @@ const AboutYou = (props: Props) => {
                   {...field}
                   onChange={(e) => {
                     if (e.target.value.slice(-1) == 'Prefer not to say') {
-                      setValue('ethnicity', ['Prefer not to say'], { shouldValidate: true })
+                      setValue('ethnicity', ['Prefer not to say'], {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      })
                     } else {
                       field.onChange(e)
                       setValue(
@@ -384,7 +387,10 @@ const AboutYou = (props: Props) => {
                   {...field}
                   onChange={(e) => {
                     if (e.target.value.slice(-1) == 'None') {
-                      setValue('diet_restriction', ['None'], { shouldValidate: true })
+                      setValue('diet_restriction', ['None'], {
+                        shouldValidate: true,
+                        shouldDirty: true,
+                      })
                     } else {
                       field.onChange(e)
                       setValue(
