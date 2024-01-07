@@ -19,7 +19,6 @@ import Error500Page from '@/pages/500'
 
 const Verify = () => {
   const { toggles } = useFeatureToggle()
-  const toggleFeature = toggles.dashboard || toggles.bypassPage
 
   const searchParams = useSearchParams()
   const token = searchParams.get('code')
@@ -31,13 +30,13 @@ const Verify = () => {
 
   useEffect(() => {
     // Workaround since React StrictMode runs twice in development
-    if (initialized.current || !toggleFeature) return
+    if (initialized.current || !toggles.dashboard) return
     if (!token) return
     emailVerify({ token })
     initialized.current = true
-  }, [emailVerify, token, toggleFeature])
+  }, [emailVerify, token, toggles.dashboard])
 
-  if (!toggleFeature || !token) return <Error404Page noTitle />
+  if (!toggles.dashboard || !token) return <Error404Page noTitle />
   if (isError) return <Error500Page />
 
   return (

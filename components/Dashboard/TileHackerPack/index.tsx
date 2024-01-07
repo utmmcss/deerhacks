@@ -5,7 +5,6 @@ import CardContent from '@mui/material/CardContent'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
-import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import { UserStatus } from '@/types/User'
 
 type Props = {
@@ -15,11 +14,9 @@ type Props = {
 const TileHackerPack = (props: Props) => {
   const { status } = props
 
-  const { toggles } = useFeatureToggle()
-
   const disabled =
     ['pending', 'registering', 'applied', 'selected', 'rejected', 'unverified'].includes(status) ||
-    !toggles.hackerPack
+    true // TODO: remove this line when Hacker Pack is ready
 
   return (
     <Tooltip title="">

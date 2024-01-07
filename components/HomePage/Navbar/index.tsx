@@ -174,14 +174,14 @@ const Navbar = (props: Props) => {
             left={{ xs: '1.5rem', lg: '2.5rem' }}
           >
             <Tooltip
-              title={!toggles.bypassPage ? 'Take me to my dashboard' : ''}
+              title={toggles.dashboard ? 'Take me to my dashboard' : ''}
               placement="right"
               arrow
             >
               <Button
                 href="/login"
                 component={NextLink}
-                disabled={toggles.bypassPage}
+                disabled={!toggles.dashboard}
                 sx={{ p: '0.5rem', borderRadius: '50%' }}
               >
                 <Image src="/icons/logo.svg" alt="DeerHacks Logo" width={55} height={55} priority />

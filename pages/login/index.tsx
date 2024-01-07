@@ -17,7 +17,7 @@ import Navbar from '@/components/Shared/Navbar'
 import { useAPI } from '@/contexts/API'
 import { useAuth } from '@/contexts/Auth'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
-import Error418Page from '@/pages/418'
+import Error404Page from '@/pages/404'
 
 const Login = () => {
   const { toggles } = useFeatureToggle()
@@ -53,9 +53,9 @@ const Login = () => {
   useEffect(() => {
     if (loading || !authenticated) return
     router.replace('/dashboard')
-  }, [loading, authenticated, router, toggles.dashboard, toggles.bypassPage])
+  }, [loading, authenticated, router, toggles.dashboard])
 
-  if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
+  if (!toggles.dashboard) return <Error404Page />
   if ((loading && !authenticated) || (!loading && authenticated)) return <FullPageSpinner />
 
   return (

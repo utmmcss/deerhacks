@@ -11,7 +11,7 @@
 
 1. Run `yarn install` to install dependencies
 2. Install all the required workspace `@recommended` extensions
-3. Add the required `.env` files from the discord / mcss drive
+3. Add the required `.env` files from discord `#configs` / mcss drive
 
 ## Getting Started
 
