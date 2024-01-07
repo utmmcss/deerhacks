@@ -74,7 +74,7 @@ const ModalChecklist = (props: Props) => {
           <InfoCheckbox
             icon={<SmartphoneIcon />}
             label="Smartphone"
-            tooltip="Sign-ins require you to show your QR code embedded in your dashboard avatar"
+            tooltip="Sign-ins require you to show your QR code for identification (will be provisioned in your dashboard after acceptance)"
           />
         </FormGroup>
         <Typography variant="h3">General</Typography>

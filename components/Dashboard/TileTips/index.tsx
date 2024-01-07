@@ -35,7 +35,7 @@ const TileTips = (props: Props) => {
               Help
             </Typography>
             <Typography color="common.black" variant="body2">
-              DeerHacks Dashboard 101
+              DeerHacks 101
             </Typography>
           </CardContent>
         </CardActionArea>
