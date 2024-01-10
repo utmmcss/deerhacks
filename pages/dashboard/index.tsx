@@ -24,7 +24,7 @@ import Navbar from '@/components/Shared/Navbar'
 import { useAuth } from '@/contexts/Auth'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import Error401Page from '@/pages/401'
-import Error418Page from '@/pages/418'
+import Error404Page from '@/pages/404'
 
 const Dashboard = () => {
   const { toggles } = useFeatureToggle()
@@ -36,7 +36,7 @@ const Dashboard = () => {
   const mentorForm = process.env.NEXT_PUBLIC_TOGGLE_MENTOR_FORM
   const showMentorForm = !!mentorForm && toggles.signupMentor
 
-  if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
+  if (!toggles.dashboard) return <Error404Page />
   if (!loading && !authenticated) return <Error401Page />
 
   return (
@@ -100,7 +100,7 @@ const Dashboard = () => {
                     <TileStatus status={user.status} />
                   </Grid>
                   <Grid item xs={6}>
-                    <TileChecklist status={user.status} />
+                    <TileChecklist />
                   </Grid>
                   <Grid item xs={6}>
                     <TileTips status={user.status} />

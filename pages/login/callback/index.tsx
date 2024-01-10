@@ -9,7 +9,6 @@ import Error404Page from '@/pages/404'
 
 const Callback = () => {
   const { toggles } = useFeatureToggle()
-  const toggleFeature = toggles.dashboard || toggles.bypassPage
 
   const searchParams = useSearchParams()
   const token = searchParams.get('code')
@@ -20,19 +19,19 @@ const Callback = () => {
 
   useEffect(() => {
     // Workaround since React StrictMode runs twice in development
-    if (initialized.current || !toggleFeature) return
+    if (initialized.current || !toggles.dashboard) return
     if (error) window.close()
     if (!token) return
     userLogin({ token })
     initialized.current = true
-  }, [userLogin, token, error, toggleFeature])
+  }, [userLogin, token, error, toggles.dashboard])
 
   return (
     <>
       <Head>
         <title>Redirecting | DeerHacks</title>
       </Head>
-      {toggleFeature && token ? <FullPageSpinner /> : <Error404Page noTitle />}
+      {toggles.dashboard && token ? <FullPageSpinner /> : <Error404Page noTitle />}
     </>
   )
 }

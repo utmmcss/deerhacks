@@ -6,7 +6,11 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 
+import { useFeatureToggle } from '@/contexts/FeatureToggle'
+
 const FAQ = () => {
+  const { toggles } = useFeatureToggle()
+
   return (
     <Container id="faq" sx={{ flexDirection: 'column' }}>
       <Typography variant="h1">Frequently Asked Questions</Typography>
@@ -37,10 +41,14 @@ const FAQ = () => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                DeerHacks will take place on the weekend of February 16 - 18, 2024 and the tentative
-                opening date for hacker registration is January 5, 2024. Keep an eye on this page
-                and our socials (@deerhacks) for any updates including when registration opens for
-                mentors and volunteers.
+                DeerHacks takes place on the weekend of February 16 - 18, 2024.
+                {toggles.signupHacker
+                  ? ' Hacker applications are open until January 25, 2024.'
+                  : ' Thanks for applying to DeerHacks! We will review your applications and get back to you soon.'}
+                {toggles.signupVolunteer && toggles.signupMentor
+                  ? ' Volunteer & mentor applications are open until January 30, 2024.'
+                  : ''}{' '}
+                Keep an eye on this page and our socials (@deerhacks) for any updates.
               </Typography>
             </AccordionDetails>
           </Accordion>

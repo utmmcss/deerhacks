@@ -30,7 +30,7 @@ import { useApplicationUpdate } from '@/hooks/Application/useApplicationUpdate'
 import { useApplicationGet } from '@/hooks/Application/userApplicationGet'
 import { useResumeGet } from '@/hooks/Application/useResumeGet'
 import Error401Page from '@/pages/401'
-import Error418Page from '@/pages/418'
+import Error404Page from '@/pages/404'
 import Error500Page from '@/pages/500'
 import theme from '@/styles/theme'
 import { Application, ApplicationUpdateReq } from '@/types/Application'
@@ -363,7 +363,7 @@ const RegistrationLoader = () => {
     authenticated &&
     user?.status &&
     allowedStatuses.includes(user.status) &&
-    (toggles.signupHacker || user.status !== 'registering' || toggles.bypassPage)
+    (toggles.signupHacker || user.status !== 'registering')
 
   const {
     data: applicationData,
@@ -377,7 +377,7 @@ const RegistrationLoader = () => {
     isError: resumeError,
   } = useResumeGet({ enabled: enabled && !!applicationData })
 
-  if (!toggles.dashboard && !toggles.bypassPage) return <Error418Page />
+  if (!toggles.dashboard) return <Error404Page />
   if (!loading && !authenticated) return <Error401Page />
 
   if (user?.status && !allowedStatuses.includes(user.status)) {
@@ -392,12 +392,7 @@ const RegistrationLoader = () => {
     )
   }
 
-  if (
-    !toggles.signupHacker &&
-    user?.status &&
-    user.status === 'registering' &&
-    !toggles.bypassPage
-  ) {
+  if (!toggles.signupHacker && user?.status && user.status === 'registering') {
     return (
       <FullPageLoader
         show

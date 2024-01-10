@@ -3,12 +3,8 @@ import { createContext, ReactNode, useContext, useState } from 'react'
 const INITIAL_FEATURE_TOGGLES = {
   // DEV TOGGLES
 
-  // Toggle to bypass page view
-  bypassPage: process.env.NEXT_PUBLIC_TOGGLE_BYPASS_PAGE === 'true',
-  // Toggle for DeerHacks dashboard workflow
+  // Toggle for DeerHacks dashboard portal
   dashboard: process.env.NEXT_PUBLIC_TOGGLE_DASHBOARD === 'true',
-  // Toggle for DeerHacks hacker package
-  hackerPack: process.env.NEXT_PUBLIC_TOGGLE_HACKER_PACK === 'true',
 
   // TIME BASED TOGGLES
 

@@ -27,8 +27,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
 
   const { data, isLoading, isSuccess } = useUserGet({
     enabled:
-      (toggles.bypassPage || toggles.dashboard) &&
-      (router.pathname.includes('dashboard') || router.pathname === '/login'),
+      toggles.dashboard && (router.pathname.includes('dashboard') || router.pathname === '/login'),
     onError: () => {
       if (router.pathname === '/login') return
       router.push('/login?context=auth')

@@ -19,8 +19,7 @@ const TileRegistration = (props: Props) => {
   const { toggles } = useFeatureToggle()
 
   const disabledUser = ['pending', 'unverified'].includes(status)
-  const disabled =
-    disabledUser || (!toggles.signupHacker && status === 'registering' && !toggles.bypassPage)
+  const disabled = disabledUser || (!toggles.signupHacker && status === 'registering')
   const noApplication = ['admin', 'moderator', 'volunteer'].includes(status)
 
   return (
