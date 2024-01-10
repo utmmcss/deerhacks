@@ -10,7 +10,14 @@ import { EmailVerifyReq, EmailVerifyResp } from '@/types/Email'
 import { EventListResp } from '@/types/Event'
 import { PhotoListResp } from '@/types/Photo'
 import { QRCheckInReq, QRCheckInResp } from '@/types/QRCode'
-import { UserGetResp, UserLoginReq, UserUpdateReq } from '@/types/User'
+import {
+  UserGetResp,
+  UserListParams,
+  UserListResp,
+  UserLoginReq,
+  UserUpdateBatchReq,
+  UserUpdateReq,
+} from '@/types/User'
 
 export const config = (customFetch: CustomFetch) =>
   ({
@@ -87,12 +94,25 @@ const users = (customFetch: CustomFetch) =>
       const res = await customFetch('GET', 'DH_BE', '/user-get')
       return res.data as UserGetResp
     },
-    userLogin: async (args: UserLoginReq) => {
-      const res = await customFetch('POST', 'DH_BE', '/user-login', args)
-      return res.data as {}
+    userList: async (params: UserListParams) => {
+      const { full, page, status } = params
+      const res = await customFetch(
+        'GET',
+        'DH_BE',
+        `/user-list?full=${full ?? false}&page=${page ?? 1}&statuses=${status?.join(',') ?? ''}`
+      )
+      return res.data as UserListResp
     },
     userUpdate: async (args: UserUpdateReq) => {
       const res = await customFetch('POST', 'DH_BE', '/user-update', args)
+      return res.data as {}
+    },
+    userUpdateBatch: async (args: UserUpdateBatchReq) => {
+      const res = await customFetch('POST', 'DH_BE', '/admin-user-update', args)
+      return res.data as {}
+    },
+    userLogin: async (args: UserLoginReq) => {
+      const res = await customFetch('POST', 'DH_BE', '/user-login', args)
       return res.data as {}
     },
     userLogout: async () => {

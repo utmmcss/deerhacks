@@ -16,6 +16,7 @@
     "@hookform/resolvers": "^3.3.2",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.8",
+    "@mui/x-data-grid": "^6.18.7",
     "@pmndrs/assets": "^1.6.0",
     "@react-three/drei": "^9.83.8",
     "@react-three/fiber": "^8.14.1",
