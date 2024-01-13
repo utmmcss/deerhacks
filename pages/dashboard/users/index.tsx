@@ -1,332 +1,177 @@
 import Head from 'next/head'
-import { Suspense, useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/router'
+import { Dispatch, SetStateAction, Suspense, useEffect, useState } from 'react'
 
-import AssignmentIcon from '@mui/icons-material/Assignment'
-import CloseIcon from '@mui/icons-material/Close'
-import FullscreenExitRoundedIcon from '@mui/icons-material/FullscreenExitRounded'
-import FullscreenRoundedIcon from '@mui/icons-material/FullscreenRounded'
-import SettingsIcon from '@mui/icons-material/Settings'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import DialogTitle from '@mui/material/DialogTitle'
 import Fade from '@mui/material/Fade'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormGroup from '@mui/material/FormGroup'
-import Grow from '@mui/material/Grow'
-import IconButton from '@mui/material/IconButton'
-import Switch from '@mui/material/Switch'
-import TextField from '@mui/material/TextField'
-import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
-import {
-  DataGrid,
-  GridActionsCellItem,
-  GridCellParams,
-  GridColDef,
-  GridFooterContainer,
-  GridPagination,
-  GridRenderCellParams,
-  GridRowParams,
-  GridToolbarContainer,
-  GridToolbarQuickFilter,
-} from '@mui/x-data-grid'
+import { DataGrid, FooterPropsOverrides } from '@mui/x-data-grid'
 
+import Modal from '@/components/Dashboard/Modal'
 import FormReview from '@/components/Dashboard/RegistrationForms/Review'
-import UserStatusFilter from '@/components/Dashboard/UserStatusFilter'
-import UserStatusSelect from '@/components/Dashboard/UserStatusSelect'
+import { getColumns, getRows } from '@/components/Dashboard/UsersTableComponents/tableDefinitions'
+import TableFooter from '@/components/Dashboard/UsersTableComponents/TableFooter'
+import TableToolbar from '@/components/Dashboard/UsersTableComponents/TableToolbar'
 import BackButton from '@/components/Shared/BackButton'
 import FullPageLoader from '@/components/Shared/FullPageLoader'
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
 import { useAuth } from '@/contexts/Auth'
+import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import { useUserList } from '@/hooks/User/useUserList'
+import { useUserUpdateBatch } from '@/hooks/User/useUserUpdateBatch'
+import Error404Page from '@/pages/404'
 import Error500Page from '@/pages/500'
-import { UserListData, UserStatus } from '@/types/User'
+import {
+  UserListData,
+  UserListParams,
+  UserStatus,
+  userStatuses,
+  UserUpdateBatchReq,
+} from '@/types/User'
 
-const statusWithoutApplications: UserStatus[] = [
-  'admin',
-  'moderator',
-  'volunteer',
-  'pending',
-  'registering',
-  'unverified',
-]
+const PAGE_SIZE = 25
 
-const PAGE_SIZE = 2
-
-// hanatodo add chips to side of data settings one for each application data & statuses
-// statuses are combined into one chip
-// clicking on a chip opens modal with both options
-// add full width table indication somewhere else (expand/minimize icon)
-
-type GetColumnsProps = {
-  users: UserListData[]
-  setUsers: (users: UserListData[]) => void
-  setApplicationData: (data: UserListData) => void
-  originalData: UserListData[]
-}
-
-const getColumns = (props: GetColumnsProps): GridColDef[] => {
-  const { users, setUsers, setApplicationData, originalData } = props
-  return [
-    {
-      field: 'first_name',
-      headerName: 'First Name',
-      description: 'First Name',
-      hideable: false,
-      flex: 1,
-      minWidth: 100,
-    },
-    {
-      field: 'last_name',
-      headerName: 'Last Name',
-      description: 'Last Name',
-      hideable: false,
-      flex: 1,
-      minWidth: 100,
-    },
-    {
-      field: 'id',
-      headerName: 'Username',
-      description: 'Discord Username',
-      hideable: false,
-      flex: 1,
-      minWidth: 100,
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      description: 'Email',
-      flex: 1.5,
-      minWidth: 150,
-    },
-    {
-      // hanatodo cant change status until feature toggle is on
-      field: 'status',
-      headerName: 'Status',
-      description: 'Current User Status: Status visible to user & discord',
-      flex: 1,
-      minWidth: 100,
-      cellClassName: (params: GridCellParams) => {
-        if (!originalData[params.row.index]) return ''
-        return originalData[params.row.index].status !== params.row.status ? 'modified' : ''
-      },
-      renderCell: (params: GridRenderCellParams) => (
-        <UserStatusSelect
-          value={params.row.status}
-          onChange={(e) => {
-            params.row.status = e.target.value
-            const newUsers = users.slice()
-            newUsers[params.row.index] = params.row
-            setUsers(newUsers)
-          }}
-        />
-      ),
-    },
-    {
-      field: 'internal_status',
-      headerName: 'Internal Status',
-      description:
-        'Internal User Status: Status only visible internally, use to stage potential status before committing',
-      flex: 1,
-      minWidth: 100,
-      cellClassName: (params: GridCellParams) => {
-        if (!originalData[params.row.index]) return ''
-        return originalData[params.row.index].internal_status !== params.row.internal_status
-          ? 'modified'
-          : ''
-      },
-      renderCell: (params: GridRenderCellParams) => (
-        <UserStatusSelect
-          value={params.row.internal_status}
-          onChange={(e) => {
-            params.row.internal_status = e.target.value
-            const newUsers = users.slice()
-            newUsers[params.row.index] = params.row
-            setUsers(newUsers)
-          }}
-          isClearable
-        />
-      ),
-    },
-    {
-      field: 'internal_notes',
-      headerName: 'Internal Notes',
-      description: 'Internal Notes: Notes only visible internally',
-      flex: 2,
-      minWidth: 200,
-      cellClassName: (params: GridCellParams) => {
-        if (!originalData[params.row.index]) return ''
-        return originalData[params.row.index].internal_notes !== params.row.internal_notes
-          ? 'modified'
-          : ''
-      },
-      renderCell: (params: GridRenderCellParams) => (
-        <TextField
-          inputProps={{ maxLength: 128 }}
-          value={params.row.internal_notes}
-          onKeyDown={(e) => e.stopPropagation()}
-          onChange={(e) => {
-            params.row.internal_notes = e.target.value
-            const newUsers = users.slice()
-            newUsers[params.row.index] = params.row
-            setUsers(newUsers)
-          }}
-          variant="standard"
-          InputProps={{
-            disableUnderline: true,
-          }}
-        />
-      ),
-    },
-    {
-      field: 'application',
-      headerName: 'Application',
-      description: 'Application Data',
-      flex: 1,
-      minWidth: 100,
-      sortable: false,
-      type: 'actions',
-      headerAlign: 'left',
-      getActions: (params: GridRowParams) => [
-        statusWithoutApplications.includes(params.row.status) ? (
-          <></>
-        ) : (
-          <Tooltip
-            title={!params.row.application ? 'Disabled in Data Settings' : 'View Application'}
-            key={params.row.username}
-          >
-            <span>
-              <GridActionsCellItem
-                icon={<AssignmentIcon sx={{ m: '0.5rem' }} />}
-                onClick={() => {
-                  setApplicationData(params.row as UserListData)
-                }}
-                label="View Application"
-                disabled={!params.row.application}
-              />
-            </span>
-          </Tooltip>
-        ),
-      ],
-    },
-  ]
-}
-
-const getRows = (data: UserListData[]) => {
-  return data.map((user, i) => {
-    return {
-      ...user,
-      index: i,
-      id: user.username,
-    }
-  })
-}
+type ApplyFiltersProps = { full?: boolean; page?: number; status?: UserStatus[] }
 
 type Props = {
   isLoading: boolean
   data: UserListData[]
-  page: number
-  setPage: (i: number) => void
+  updateReq: UserUpdateBatchReq
+  setUpdateReq: Dispatch<SetStateAction<UserUpdateBatchReq>>
+  queryParams: UserListParams
+  applyFilters: (newParams: ApplyFiltersProps) => void
   totalUsers: number
+  fullWidth: boolean
+  setFullWidth: (val: boolean) => void
+  onSave: () => void
+  userStatus: UserStatus
 }
 
-// hanatodo admin-user-update
-
-// hanatodo add query from filter in url if theres time
-
 const UsersTable = (props: Props) => {
-  const { isLoading, data, page, setPage, totalUsers } = props
+  const {
+    isLoading,
+    data,
+    updateReq,
+    setUpdateReq,
+    queryParams,
+    applyFilters,
+    totalUsers,
+    fullWidth,
+    setFullWidth,
+    onSave,
+    userStatus,
+  } = props
 
+  const router = useRouter()
+  const { toggles } = useFeatureToggle()
+
+  const [originalData, setOriginalData] = useState(data)
   const [users, setUsers] = useState(data)
   useEffect(() => {
+    if (isLoading) return
+    setOriginalData(data)
     setUsers(data)
+    setUpdateReq({ users: [] })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data])
 
-  const [applicationData, setApplicationData] = useState<UserListData>()
+  const [rowCount, setRowCount] = useState(totalUsers)
+  useEffect(() => {
+    setRowCount((prev) => (totalUsers > 0 ? totalUsers : prev))
+  }, [totalUsers, setRowCount])
 
-  const TableToolbar = () => {
-    return (
-      <GridToolbarContainer sx={{ justifyContent: 'space-between' }}>
-        <Box
-          component="div"
-          sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.5rem' }}
-        >
-          <Button startIcon={<SettingsIcon />} sx={{ gap: 0, p: '0.75rem 1rem' }}>
-            Data Settings
-          </Button>
-        </Box>
-        <GridToolbarQuickFilter sx={{ p: '0.6rem 0.8rem' }} />
-      </GridToolbarContainer>
-    )
+  const [applicationData, setApplicationData] = useState<UserListData>()
+  const [openApplication, setOpenApplication] = useState(false)
+  const handleOpenApplication = (data: UserListData) => {
+    setApplicationData(data)
+    setOpenApplication(true)
   }
 
-  const TableFooter = () => {
-    return (
-      <GridFooterContainer
-        sx={{ justifyContent: { xs: 'end', xl: 'space-between' }, px: '0.5rem' }}
-      >
-        <Tooltip title="Toggle Full Width">
-          <IconButton sx={{ display: { xs: 'none', xl: 'flex' } }}>
-            {true ? ( // replace with full width state
-              <FullscreenExitRoundedIcon />
-            ) : (
-              <FullscreenRoundedIcon />
-            )}
-          </IconButton>
-        </Tooltip>
-        <GridPagination sx={{ p: '0.75rem 0' }} />
-      </GridFooterContainer>
-    )
+  const hasUnsavedChanges = updateReq.users.length > 0
+
+  useEffect(() => {
+    const handleWindowClose = (e: any) => {
+      if (!hasUnsavedChanges) return
+      e.preventDefault()
+      return (e.returnValue = 'You have unsaved changes. Are you sure you want to leave?')
+    }
+    const handleBrowseAway = () => {
+      if (!hasUnsavedChanges) return
+      if (confirm('You have unsaved changes. Are you sure you want to leave?')) return
+      router.events.emit('routeChangeError')
+      throw 'routeChange aborted.'
+    }
+    window.addEventListener('beforeunload', handleWindowClose)
+    router.events.on('routeChangeStart', handleBrowseAway)
+    return () => {
+      window.removeEventListener('beforeunload', handleWindowClose)
+      router.events.off('routeChangeStart', handleBrowseAway)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasUnsavedChanges])
+
+  const handleApplyFilters = (newParams: ApplyFiltersProps) => {
+    if (hasUnsavedChanges) {
+      if (confirm('You have unsaved changes. Are you sure you want to proceed?')) {
+        setUpdateReq({ users: [] })
+        applyFilters(newParams)
+      }
+      return
+    }
+    applyFilters(newParams)
   }
 
   return (
-    <div style={{ height: 400, width: '100%' }}>
+    <>
       <DataGrid
+        autoHeight
         rows={getRows(users)}
-        columns={getColumns({ users, setUsers, setApplicationData, originalData: data })}
+        columns={getColumns({
+          users,
+          setUsers,
+          setUpdateReq,
+          setApplicationData: handleOpenApplication,
+          originalData,
+          userStatus,
+          statusUpdateToggle: toggles.statusUpdates,
+        })}
         slots={{
           toolbar: TableToolbar,
           footer: TableFooter,
         }}
+        slotProps={{
+          toolbar: {
+            queryParams,
+            applyFilters: handleApplyFilters,
+            onSave,
+            hasUnsavedChanges,
+            isLoading,
+          },
+          footer: { fullWidth, setFullWidth } as FooterPropsOverrides,
+        }}
         pageSizeOptions={[PAGE_SIZE]}
         paginationMode="server"
         loading={isLoading}
-        rowCount={totalUsers}
+        rowCount={rowCount}
         density="comfortable"
-        paginationModel={{ page, pageSize: PAGE_SIZE }}
-        onPaginationModelChange={(model) => setPage(model.page)}
+        paginationModel={{ page: queryParams.page - 1, pageSize: PAGE_SIZE }}
+        onPaginationModelChange={(model) => handleApplyFilters({ page: model.page + 1 })}
         disableRowSelectionOnClick
       />
       <Suspense>
-        {applicationData && (
-          <Dialog
-            open
-            onClose={() => setApplicationData(undefined)}
-            TransitionComponent={Grow}
-            PaperProps={{
-              elevation: 2,
-              sx: { m: '1rem', maxHeight: 'calc(100% - 2rem)', width: 'calc(100% - 2rem)' },
-            }}
-            maxWidth="xl"
-          >
-            <DialogTitle
-              sx={{ m: 0, p: 2, textAlign: 'start' }}
-            >{`${applicationData.first_name} ${applicationData.last_name}'s Application`}</DialogTitle>
-            <IconButton
-              onClick={() => setApplicationData(undefined)}
-              sx={{
-                position: 'absolute',
-                right: 8,
-                top: 12,
-                color: 'text.secondary',
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-            <DialogContent sx={{ pb: '1.5rem' }}>
+        <Modal
+          open={openApplication}
+          title={`Application - ${applicationData?.first_name} ${applicationData?.last_name}`}
+          onClose={() => setOpenApplication(false)}
+          TransitionProps={{
+            onExited: () => setApplicationData(undefined),
+          }}
+          maxWidth="xl"
+        >
+          <Box component="div" sx={{ pb: '1.5rem' }}>
+            {applicationData && (
               <FormReview
                 user={applicationData}
                 application={{
@@ -336,16 +181,19 @@ const UsersTable = (props: Props) => {
                 }}
                 hideDisclaimer
               />
-            </DialogContent>
-          </Dialog>
-        )}
+            )}
+          </Box>
+        </Modal>
       </Suspense>
-    </div>
+    </>
   )
 }
 
 const UsersTableLoader = () => {
   const { user, loading, authenticated } = useAuth()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const { toggles } = useFeatureToggle()
 
   const allowedStatuses = ['admin', 'moderator']
 
@@ -353,20 +201,49 @@ const UsersTableLoader = () => {
     authenticated &&
     user?.status &&
     allowedStatuses.includes(user.status) &&
-    user.status !== 'registering'
+    router.isReady &&
+    toggles.dashboard
 
   const [fullWidth, setFullWidth] = useState(false)
 
-  const [full, setFull] = useState(false)
-  const [page, setPage] = useState(0)
-  const [status, setStatus] = useState<UserStatus[]>([])
+  const [params, setParams] = useState<UserListParams>({ full: false, page: 1, status: [] })
 
-  const [params, setParams] = useState({ full, page: page + 1, status })
+  // changing params calls user-list
+  const applyFilters = (props: ApplyFiltersProps) => {
+    setParams((curr) => {
+      const full = props.full ?? curr.full
+      const page = props.page ?? curr.page
+      const status = props.status ?? curr.status
+
+      router.replace(
+        `/dashboard/users?full=${full}&page=${page}&status=${status.join(',')}`,
+        undefined,
+        { shallow: true }
+      )
+
+      return { full, page, status }
+    })
+  }
 
   const { data, isLoading, isError } = useUserList({
     params,
     enabled,
   })
+
+  const { mutate: userUpdateBatch, isLoading: isUpdating } = useUserUpdateBatch()
+
+  const [updateReq, setUpdateReq] = useState<UserUpdateBatchReq>({ users: [] })
+
+  useEffect(() => {
+    if (!router.isReady) return
+    const full = searchParams.get('full') === 'true'
+    const page = Math.max(1, parseInt(searchParams.get('page') ?? '1') || 1) // BE handles page size over limit
+    const status = (searchParams.get('status')?.split(',') ?? []).filter((status) =>
+      userStatuses.includes(status as UserStatus)
+    ) as UserStatus[]
+    applyFilters({ full, page, status })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.isReady])
 
   if (user?.status && !allowedStatuses.includes(user.status)) {
     return (
@@ -380,6 +257,8 @@ const UsersTableLoader = () => {
     )
   }
 
+  if (!toggles.dashboard) return <Error404Page />
+
   if (isError) return <Error500Page />
 
   return (
@@ -387,7 +266,7 @@ const UsersTableLoader = () => {
       <Head>
         <title>Users Table | DeerHacks</title>
       </Head>
-      {loading || !authenticated || !user ? (
+      {loading || !authenticated || !user || !router.isReady ? (
         <FullPageSpinner />
       ) : (
         <Fade in timeout={1000}>
@@ -405,43 +284,18 @@ const UsersTableLoader = () => {
             >
               Users Table
             </Typography>
-            <FormGroup>
-              <FormControlLabel
-                control={
-                  <Switch value={fullWidth} onChange={(e) => setFullWidth(e.target.checked)} />
-                }
-                label="Full Width"
-              />
-              <FormControlLabel
-                control={<Switch value={full} onChange={(e) => setFull(e.target.checked)} />}
-                label="Include Application Data"
-              />
-              <UserStatusFilter
-                values={status}
-                onChange={(status) => {
-                  setStatus(status)
-                  setPage(0)
-                }}
-              />
-              <Button
-                onClick={() => {
-                  // hanatodo warn if not saved
-                  setParams({ full, page: page + 1, status })
-                }}
-              >
-                Apply Filter(s)
-              </Button>
-            </FormGroup>
             <UsersTable
-              isLoading={isLoading}
+              isLoading={isLoading || isUpdating}
               data={data?.users ?? []}
-              page={page}
-              setPage={(page) => {
-                // hanatodo warn if not saved
-                setPage(page)
-                setParams({ full, page: page + 1, status })
-              }}
+              updateReq={updateReq}
+              setUpdateReq={setUpdateReq}
+              queryParams={params}
+              applyFilters={applyFilters}
               totalUsers={data?.pagination.total_users ?? 0}
+              fullWidth={fullWidth}
+              setFullWidth={setFullWidth}
+              onSave={() => userUpdateBatch(updateReq)}
+              userStatus={user.status}
             />
           </Container>
         </Fade>

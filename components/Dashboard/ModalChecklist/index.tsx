@@ -44,6 +44,7 @@ const ModalChecklist = (props: Props) => {
       }}
       fullWidth
       maxWidth="xs"
+      keepMounted
     >
       <DialogTitle sx={{ m: 0, p: 2 }}>DH Checklist</DialogTitle>
       <IconButton

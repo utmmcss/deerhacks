@@ -160,7 +160,7 @@ const getAlertDetails = (context: string): AlertDetails => {
         ),
       }
     default:
-      return { severity: 'error', message: 'Something went wrong, try again.' }
+      return { severity: 'error', message: 'Something went wrong, try again later.' }
   }
 }
 

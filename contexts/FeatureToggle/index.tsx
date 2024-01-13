@@ -5,6 +5,8 @@ const INITIAL_FEATURE_TOGGLES = {
 
   // Toggle for DeerHacks dashboard portal
   dashboard: process.env.NEXT_PUBLIC_TOGGLE_DASHBOARD === 'true',
+  // Toggle for admin user status updates
+  statusUpdates: process.env.NEXT_PUBLIC_TOGGLE_STATUS_UPDATES === 'true',
 
   // TIME BASED TOGGLES
 

@@ -12,7 +12,7 @@ const LoadingButton = (props: Props) => {
     <Button
       {...buttonProps}
       variant={buttonProps?.variant || 'contained'}
-      disabled={buttonProps?.disabled || loading}
+      disabled={!!buttonProps?.disabled || loading}
       size={buttonProps?.size || 'small'}
       sx={{ position: 'relative', p: '0.5rem 1rem', ...buttonProps?.sx }}
     >

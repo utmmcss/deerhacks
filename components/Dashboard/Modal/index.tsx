@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 
 import CloseIcon from '@mui/icons-material/Close'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
+import { ButtonProps } from '@mui/material/Button'
+import Dialog, { DialogProps } from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -11,33 +11,39 @@ import IconButton from '@mui/material/IconButton'
 
 import LoadingButton from '@/components/Dashboard/LoadingButton'
 
+type CustomButtonProps = {
+  text: string
+  onClick: () => void
+  loading?: boolean
+} & ButtonProps
+
 type Props = {
   open: boolean
-  loading?: boolean
-  disabled?: boolean
-  setOpen: (open: boolean) => void
-  onSubmit: () => void
   title: string
-  content: ReactNode
-}
+  onClose: () => void
+  primaryButton?: CustomButtonProps
+  secondaryButton?: CustomButtonProps
+  children: ReactNode
+} & DialogProps
 
 const Modal = (props: Props) => {
-  const { open, loading = false, disabled = false, setOpen, onSubmit, title, content } = props
+  const { open, title, onClose, primaryButton, secondaryButton, children, ...dialogProps } = props
 
   return (
     <Dialog
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={onClose}
       TransitionComponent={Grow}
       PaperProps={{
         elevation: 2,
         sx: { m: '1rem', maxHeight: 'calc(100% - 2rem)', width: 'calc(100% - 2rem)' },
       }}
       maxWidth="sm"
+      {...dialogProps}
     >
       <DialogTitle sx={{ m: 0, p: 2, textAlign: 'start' }}>{title}</DialogTitle>
       <IconButton
-        onClick={() => setOpen(false)}
+        onClick={onClose}
         sx={{
           position: 'absolute',
           right: 8,
@@ -47,14 +53,18 @@ const Modal = (props: Props) => {
       >
         <CloseIcon />
       </IconButton>
-      <DialogContent>{content}</DialogContent>
+      <DialogContent>{children}</DialogContent>
       <DialogActions>
-        <Button size="small" onClick={() => setOpen(false)} sx={{ p: '0.5rem 1rem' }}>
-          Cancel
-        </Button>
-        <LoadingButton loading={loading} onClick={onSubmit} disabled={disabled}>
-          Submit
-        </LoadingButton>
+        {secondaryButton && (
+          <LoadingButton variant="text" loading={!!secondaryButton.loading} {...secondaryButton}>
+            {secondaryButton.text}
+          </LoadingButton>
+        )}
+        {primaryButton && (
+          <LoadingButton loading={!!primaryButton.loading} {...primaryButton}>
+            {primaryButton.text}
+          </LoadingButton>
+        )}
       </DialogActions>
     </Dialog>
   )

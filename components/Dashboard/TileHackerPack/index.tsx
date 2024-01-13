@@ -15,8 +15,7 @@ const TileHackerPack = (props: Props) => {
   const { status } = props
 
   const disabled =
-    ['pending', 'registering', 'applied', 'selected', 'rejected', 'unverified'].includes(status) ||
-    true // TODO: remove this line when Hacker Pack is ready
+    ['pending', 'registering', 'applied', 'selected', 'rejected'].includes(status) || true // TODO: remove this line when Hacker Pack is ready
 
   return (
     <Tooltip title="">

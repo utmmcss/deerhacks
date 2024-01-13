@@ -172,7 +172,10 @@ const TileUser = (props: Props) => {
                 onClick={() =>
                   userLogout(null, {
                     onError: () =>
-                      setToast({ type: 'error', message: 'Something went wrong, try again.' }),
+                      setToast({
+                        type: 'error',
+                        message: 'Something went wrong, try again later.',
+                      }),
                   })
                 }
               />

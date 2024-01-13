@@ -440,6 +440,7 @@ const theme = createTheme(base, {
     MuiDataGrid: {
       styleOverrides: {
         root: {
+          width: '100%',
           '& .MuiDataGrid-columnHeaders:hover .MuiDataGrid-columnHeadersInner div .MuiDataGrid-columnHeader:last-child .MuiDataGrid-columnSeparator':
             {
               display: 'none',
@@ -459,12 +460,13 @@ const theme = createTheme(base, {
           },
         },
         cell: {
+          transition: 'background-color 0.25s ease',
           '&.modified': {
-            backgroundColor: 'rgba(255, 267, 38, 0.15)', // hanatodo the thing flashes when you change page
+            backgroundColor: 'rgba(255, 267, 38, 0.15)',
           },
         },
         main: {
-          padding: '0 1rem',
+          margin: '0 1rem',
         },
       },
     },

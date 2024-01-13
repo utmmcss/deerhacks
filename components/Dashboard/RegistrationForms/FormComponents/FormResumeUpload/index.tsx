@@ -100,8 +100,8 @@ const FormResumeUpload = (props: Props) => {
           type: 'error',
           message:
             (err as APIError).apiError.status == 400
-              ? 'Bad Request. Please review your resume and try again.'
-              : 'Oops, something went wrong. Please try again.',
+              ? 'Bad Request. Please review your resume and try again later.'
+              : 'Oops, something went wrong. Please try again later.',
           autoHide: false,
         })
       },
