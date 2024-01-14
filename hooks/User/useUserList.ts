@@ -12,8 +12,6 @@ export const useUserList = (props: Props) => {
   return useAPI().useQuery(['userList', props?.params], {
     enabled: props?.enabled,
     retry: false,
-    staleTime: Infinity,
-    refetchOnMount: false,
     refetchOnWindowFocus: false,
     onSuccess: props?.onSuccess,
     onError: props?.onError,

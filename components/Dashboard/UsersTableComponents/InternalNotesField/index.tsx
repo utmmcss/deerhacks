@@ -50,6 +50,7 @@ const InternalNotesField = (props: Props) => {
               }}
               whiteSpace="pre-wrap"
               fontSize="0.75rem"
+              lineHeight="1.4"
               width="100%"
               height="100%"
               textAlign="start"

@@ -21,8 +21,18 @@ export type UserUpdateReq = Partial<Pick<User, 'first_name' | 'last_name' | 'ema
 export type UserUpdateBatchReq = {
   users: {
     discord_id: string
-    fields: UserUpdateReq &
-      Partial<Pick<User, 'status' | 'internal_status' | 'internal_notes' | 'check_ins'>>
+    fields: Partial<
+      Pick<
+        UserFullData,
+        | 'first_name'
+        | 'last_name'
+        | 'email'
+        | 'status'
+        | 'internal_status'
+        | 'internal_notes'
+        | 'check_ins'
+      >
+    >
   }[]
 }
 
@@ -39,11 +49,11 @@ export type User = {
   status: UserStatus
   avatar: string
   qr_code: string
-  verified: true // In case we want to work with this logic
+}
 
-  // Admin only fields
+export type UserFullData = User & {
   internal_status: UserStatus | ''
-  internal_notes?: string
+  internal_notes: string
   check_ins?: {
     [K in QRCheckInContext]?: string
   }
@@ -102,7 +112,7 @@ export type UserListParams = {
   status: UserStatus[]
 }
 
-export type UserListData = User &
+export type UserListData = UserFullData &
   Pick<ResumeUpdateResp, 'resume_file_name' | 'resume_link'> & {
     application: Omit<Application, 'resume_file_name' | 'resume_link'>
   }

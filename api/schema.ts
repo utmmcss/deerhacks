@@ -136,10 +136,8 @@ const _ = () =>
                 username: 'tedja',
                 email: 'user@deerhacks.ca',
                 status: 'admin',
-                internal_status: '',
                 avatar: '1f4f0ffa2b50d6c853379d0ef53d245a',
                 qr_code: '0123456789',
-                verified: true,
               },
             })
           }, 200)

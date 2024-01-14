@@ -6,6 +6,7 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 
+import { statuses } from '@/components/Dashboard/UsersTableComponents/tableDefinitions'
 import { UserStatus, userStatuses } from '@/types/User'
 
 const sortStatuses = (values: string | string[]) => {
@@ -21,7 +22,6 @@ type StatusSelectProps = {
 
 const UserStatusFilter = (props: StatusSelectProps) => {
   const { values, onChange } = props
-
   return (
     <>
       <TextField
@@ -31,7 +31,14 @@ const UserStatusFilter = (props: StatusSelectProps) => {
           renderValue: () => (
             <Box component="div" sx={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
               {values.map((value) => (
-                <Chip key={value} label={value} />
+                <Chip
+                  key={value}
+                  label={value}
+                  style={{
+                    borderColor: statuses[value] + 'DD',
+                    backgroundColor: statuses[value] + '11',
+                  }}
+                />
               ))}
             </Box>
           ),
@@ -48,12 +55,15 @@ const UserStatusFilter = (props: StatusSelectProps) => {
         style={{ fontSize: 'inherit' }}
       >
         <MenuItem key="clear" value="clear" disabled={values.length === 0}>
-          Clear
+          Clear Filters
         </MenuItem>
         <Divider />
         {userStatuses.map((option, i) => (
           <MenuItem value={option} key={i + '-' + option}>
-            <Checkbox checked={values.includes(option as UserStatus)} />
+            <Checkbox
+              checked={values.includes(option as UserStatus)}
+              style={{ color: statuses[option] }}
+            />
             {option}
           </MenuItem>
         ))}

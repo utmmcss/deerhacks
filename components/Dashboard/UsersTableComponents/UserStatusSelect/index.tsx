@@ -3,39 +3,9 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Tooltip from '@mui/material/Tooltip'
 
+import { statuses } from '@/components/Dashboard/UsersTableComponents/tableDefinitions'
 import { useAuth } from '@/contexts/Auth'
 import { UserStatus, userStatuses } from '@/types/User'
-
-const statuses: {
-  [key in UserStatus]: string
-} = {
-  admin: 'white',
-  moderator: 'white',
-  volunteer: 'white',
-  pending: '#b1dbff',
-  registering: '#56caff',
-  applied: '#ffadf4',
-  selected: '#bcffb1',
-  accepted: '#53e25a',
-  attended: '#bb86fc',
-  rejected: '#ff6883',
-}
-
-// hanatodo
-export const original_statuses: {
-  [key in UserStatus]: string
-} = {
-  admin: '#29b6f6',
-  moderator: '#29b6f6',
-  volunteer: '#29b6f6',
-  pending: '#ffa726',
-  registering: '#ffa726',
-  applied: '#66bb6a',
-  selected: '#ffa726',
-  accepted: '#66bb6a',
-  attended: '#66bb6a',
-  rejected: '#ff574e',
-}
 
 type StatusSelectProps = {
   value: UserStatus | ''
@@ -96,6 +66,19 @@ const UserStatusSelect = (props: StatusSelectProps) => {
         variant="standard"
         disableUnderline
       >
+        {isClearable && (
+          <MenuItem
+            value="clear"
+            key="clear"
+            sx={{
+              fontSize: '0.8rem',
+              justifyContent: 'center',
+            }}
+            disabled={value === ''}
+          >
+            Clear Status
+          </MenuItem>
+        )}
         <MenuItem
           value="revert"
           key="revert"
@@ -107,19 +90,6 @@ const UserStatusSelect = (props: StatusSelectProps) => {
         >
           Undo Changes
         </MenuItem>
-        {isClearable && (
-          <MenuItem
-            value="clear"
-            key="clear"
-            sx={{
-              fontSize: '0.8rem',
-              justifyContent: 'center',
-            }}
-            disabled={value === ''}
-          >
-            Clear Field
-          </MenuItem>
-        )}
         <Divider />
         {userStatuses.map((option, i) => {
           const disabled = user?.status === 'moderator' && ['admin', 'moderator'].includes(option)

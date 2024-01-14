@@ -25,7 +25,7 @@ const TableFooter = (props: Props) => {
           {fullWidth ? <FullscreenExitRoundedIcon /> : <FullscreenRoundedIcon />}
         </IconButton>
       </Tooltip>
-      <GridPagination sx={{ p: '0.75rem 0' }} />
+      <GridPagination showFirstButton showLastButton sx={{ p: '0.75rem 0' }} />
     </GridFooterContainer>
   )
 }

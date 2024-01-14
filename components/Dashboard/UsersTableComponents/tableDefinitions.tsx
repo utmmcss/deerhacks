@@ -14,6 +14,37 @@ import InternalNotesField from '@/components/Dashboard/UsersTableComponents/Inte
 import UserStatusSelect from '@/components/Dashboard/UsersTableComponents/UserStatusSelect'
 import { UserListData, UserStatus, UserUpdateBatchReq } from '@/types/User'
 
+export const statuses: {
+  [key in UserStatus]: string
+} = {
+  admin: '#ffffff',
+  moderator: '#ffffff',
+  volunteer: '#ffffff',
+  pending: '#b1dbff',
+  registering: '#56caff',
+  applied: '#ffadf4',
+  selected: '#bcffb1',
+  accepted: '#53e25a',
+  attended: '#bb86fc',
+  rejected: '#ff6883',
+}
+
+// anthonytodo
+export const original_statuses: {
+  [key in UserStatus]: string
+} = {
+  admin: '#29b6f6',
+  moderator: '#29b6f6',
+  volunteer: '#29b6f6',
+  pending: '#ffa726',
+  registering: '#ffa726',
+  applied: '#66bb6a',
+  selected: '#ffa726',
+  accepted: '#66bb6a',
+  attended: '#66bb6a',
+  rejected: '#ff574e',
+}
+
 export const getRows = (data: UserListData[]) => {
   return data.map((user, i) => {
     return {

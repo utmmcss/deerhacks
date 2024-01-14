@@ -15,7 +15,6 @@ import { getColumns, getRows } from '@/components/Dashboard/UsersTableComponents
 import TableFooter from '@/components/Dashboard/UsersTableComponents/TableFooter'
 import TableToolbar from '@/components/Dashboard/UsersTableComponents/TableToolbar'
 import BackButton from '@/components/Shared/BackButton'
-import FullPageLoader from '@/components/Shared/FullPageLoader'
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
 import { useAuth } from '@/contexts/Auth'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
@@ -37,6 +36,7 @@ type ApplyFiltersProps = { full?: boolean; page?: number; status?: UserStatus[] 
 
 type Props = {
   isLoading: boolean
+  dataFetched: boolean
   data: UserListData[]
   updateReq: UserUpdateBatchReq
   setUpdateReq: Dispatch<SetStateAction<UserUpdateBatchReq>>
@@ -52,6 +52,7 @@ type Props = {
 const UsersTable = (props: Props) => {
   const {
     isLoading,
+    dataFetched,
     data,
     updateReq,
     setUpdateReq,
@@ -70,7 +71,7 @@ const UsersTable = (props: Props) => {
   const [originalData, setOriginalData] = useState(data)
   const [users, setUsers] = useState(data)
   useEffect(() => {
-    if (isLoading) return
+    if (!dataFetched) return
     setOriginalData(data)
     setUsers(data)
     setUpdateReq({ users: [] })
@@ -155,9 +156,9 @@ const UsersTable = (props: Props) => {
         paginationMode="server"
         loading={isLoading}
         rowCount={rowCount}
-        density="comfortable"
         paginationModel={{ page: queryParams.page - 1, pageSize: PAGE_SIZE }}
         onPaginationModelChange={(model) => handleApplyFilters({ page: model.page + 1 })}
+        density="comfortable"
         disableRowSelectionOnClick
       />
       <Suspense>
@@ -168,6 +169,7 @@ const UsersTable = (props: Props) => {
           TransitionProps={{
             onExited: () => setApplicationData(undefined),
           }}
+          keepMounted
           maxWidth="xl"
         >
           <Box component="div" sx={{ pb: '1.5rem' }}>
@@ -197,12 +199,13 @@ const UsersTableLoader = () => {
 
   const allowedStatuses = ['admin', 'moderator']
 
+  const [paramsObtained, setParamsObtained] = useState(false)
   const enabled =
     authenticated &&
     user?.status &&
     allowedStatuses.includes(user.status) &&
-    router.isReady &&
-    toggles.dashboard
+    toggles.dashboard &&
+    paramsObtained
 
   const [fullWidth, setFullWidth] = useState(false)
 
@@ -215,17 +218,18 @@ const UsersTableLoader = () => {
       const page = props.page ?? curr.page
       const status = props.status ?? curr.status
 
-      router.replace(
-        `/dashboard/users?full=${full}&page=${page}&status=${status.join(',')}`,
-        undefined,
-        { shallow: true }
-      )
+      const state = `page=${page}&app=${full}&status=${status.join(',')}`
+
+      localStorage.setItem('deerhacks-user-list', state)
+      router.replace(`/dashboard/users?${state}`, undefined, {
+        shallow: true,
+      })
 
       return { full, page, status }
     })
   }
 
-  const { data, isLoading, isError } = useUserList({
+  const { data, isError, isFetching, isSuccess } = useUserList({
     params,
     enabled,
   })
@@ -236,28 +240,43 @@ const UsersTableLoader = () => {
 
   useEffect(() => {
     if (!router.isReady) return
-    const full = searchParams.get('full') === 'true'
-    const page = Math.max(1, parseInt(searchParams.get('page') ?? '1') || 1) // BE handles page size over limit
-    const status = (searchParams.get('status')?.split(',') ?? []).filter((status) =>
-      userStatuses.includes(status as UserStatus)
-    ) as UserStatus[]
-    applyFilters({ full, page, status })
+
+    const savedParams = localStorage.getItem('deerhacks-user-list')
+
+    if (!!searchParams) {
+      // DataGrid handles page size over limit
+      const page = Math.max(1, parseInt(searchParams.get('page') ?? '1') || 1)
+      const status = (searchParams.get('status')?.split(',') ?? []).filter((status) =>
+        userStatuses.includes(status as UserStatus)
+      ) as UserStatus[]
+      const full = searchParams.get('app') === 'true'
+
+      applyFilters({ full, page, status })
+    } else {
+      const params = (savedParams ?? '')
+        .split('&')
+        .reduce((obj: { [key: string]: string }, str) => {
+          const parts = str.split('=')
+          obj[parts?.[0]] = parts?.[1]
+          return obj
+        }, {})
+
+      // DataGrid handles page size over limit
+      const page = Math.max(1, parseInt(params?.page ?? '1') || 1)
+      const status = (params?.status?.split(',') ?? []).filter((status) =>
+        userStatuses.includes(status as UserStatus)
+      ) as UserStatus[]
+      const full = params?.app === 'true'
+
+      applyFilters({ full, page, status })
+    }
+    setParamsObtained(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady])
 
-  if (user?.status && !allowedStatuses.includes(user.status)) {
-    return (
-      <FullPageLoader
-        show
-        pulse={false}
-        text="User unauthorized to register."
-        buttonText="Go Back"
-        buttonLink="/dashboard"
-      />
-    )
+  if (!toggles.dashboard || (user?.status && !allowedStatuses.includes(user.status))) {
+    return <Error404Page />
   }
-
-  if (!toggles.dashboard) return <Error404Page />
 
   if (isError) return <Error500Page />
 
@@ -266,7 +285,7 @@ const UsersTableLoader = () => {
       <Head>
         <title>Users Table | DeerHacks</title>
       </Head>
-      {loading || !authenticated || !user || !router.isReady ? (
+      {loading || !authenticated || !user || !paramsObtained ? (
         <FullPageSpinner />
       ) : (
         <Fade in timeout={1000}>
@@ -285,7 +304,8 @@ const UsersTableLoader = () => {
               Users Table
             </Typography>
             <UsersTable
-              isLoading={isLoading || isUpdating}
+              isLoading={isFetching || isUpdating}
+              dataFetched={isSuccess}
               data={data?.users ?? []}
               updateReq={updateReq}
               setUpdateReq={setUpdateReq}
