@@ -19,29 +19,13 @@ export const statuses: {
 } = {
   admin: '#ffffff',
   moderator: '#ffffff',
-  volunteer: '#ffffff',
-  pending: '#b1dbff',
-  registering: '#56caff',
-  applied: '#ffadf4',
+  volunteer: '#b1dbff',
+  pending: '#ffa726',
+  registering: '#ffadf4',
+  applied: '#bb86fc',
   selected: '#bcffb1',
   accepted: '#53e25a',
-  attended: '#bb86fc',
-  rejected: '#ff6883',
-}
-
-// anthonytodo
-export const original_statuses: {
-  [key in UserStatus]: string
-} = {
-  admin: '#29b6f6',
-  moderator: '#29b6f6',
-  volunteer: '#29b6f6',
-  pending: '#ffa726',
-  registering: '#ffa726',
-  applied: '#66bb6a',
-  selected: '#ffa726',
-  accepted: '#66bb6a',
-  attended: '#66bb6a',
+  attended: '#56caff',
   rejected: '#ff574e',
 }
 
@@ -251,30 +235,25 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       headerAlign: 'left',
       renderCell: (params: GridRenderCellParams) => (
         <>
-          {
-            // show based on status when full=false
-            // show only completed applications when full=true
-            // TODO: show partial applications when full=true
-            (statusWithCompleteApplications.includes(params.row.status) ||
-              params.row.is_draft === false) && (
-              <Tooltip
-                title={!params.row.application ? 'Disabled in Data Settings' : 'View Application'}
-                key={params.row.username}
-              >
-                <span style={{ height: '100%', width: '100%' }}>
-                  <GridActionsCellItem
-                    icon={<AssignmentIcon sx={{ m: '0.5rem' }} />}
-                    onClick={() => {
-                      setApplicationData(params.row as UserListData)
-                    }}
-                    label="View Application"
-                    disabled={!params.row.application}
-                    style={{ height: '100%', width: '100%', borderRadius: '4px' }}
-                  />
-                </span>
-              </Tooltip>
-            )
-          }
+          {(statusWithCompleteApplications.includes(params.row.status) ||
+            params.row.is_draft === false) && (
+            <Tooltip
+              title={!params.row.application ? 'Disabled in Data Settings' : 'View Application'}
+              key={params.row.username}
+            >
+              <span style={{ height: '100%', width: '100%' }}>
+                <GridActionsCellItem
+                  icon={<AssignmentIcon sx={{ m: '0.5rem' }} />}
+                  onClick={() => {
+                    setApplicationData(params.row as UserListData)
+                  }}
+                  label="View Application"
+                  disabled={!params.row.application}
+                  style={{ height: '100%', width: '100%', borderRadius: '4px' }}
+                />
+              </span>
+            </Tooltip>
+          )}
         </>
       ),
     },
