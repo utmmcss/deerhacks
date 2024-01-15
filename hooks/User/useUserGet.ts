@@ -17,7 +17,6 @@ export const useUserGet = (props?: Props) => {
     refetchOnWindowFocus: false,
     onSuccess: (data) => {
       data.user.avatar = getAvatar(data.user)
-      data.user.qr_code = getQRCode(data.user.qr_code)
       props?.onSuccess?.()
     },
     onError: props?.onError,
@@ -37,8 +36,4 @@ const getAvatar = (user: User) => {
     const index = (BigInt(user.discord_id) >> BigInt(22)) % BigInt(6)
     return `https://cdn.discordapp.com/embed/avatars/${index}.png`
   }
-}
-
-const getQRCode = (qrCode: string) => {
-  return `https://chart.googleapis.com/chart?cht=qr&chl=${qrCode}&chs=500x500`
 }

@@ -5,9 +5,9 @@ import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
+import AWS from '@/components/HomePage/Sponsors/Assets/AWS'
 import BigDataAIHub from '@/components/HomePage/Sponsors/Assets/BigDataAIHub'
 import Echo3D from '@/components/HomePage/Sponsors/Assets/Echo3D'
-import FDM from '@/components/HomePage/Sponsors/Assets/FDM'
 import ICUBE from '@/components/HomePage/Sponsors/Assets/ICUBE'
 import MCSS from '@/components/HomePage/Sponsors/Assets/MCSS'
 import MLH from '@/components/HomePage/Sponsors/Assets/MLH'
@@ -103,14 +103,11 @@ const Sponsors = () => {
       >
         <Sponsor name="Major League Hacking" logo={<MLH />} link="https://mlh.io" tier="bronze" />
         <Sponsor
-          name="University of Toronto"
-          logo={<UofT />}
-          link="https://utoronto.ca"
+          name="Amazon Web Services"
+          logo={<AWS />}
+          link="https://aws.amazon.com"
           tier="bronze"
         />
-        {false && (
-          <Sponsor name="FDM Group" logo={<FDM />} link="https://fdmgroup.com" tier="bronze" />
-        )}
         <Sponsor name="Echo3D" logo={<Echo3D />} link="https://echo3d.com" tier="bronze" />
         <Sponsor
           name="Big Data AI Hub"
@@ -122,6 +119,12 @@ const Sponsors = () => {
           name="Standout Stickers"
           logo={<StandoutStickers />}
           link="https://standoutstickers.com"
+          tier="bronze"
+        />
+        <Sponsor
+          name="University of Toronto"
+          logo={<UofT />}
+          link="https://utoronto.ca"
           tier="bronze"
         />
       </Grid>

@@ -42,7 +42,12 @@ const About = () => {
         pt="2rem"
         textAlign={{ xs: 'center', md: 'start' }}
       >
-        <Typography variant="h2" color="text.secondary" gutterBottom>
+        <Typography
+          variant="h2"
+          color="text.secondary"
+          gutterBottom
+          sx={{ fontSize: { xs: '1rem', md: 'revert' } }}
+        >
           Welcome to the University of Toronto Mississauga's premier hackathon event{' '}
           <NearMeRoundedIcon
             color="success"
