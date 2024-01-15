@@ -437,6 +437,53 @@ const theme = createTheme(base, {
         },
       },
     },
+    MuiDataGrid: {
+      styleOverrides: {
+        root: {
+          width: '100%',
+          '& .MuiDataGrid-columnHeaders:hover .MuiDataGrid-columnHeadersInner div .MuiDataGrid-columnHeader:last-child .MuiDataGrid-columnSeparator':
+            {
+              display: 'none',
+            },
+          '& .MuiDataGrid-columnHeader:focus': {
+            outline: 'none',
+          },
+          '& .MuiDataGrid-columnHeader:focus-visible': {
+            outline: 'none',
+          },
+          '& .MuiDataGrid-columnHeader:focus-within': {
+            outline: 'none',
+          },
+          '& .MuiDataGrid-columnHeaderTitle': {
+            userSelect: 'none',
+            color: base.palette.text.primary,
+          },
+        },
+        cell: {
+          transition: 'background-color 0.25s ease',
+          '&.modified': {
+            backgroundColor: 'rgba(255, 267, 38, 0.15)',
+          },
+        },
+        main: {
+          margin: '0 1rem',
+        },
+      },
+    },
+    MuiTablePagination: {
+      styleOverrides: {
+        root: {
+          padding: '0 !important',
+          '& .MuiToolbar-root': {
+            padding: '0 !important',
+          },
+        },
+        displayedRows: {
+          marginBlockStart: '0 !important',
+          marginBlockEnd: '0 !important',
+        },
+      },
+    },
   },
 })
 

@@ -70,7 +70,7 @@ const AccountCreate = (props: Props) => {
         <form noValidate>
           <Box component="div" display="flex" flexDirection="column" gap="1.5rem">
             <Collapse in={showAlert}>
-              <Alert severity="error">Something went wrong, try again.</Alert>
+              <Alert severity="error">Something went wrong, try again later.</Alert>
             </Collapse>
             <Box
               component="div"

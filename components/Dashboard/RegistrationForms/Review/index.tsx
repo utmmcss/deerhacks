@@ -18,18 +18,21 @@ type Props = {
   user: User
   application: Application
   onSubmit?: () => void
+  hideDisclaimer?: boolean
 }
 
 const FormReview = (props: Props) => {
-  const { user, application, onSubmit } = props
+  const { user, application, onSubmit, hideDisclaimer = false } = props
 
   return (
     <Grid container direction="column" gap="2.5rem">
       <Grid container direction="column" gap="1.25rem">
         <Typography variant="h2">Personal Information</Typography>
-        <Typography variant="h3" color="primary" gutterBottom>
-          Important: We will be checking IDs at the event for identification & age purposes.
-        </Typography>
+        {!hideDisclaimer && (
+          <Typography variant="h3" color="primary" gutterBottom>
+            Important: We will be checking IDs at the event for identification & age purposes.
+          </Typography>
+        )}
         <FieldReview name="Name" value={user.first_name + ' ' + user.last_name} />
         <FieldReview name="Email" value={user.email} />
         <FieldReview name="Phone Number" value={application.phone_number} />
@@ -77,7 +80,6 @@ const FormReview = (props: Props) => {
         <br />
         <FieldReview
           name="Resume"
-          value={application.resume_file_name}
           valueNode={
             <Link
               href={application.resume_link}
@@ -93,16 +95,79 @@ const FormReview = (props: Props) => {
                 },
               }}
             >
-              <Typography color="text.primary">{application.resume_file_name}</Typography>
+              <Typography color="text.primary" fontWeight={500}>
+                {application.resume_file_name}
+              </Typography>
               <DownloadRoundedIcon fontSize="inherit" />
             </Link>
           }
         />
         {application.portfolio && (
-          <FieldReview name="Personal Website / Portfolio" value={application.portfolio} />
+          <FieldReview
+            name="Personal Website / Portfolio"
+            valueNode={
+              <Link
+                href={application.portfolio}
+                rel="noopener"
+                target="_blank"
+                color="text.primary"
+                sx={{
+                  opacity: 1,
+                  fontWeight: 500,
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                {application.portfolio}
+              </Link>
+            }
+          />
         )}
-        {application.github && <FieldReview name="GitHub" value={application.github} />}
-        {application.linkedin && <FieldReview name="LinkedIn" value={application.linkedin} />}
+        {application.github && (
+          <FieldReview
+            name="GitHub"
+            valueNode={
+              <Link
+                href={application.github}
+                rel="noopener"
+                target="_blank"
+                color="text.primary"
+                sx={{
+                  opacity: 1,
+                  fontWeight: 500,
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                {application.github}
+              </Link>
+            }
+          />
+        )}
+        {application.linkedin && (
+          <FieldReview
+            name="LinkedIn"
+            valueNode={
+              <Link
+                href={application.linkedin}
+                rel="noopener"
+                target="_blank"
+                color="text.primary"
+                sx={{
+                  opacity: 1,
+                  fontWeight: 500,
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                {application.linkedin}
+              </Link>
+            }
+          />
+        )}
         <br />
         <FieldReview
           name="Number of Hackathons Attended"
@@ -156,15 +221,23 @@ const FormReview = (props: Props) => {
 }
 
 const formatList = (values: string[]) => {
+  if (!values?.length) return ''
   return values.filter((val) => val !== OTHER_SPECIFY).join(',\n')
 }
 
-type FieldReviewProps = {
-  name: string
-  value: string
-  valueNode?: ReactNode
-  isList?: boolean
-}
+type FieldReviewProps =
+  | {
+      name: string
+      value: string
+      valueNode?: never
+      isList?: boolean
+    }
+  | {
+      name: string
+      value?: never
+      valueNode: ReactNode
+      isList?: boolean
+    }
 
 const FieldReview = (props: FieldReviewProps) => {
   const { name, value, valueNode, isList = false } = props

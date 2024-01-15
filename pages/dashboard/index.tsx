@@ -55,7 +55,7 @@ const Dashboard = () => {
             <Box component="div" display="flex" flexDirection="column" gap="1rem" width="100%">
               <TileUser user={user} />
               {(showMentorForm || showVolunteerForm) &&
-                !['unverified', 'moderator', 'volunteer', 'attended'].includes(user.status) && (
+                !['volunteer', 'attended'].includes(user.status) && (
                   <Grid container spacing={2} py={4}>
                     {showVolunteerForm && (
                       <Grid item xs={12} md>
@@ -89,7 +89,7 @@ const Dashboard = () => {
               )}
               <Grid container spacing={2}>
                 <Grid item xs={12} md={7} lg={8} order={{ xs: 2, md: 1 }}>
-                  {['pending', 'registering', 'unverified'].includes(user.status) ? (
+                  {['pending', 'registering'].includes(user.status) ? (
                     <TileRegistration status={user.status} />
                   ) : (
                     <TileHackerPack status={user.status} />
@@ -125,7 +125,7 @@ const Dashboard = () => {
                   </Grid>
                 </Grid>
                 <Grid item xs={12} md={7} lg={8} order={{ xs: 1, md: 2 }}>
-                  {['pending', 'registering', 'unverified'].includes(user.status) ? (
+                  {['pending', 'registering'].includes(user.status) ? (
                     <TileHackerPack status={user.status} />
                   ) : (
                     <TileRegistration status={user.status} />

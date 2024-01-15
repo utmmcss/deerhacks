@@ -73,7 +73,7 @@ const EmailUpdate = (props: Props) => {
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Box component="div" display="flex" flexDirection="column" gap="1.5rem">
             <Collapse in={showAlert}>
-              <Alert severity="error">Something went wrong, try again.</Alert>
+              <Alert severity="error">Something went wrong, try again later.</Alert>
             </Collapse>
             <Box component="div" display="flex" flexDirection="row" gap="1rem">
               <Controller

@@ -141,7 +141,7 @@ const Registration = (props: Props) => {
       onError: () => {
         setToast({
           type: 'error',
-          message: 'Something went wrong, please try again.',
+          message: 'Something went wrong, please try again later.',
         })
       },
     })
@@ -337,17 +337,23 @@ const Registration = (props: Props) => {
       <Suspense>
         <Modal
           open={openConfirmation}
-          loading={isLoading}
-          setOpen={setOpenConfirmation}
-          onSubmit={() => onSubmit({ req: { is_draft: false, application } })}
           title="Submit Application"
-          content={
-            <Typography>
-              You will not be able to re-submit your application. Likewise, you will be unable to
-              change your name and email after registering. Are you sure you want to proceed?
-            </Typography>
-          }
-        />
+          onClose={() => setOpenConfirmation(false)}
+          primaryButton={{
+            text: 'Submit',
+            onClick: () => onSubmit({ req: { is_draft: false, application } }),
+            loading: isLoading,
+          }}
+          secondaryButton={{
+            text: 'Cancel',
+            onClick: () => setOpenConfirmation(false),
+          }}
+        >
+          <Typography>
+            You will not be able to re-submit your application. Likewise, you will be unable to
+            change your name and email after registering. Are you sure you want to proceed?
+          </Typography>
+        </Modal>
       </Suspense>
     </Grid>
   )

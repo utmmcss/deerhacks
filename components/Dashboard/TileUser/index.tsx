@@ -132,11 +132,9 @@ const TileUser = (props: Props) => {
                 gap="0.25rem"
               >
                 @{user.username}
-                {user.verified && (
-                  <Tooltip title="Discord Verified" placement="right" arrow>
-                    <VerifiedIcon color="primary" fontSize="small" />
-                  </Tooltip>
-                )}
+                <Tooltip title="Discord Verified" placement="right" arrow>
+                  <VerifiedIcon color="primary" fontSize="small" />
+                </Tooltip>
               </Typography>
             </Box>
             <Box
@@ -172,7 +170,10 @@ const TileUser = (props: Props) => {
                 onClick={() =>
                   userLogout(null, {
                     onError: () =>
-                      setToast({ type: 'error', message: 'Something went wrong, try again.' }),
+                      setToast({
+                        type: 'error',
+                        message: 'Something went wrong, try again later.',
+                      }),
                   })
                 }
               />

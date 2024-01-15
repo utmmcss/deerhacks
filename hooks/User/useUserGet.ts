@@ -17,7 +17,6 @@ export const useUserGet = (props?: Props) => {
     refetchOnWindowFocus: false,
     onSuccess: (data) => {
       data.user.avatar = getAvatar(data.user)
-      data.user.verified = true
       props?.onSuccess?.()
     },
     onError: props?.onError,

@@ -1,23 +1,43 @@
 import { AlertColor } from '@mui/material/Alert'
 
+import { Application, ResumeUpdateResp } from '@/types/Application'
 import { QRCheckInContext } from '@/types/QRCode'
 
 export type UserGetResp = {
   user: User
 }
 
-export type UserLoginReq = {
-  token: string // Discord OAuth2 token
+export type UserListResp = {
+  pagination: {
+    current_page: number
+    total_pages: number
+    total_users: number
+  }
+  users: UserListData[]
 }
 
 export type UserUpdateReq = Partial<Pick<User, 'first_name' | 'last_name' | 'email'>>
 
-export type AdminUserUpdateReq = {
+export type UserUpdateBatchReq = {
   users: {
-    discordID: string
-    fields: UserUpdateReq &
-      Partial<Pick<User, 'status' | 'internalStatus' | 'internalNotes' | 'checkIns'>>
+    discord_id: string
+    fields: Partial<
+      Pick<
+        UserFullData,
+        | 'first_name'
+        | 'last_name'
+        | 'email'
+        | 'status'
+        | 'internal_status'
+        | 'internal_notes'
+        | 'check_ins'
+      >
+    >
   }[]
+}
+
+export type UserLoginReq = {
+  token: string // Discord OAuth2 token
 }
 
 export type User = {
@@ -29,30 +49,29 @@ export type User = {
   status: UserStatus
   avatar: string
   qr_code: string
-  verified: true // In case we want to work with this logic
+}
 
-  // Admin only fields
-  internalStatus?: UserStatus
-  internalNotes?: string
-  checkIns?: {
+export type UserFullData = User & {
+  internal_status: UserStatus | ''
+  internal_notes: string
+  check_ins?: {
     [K in QRCheckInContext]?: string
   }
 }
 
-export type UserStatus = keyof typeof UserStatusEnum
-const enum UserStatusEnum {
-  admin,
-  moderator,
-  volunteer,
-  pending,
-  registering,
-  applied,
-  selected,
-  accepted,
-  attended,
-  rejected,
-  unverified, // Not sent by BE, used when verified is false
-}
+export type UserStatus = (typeof userStatuses)[number]
+export const userStatuses = [
+  'admin',
+  'moderator',
+  'volunteer',
+  'pending',
+  'registering',
+  'applied',
+  'selected',
+  'accepted',
+  'attended',
+  'rejected',
+] as const
 
 type UserStatusInfo = [AlertColor, string]
 export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
@@ -85,9 +104,15 @@ export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
 
   attended: ['info', 'Thank you for joining us at DeerHacks, we hope you have a great time!'],
   rejected: ['warning', 'Thank you for applying to DeerHacks, we hope to see you next year.'],
-
-  unverified: [
-    'error',
-    'Your Discord account is unverified, verify your account on Discord and re-login to access our dashboard.',
-  ],
 }
+
+export type UserListParams = {
+  full: boolean
+  page: number
+  status: UserStatus[]
+}
+
+export type UserListData = UserFullData &
+  Pick<ResumeUpdateResp, 'resume_file_name' | 'resume_link'> & {
+    application: Omit<Application, 'resume_file_name' | 'resume_link'>
+  }
