@@ -241,35 +241,46 @@ const UsersTableLoader = () => {
   useEffect(() => {
     if (!router.isReady) return
 
+    const tempParams = {} as { full: string | null; page: number; status: string | null }
+
     const savedParams = localStorage.getItem('deerhacks-user-list')
 
-    if (!!searchParams) {
-      // DataGrid handles page size over limit
-      const page = Math.max(1, parseInt(searchParams.get('page') ?? '1') || 1)
-      const status = (searchParams.get('status')?.split(',') ?? []).filter((status) =>
-        userStatuses.includes(status as UserStatus)
-      ) as UserStatus[]
-      const full = searchParams.get('app') === 'true'
-
-      applyFilters({ full, page, status })
-    } else {
-      const params = (savedParams ?? '')
-        .split('&')
-        .reduce((obj: { [key: string]: string }, str) => {
-          const parts = str.split('=')
-          obj[parts?.[0]] = parts?.[1]
-          return obj
-        }, {})
-
-      // DataGrid handles page size over limit
-      const page = Math.max(1, parseInt(params?.page ?? '1') || 1)
-      const status = (params?.status?.split(',') ?? []).filter((status) =>
-        userStatuses.includes(status as UserStatus)
-      ) as UserStatus[]
-      const full = params?.app === 'true'
-
-      applyFilters({ full, page, status })
+    if (searchParams.size > 0) {
+      // use url params first if they exist
+      tempParams.full = searchParams.get('app')
+      tempParams.page = parseInt(searchParams.get('page') ?? '')
+      tempParams.status = searchParams.get('status')
+    } else if (!!savedParams) {
+      // otherwise get params from localhost if they exist
+      const params = savedParams.split('&').reduce((obj: { [key: string]: string }, str) => {
+        const parts = str.split('=')
+        obj[parts?.[0]] = parts?.[1]
+        return obj
+      }, {})
+      tempParams.full = params?.app
+      tempParams.page = parseInt(params?.page)
+      tempParams.status = params?.status
     }
+
+    if (
+      tempParams.full &&
+      ['true', 'false'].includes(tempParams.full) &&
+      tempParams.page > 0 && // DataGrid handles page size over limit
+      tempParams.status !== null
+    ) {
+      // use params only if all three are valid
+      applyFilters({
+        full: tempParams.full === 'true',
+        page: tempParams.page,
+        status: tempParams.status
+          .split(',')
+          .filter((status) => userStatuses.includes(status as UserStatus)) as UserStatus[],
+      })
+    } else {
+      // default values
+      applyFilters({ full: false, page: 1, status: [] })
+    }
+
     setParamsObtained(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady])

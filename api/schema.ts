@@ -99,7 +99,7 @@ const users = (customFetch: CustomFetch) =>
       const res = await customFetch(
         'GET',
         'DH_BE',
-        `/user-list?full=${full ?? false}&page=${page ?? 1}&statuses=${status?.join(',') ?? ''}`
+        `/user-list?full=${full}&page=${page}&statuses=${status?.join(',')}`
       )
       return res.data as UserListResp
     },

@@ -11,12 +11,6 @@ import IconButton from '@mui/material/IconButton'
 
 import LoadingButton from '@/components/Dashboard/LoadingButton'
 
-type CustomButtonProps = {
-  text: string
-  onClick: () => void
-  loading?: boolean
-} & ButtonProps
-
 type Props = {
   open: boolean
   title: string
@@ -69,5 +63,11 @@ const Modal = (props: Props) => {
     </Dialog>
   )
 }
+
+type CustomButtonProps = {
+  text: string
+  onClick: () => void
+  loading?: boolean
+} & ButtonProps
 
 export default Modal

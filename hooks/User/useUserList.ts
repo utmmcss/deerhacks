@@ -9,11 +9,11 @@ type Props = {
 }
 
 export const useUserList = (props: Props) => {
-  return useAPI().useQuery(['userList', props?.params], {
-    enabled: props?.enabled,
+  return useAPI().useQuery(['userList', props.params], {
+    enabled: props.enabled,
     retry: false,
     refetchOnWindowFocus: false,
-    onSuccess: props?.onSuccess,
-    onError: props?.onError,
+    onSuccess: props.onSuccess,
+    onError: props.onError,
   })
 }
