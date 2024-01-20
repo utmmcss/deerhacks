@@ -18,9 +18,9 @@ const TileRegistration = (props: Props) => {
 
   const { toggles } = useFeatureToggle()
 
-  const disabledUser = status === 'pending'
+  const disabledUser = ['pending', 'rejected'].includes(status)
   const disabled = disabledUser || (!toggles.signupHacker && status === 'registering')
-  const noApplication = ['admin', 'moderator', 'volunteer'].includes(status)
+  const noApplication = ['admin', 'moderator', 'guest', 'volunteer'].includes(status)
 
   return (
     <Card
@@ -55,7 +55,7 @@ const TileRegistration = (props: Props) => {
           <Typography variant="body2">
             {disabled
               ? `Registration is unavailable ${
-                  disabledUser ? 'while email is unverified' : 'during this time'
+                  status === 'pending' ? 'while email is unverified' : 'during this time'
                 }`
               : status === 'registering'
               ? 'Get started on your registration for DeerHacks! Hacker applications are open until January 25'

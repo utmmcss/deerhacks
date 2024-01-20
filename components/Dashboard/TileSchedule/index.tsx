@@ -15,7 +15,8 @@ type Props = {
 const TileSchedule = (props: Props) => {
   const { status } = props
 
-  const disabled = !['admin', 'moderator', 'volunteer', 'accepted', 'attended'].includes(status)
+  const disabled =
+    !['admin', 'moderator', 'guest', 'volunteer', 'accepted', 'attended'].includes(status) || true // TODO: remove this line when schedule is ready
 
   return (
     <Card variant={disabled ? 'outlined' : 'elevation'} elevation={disabled ? 0 : 5}>

@@ -92,7 +92,9 @@ const UserStatusSelect = (props: StatusSelectProps) => {
         </MenuItem>
         <Divider />
         {userStatuses.map((option, i) => {
-          const disabled = user?.status === 'moderator' && ['admin', 'moderator'].includes(option)
+          const disabled =
+            user?.status === 'moderator' &&
+            ['admin', 'moderator', 'applied', 'accepted'].includes(option)
           return (
             <MenuItem
               value={option}

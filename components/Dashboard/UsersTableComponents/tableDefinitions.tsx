@@ -19,6 +19,7 @@ export const statuses: {
 } = {
   admin: '#ffffff',
   moderator: '#ffffff',
+  guest: '#ffffff',
   volunteer: '#b1dbff',
   pending: '#ffa726',
   registering: '#ffadf4',

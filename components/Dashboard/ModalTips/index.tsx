@@ -33,7 +33,14 @@ const ModalTips = (props: Props) => {
       setExpanded(different ? panel : false)
     }
 
-  const qrCodeEnabled = ['admin', 'moderator', 'volunteer', 'accepted', 'attended'].includes(status)
+  const qrCodeEnabled = [
+    'admin',
+    'moderator',
+    'guest',
+    'volunteer',
+    'accepted',
+    'attended',
+  ].includes(status)
 
   return (
     <Dialog

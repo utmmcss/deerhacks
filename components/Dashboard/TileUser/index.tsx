@@ -33,9 +33,14 @@ const TileUser = (props: Props) => {
   const [openAccountDetails, setOpenAccountDetails] = useState(!user.first_name || !user.last_name)
 
   const [openQRCode, setOpenQRCode] = useState(false)
-  const qrCodeEnabled = ['admin', 'moderator', 'volunteer', 'accepted', 'attended'].includes(
-    user.status
-  )
+  const qrCodeEnabled = [
+    'admin',
+    'moderator',
+    'guest',
+    'volunteer',
+    'accepted',
+    'attended',
+  ].includes(user.status)
 
   return (
     <>
