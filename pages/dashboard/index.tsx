@@ -55,7 +55,7 @@ const Dashboard = () => {
             <Box component="div" display="flex" flexDirection="column" gap="1rem" width="100%">
               <TileUser user={user} />
               {(showMentorForm || showVolunteerForm) &&
-                !['volunteer', 'attended'].includes(user.status) && (
+                !['guest', 'volunteer', 'attended'].includes(user.status) && (
                   <Grid container spacing={2} py={4}>
                     {showVolunteerForm && (
                       <Grid item xs={12} md>

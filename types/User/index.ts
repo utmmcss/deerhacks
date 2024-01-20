@@ -63,6 +63,7 @@ export type UserStatus = (typeof userStatuses)[number]
 export const userStatuses = [
   'admin',
   'moderator',
+  'guest',
   'volunteer',
   'pending',
   'registering',
@@ -77,7 +78,9 @@ type UserStatusInfo = [AlertColor, string]
 export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
   admin: ['info', 'DeerHacks Administrator'],
   moderator: ['info', 'DeerHacks Organizers'],
-  volunteer: ['info', 'DeerHacks Volunteers'],
+  guest: ['info', 'DeerHacks Guests / Hosts'],
+
+  volunteer: ['info', 'DeerHacks Staff / Volunteers'],
 
   pending: [
     'warning',
@@ -103,7 +106,10 @@ export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
   ],
 
   attended: ['info', 'Thank you for joining us at DeerHacks, we hope you have a great time!'],
-  rejected: ['warning', 'Thank you for applying to DeerHacks, we hope to see you next year.'],
+  rejected: [
+    'warning',
+    "Thank you for applying to DeerHacks. Although it's not a fit this time, we hope to see you next year.",
+  ],
 }
 
 export type UserListParams = {

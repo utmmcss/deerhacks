@@ -136,7 +136,7 @@ const UsersTable = (props: Props) => {
           setApplicationData: handleOpenApplication,
           originalData,
           userStatus,
-          statusUpdateToggle: toggles.statusUpdates,
+          statusUpdateToggle: toggles.statusUpdates || userStatus === 'admin',
         })}
         slots={{
           toolbar: TableToolbar,
