@@ -13,7 +13,9 @@ import MCSS from '@/components/HomePage/Sponsors/Assets/MCSS'
 import MLH from '@/components/HomePage/Sponsors/Assets/MLH'
 import MMPA from '@/components/HomePage/Sponsors/Assets/MMPA'
 import Rotman from '@/components/HomePage/Sponsors/Assets/Rotman'
+import SilverSpoon from '@/components/HomePage/Sponsors/Assets/SilverSpoon'
 import StandoutStickers from '@/components/HomePage/Sponsors/Assets/StandoutStickers'
+import Thirstea from '@/components/HomePage/Sponsors/Assets/Thirstea'
 import Uber from '@/components/HomePage/Sponsors/Assets/Uber'
 import UofT from '@/components/HomePage/Sponsors/Assets/UofT'
 import Sponsor from '@/components/HomePage/Sponsors/Sponsor'
@@ -85,11 +87,23 @@ const Sponsors = () => {
         </Grid>
         <Sponsor name="Uber" logo={<Uber />} link="https://uber.com" tier="silver" />
         <Sponsor name="ICUBE UTM" logo={<ICUBE />} link="https://icubeutm.ca" tier="silver" />
-        <Sponsor name="MMPA" logo={<MMPA />} link="https://mmpa.utoronto.ca" tier="silver" />
         <Sponsor
           name="Rotman"
           logo={<Rotman />}
           link="https://www.rotman.utoronto.ca"
+          tier="silver"
+        />
+        <Sponsor name="MMPA" logo={<MMPA />} link="https://mmpa.utoronto.ca" tier="silver" />
+        <Sponsor
+          name="Thirstea"
+          logo={<Thirstea />}
+          link="https://thirsteacanada.com"
+          tier="silver"
+        />
+        <Sponsor
+          name="University of Toronto"
+          logo={<UofT />}
+          link="https://utoronto.ca"
           tier="silver"
         />
       </Grid>
@@ -122,9 +136,9 @@ const Sponsors = () => {
           tier="bronze"
         />
         <Sponsor
-          name="University of Toronto"
-          logo={<UofT />}
-          link="https://utoronto.ca"
+          name="Silver Spoon"
+          logo={<SilverSpoon />}
+          link="https://silverspoononline.com"
           tier="bronze"
         />
       </Grid>

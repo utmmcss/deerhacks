@@ -8,12 +8,21 @@ export type QRCheckInResp = {
   message: string
 }
 
-export type QRCheckInContext = keyof typeof QRCheckInContextEnum
-const enum QRCheckInContextEnum {
-  REGISTRATION = 'registration',
-  DAY_1_DINNER = 'day_1_dinner',
-  DAY_2_BREAKFAST = 'day_2_breakfast',
-  DAY_2_LUNCH = 'day_2_lunch',
-  DAY_2_DINNER = 'day_2_dinner',
-  DAY_3_BREAKFAST = 'day_3_breakfast',
+export type QRCheckInContext = (typeof qrContextOptions)[number]
+export const qrContextOptions = [
+  'registration',
+  'day_1_dinner',
+  'day_2_breakfast',
+  'day_2_lunch',
+  'day_2_dinner',
+  'day_3_breakfast',
+] as const
+
+export const qrContextLabels: { [key in QRCheckInContext]: string } = {
+  registration: 'Registration (Organizer Only)',
+  day_1_dinner: 'Friday Dinner',
+  day_2_breakfast: 'Saturday Breakfast',
+  day_2_lunch: 'Saturday Lunch',
+  day_2_dinner: 'Saturday Dinner',
+  day_3_breakfast: 'Sunday Breakfast',
 }

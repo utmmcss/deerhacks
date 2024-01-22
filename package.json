@@ -29,6 +29,7 @@
     "@types/three": "^0.156.0",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
+    "@yudiel/react-qr-scanner": "^1.2.4",
     "aos": "^3.0.0-beta.6",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",

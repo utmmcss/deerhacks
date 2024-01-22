@@ -7,6 +7,7 @@ import DialogTitle from '@mui/material/DialogTitle'
 import Grow from '@mui/material/Grow'
 import IconButton from '@mui/material/IconButton'
 
+import { useAPI } from '@/contexts/API'
 import { QRCodeSVG } from 'qrcode.react'
 
 type Props = {
@@ -18,10 +19,18 @@ type Props = {
 const ModalQRCode = (props: Props) => {
   const { open, qrCode, setOpen } = props
 
+  const api = useAPI()
+
+  const handleClose = () => {
+    setOpen(false)
+    // Refetch if user signs in
+    api.queryClient.invalidateQueries({ queryKey: ['userGet'] })
+  }
+
   return (
     <Dialog
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={handleClose}
       TransitionComponent={Grow}
       PaperProps={{
         sx: {
@@ -36,7 +45,7 @@ const ModalQRCode = (props: Props) => {
     >
       <DialogTitle sx={{ m: 0, p: 2 }}>My QR Code</DialogTitle>
       <IconButton
-        onClick={() => setOpen(false)}
+        onClick={handleClose}
         sx={{
           position: 'absolute',
           right: 8,
