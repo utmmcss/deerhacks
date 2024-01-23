@@ -16,7 +16,7 @@ const Stats = () => {
           data-aos-once="false"
         >
           <Typography variant="h1" mb="0 !important">
-            500+
+            1000+
           </Typography>
           <Typography variant="body1">Applicants</Typography>
         </Grid>

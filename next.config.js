@@ -1,8 +1,8 @@
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
-  cacheStartUrl: false,
   skipWaiting: true,
+  cacheStartUrl: false,
   disable: process.env.NODE_ENV === 'development',
 })
 
