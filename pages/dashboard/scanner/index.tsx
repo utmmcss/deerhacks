@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 import { APIError } from '@/api/types'
 import Modal from '@/components/Dashboard/Modal'
@@ -22,31 +23,34 @@ import { useToast } from '@/contexts/Toast'
 import { useQRCheckIn } from '@/hooks/QRCode/useQRCheckIn'
 import Error401Page from '@/pages/401'
 import Error404Page from '@/pages/404'
+import theme from '@/styles/theme'
 import { QrScanner } from '@yudiel/react-qr-scanner'
 import { QRCheckInContext, QRCheckInResp, qrContextLabels, qrContextOptions } from 'types/QRCode'
 
 const QRCodeScanner = () => {
-  const { toggles } = useFeatureToggle()
+  const [context, setContext] = useState<QRCheckInContext | ''>('')
+  const [result, setResult] = useState<QRCheckInResp>({ message: '', success: false })
+  const [openResult, setOpenResult] = useState(false)
+
   const { user, loading, authenticated } = useAuth()
+  const { toggles } = useFeatureToggle()
   const { setToast } = useToast()
 
-  const [context, setContext] = useState<QRCheckInContext | ''>('')
-  const [openResult, setOpenResult] = useState(false)
-  const [result, setResult] = useState<QRCheckInResp>({ message: '', success: false })
+  const desktop = useMediaQuery(theme.breakpoints.up('sm'))
 
   const { mutate: qrCheckIn, isLoading } = useQRCheckIn()
 
   const enableScanner = !openResult && !isLoading
+  const allowedStatuses = ['admin', 'moderator', 'volunteer']
 
   const handleChange = (event: SelectChangeEvent) => {
     setContext(event.target.value as QRCheckInContext)
   }
 
-  if (
-    !toggles.dashboard ||
-    (user?.status && !['admin', 'moderator', 'volunteer'].includes(user.status))
-  )
+  if (!toggles.dashboard || (user?.status && !allowedStatuses.includes(user.status))) {
     return <Error404Page />
+  }
+
   if (!loading && !authenticated) return <Error401Page />
 
   return (
@@ -105,7 +109,7 @@ const QRCodeScanner = () => {
                     containerStyle={{ borderRadius: '1rem' }}
                   />
                   <Fade in={!enableScanner}>
-                    <CircularProgress sx={{ position: 'absolute', mt: '-1rem' }} />
+                    <CircularProgress sx={{ position: 'absolute' }} />
                   </Fade>
                 </Container>
                 <FormControl fullWidth>
@@ -136,21 +140,66 @@ const QRCodeScanner = () => {
               title={result.success ? 'Success' : 'Error'}
               onClose={() => setOpenResult(false)}
               primaryButton={{
-                text: 'Ok',
+                text: 'Continue',
+                size: 'large',
                 onClick: () => {
                   setOpenResult(false)
                 },
-                fullWidth: true,
+                fullWidth: !desktop,
+                sx: {
+                  color: result.success ? theme.palette.success.dark : theme.palette.error.dark,
+                },
               }}
-              fullScreen
-              sx={{ '& .MuiDialog-paper': { borderRadius: '1rem' } }}
+              iconButtonSX={{
+                color: 'text.primary',
+              }}
+              PaperProps={{
+                elevation: 2,
+                sx: {
+                  backgroundColor: result.success
+                    ? theme.palette.success.dark
+                    : theme.palette.error.dark,
+                  m: '1rem',
+                  maxHeight: 'calc(100% - 2rem)',
+                  width: 'calc(100% - 2rem)',
+                },
+              }}
+              {...(!desktop && {
+                fullScreen: true,
+                PaperProps: {
+                  elevation: 2,
+
+                  sx: {
+                    backgroundColor: result.success
+                      ? theme.palette.success.dark
+                      : theme.palette.error.dark,
+                    m: '0',
+                    maxHeight: '100%',
+                    width: '100%',
+                  },
+                },
+              })}
+              dialogContentProps={{
+                sx: {
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                },
+              }}
             >
               {result.success ? (
-                <TaskAltRoundedIcon color="success" />
+                <Typography fontSize="8rem">
+                  <TaskAltRoundedIcon color="secondary" fontSize="inherit" />
+                </Typography>
               ) : (
-                <ErrorOutlineRoundedIcon color="error" />
+                <Typography fontSize="8rem">
+                  <ErrorOutlineRoundedIcon color="secondary" fontSize="inherit" />
+                </Typography>
               )}
-              <Typography>{result.message}</Typography>
+              <Typography color="text.primary" textAlign="center">
+                {result.message}
+              </Typography>
             </Modal>
           </Suspense>
         </>

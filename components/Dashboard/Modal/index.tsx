@@ -4,10 +4,11 @@ import CloseIcon from '@mui/icons-material/Close'
 import { ButtonProps } from '@mui/material/Button'
 import Dialog, { DialogProps } from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
+import DialogContent, { DialogContentProps } from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grow from '@mui/material/Grow'
 import IconButton from '@mui/material/IconButton'
+import { SxProps, Theme } from '@mui/material/styles'
 
 import LoadingButton from '@/components/Dashboard/LoadingButton'
 
@@ -18,10 +19,22 @@ type Props = {
   primaryButton?: CustomButtonProps
   secondaryButton?: CustomButtonProps
   children: ReactNode
+  dialogContentProps?: DialogContentProps
+  iconButtonSX?: SxProps<Theme>
 } & DialogProps
 
 const Modal = (props: Props) => {
-  const { open, title, onClose, primaryButton, secondaryButton, children, ...dialogProps } = props
+  const {
+    open,
+    title,
+    onClose,
+    primaryButton,
+    secondaryButton,
+    children,
+    dialogContentProps,
+    iconButtonSX,
+    ...dialogProps
+  } = props
 
   return (
     <Dialog
@@ -43,11 +56,12 @@ const Modal = (props: Props) => {
           right: 8,
           top: 12,
           color: 'text.secondary',
+          ...iconButtonSX,
         }}
       >
         <CloseIcon />
       </IconButton>
-      <DialogContent>{children}</DialogContent>
+      <DialogContent {...dialogContentProps}>{children}</DialogContent>
       <DialogActions>
         {secondaryButton && (
           <LoadingButton variant="text" loading={!!secondaryButton.loading} {...secondaryButton}>
