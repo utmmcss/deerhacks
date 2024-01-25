@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
-import { DataGrid, FooterPropsOverrides } from '@mui/x-data-grid'
+import { DataGrid, FooterPropsOverrides, getDefaultGridFilterModel } from '@mui/x-data-grid'
 
 import Modal from '@/components/Dashboard/Modal'
 import FormReview from '@/components/Dashboard/RegistrationForms/Review'
@@ -32,7 +32,12 @@ import {
 
 const PAGE_SIZE = 25
 
-type ApplyFiltersProps = { full?: boolean; page?: number; status?: UserStatus[] }
+type ApplyFiltersProps = {
+  full?: boolean
+  page?: number
+  all_users?: boolean
+  status?: UserStatus[]
+}
 
 type Props = {
   isLoading: boolean
@@ -70,6 +75,7 @@ const UsersTable = (props: Props) => {
 
   const [originalData, setOriginalData] = useState(data)
   const [users, setUsers] = useState(data)
+  const [filters, setFilters] = useState(getDefaultGridFilterModel())
   useEffect(() => {
     if (!dataFetched) return
     setOriginalData(data)
@@ -115,11 +121,11 @@ const UsersTable = (props: Props) => {
 
   const handleApplyFilters = (newParams: ApplyFiltersProps) => {
     if (hasUnsavedChanges) {
-      if (confirm('You have unsaved changes. Are you sure you want to proceed?')) {
-        setUpdateReq({ users: [] })
-        applyFilters(newParams)
-      }
-      return
+      if (!confirm('You have unsaved changes. Are you sure you want to proceed?')) return
+      setUpdateReq({ users: [] })
+    }
+    if (newParams.all_users === false) {
+      setFilters(getDefaultGridFilterModel())
     }
     applyFilters(newParams)
   }
@@ -152,10 +158,13 @@ const UsersTable = (props: Props) => {
           },
           footer: { fullWidth, setFullWidth } as FooterPropsOverrides,
         }}
+        filterModel={filters}
+        onFilterModelChange={(newModel) => setFilters(newModel)}
         pageSizeOptions={[PAGE_SIZE]}
-        paginationMode="server"
+        paginationMode={queryParams.all_users ? 'client' : 'server'}
         loading={isLoading}
-        rowCount={rowCount}
+        disableColumnFilter={!queryParams.all_users}
+        rowCount={!queryParams.all_users ? rowCount : undefined}
         paginationModel={{ page: queryParams.page - 1, pageSize: PAGE_SIZE }}
         onPaginationModelChange={(model) => handleApplyFilters({ page: model.page + 1 })}
         density="comfortable"
@@ -209,28 +218,34 @@ const UsersTableLoader = () => {
 
   const [fullWidth, setFullWidth] = useState(false)
 
-  const [params, setParams] = useState<UserListParams>({ full: false, page: 1, status: [] })
+  const [params, setParams] = useState<UserListParams>({
+    full: false,
+    page: 1,
+    all_users: false,
+    status: [],
+  })
 
   // changing params calls user-list
   const applyFilters = (props: ApplyFiltersProps) => {
     setParams((curr) => {
       const full = props.full ?? curr.full
       const page = props.page ?? curr.page
+      const all_users = props.all_users ?? curr.all_users
       const status = props.status ?? curr.status
 
-      const state = `page=${page}&app=${full}&status=${status.join(',')}`
+      const state = `page=${page}&all_users=${all_users}&app=${full}&status=${status.join(',')}`
 
       localStorage.setItem('deerhacks-user-list', state)
       router.replace(`/dashboard/users?${state}`, undefined, {
         shallow: true,
       })
 
-      return { full, page, status }
+      return { full, page, all_users: all_users, status }
     })
   }
 
   const { data, isError, isFetching, isSuccess } = useUserList({
-    params,
+    params: params.all_users ? { ...params, page: 1 } : params,
     enabled,
   })
 
@@ -241,7 +256,12 @@ const UsersTableLoader = () => {
   useEffect(() => {
     if (!router.isReady) return
 
-    const tempParams = {} as { full: string | null; page: number; status: string | null }
+    const tempParams = {} as {
+      full: string | null
+      page: number
+      all_users: string | null
+      status: string | null
+    }
 
     const savedParams = localStorage.getItem('deerhacks-user-list')
 
@@ -249,6 +269,7 @@ const UsersTableLoader = () => {
       // use url params first if they exist
       tempParams.full = searchParams.get('app')
       tempParams.page = parseInt(searchParams.get('page') ?? '')
+      tempParams.all_users = searchParams.get('all_users')
       tempParams.status = searchParams.get('status')
     } else if (!!savedParams) {
       // otherwise get params from localhost if they exist
@@ -259,26 +280,30 @@ const UsersTableLoader = () => {
       }, {})
       tempParams.full = params?.app
       tempParams.page = parseInt(params?.page)
+      tempParams.all_users = params?.all_users
       tempParams.status = params?.status
     }
 
     if (
       tempParams.full &&
       ['true', 'false'].includes(tempParams.full) &&
+      tempParams.all_users &&
       tempParams.page > 0 && // DataGrid handles page size over limit
       tempParams.status !== null
     ) {
       // use params only if all three are valid
+      const all_users = tempParams.all_users === 'true'
       applyFilters({
         full: tempParams.full === 'true',
         page: tempParams.page,
+        all_users,
         status: tempParams.status
           .split(',')
           .filter((status) => userStatuses.includes(status as UserStatus)) as UserStatus[],
       })
     } else {
       // default values
-      applyFilters({ full: false, page: 1, status: [] })
+      applyFilters({ full: false, page: 1, all_users: false, status: [] })
     }
 
     setParamsObtained(true)

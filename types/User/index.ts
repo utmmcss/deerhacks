@@ -115,6 +115,7 @@ export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
 export type UserListParams = {
   full: boolean
   page: number
+  all_users: boolean
   status: UserStatus[]
 }
 

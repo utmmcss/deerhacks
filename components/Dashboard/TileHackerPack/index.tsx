@@ -20,7 +20,7 @@ const TileHackerPack = (props: Props) => {
   return (
     <Tooltip title="">
       <Card variant={disabled ? 'outlined' : 'elevation'} elevation={disabled ? 0 : 5}>
-        <CardActionArea href="/HackerPack.pdf" disabled={disabled}>
+        <CardActionArea href="/hackerpack.pdf" disabled={disabled}>
           <CardContent>
             <Typography
               variant="h1"

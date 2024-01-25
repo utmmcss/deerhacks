@@ -12,7 +12,7 @@ import {
 
 import InternalNotesField from '@/components/Dashboard/UsersTableComponents/InternalNotesField'
 import UserStatusSelect from '@/components/Dashboard/UsersTableComponents/UserStatusSelect'
-import { UserListData, UserStatus, UserUpdateBatchReq } from '@/types/User'
+import { UserListData, UserStatus, userStatuses, UserUpdateBatchReq } from '@/types/User'
 
 export const statuses: {
   [key in UserStatus]: string
@@ -161,6 +161,8 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       field: 'status',
       headerName: 'Status',
       description: 'Current User Status: Status visible to user & discord',
+      type: 'singleSelect',
+      valueOptions: userStatuses as unknown as UserStatus[],
       flex: 1,
       minWidth: 100,
       cellClassName: (params: GridCellParams) => {
@@ -183,6 +185,8 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       headerName: 'Internal Status',
       description:
         'Internal User Status: Status only visible internally, use to stage potential status before committing',
+      type: 'singleSelect',
+      valueOptions: userStatuses as unknown as UserStatus[],
       flex: 1,
       minWidth: 100,
       cellClassName: (params: GridCellParams) => {
@@ -232,8 +236,11 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       flex: 1,
       minWidth: 100,
       sortable: false,
-      type: 'actions',
       headerAlign: 'left',
+      valueFormatter: (params) => {
+        if (!params.id || !params.api.getRow(params.id).application) return ''
+        return JSON.stringify(params.api.getRow(params.id))
+      },
       renderCell: (params: GridRenderCellParams) => (
         <>
           {(statusWithCompleteApplications.includes(params.row.status) ||

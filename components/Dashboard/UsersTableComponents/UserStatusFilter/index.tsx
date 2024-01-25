@@ -18,10 +18,11 @@ const sortStatuses = (values: string | string[]) => {
 type StatusSelectProps = {
   values: UserStatus[]
   onChange: (statuses: UserStatus[]) => void
+  disabled?: boolean
 }
 
 const UserStatusFilter = (props: StatusSelectProps) => {
-  const { values, onChange } = props
+  const { values, onChange, disabled = false } = props
   return (
     <>
       <TextField
@@ -53,6 +54,7 @@ const UserStatusFilter = (props: StatusSelectProps) => {
         onChange={(e) => onChange(sortStatuses(e.target.value))}
         fullWidth
         style={{ fontSize: 'inherit' }}
+        disabled={disabled}
       >
         <MenuItem key="clear" value="clear" disabled={values.length === 0}>
           Clear Filters
