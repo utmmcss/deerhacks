@@ -1,15 +1,19 @@
 import { Suspense, useState } from 'react'
 
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined'
+import AdminPanelSettingsRoundedIcon from '@mui/icons-material/AdminPanelSettingsRounded'
 import BubbleChartIcon from '@mui/icons-material/BubbleChart'
+import FaceIcon from '@mui/icons-material/Face'
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Chip from '@mui/material/Chip'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormGroup from '@mui/material/FormGroup'
+import InputAdornment from '@mui/material/InputAdornment'
 import Switch from '@mui/material/Switch'
-import { GridToolbarContainer, GridToolbarQuickFilter } from '@mui/x-data-grid'
+import TextField from '@mui/material/TextField'
+import { GridToolbarContainer } from '@mui/x-data-grid'
 
 import LoadingButton from '@/components/Dashboard/LoadingButton'
 import Modal from '@/components/Dashboard/Modal'
@@ -30,19 +34,32 @@ const TableToolbar = (props: Props) => {
   const [openDataSettings, setOpenDataSettings] = useState(false)
 
   const [full, setFull] = useState(queryParams.full)
-  const [status, setStatus] = useState<UserStatus[]>(queryParams.status)
+  const [statuses, setStatuses] = useState<UserStatus[]>(queryParams.statuses)
+  const [internal_statuses, setInternalStatuses] = useState<(UserStatus | 'empty')[]>(
+    queryParams.internal_statuses
+  )
+  const [search, setSearch] = useState(queryParams.search)
 
   const handleOpen = () => {
     setFull(queryParams.full)
-    setStatus(queryParams.status)
+    setStatuses(queryParams.statuses)
+    setInternalStatuses(queryParams.internal_statuses)
+    setSearch(queryParams.search)
     setOpenDataSettings(true)
   }
 
   const noStatusChange =
-    status.length === queryParams.status.length &&
-    status.every((value, index) => value === queryParams.status[index])
+    statuses.length === queryParams.statuses.length &&
+    statuses.every((value, index) => value === queryParams.statuses[index])
 
-  const noChanges = full === queryParams.full && noStatusChange
+  const noInternalStatusChange =
+    internal_statuses.length === queryParams.internal_statuses.length &&
+    internal_statuses.every((value, index) => value === queryParams.internal_statuses[index])
+
+  const noPageChange = noStatusChange && noInternalStatusChange && search === queryParams.search
+  const noChanges = full === queryParams.full && noPageChange
+  const isDefault =
+    statuses.length === 0 && internal_statuses.length === 0 && search.length === 0 && !full
 
   return (
     <>
@@ -75,61 +92,134 @@ const TableToolbar = (props: Props) => {
           >
             Data Settings
           </Button>
-          {queryParams.full && (
-            <Chip
-              color="primary"
-              label="Data: Applications Included"
-              icon={<BubbleChartIcon />}
-              onClick={handleOpen}
-              disabled={isLoading}
-            />
-          )}
-          {!!queryParams.status.length && (
-            <Chip
-              color="primary"
-              label={`Statuses: ${queryParams.status.join(', ')}`}
-              icon={<AccountCircleOutlinedIcon />}
-              onClick={handleOpen}
-              disabled={isLoading}
-            />
-          )}
         </Box>
-        <GridToolbarQuickFilter
-          placeholder="Search Current Page"
+        <Box
+          component="div"
           sx={{
-            p: '0.6rem 0.8rem',
-            '& .MuiInputBase-root': {
-              fontSize: '0.9375rem',
-              '& input': {
-                mx: '0.5rem',
-                minWidth: '10.5rem',
-              },
-            },
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: '1rem',
+            p: '0.5rem',
+            mx: '0.5rem',
+            maxWidth: '100%',
           }}
-        />
+        >
+          <>
+            {queryParams.full && (
+              <Chip
+                color="primary"
+                label="applications"
+                icon={<BubbleChartIcon />}
+                onClick={handleOpen}
+                disabled={isLoading}
+              />
+            )}
+            {!!queryParams.search && (
+              <Chip
+                color="primary"
+                label={queryParams.search}
+                icon={<SearchRoundedIcon />}
+                onClick={handleOpen}
+                disabled={isLoading}
+                sx={{ textTransform: 'lowercase' }}
+              />
+            )}
+            {!!queryParams.statuses.length && (
+              <Chip
+                color="primary"
+                label={`status: ${queryParams.statuses.join(', ')}`}
+                icon={<FaceIcon />}
+                onClick={handleOpen}
+                disabled={isLoading}
+              />
+            )}
+            {!!queryParams.internal_statuses.length && (
+              <Chip
+                color="primary"
+                label={`internal: ${queryParams.internal_statuses.join(', ')}`}
+                icon={<AdminPanelSettingsRoundedIcon />}
+                onClick={handleOpen}
+                disabled={isLoading}
+              />
+            )}
+          </>
+        </Box>
       </GridToolbarContainer>
       <Suspense>
         <Modal
           open={openDataSettings}
           title="Data Settings"
           onClose={() => setOpenDataSettings(false)}
+          dialogActionsProps={{ sx: { justifyContent: 'space-between' } }}
           primaryButton={{
             text: 'Apply Changes',
             disabled: noChanges,
             onClick: () => {
-              applyFilters({ full, page: !noStatusChange ? 1 : queryParams.page, status })
+              applyFilters({
+                full,
+                page: noPageChange ? queryParams.page : 1,
+                statuses,
+                internal_statuses,
+                search,
+              })
               setOpenDataSettings(false)
             },
           }}
+          secondaryButton={{
+            text: 'Clear All',
+            disabled: isDefault,
+            onClick: () => {
+              setFull(false)
+              setStatuses([])
+              setInternalStatuses([])
+              setSearch('')
+            },
+          }}
         >
-          <FormGroup sx={{ gap: '2rem' }}>
-            <FormControlLabel
-              control={
-                <Switch checked={full} value={full} onChange={(e) => setFull(e.target.checked)} />
-              }
-              label="Include Application Data"
+          <FormGroup sx={{ gap: '1rem' }}>
+            <Box
+              component="div"
+              display="flex"
+              flexDirection={{ xs: 'column', md: 'row' }}
+              alignItems="center"
+              gap="1rem"
+              p="4px"
+            >
+              <FormControlLabel
+                control={
+                  <Switch checked={full} value={full} onChange={(e) => setFull(e.target.checked)} />
+                }
+                label="Include Applications"
+                sx={{ width: '100%' }}
+              />
+              <TextField
+                placeholder="Search User Fields"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                variant="standard"
+                autoComplete="off"
+                style={{ fontSize: 'inherit' }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchRoundedIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+            <UserStatusFilter
+              label="User Status Filters"
+              values={statuses}
+              onChange={setStatuses}
             />
-            <UserStatusFilter values={status} onChange={setStatus} />
+            <UserStatusFilter
+              label="Internal Status Filters"
+              values={internal_statuses}
+              onChange={setInternalStatuses}
+              hasEmpty
+            />
           </FormGroup>
         </Modal>
       </Suspense>

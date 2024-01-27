@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 import CloseIcon from '@mui/icons-material/Close'
 import { ButtonProps } from '@mui/material/Button'
 import Dialog, { DialogProps } from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
+import DialogActions, { DialogActionsProps } from '@mui/material/DialogActions'
 import DialogContent, { DialogContentProps } from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
 import Grow from '@mui/material/Grow'
@@ -20,6 +20,7 @@ type Props = {
   secondaryButton?: CustomButtonProps
   children: ReactNode
   dialogContentProps?: DialogContentProps
+  dialogActionsProps?: DialogActionsProps
   iconButtonSX?: SxProps<Theme>
 } & DialogProps
 
@@ -32,6 +33,7 @@ const Modal = (props: Props) => {
     secondaryButton,
     children,
     dialogContentProps,
+    dialogActionsProps,
     iconButtonSX,
     ...dialogProps
   } = props
@@ -62,7 +64,7 @@ const Modal = (props: Props) => {
         <CloseIcon />
       </IconButton>
       <DialogContent {...dialogContentProps}>{children}</DialogContent>
-      <DialogActions>
+      <DialogActions {...dialogActionsProps}>
         {secondaryButton && (
           <LoadingButton variant="text" loading={!!secondaryButton.loading} {...secondaryButton}>
             {secondaryButton.text}

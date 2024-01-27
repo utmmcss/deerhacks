@@ -95,11 +95,13 @@ const users = (customFetch: CustomFetch) =>
       return res.data as UserGetResp
     },
     userList: async (params: UserListParams) => {
-      const { full, page, status } = params
+      const { full, page, statuses, internal_statuses, search } = params
       const res = await customFetch(
         'GET',
         'DH_BE',
-        `/user-list?full=${full}&page=${page}&statuses=${status?.join(',')}`
+        `/user-list?full=${full}&page=${page}&statuses=${statuses?.join(
+          ','
+        )}&internal_statuses=${internal_statuses?.join(',')}&search=${search}`
       )
       return res.data as UserListResp
     },

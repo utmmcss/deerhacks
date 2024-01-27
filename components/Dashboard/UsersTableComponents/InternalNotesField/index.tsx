@@ -52,7 +52,6 @@ const InternalNotesField = (props: Props) => {
               fontSize="0.75rem"
               lineHeight="1.4"
               width="100%"
-              height="100%"
               textAlign="start"
               color="white"
             >
@@ -78,6 +77,7 @@ const InternalNotesField = (props: Props) => {
             onClick: () => setNewValue(originalValue),
             disabled: newValue === originalValue,
           }}
+          dialogActionsProps={{ sx: { justifyContent: 'space-between' } }}
           disableRestoreFocus
         >
           <TextField

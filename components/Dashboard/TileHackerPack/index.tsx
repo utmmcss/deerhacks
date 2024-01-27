@@ -1,3 +1,5 @@
+import NextLink from 'next/link'
+
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
 import Card from '@mui/material/Card'
 import CardActionArea from '@mui/material/CardActionArea'
@@ -20,7 +22,13 @@ const TileHackerPack = (props: Props) => {
   return (
     <Tooltip title="">
       <Card variant={disabled ? 'outlined' : 'elevation'} elevation={disabled ? 0 : 5}>
-        <CardActionArea href="/HackerPack.pdf" disabled={disabled}>
+        <CardActionArea
+          href="/hackerpack.pdf"
+          rel="noopener"
+          target="_blank"
+          LinkComponent={NextLink}
+          disabled={disabled}
+        >
           <CardContent>
             <Typography
               variant="h1"
