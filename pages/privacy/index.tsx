@@ -393,8 +393,8 @@ const Privacy = () => {
           <Typography variant="body1" component="div">
             <Typography variant="subtitle1" color="text.primary">
               You can request access, update, or deletion of your personal data at{' '}
-              <Link href="mailto:support@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
-                support@deerhacks.ca
+              <Link href="mailto:hello@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
+                hello@deerhacks.ca
               </Link>
               . Compliance with your request will occur within 30 days, barring legal or exceptional
               circumstances. Please note that deleted data may be retained in our backups for up to
@@ -467,8 +467,8 @@ const Privacy = () => {
               <li>
                 Bug Reporting: If you encounter technical issues or bugs with our Service, please
                 email us at{' '}
-                <Link href="mailto:support@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
-                  support@deerhacks.ca
+                <Link href="mailto:hello@deerhacks.ca" underline="always" sx={{ opacity: 0.75 }}>
+                  hello@deerhacks.ca
                 </Link>
                 . Your detailed reports help us continually improve the experience at DeerHacks.
               </li>

@@ -97,7 +97,7 @@ export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
   ],
   selected: [
     'warning',
-    'Congratulations on being selected to attend DeerHacks! Important: Please RSVP to the email to be accepted, which expires within 5 days. If you do not RSVP within 5 days, your spot will be forfeited to another applicant. Open a ticket immediately if you cannot find the email or if your status does not update to accepted after RSVP.',
+    'Congratulations on being selected to attend DeerHacks! Important: Please RSVP to the email to be accepted, which expires within 5 days. If you do not RSVP within 5 days, your spot will be forfeited to another applicant. Open a ticket on Discord immediately if you cannot find the email or if your status does not update to accepted after RSVP.',
   ],
 
   accepted: [
@@ -115,7 +115,9 @@ export const UserStatusDescription: Record<UserStatus, UserStatusInfo> = {
 export type UserListParams = {
   full: boolean
   page: number
-  status: UserStatus[]
+  statuses: UserStatus[]
+  internal_statuses: (UserStatus | 'empty')[]
+  search: string
 }
 
 export type UserListData = UserFullData &

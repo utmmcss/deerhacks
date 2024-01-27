@@ -3,7 +3,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Tooltip from '@mui/material/Tooltip'
 
-import { statuses } from '@/components/Dashboard/UsersTableComponents/tableDefinitions'
+import { statusColors } from '@/components/Dashboard/UsersTableComponents/tableDefinitions'
 import { useAuth } from '@/contexts/Auth'
 import { UserStatus, userStatuses } from '@/types/User'
 
@@ -25,7 +25,7 @@ const UserStatusSelect = (props: StatusSelectProps) => {
       <span
         style={{
           ...(value !== '' && {
-            color: statuses[value],
+            color: statusColors[value],
           }),
         }}
       >
@@ -57,7 +57,7 @@ const UserStatusSelect = (props: StatusSelectProps) => {
         sx={{
           fontSize: 'inherit',
           ...(value !== '' && {
-            color: statuses[value],
+            color: statusColors[value],
           }),
           '& .MuiInput-input:focus': {
             backgroundColor: 'transparent',
@@ -101,7 +101,7 @@ const UserStatusSelect = (props: StatusSelectProps) => {
               key={i + '-' + option}
               sx={{
                 ...(!disabled && {
-                  color: statuses[option],
+                  color: statusColors[option],
                   opacity: 0.8,
                 }),
               }}

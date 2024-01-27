@@ -14,7 +14,7 @@ import InternalNotesField from '@/components/Dashboard/UsersTableComponents/Inte
 import UserStatusSelect from '@/components/Dashboard/UsersTableComponents/UserStatusSelect'
 import { UserListData, UserStatus, UserUpdateBatchReq } from '@/types/User'
 
-export const statuses: {
+export const statusColors: {
   [key in UserStatus]: string
 } = {
   admin: '#ffffff',
@@ -127,7 +127,8 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       field: 'first_name',
       headerName: 'First Name',
       description: 'First Name',
-      hideable: false,
+      filterable: false,
+      sortable: false,
       flex: 1,
       minWidth: 100,
       renderCell: (params: GridRenderCellParams) => TableCellValue(params.row.first_name),
@@ -136,7 +137,8 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       field: 'last_name',
       headerName: 'Last Name',
       description: 'Last Name',
-      hideable: false,
+      filterable: false,
+      sortable: false,
       flex: 1,
       minWidth: 100,
       renderCell: (params: GridRenderCellParams) => TableCellValue(params.row.last_name),
@@ -145,6 +147,8 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       field: 'id',
       headerName: 'Username',
       description: 'Discord Username',
+      filterable: false,
+      sortable: false,
       flex: 1,
       minWidth: 100,
       renderCell: (params: GridRenderCellParams) => TableCellValue(params.row.id),
@@ -153,6 +157,8 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       field: 'email',
       headerName: 'Email',
       description: 'Email',
+      filterable: false,
+      sortable: false,
       flex: 1.5,
       minWidth: 150,
       renderCell: (params: GridRenderCellParams) => TableCellValue(params.row.email),
@@ -160,7 +166,9 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
     {
       field: 'status',
       headerName: 'Status',
-      description: 'Current User Status: Status visible to user & discord',
+      description: 'User Status',
+      filterable: false,
+      sortable: false,
       flex: 1,
       minWidth: 100,
       cellClassName: (params: GridCellParams) => {
@@ -183,6 +191,8 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       headerName: 'Internal Status',
       description:
         'Internal User Status: Status only visible internally, use to stage potential status before committing',
+      filterable: false,
+      sortable: false,
       flex: 1,
       minWidth: 100,
       cellClassName: (params: GridCellParams) => {
@@ -207,6 +217,8 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       field: 'internal_notes',
       headerName: 'Internal Notes',
       description: 'Internal Notes: Notes only visible internally',
+      filterable: false,
+      sortable: false,
       flex: 2,
       minWidth: 200,
       cellClassName: (params: GridCellParams) => {
@@ -220,7 +232,11 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
           value={params.row.internal_notes}
           onSubmit={(newVal) => updateValue('internal_notes', newVal, params)}
           originalValue={originalData[params.row.index].internal_notes ?? ''}
-          name={`${params.row.first_name} ${params.row.last_name}`}
+          name={
+            params.row.first_name && params.row.last_name
+              ? `${params.row.first_name} ${params.row.last_name}`
+              : params.row.username
+          }
           disabled={getDisabledForModerator(params.row.status)}
         />
       ),
@@ -229,9 +245,10 @@ export const getColumns = (props: GetColumnsProps): GridColDef[] => {
       field: 'application',
       headerName: 'Application',
       description: 'Application Data',
+      filterable: false,
+      sortable: false,
       flex: 1,
       minWidth: 100,
-      sortable: false,
       type: 'actions',
       headerAlign: 'left',
       renderCell: (params: GridRenderCellParams) => (

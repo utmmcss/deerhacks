@@ -1,5 +1,6 @@
 import Head from 'next/head'
 
+import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
@@ -36,6 +37,9 @@ const Dashboard = () => {
   const mentorForm = process.env.NEXT_PUBLIC_TOGGLE_MENTOR_FORM
   const showMentorForm = !!mentorForm && toggles.signupMentor
 
+  const alertMessage = process.env.NEXT_PUBLIC_DASHBOARD_ALERT_MESSAGE
+  const showAlert = !['pending', 'registering', 'applied', 'rejected'].includes(user?.status ?? '')
+
   if (!toggles.dashboard) return <Error404Page />
   if (!loading && !authenticated) return <Error401Page />
 
@@ -54,6 +58,19 @@ const Dashboard = () => {
             <Navbar />
             <Box component="div" display="flex" flexDirection="column" gap="1rem" width="100%">
               <TileUser user={user} />
+              {alertMessage && showAlert && (
+                <Alert
+                  severity="info"
+                  sx={{
+                    width: '100%',
+                    my: '1rem',
+                    boxShadow: 'inset 0 0 5px 100px rgb(0 0 0 / 30%)',
+                    backdropFilter: 'blur(10px)',
+                  }}
+                >
+                  {alertMessage}
+                </Alert>
+              )}
               {(showMentorForm || showVolunteerForm) &&
                 !['guest', 'volunteer', 'attended'].includes(user.status) && (
                   <Grid container spacing={2} py={4}>

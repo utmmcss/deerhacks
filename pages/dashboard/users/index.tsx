@@ -32,7 +32,13 @@ import {
 
 const PAGE_SIZE = 25
 
-type ApplyFiltersProps = { full?: boolean; page?: number; status?: UserStatus[] }
+type ApplyFiltersProps = {
+  full?: boolean
+  page?: number
+  statuses?: UserStatus[]
+  internal_statuses?: (UserStatus | 'empty')[]
+  search?: string
+}
 
 type Props = {
   isLoading: boolean
@@ -70,18 +76,15 @@ const UsersTable = (props: Props) => {
 
   const [originalData, setOriginalData] = useState(data)
   const [users, setUsers] = useState(data)
+  const [rowCount, setRowCount] = useState(totalUsers)
   useEffect(() => {
     if (!dataFetched) return
     setOriginalData(data)
     setUsers(data)
+    setRowCount(totalUsers)
     setUpdateReq({ users: [] })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data])
-
-  const [rowCount, setRowCount] = useState(totalUsers)
-  useEffect(() => {
-    setRowCount((prev) => (totalUsers > 0 ? totalUsers : prev))
-  }, [totalUsers, setRowCount])
+  }, [dataFetched])
 
   const [applicationData, setApplicationData] = useState<UserListData>()
   const [openApplication, setOpenApplication] = useState(false)
@@ -115,11 +118,8 @@ const UsersTable = (props: Props) => {
 
   const handleApplyFilters = (newParams: ApplyFiltersProps) => {
     if (hasUnsavedChanges) {
-      if (confirm('You have unsaved changes. Are you sure you want to proceed?')) {
-        setUpdateReq({ users: [] })
-        applyFilters(newParams)
-      }
-      return
+      if (!confirm('You have unsaved changes. Are you sure you want to proceed?')) return
+      setUpdateReq({ users: [] })
     }
     applyFilters(newParams)
   }
@@ -158,6 +158,7 @@ const UsersTable = (props: Props) => {
         rowCount={rowCount}
         paginationModel={{ page: queryParams.page - 1, pageSize: PAGE_SIZE }}
         onPaginationModelChange={(model) => handleApplyFilters({ page: model.page + 1 })}
+        disableColumnFilter
         density="comfortable"
         disableRowSelectionOnClick
       />
@@ -209,27 +210,37 @@ const UsersTableLoader = () => {
 
   const [fullWidth, setFullWidth] = useState(false)
 
-  const [params, setParams] = useState<UserListParams>({ full: false, page: 1, status: [] })
+  const [params, setParams] = useState<UserListParams>({
+    full: false,
+    page: 1,
+    statuses: [],
+    internal_statuses: [],
+    search: '',
+  })
 
   // changing params calls user-list
   const applyFilters = (props: ApplyFiltersProps) => {
     setParams((curr) => {
       const full = props.full ?? curr.full
       const page = props.page ?? curr.page
-      const status = props.status ?? curr.status
+      const statuses = props.statuses ?? curr.statuses
+      const internal_statuses = props.internal_statuses ?? curr.internal_statuses
+      const search = props.search ?? curr.search
 
-      const state = `page=${page}&app=${full}&status=${status.join(',')}`
+      const state = `page=${page}&app=${full}&statuses=${statuses.join(
+        ','
+      )}&internal_statuses=${internal_statuses.join(',')}&search=${search}`
 
       localStorage.setItem('deerhacks-user-list', state)
       router.replace(`/dashboard/users?${state}`, undefined, {
         shallow: true,
       })
 
-      return { full, page, status }
+      return { full, page, statuses, internal_statuses, search }
     })
   }
 
-  const { data, isError, isFetching, isSuccess } = useUserList({
+  const { data, isError, isFetching } = useUserList({
     params,
     enabled,
   })
@@ -241,7 +252,13 @@ const UsersTableLoader = () => {
   useEffect(() => {
     if (!router.isReady) return
 
-    const tempParams = {} as { full: string | null; page: number; status: string | null }
+    const tempParams = {} as {
+      full: string | null
+      page: number
+      statuses: string | null
+      internal_statuses: string | null
+      search: string | null
+    }
 
     const savedParams = localStorage.getItem('deerhacks-user-list')
 
@@ -249,7 +266,9 @@ const UsersTableLoader = () => {
       // use url params first if they exist
       tempParams.full = searchParams.get('app')
       tempParams.page = parseInt(searchParams.get('page') ?? '')
-      tempParams.status = searchParams.get('status')
+      tempParams.statuses = searchParams.get('statuses')
+      tempParams.internal_statuses = searchParams.get('internal_statuses')
+      tempParams.search = searchParams.get('search')
     } else if (!!savedParams) {
       // otherwise get params from localhost if they exist
       const params = savedParams.split('&').reduce((obj: { [key: string]: string }, str) => {
@@ -259,26 +278,33 @@ const UsersTableLoader = () => {
       }, {})
       tempParams.full = params?.app
       tempParams.page = parseInt(params?.page)
-      tempParams.status = params?.status
+      tempParams.statuses = params?.statuses
+      tempParams.internal_statuses = params?.internal_statuses
+      tempParams.search = params?.search
     }
 
     if (
       tempParams.full &&
       ['true', 'false'].includes(tempParams.full) &&
-      tempParams.page > 0 && // DataGrid handles page size over limit
-      tempParams.status !== null
+      tempParams.page > 0 // DataGrid handles page size over limit
     ) {
       // use params only if all three are valid
       applyFilters({
         full: tempParams.full === 'true',
         page: tempParams.page,
-        status: tempParams.status
+        statuses: (tempParams.statuses ?? '')
           .split(',')
           .filter((status) => userStatuses.includes(status as UserStatus)) as UserStatus[],
+        internal_statuses: (tempParams.internal_statuses ?? '')
+          .split(',')
+          .filter(
+            (status) => userStatuses.includes(status as UserStatus) || status === 'empty'
+          ) as UserStatus[],
+        search: tempParams.search ?? '',
       })
     } else {
       // default values
-      applyFilters({ full: false, page: 1, status: [] })
+      applyFilters({ full: false, page: 1, statuses: [], internal_statuses: [], search: '' })
     }
 
     setParamsObtained(true)
@@ -316,7 +342,7 @@ const UsersTableLoader = () => {
             </Typography>
             <UsersTable
               isLoading={isFetching || isUpdating}
-              dataFetched={isSuccess}
+              dataFetched={!isFetching && !!data}
               data={data?.users ?? []}
               updateReq={updateReq}
               setUpdateReq={setUpdateReq}
