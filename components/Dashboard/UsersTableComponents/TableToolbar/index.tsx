@@ -18,6 +18,7 @@ import { GridToolbarContainer } from '@mui/x-data-grid'
 import LoadingButton from '@/components/Dashboard/LoadingButton'
 import Modal from '@/components/Dashboard/Modal'
 import UserStatusFilter from '@/components/Dashboard/UsersTableComponents/UserStatusFilter'
+import theme from '@/styles/theme'
 import { UserListParams, UserStatus } from '@/types/User'
 
 type Props = {
@@ -63,7 +64,15 @@ const TableToolbar = (props: Props) => {
 
   return (
     <>
-      <GridToolbarContainer sx={{ justifyContent: 'space-between' }}>
+      <GridToolbarContainer
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          justifyContent: 'space-between',
+          position: 'sticky',
+          zIndex: 1,
+          top: 0,
+        }}
+      >
         <Box
           component="div"
           sx={{
