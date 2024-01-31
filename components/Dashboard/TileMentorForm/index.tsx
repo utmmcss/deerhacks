@@ -48,7 +48,7 @@ const TileMentorForm = (props: Props) => {
           <Typography variant="body2" color={disabled ? 'text.disabled' : 'text.primary'}>
             {disabled
               ? 'Signup is unavailable while user is unverified'
-              : 'Interested in mentoring hackers? Apply to be a mentor before January 30'}
+              : 'Interested in mentoring hackers? Apply to be a mentor before February 2'}
           </Typography>
         </CardContent>
       </CardActionArea>

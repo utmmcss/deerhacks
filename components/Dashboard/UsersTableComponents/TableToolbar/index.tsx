@@ -71,6 +71,8 @@ const TableToolbar = (props: Props) => {
           position: 'sticky',
           zIndex: 1,
           top: 0,
+          p: '0.25rem',
+          borderRadius: '0.5rem',
         }}
       >
         <Box
@@ -112,6 +114,9 @@ const TableToolbar = (props: Props) => {
             p: '0.5rem',
             mx: '0.5rem',
             maxWidth: '100%',
+            ':empty': {
+              display: 'none',
+            },
           }}
         >
           <>
