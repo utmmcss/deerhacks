@@ -46,7 +46,7 @@ const FAQ = () => {
                   ? ' Hacker applications are open until January 25, 2024.'
                   : ' Thanks for applying to DeerHacks! We will review your applications and get back to you soon.'}
                 {toggles.signupVolunteer && toggles.signupMentor
-                  ? ' Volunteer & mentor applications are open until January 30, 2024.'
+                  ? ' Volunteer & mentor applications are open until February 2, 2024.'
                   : ''}{' '}
                 Keep an eye on this page and our socials (@deerhacks) for any updates.
               </Typography>
