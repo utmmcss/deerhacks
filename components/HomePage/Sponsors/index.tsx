@@ -2,14 +2,12 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
 import Grid from '@mui/material/Grid'
-import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
 import AWS from '@/components/HomePage/Sponsors/Assets/AWS'
 import BigDataAIHub from '@/components/HomePage/Sponsors/Assets/BigDataAIHub'
 import Echo3D from '@/components/HomePage/Sponsors/Assets/Echo3D'
 import ICUBE from '@/components/HomePage/Sponsors/Assets/ICUBE'
-import MCSS from '@/components/HomePage/Sponsors/Assets/MCSS'
 import MLH from '@/components/HomePage/Sponsors/Assets/MLH'
 import MMPA from '@/components/HomePage/Sponsors/Assets/MMPA'
 import Rotman from '@/components/HomePage/Sponsors/Assets/Rotman'
@@ -18,6 +16,7 @@ import StandoutStickers from '@/components/HomePage/Sponsors/Assets/StandoutStic
 import Thirstea from '@/components/HomePage/Sponsors/Assets/Thirstea'
 import Uber from '@/components/HomePage/Sponsors/Assets/Uber'
 import UofT from '@/components/HomePage/Sponsors/Assets/UofT'
+import Featured from '@/components/HomePage/Sponsors/Featured'
 import Sponsor from '@/components/HomePage/Sponsors/Sponsor'
 
 const Sponsors = () => {
@@ -39,71 +38,25 @@ const Sponsors = () => {
           Become a Sponsor
         </Button>
       </Box>
-      {/* Gold and Silver Sponsors Here */}
-      <Grid container spacing={{ xs: 2, md: 4 }} pt="2rem" justifyContent="center">
-        <Grid
-          container
-          item
-          xs={12}
-          md={6}
-          data-aos="fade"
-          data-aos-offset="100"
-          data-aos-once="false"
-        >
-          <Tooltip title="UTM MCSS">
-            <Button
-              variant="contained"
-              fullWidth
-              href="https://mcss.club"
-              target="_blank"
-              rel="noopener"
-              sx={{
-                height: '12rem',
-                borderRadius: '1rem',
-                background: 'white',
-                p: { xs: '1rem', lg: '2rem' },
-              }}
-            >
-              <MCSS />
-            </Button>
-          </Tooltip>
-        </Grid>
-        <Grid container item xs={12} md={6}>
-          <Box
-            component="div"
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            textAlign={{ xs: 'center', md: 'start' }}
-          >
-            <Typography variant="h2" mb="1rem">
-              UTM MCSS
-            </Typography>
-            <Typography mb="1rem">
-              MCSS is the official academic society for the Mathematics and Computational Sciences
-              Department at the University of Toronto Mississauga and partner of DeerHacks.
-            </Typography>
-          </Box>
-        </Grid>
+      <Grid container spacing={{ xs: 2, md: 4 }} pt="1rem" justifyContent="center">
+        {/* Diamond and Platinum Sponsors Here */}
+        <Featured />
+        {/* Gold and Silver Sponsors Here */}
         <Sponsor name="Uber" logo={<Uber />} link="https://uber.com" tier="silver" />
         <Sponsor name="ICUBE UTM" logo={<ICUBE />} link="https://icubeutm.ca" tier="silver" />
-        <Sponsor
-          name="Rotman"
-          logo={<Rotman />}
-          link="https://www.rotman.utoronto.ca"
-          tier="silver"
-        />
+        {false && (
+          <Sponsor
+            name="Rotman"
+            logo={<Rotman />}
+            link="https://www.rotman.utoronto.ca"
+            tier="silver"
+          />
+        )}
         <Sponsor name="MMPA" logo={<MMPA />} link="https://mmpa.utoronto.ca" tier="silver" />
         <Sponsor
           name="Thirstea"
           logo={<Thirstea />}
           link="https://thirsteacanada.com"
-          tier="silver"
-        />
-        <Sponsor
-          name="University of Toronto"
-          logo={<UofT />}
-          link="https://utoronto.ca"
           tier="silver"
         />
       </Grid>
@@ -139,6 +92,12 @@ const Sponsors = () => {
           name="Silver Spoon"
           logo={<SilverSpoon />}
           link="https://silverspoononline.com"
+          tier="bronze"
+        />
+        <Sponsor
+          name="University of Toronto"
+          logo={<UofT />}
+          link="https://utoronto.ca"
           tier="bronze"
         />
       </Grid>

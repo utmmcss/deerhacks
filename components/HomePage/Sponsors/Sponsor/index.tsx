@@ -4,10 +4,7 @@ import Button from '@mui/material/Button'
 import Grid from '@mui/material/Grid'
 import Tooltip from '@mui/material/Tooltip'
 
-/**
- * Will add higher tiers manually
- */
-type Tier = 'gold' | 'silver' | 'bronze'
+export type Tier = 'diamond' | 'platinum' | 'gold' | 'silver' | 'bronze'
 
 type Props = {
   name: string
@@ -18,6 +15,8 @@ type Props = {
 
 const tierToSize = (tier: Tier) => {
   switch (tier) {
+    case 'diamond':
+    case 'platinum':
     case 'gold':
       return 12
     case 'silver':
@@ -29,6 +28,8 @@ const tierToSize = (tier: Tier) => {
 
 const tierToHeight = (tier: Tier) => {
   switch (tier) {
+    case 'diamond':
+    case 'platinum':
     case 'gold':
       return '10rem'
     case 'silver':
