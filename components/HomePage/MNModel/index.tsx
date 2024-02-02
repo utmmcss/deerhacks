@@ -82,6 +82,7 @@ const MNModel = (props: Props) => {
   const [fallback, setFallback] = useState(false)
   const [hasHWA] = useState(() => {
     const test = (force: boolean) => {
+      if (typeof OffscreenCanvas === 'undefined') return ''
       const canvas = new OffscreenCanvas(200, 200)
       const ctx = canvas.getContext('2d', { willReadFrequently: force })
       if (!ctx) return ''
@@ -89,13 +90,14 @@ const MNModel = (props: Props) => {
       ctx.stroke()
       return ctx.getImageData(0, 0, 200, 200).data.join()
     }
-    var isSafari =
-      navigator.vendor &&
-      navigator.vendor.indexOf('Apple') > -1 &&
-      navigator.userAgent &&
-      navigator.userAgent.indexOf('CriOS') == -1 &&
-      navigator.userAgent.indexOf('FxiOS') == -1
+
+    const isVendorApple = navigator.vendor && navigator.vendor.indexOf('Apple') > -1
+    const isNotCriOS = navigator.userAgent && navigator.userAgent.indexOf('CriOS') === -1
+    const isNotFxiOS = navigator.userAgent && navigator.userAgent.indexOf('FxiOS') === -1
+
+    const isSafari = isVendorApple && isNotCriOS && isNotFxiOS
     const result = isSafari || test(true) !== test(false)
+
     return result
   })
 
@@ -170,7 +172,8 @@ const MNModel = (props: Props) => {
                 type: 'info',
                 message: (
                   <>
-                    Enable hardware acceleration to interact with the 3D model.{' '}
+                    Interacting with the 3D model is disabled for either performance, browser
+                    support, or hardware acceleration is disabled.{' '}
                     <Link
                       rel="noopener"
                       target="_blank"
