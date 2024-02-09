@@ -331,15 +331,7 @@ const UsersTableLoader = () => {
             sx={{ minHeight: '100vh', flexDirection: 'column', justifyContent: 'start' }}
           >
             <BackButton navbar text="Dashboard" href="/dashboard" />
-            <Typography
-              variant="h1"
-              display="flex"
-              alignItems="center"
-              textAlign="left"
-              gap="0.5rem"
-            >
-              Users Table
-            </Typography>
+            <Typography variant="h1">Users Table</Typography>
             <UsersTable
               isLoading={isFetching || isUpdating}
               dataFetched={!isFetching && !!data}

@@ -11,18 +11,9 @@ import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
 
 import { useEventList } from '@/hooks/Event/useEventList'
-import { UserStatus } from '@/types/User'
 
-type Props = {
-  status: UserStatus
-}
-
-const TileSchedule = (props: Props) => {
-  const { status } = props
-
-  const disabled =
-    !['admin', 'moderator', 'guest', 'volunteer', 'accepted', 'attended'].includes(status) ||
-    (process.env.NODE_ENV !== 'development' && !['admin', 'moderator'].includes(status)) // TODO: remove this line when schedule is ready
+const TileSchedule = () => {
+  const disabled = process.env.NODE_ENV !== 'development' // TODO: remove this line when schedule is ready
 
   const { data, isLoading, isError } = useEventList({ enabled: !disabled })
 
@@ -71,7 +62,7 @@ const TileSchedule = (props: Props) => {
           'radial-gradient(circle closest-corner at 62% 60%, rgb(52 139 209 / 30%), rgba(255, 255, 255, 0)),radial-gradient(circle farthest-side at 75% 16%, rgb(255 255 255 / 10%), rgba(255, 255, 255, 0) 35%),radial-gradient(circle closest-corner at 32% 38%, rgb(87 65 174 / 20%), rgba(255, 255, 255, 0) 76%),radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%),linear-gradient(#202124, #202124)',
       }}
     >
-      <CardActionArea href="/dashboard/schedule" LinkComponent={NextLink} disabled={!hasEvents}>
+      <CardActionArea href="/schedule" LinkComponent={NextLink} disabled={!hasEvents}>
         <CardContent>
           <Typography
             variant="h1"

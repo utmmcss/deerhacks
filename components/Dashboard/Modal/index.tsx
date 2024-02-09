@@ -14,7 +14,7 @@ import LoadingButton from '@/components/Dashboard/LoadingButton'
 
 type Props = {
   open: boolean
-  title: string
+  title: ReactNode
   onClose: () => void
   primaryButton?: CustomButtonProps
   secondaryButton?: CustomButtonProps
@@ -22,7 +22,7 @@ type Props = {
   dialogContentProps?: DialogContentProps
   dialogActionsProps?: DialogActionsProps
   iconButtonSX?: SxProps<Theme>
-} & DialogProps
+} & Omit<DialogProps, 'title'>
 
 const Modal = (props: Props) => {
   const {

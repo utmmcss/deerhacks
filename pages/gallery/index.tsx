@@ -32,7 +32,7 @@ const Gallery = () => {
         <FullPageSpinner />
       ) : (
         <Fade in timeout={1000}>
-          <Container sx={{ flexDirection: 'column' }}>
+          <Container sx={{ minHeight: '100vh', flexDirection: 'column', justifyContent: 'start' }}>
             <BackButton navbar />
             <Typography variant="h1">Photo Gallery</Typography>
             <ImageList

@@ -34,7 +34,7 @@ const TileGallery = (props: Props) => {
           sx={{
             justifyContent: 'center',
             alignItems: 'center',
-            minHeight: resize ? { xs: '300px', md: '400px', lg: '500px' } : '300px',
+            minHeight: resize ? { xs: '300px', md: '400px', lg: '500px' } : '329px',
           }}
         >
           <Typography
