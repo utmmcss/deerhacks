@@ -1,14 +1,24 @@
+import { useState } from 'react'
+
 import AddIcon from '@mui/icons-material/Add'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import Box from '@mui/material/Box'
+import Collapse from '@mui/material/Collapse'
 import Container from '@mui/material/Container'
+import Link from '@mui/material/Link'
 import Typography from '@mui/material/Typography'
 
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 
 const FAQ = () => {
+  const [openCount, setOpenCount] = useState(1)
+
+  const handleChange = ({}, isExpanded: boolean) => {
+    setOpenCount((prev) => (isExpanded ? prev + 1 : prev - 1))
+  }
+
   const { toggles } = useFeatureToggle()
 
   return (
@@ -21,7 +31,7 @@ const FAQ = () => {
         gap={{ xs: '1rem', md: '4rem' }}
       >
         <Box component="div" display="flex" flexDirection="column" gap="1rem">
-          <Accordion defaultExpanded>
+          <Accordion defaultExpanded onChange={handleChange}>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>What is DeerHacks?</Typography>
             </AccordionSummary>
@@ -35,7 +45,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion>
+          <Accordion onChange={handleChange}>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>Dates to keep an eye on?</Typography>
             </AccordionSummary>
@@ -52,7 +62,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion>
+          <Accordion onChange={handleChange}>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>What workshops and activities to expect?</Typography>
             </AccordionSummary>
@@ -67,7 +77,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion>
+          <Accordion onChange={handleChange}>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>Is DeerHacks fully in person?</Typography>
             </AccordionSummary>
@@ -83,7 +93,7 @@ const FAQ = () => {
           </Accordion>
         </Box>
         <Box component="div" display="flex" flexDirection="column" gap="1rem">
-          <Accordion>
+          <Accordion onChange={handleChange}>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>Who can participate?</Typography>
             </AccordionSummary>
@@ -96,7 +106,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion>
+          <Accordion onChange={handleChange}>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>How many people can be on a team?</Typography>
             </AccordionSummary>
@@ -109,7 +119,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion>
+          <Accordion onChange={handleChange}>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>Why do I need Discord to apply?</Typography>
             </AccordionSummary>
@@ -123,7 +133,7 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Accordion>
+          <Accordion onChange={handleChange}>
             <AccordionSummary expandIcon={<AddIcon />}>
               <Typography>What do I need for DeerHacks?</Typography>
             </AccordionSummary>
@@ -136,6 +146,31 @@ const FAQ = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
+          <Collapse in={openCount === 8}>
+            <Accordion>
+              <AccordionSummary expandIcon={<AddIcon />}>
+                <Typography>Who designed this seggsy website?</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Typography>
+                  Shameless Plug:{' '}
+                  <Link
+                    rel="noopener"
+                    href="https://github.com/anthonytedja"
+                    target="_blank"
+                    underline="always"
+                    sx={{ opacity: 0.75 }}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      window.location.href = 'https://youtu.be/dQw4w9WgXcQ'
+                    }}
+                  >
+                    Anthony Tedja.
+                  </Link>
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          </Collapse>
         </Box>
       </Box>
     </Container>

@@ -182,9 +182,9 @@ const Navbar = (props: Props) => {
                 href="/login"
                 component={NextLink}
                 disabled={!toggles.dashboard}
-                sx={{ p: '0.5rem', borderRadius: '50%' }}
+                sx={{ p: '0', borderRadius: '50%' }}
               >
-                <Image src="/icons/logo.svg" alt="DeerHacks Logo" width={55} height={55} priority />
+                <Image src="/icons/neon.png" alt="DeerHacks Logo" width={80} height={80} priority />
               </Button>
             </Tooltip>
           </Box>
