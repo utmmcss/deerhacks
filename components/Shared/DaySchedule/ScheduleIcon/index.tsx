@@ -2,7 +2,6 @@ import EventRoundedIcon from '@mui/icons-material/EventRounded'
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded'
 import Avatar from '@mui/material/Avatar'
 
-import MCSS from '@/components/HomePage/Sponsors/Assets/MCSS'
 import { Event } from '@/types/Event'
 
 type Props = {
@@ -22,7 +21,7 @@ const ScheduleIcon = (props: Props) => {
 
   const host = event.attributes.host
 
-  if (event.attributes.type === 'food' && !chipIcon) {
+  if (event.attributes.type === 'food' && host === 'deerhacks' && !chipIcon) {
     return (
       <Avatar
         alt="food icon"
@@ -41,15 +40,6 @@ const ScheduleIcon = (props: Props) => {
         src="icons/neon.png"
         sx={{ ...style, backgroundColor: 'black' }}
       />
-    )
-  }
-
-  // hanatodo mcss logo doesn't show on non-first tabs, because its an element??
-  if (host == 'mcss') {
-    return (
-      <Avatar alt="mcss icon" sx={{ ...style }} variant={chipIcon ? 'circular' : 'square'}>
-        <MCSS />
-      </Avatar>
     )
   }
 

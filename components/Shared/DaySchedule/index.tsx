@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
@@ -54,8 +54,10 @@ const DaySchedule = (props: ScheduleProps) => {
             const numHour = -((rowStartOffset - 1) / HOURS_1) + i
             const rowStart = rowStartOffset + numHour * HOURS_1
             return (
-              <Grid key={i} gridRow={`${rowStart} / ${rowStart}`}>
-                <Typography fontSize={desktop ? 'small' : 'x-small'}>{`${numHour}:00`}</Typography>
+              <Grid key={`time label-${i}`} gridRow={`${rowStart} / ${rowStart}`}>
+                <Typography fontSize={desktop ? 'small' : 'x-small'}>
+                  {getTimeLabel(numHour)}
+                </Typography>
               </Grid>
             )
           }
@@ -89,9 +91,8 @@ const DaySchedule = (props: ScheduleProps) => {
         {hours.map((hour, numHour) => {
           // remove and store occupied columns for this hour from the array
           const currentOccupancy = occupiedCells.shift() ?? []
-          // hanatodo get an error that says Each child in a list should have a unique "key" prop but that's kinda gross
           return (
-            <>
+            <Fragment key={`hour-${numHour}`}>
               {hour.notificationEvents.map((event, j) => {
                 // doesn't support notifications that aren't on the hour
                 // const minuteOffset = Math.floor(
@@ -106,7 +107,7 @@ const DaySchedule = (props: ScheduleProps) => {
 
                 return (
                   <Grid
-                    key={event.id}
+                    key={`notification-${event.id}`}
                     gridRow={`${rowStart} / ${rowStart + MINS_15 * 1.5}`}
                     gridColumn={`1 / 2`} // notifications are always on the first column (assumes no more than 2 per hour)
                     margin="1px"
@@ -166,7 +167,7 @@ const DaySchedule = (props: ScheduleProps) => {
 
                 return (
                   <Grid
-                    key={event.id}
+                    key={`event-${event.id}`}
                     gridRow={`${rowStart} / ${rowEnd}`}
                     gridColumn={`${columnPos} / ${columnPos + 1}`}
                     margin="1px"
@@ -181,7 +182,7 @@ const DaySchedule = (props: ScheduleProps) => {
                   </Grid>
                 )
               })}
-            </>
+            </Fragment>
           )
         })}
       </Grid>
@@ -190,6 +191,13 @@ const DaySchedule = (props: ScheduleProps) => {
       )}
     </Grid>
   )
+}
+
+const getTimeLabel = (hour: number) => {
+  if (hour === 0 || hour === 24) return '12AM'
+  if (hour < 12) return hour + 'AM'
+  if (hour === 12) return '12PM'
+  return hour - 12 + 'PM'
 }
 
 export default DaySchedule

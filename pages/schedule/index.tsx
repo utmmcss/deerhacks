@@ -51,7 +51,6 @@ const Schedule = (props: Props) => {
     <>
       <Box component="div" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
-          // hanatodo match homepage tab style (border-radius) -> move inline styles on home page to theme
           value={tabIndex}
           onChange={(_, newIndex) => setTabIndex(newIndex)}
           aria-label="basic tabs example"

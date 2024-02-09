@@ -37,6 +37,7 @@ const ScheduleModal = (props: Props) => {
     uber: 'Uber',
     amd: 'AMD',
     mlh: 'MLH',
+    thirstea: 'ThirsTEA',
   }
 
   const typeIcons: { [key in EventTypes]: ReactElement } = {
@@ -104,10 +105,12 @@ const ScheduleModal = (props: Props) => {
                   minute: 'numeric',
                 })}
           </Typography>
-          <Typography display="flex" alignItems="center" columnGap="0.5rem" flexGrow={1}>
-            <LocationOnRoundedIcon color="secondary" />
-            {event.attributes.location}
-          </Typography>
+          {event.attributes.location && (
+            <Typography display="flex" alignItems="center" columnGap="0.5rem" flexGrow={1}>
+              <LocationOnRoundedIcon color="secondary" />
+              {event.attributes.location}
+            </Typography>
+          )}
         </Grid>
         <Typography>{event.attributes.description}</Typography>
       </Grid>

@@ -15,7 +15,7 @@ export type RespEvent = {
   attributes: {
     title: string
     description: string
-    location: string
+    location?: string
     startTime: string
     endTime?: string
     important: boolean
@@ -29,7 +29,7 @@ export type Event = {
   attributes: {
     title: string
     description: string
-    location: string
+    location?: string
     startTime: Date
     endTime?: Date
     important: boolean
@@ -56,6 +56,7 @@ export const eventHosts = [
   'inworldAi',
   'uber',
   'amd',
+  'thirstea',
 ] as const
 
 export type EventTypes = (typeof eventTypes)[number]

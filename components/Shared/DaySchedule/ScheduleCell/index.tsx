@@ -60,9 +60,9 @@ const ScheduleCell = (props: Props) => {
             overflow: 'hidden',
             textAlign: 'left',
             display: 'inline-block',
-            fontSize: desktop ? 'small' : tablet ? 'x-small' : 'xx-small',
             lineHeight: 'normal',
             letterSpacing: 'normal',
+            fontSize: desktop ? 'small' : tablet ? 'x-small' : 'xx-small',
             ...(shortEvent && {
               maxHeight: '100%',
               whiteSpace: 'nowrap',
