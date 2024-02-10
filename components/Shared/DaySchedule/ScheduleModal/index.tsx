@@ -6,6 +6,7 @@ import CelebrationRoundedIcon from '@mui/icons-material/CelebrationRounded'
 import EmojiEventsRoundedIcon from '@mui/icons-material/EmojiEventsRounded'
 import HardwareRoundedIcon from '@mui/icons-material/HardwareRounded'
 import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded'
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded'
 import ScienceRoundedIcon from '@mui/icons-material/ScienceRounded'
 import Chip from '@mui/material/Chip'
@@ -109,6 +110,12 @@ const ScheduleModal = (props: Props) => {
             <Typography display="flex" alignItems="center" columnGap="0.5rem" flexGrow={1}>
               <LocationOnRoundedIcon color="secondary" />
               {event.attributes.location}
+            </Typography>
+          )}
+          {event.attributes.presenter && (
+            <Typography display="flex" alignItems="center" columnGap="0.5rem" flexGrow={1}>
+              <PersonRoundedIcon color="secondary" />
+              {event.attributes.presenter}
             </Typography>
           )}
         </Grid>

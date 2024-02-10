@@ -73,17 +73,24 @@ const Schedule = (props: Props) => {
       </Box>
       {Object.keys(parsedEvents).map((day, i) => {
         return (
-          <Box key={day} hidden={i != tabIndex} component="div" width="100%">
-            <Typography variant="h2" mb="1.5rem">
-              {new Date(day).toLocaleDateString('en-US', {
-                weekday: 'long',
-                month: 'long',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </Typography>
-            <DaySchedule key={day} {...parsedEvents[day]} />
-          </Box>
+          <Fade key={day} in={tabIndex === i}>
+            <Box
+              key={day}
+              hidden={i != tabIndex}
+              component="div"
+              width="100%"
+              sx={{ transition: tabIndex === i ? '0.5s all ease' : 'none' }}
+            >
+              <Typography variant="h2" mb="1.5rem">
+                {new Date(day).toLocaleDateString('en-US', {
+                  weekday: 'long',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </Typography>
+              <DaySchedule key={day} {...parsedEvents[day]} />
+            </Box>
+          </Fade>
         )
       })}
     </>

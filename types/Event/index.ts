@@ -20,6 +20,7 @@ export type RespEvent = {
     endTime?: string
     important: boolean
     host: EventHosts
+    presenter?: string
     type: EventTypes
   }
 }
@@ -34,6 +35,7 @@ export type Event = {
     endTime?: Date
     important: boolean
     host: EventHosts
+    presenter?: string
     type: EventTypes
     /* used only when displaying event details in modal */
     actualEventTimes?: {

@@ -17,6 +17,10 @@ const ScheduleIcon = (props: Props) => {
     height: 24,
     maxHeight: '100%',
     backgroundColor: 'transparent',
+    ...(!chipIcon && {
+      minHeight: '2rem',
+      // hanatodo add border ??? how???
+    }),
   }
 
   const host = event.attributes.host

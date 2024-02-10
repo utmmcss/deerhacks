@@ -47,7 +47,7 @@ const DaySchedule = (props: ScheduleProps) => {
 
   return (
     <Grid display="flex" flexDirection="row" position="relative" columnGap="0.25rem">
-      <Grid display="grid" gridTemplateRows={`repeat(${gridHeight}, 10px)`}>
+      <Grid display="grid" gridTemplateRows={`repeat(${gridHeight}, 12px)`}>
         {Array.from(
           { length: 24 - rowEndOffset / HOURS_1 + (rowStartOffset - 1) / HOURS_1 + 1 },
           (_, i) => {
@@ -65,7 +65,7 @@ const DaySchedule = (props: ScheduleProps) => {
       </Grid>
       <Grid
         display="grid"
-        gridTemplateRows={`repeat(${gridHeight}, 10px)`}
+        gridTemplateRows={`repeat(${gridHeight}, 12px)`}
         position="absolute"
         top={0}
         left={0}
@@ -87,7 +87,7 @@ const DaySchedule = (props: ScheduleProps) => {
           }
         )}
       </Grid>
-      <Grid display="grid" gridTemplateRows={`repeat(${gridHeight}, 10px)`} width="100%">
+      <Grid display="grid" gridTemplateRows={`repeat(${gridHeight}, 12px)`} width="100%">
         {hours.map((hour, numHour) => {
           // remove and store occupied columns for this hour from the array
           const currentOccupancy = occupiedCells.shift() ?? []
@@ -100,15 +100,14 @@ const DaySchedule = (props: ScheduleProps) => {
                 // )
                 const minuteOffset = 0
 
-                const rowStart =
-                  rowStartOffset + numHour * HOURS_1 + j * MINS_15 * 1.5 + minuteOffset
+                const rowStart = rowStartOffset + numHour * HOURS_1 + j * MINS_15 + minuteOffset
 
                 currentOccupancy?.push(1) // notifications are always on the first column (assumes no more than 2 per hour)
 
                 return (
                   <Grid
                     key={`notification-${event.id}`}
-                    gridRow={`${rowStart} / ${rowStart + MINS_15 * 1.5}`}
+                    gridRow={`${rowStart} / ${rowStart + MINS_15}`}
                     gridColumn={`1 / 2`} // notifications are always on the first column (assumes no more than 2 per hour)
                     margin="1px"
                   >

@@ -35,15 +35,16 @@ const ScheduleCell = (props: Props) => {
           borderRadius: '16px',
           justifyContent: 'start',
           padding: '0.25rem 0.5rem',
-          overflowX: 'hidden',
+          overflowX: 'hidden', // hanatodo buts off icon when bigger then button
           display: 'flex',
           color: important ? 'common.black' : 'white',
-          backgroundImage: important
+          transition: '0.2s all ease',
+          background: important
             ? 'radial-gradient(at center, #f9fafd, #e5eeff)'
             : //  'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.3), rgb(255 255 255)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgb(255 255 255) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.2), rgb(255 255 255) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgb(255 255 255) 76%), linear-gradient(rgb(32 33 36 / 0%), rgb(32 33 36 / 0%))'
               'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.3), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.2), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%), linear-gradient(rgb(32, 33, 36), rgb(32, 33, 36))',
           '&:hover': {
-            backgroundImage: important
+            background: important
               ? 'radial-gradient(at center, #f9fafd, #d3e3ffee)'
               : //  'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.55), rgb(255 255 255)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgb(255 255 255) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.45), rgb(255 255 255) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgb(255 255 255) 76%), linear-gradient(rgb(32 33 36 / 0%), rgb(32 33 36 / 0%))'
                 'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.55), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.45), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%), linear-gradient(rgb(32, 33, 36), rgb(32, 33, 36))',
