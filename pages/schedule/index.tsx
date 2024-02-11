@@ -102,6 +102,9 @@ const ScheduleLoader = () => {
 
   if (isError) return <Error500Page />
 
+  //hanatodo if feature toggle is off, check if user is admin or moderator ( doesn't need to be logged in so can't use useUser(?))
+  // if feature toggle is on, show always to everyone
+
   return (
     <>
       <Head>
