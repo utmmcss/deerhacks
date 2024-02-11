@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { Suspense, useState } from 'react'
 
+import HelpIcon from '@mui/icons-material/Help'
 import InfoIcon from '@mui/icons-material/Info'
 import OutboundRoundedIcon from '@mui/icons-material/OutboundRounded'
 import QrCodeIcon from '@mui/icons-material/QrCode'
@@ -16,6 +17,7 @@ import Typography from '@mui/material/Typography'
 
 import ModalAccount from '@/components/Dashboard/ModalAccount'
 import ModalQRCode from '@/components/Dashboard/ModalQRCode'
+import ModalTips from '@/components/Dashboard/ModalTips'
 import { useToast } from '@/contexts/Toast'
 import { useUserLogout } from '@/hooks/User/useUserLogout'
 import { User, UserStatusDescription } from '@/types/User'
@@ -31,7 +33,7 @@ const TileUser = (props: Props) => {
   const { isLoading, mutate: userLogout } = useUserLogout()
 
   const [openAccountDetails, setOpenAccountDetails] = useState(!user.first_name || !user.last_name)
-
+  const [openTips, setOpenTips] = useState(false)
   const [openQRCode, setOpenQRCode] = useState(false)
   const qrCodeEnabled = [
     'admin',
@@ -182,6 +184,19 @@ const TileUser = (props: Props) => {
                   })
                 }
               />
+              <Tooltip title="Help" placement="right" arrow>
+                <IconButton
+                  size="small"
+                  onClick={() => setOpenTips(true)}
+                  sx={{
+                    p: '4px',
+                    backgroundColor: 'rgba(255, 255, 255, 0.16)',
+                    transition: '0.3s all ease',
+                  }}
+                >
+                  <HelpIcon color="secondary" />
+                </IconButton>
+              </Tooltip>
             </Box>
           </Grid>
         </Grid>
@@ -191,6 +206,9 @@ const TileUser = (props: Props) => {
       </Suspense>
       <Suspense>
         <ModalAccount user={user} open={openAccountDetails} setOpen={setOpenAccountDetails} />
+      </Suspense>
+      <Suspense>
+        <ModalTips status={user.status} open={openTips} setOpen={setOpenTips} />
       </Suspense>
     </>
   )

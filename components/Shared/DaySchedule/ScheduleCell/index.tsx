@@ -10,33 +10,31 @@ import { Event } from '@/types/Event'
 type Props = {
   event: Event
   onClick: () => void
+  gridRow: string
+  gridColumn: string
 }
 
 const ScheduleCell = (props: Props) => {
-  const { event, onClick } = props
+  const { event, onClick, gridRow, gridColumn } = props
 
-  const desktop = useMediaQuery(theme.breakpoints.up('md'))
   const tablet = useMediaQuery(theme.breakpoints.up('sm'))
+  const desktop = useMediaQuery(theme.breakpoints.up('md'))
 
-  const shortEvent = event.attributes.endTime && isNaN(event.attributes.endTime.getTime())
+  const shortEvent = !!event.attributes.endTime && isNaN(event.attributes.endTime.getTime())
 
   const important = event.attributes.important
 
-  // hanatodo decide on important event styles
+  const margin = 4
 
   return (
     <Tooltip title={event.attributes.title}>
       <Button
         onClick={onClick}
-        variant="outlined"
         sx={{
-          width: '100%',
-          height: '100%',
-          borderRadius: '16px',
-          justifyContent: 'start',
-          padding: '0.25rem 0.5rem',
-          overflowX: 'hidden', // hanatodo buts off icon when bigger then button
-          display: 'flex',
+          width: `calc(100% - ${margin * 2}px)`,
+          height: `calc(100% - ${margin * 2}px)`,
+          margin: `${margin}px`,
+          padding: '0 0.5rem',
           color: important ? 'common.black' : 'white',
           transition: '0.2s all ease',
           background: important
@@ -44,11 +42,10 @@ const ScheduleCell = (props: Props) => {
             : //  'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.3), rgb(255 255 255)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgb(255 255 255) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.2), rgb(255 255 255) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgb(255 255 255) 76%), linear-gradient(rgb(32 33 36 / 0%), rgb(32 33 36 / 0%))'
               'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.3), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.2), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%), linear-gradient(rgb(32, 33, 36), rgb(32, 33, 36))',
           '&:hover': {
-            background: important
-              ? 'radial-gradient(at center, #f9fafd, #d3e3ffee)'
-              : //  'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.55), rgb(255 255 255)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgb(255 255 255) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.45), rgb(255 255 255) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgb(255 255 255) 76%), linear-gradient(rgb(32 33 36 / 0%), rgb(32 33 36 / 0%))'
-                'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.55), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.45), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%), linear-gradient(rgb(32, 33, 36), rgb(32, 33, 36))',
+            filter: 'brightness(1.1)',
           },
+          gridRow,
+          gridColumn,
         }}
         color={important ? 'secondary' : 'primary'}
       >
@@ -58,14 +55,15 @@ const ScheduleCell = (props: Props) => {
             width: 0,
             flex: 1,
             textOverflow: 'ellipsis',
-            overflow: 'hidden',
+            overflowX: 'hidden',
             textAlign: 'left',
             display: 'inline-block',
             lineHeight: 'normal',
             letterSpacing: 'normal',
             fontSize: desktop ? 'small' : tablet ? 'x-small' : 'xx-small',
+            maxHeight: '100%',
             ...(shortEvent && {
-              maxHeight: '100%',
+              overflowX: 'clip',
               whiteSpace: 'nowrap',
             }),
           }}

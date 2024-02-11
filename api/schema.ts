@@ -78,7 +78,7 @@ const photos = (customFetch: CustomFetch) =>
       const res = await customFetch(
         'GET',
         'DH_CMS',
-        '/photos?pagination[page]=1&pagination[pageSize]=100&populate[0]=Img&sort[0]=publishedAt'
+        '/photos?pagination[page]=1&pagination[pageSize]=100&populate[0]=Img&sort[0]=publishedAt:desc'
       )
       return res.data as PhotoListResp
     },

@@ -47,6 +47,11 @@ const Schedule = (props: Props) => {
 
   const oneWeekFromNow = new Date(now.getTime() + 6 * 24 * 60 * 60 * 1000)
 
+  const transitionDuration = {
+    enter: 400,
+    exit: 100,
+  }
+
   return (
     <>
       <Box component="div" sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -65,7 +70,7 @@ const Schedule = (props: Props) => {
                     day: 'numeric',
                   }
                 : {
-                    weekday: 'short',
+                    weekday: 'long',
                   }
             return <Tab key={day} label={eventDate.toLocaleDateString('en-US', configs)} />
           })}
@@ -73,14 +78,15 @@ const Schedule = (props: Props) => {
       </Box>
       {Object.keys(parsedEvents).map((day, i) => {
         return (
-          <Fade key={day} in={tabIndex === i}>
-            <Box
-              key={day}
-              hidden={i != tabIndex}
-              component="div"
-              width="100%"
-              sx={{ transition: tabIndex === i ? '0.5s all ease' : 'none' }}
-            >
+          <Fade
+            key={day}
+            in={tabIndex === i}
+            timeout={transitionDuration}
+            style={{
+              transitionDelay: `${i === tabIndex ? transitionDuration.exit : 0}ms`,
+            }}
+          >
+            <Box hidden={i != tabIndex} component="div" width="100%">
               <Typography variant="h2" mb="1.5rem">
                 {new Date(day).toLocaleDateString('en-US', {
                   weekday: 'long',
@@ -88,7 +94,7 @@ const Schedule = (props: Props) => {
                   day: 'numeric',
                 })}
               </Typography>
-              <DaySchedule key={day} {...parsedEvents[day]} />
+              <DaySchedule {...parsedEvents[day]} />
             </Box>
           </Fade>
         )
@@ -101,9 +107,6 @@ const ScheduleLoader = () => {
   const { data, isLoading, isError } = useEventList()
 
   if (isError) return <Error500Page />
-
-  //hanatodo if feature toggle is off, check if user is admin or moderator ( doesn't need to be logged in so can't use useUser(?))
-  // if feature toggle is on, show always to everyone
 
   return (
     <>

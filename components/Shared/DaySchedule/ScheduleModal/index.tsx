@@ -9,6 +9,7 @@ import LocationOnRoundedIcon from '@mui/icons-material/LocationOnRounded'
 import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded'
 import ScienceRoundedIcon from '@mui/icons-material/ScienceRounded'
+import Box from '@mui/material/Box'
 import Chip from '@mui/material/Chip'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
@@ -65,7 +66,7 @@ const ScheduleModal = (props: Props) => {
         <Grid display="flex" alignItems="center" columnGap="0.5rem" paddingRight="40px">
           <Chip
             avatar={<ScheduleIcon event={event} chipIcon />}
-            label={hostNames[event.attributes.host]}
+            label={hostNames[event.attributes.host] ?? event.attributes.host}
             sx={{
               padding: '0.25rem',
               fontWeight: 400,
@@ -91,7 +92,7 @@ const ScheduleModal = (props: Props) => {
     >
       <Grid display="flex" flexDirection="column" rowGap="1rem">
         <Typography variant="h2">{event.attributes.title}</Typography>
-        <Grid display="flex" flexDirection={{ xs: 'column', md: 'row' }} gap={1}>
+        <Grid display="flex" flexDirection="column" gap={1}>
           <Typography display="flex" alignItems="center" columnGap="0.5rem" flexGrow={1}>
             <AccessTimeRoundedIcon color="secondary" />
             {startTime.toLocaleTimeString('en-US', {
@@ -119,9 +120,46 @@ const ScheduleModal = (props: Props) => {
             </Typography>
           )}
         </Grid>
-        <Typography>{event.attributes.description}</Typography>
+        <WavyLine />
+        <Typography whiteSpace="pre-line">{event.attributes.description}</Typography>
       </Grid>
     </Modal>
+  )
+}
+
+// hanatodo
+const WavyLine = () => {
+  const holder = {
+    // position: 'relative',
+    width: '100%',
+    height: '50px',
+  }
+  const clip = {
+    // Clip edges, as some of the lines don't terminate nicely.
+    overflow: 'hidden',
+  }
+
+  const circle = {
+    //position: 'absolute',
+    width: '120%',
+    height: '20px',
+    background:
+      'radial-gradient(16px, transparent, transparent 4px, black 2px, black 10px, transparent 11px)',
+    backgroundSize: '30px 40px',
+  }
+
+  const circle2 = {
+    // Offset to make squigglies line up
+    top: '20px',
+    left: '-15px',
+    backgroundPosition: '0px -22px',
+  }
+
+  return (
+    <Box component="div" position="relative" style={{ ...holder, ...clip }}>
+      <Box component="div" position="absolute" style={circle}></Box>
+      <Box component="div" position="absolute" style={{ ...circle, ...circle2 }}></Box>
+    </Box>
   )
 }
 

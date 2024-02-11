@@ -2,6 +2,7 @@ import EventRoundedIcon from '@mui/icons-material/EventRounded'
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded'
 import Avatar from '@mui/material/Avatar'
 
+import MCSS from '@/components/HomePage/Sponsors/Assets/MCSS'
 import { Event } from '@/types/Event'
 
 type Props = {
@@ -13,26 +14,16 @@ const ScheduleIcon = (props: Props) => {
   const { event, chipIcon = false } = props
 
   const style = {
-    width: 'auto',
-    height: 24,
-    maxHeight: '100%',
+    width: 28,
+    height: 28,
     backgroundColor: 'transparent',
-    ...(!chipIcon &&
-      {
-        //minHeight: '2rem',
-        // hanatodo add border ??? how???
-      }),
   }
 
   const host = event.attributes.host
 
   if (event.attributes.type === 'food' && host === 'deerhacks' && !chipIcon) {
     return (
-      <Avatar
-        alt="food icon"
-        sx={{ ...style, color: 'inherit' }}
-        variant={chipIcon ? 'circular' : 'square'}
-      >
+      <Avatar alt="food icon" sx={{ ...style, color: 'inherit' }}>
         <RestaurantRoundedIcon />
       </Avatar>
     )
@@ -43,12 +34,24 @@ const ScheduleIcon = (props: Props) => {
       <Avatar
         alt="deerhacks icon"
         src="icons/neon.png"
-        sx={{ ...style, backgroundColor: 'black' }}
+        sx={{
+          ...style,
+          backgroundColor: 'black',
+          ...(event.attributes.important && { border: 'solid 1px white' }),
+        }}
       />
     )
   }
 
-  const withBackground = ['utmRobotics', 'utmsam', 'mlh'].includes(host)
+  if (host === 'mcss') {
+    return (
+      <Avatar alt="mcss icon" sx={{ ...style }}>
+        <MCSS />
+      </Avatar>
+    )
+  }
+
+  const withBackground = ['amd', 'utmRobotics', 'utmsam', 'mlh'].includes(host)
 
   return (
     <Avatar
@@ -59,7 +62,6 @@ const ScheduleIcon = (props: Props) => {
         color: 'inherit',
         ...(withBackground && { backgroundColor: 'white' }),
       }}
-      variant={withBackground || chipIcon ? 'circular' : 'square'}
     >
       <EventRoundedIcon />
     </Avatar>

@@ -80,9 +80,9 @@ const DaySchedule = (props: ScheduleProps) => {
               <Grid
                 key={`grid-line-${i}`}
                 gridRow={`${rowStart} / ${rowStart}`}
-                borderTop="1px grey solid"
+                borderTop="0.5px grey dashed"
                 width="100%"
-              ></Grid>
+              />
             )
           }
         )}
@@ -105,20 +105,16 @@ const DaySchedule = (props: ScheduleProps) => {
                 currentOccupancy?.push(1) // notifications are always on the first column (assumes no more than 2 per hour)
 
                 return (
-                  <Grid
+                  <ScheduleCell
                     key={`notification-${event.id}`}
+                    event={event}
+                    onClick={() => {
+                      setSelectedEvent(event)
+                      setOpen(true)
+                    }}
                     gridRow={`${rowStart} / ${rowStart + MINS_15}`}
                     gridColumn={`1 / 2`} // notifications are always on the first column (assumes no more than 2 per hour)
-                    margin="1px"
-                  >
-                    <ScheduleCell
-                      event={event}
-                      onClick={() => {
-                        setSelectedEvent(event)
-                        setOpen(true)
-                      }}
-                    />
-                  </Grid>
+                  />
                 )
               })}
 
@@ -137,9 +133,8 @@ const DaySchedule = (props: ScheduleProps) => {
                   endHour = 24
                 }
 
-                // only important events should be on the first column
                 // move to next column if already occupied
-                var columnPos = event.attributes.important ? 1 : j === 0 ? 2 : j + 1
+                var columnPos = j + 1
                 while ((currentOccupancy ?? []).includes(columnPos)) {
                   columnPos += 1
                 }
@@ -161,24 +156,19 @@ const DaySchedule = (props: ScheduleProps) => {
                 }
 
                 const rowStart = rowStartOffset + numHour * HOURS_1 + startMinuteOffset
-
                 const rowEnd = rowStartOffset + endHour * HOURS_1 + endMinuteOffset
 
                 return (
-                  <Grid
+                  <ScheduleCell
                     key={`event-${event.id}`}
+                    event={event}
+                    onClick={() => {
+                      setSelectedEvent(event)
+                      setOpen(true)
+                    }}
                     gridRow={`${rowStart} / ${rowEnd}`}
                     gridColumn={`${columnPos} / ${columnPos + 1}`}
-                    margin="1px"
-                  >
-                    <ScheduleCell
-                      event={event}
-                      onClick={() => {
-                        setSelectedEvent(event)
-                        setOpen(true)
-                      }}
-                    />
-                  </Grid>
+                  />
                 )
               })}
             </Fragment>

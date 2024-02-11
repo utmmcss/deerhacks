@@ -3,10 +3,12 @@ import Head from 'next/head'
 import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
+import Fab from '@mui/material/Fab'
 import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
 
 import TileChecklist from '@/components/Dashboard/TileChecklist'
+import TileDevpost from '@/components/Dashboard/TileDevpost'
 import TileGallery from '@/components/Dashboard/TileGallery'
 import TileHackerPack from '@/components/Dashboard/TileHackerPack'
 import TileInstagram from '@/components/Dashboard/TileInstagram'
@@ -120,7 +122,7 @@ const Dashboard = () => {
                     <TileChecklist />
                   </Grid>
                   <Grid item xs={6}>
-                    <TileTips status={user.status} />
+                    <TileDevpost />
                   </Grid>
                 </Grid>
               </Grid>

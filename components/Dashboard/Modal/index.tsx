@@ -64,7 +64,10 @@ const Modal = (props: Props) => {
         <CloseIcon />
       </IconButton>
       <DialogContent {...dialogContentProps}>{children}</DialogContent>
-      <DialogActions {...dialogActionsProps}>
+      <DialogActions
+        {...dialogActionsProps}
+        {...(!primaryButton && !secondaryButton && { sx: { p: 0 } })}
+      >
         {secondaryButton && (
           <LoadingButton variant="text" loading={!!secondaryButton.loading} {...secondaryButton}>
             {secondaryButton.text}

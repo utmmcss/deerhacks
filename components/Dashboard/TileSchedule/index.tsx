@@ -13,9 +13,7 @@ import Typography from '@mui/material/Typography'
 import { useEventList } from '@/hooks/Event/useEventList'
 
 const TileSchedule = () => {
-  const disabled = process.env.NODE_ENV !== 'development' // TODO: remove this line when schedule is ready
-
-  const { data, isLoading, isError } = useEventList({ enabled: !disabled })
+  const { data, isLoading, isError } = useEventList()
 
   const hasEvents = !isLoading && data?.data?.length !== 0
   const now = new Date()
@@ -27,7 +25,7 @@ const TileSchedule = () => {
     return nowPlusFiveMinutes <= eventDate
   })
 
-  if (disabled || isError || (!hasEvents && !isLoading)) {
+  if (isError || (!hasEvents && !isLoading)) {
     return (
       <Card variant="outlined" elevation={0}>
         <CardActionArea disabled>
