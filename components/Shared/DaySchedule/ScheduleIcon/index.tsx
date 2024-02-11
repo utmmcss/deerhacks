@@ -37,7 +37,7 @@ const ScheduleIcon = (props: Props) => {
         sx={{
           ...style,
           backgroundColor: 'black',
-          ...(event.attributes.important && { border: 'solid 1px white' }),
+          ...(event.attributes.important && !chipIcon && { border: 'solid 1px white' }),
         }}
       />
     )

@@ -68,7 +68,6 @@ const ScheduleModal = (props: Props) => {
             avatar={<ScheduleIcon event={event} chipIcon />}
             label={hostNames[event.attributes.host] ?? event.attributes.host}
             sx={{
-              padding: '0.25rem',
               fontWeight: 400,
               color: 'text.secondary',
             }}
@@ -89,6 +88,15 @@ const ScheduleModal = (props: Props) => {
         </Grid>
       }
       onClose={onClose}
+      PaperProps={{
+        sx: {
+          m: '1rem',
+          maxHeight: 'calc(100% - 2rem)',
+          width: 'calc(100% - 2rem)',
+          backgroundImage:
+            'radial-gradient(circle farthest-side at 70% 82%, rgb(255 0 33 / 17%), rgba(255, 255, 255, 0) 67%),radial-gradient(circle farthest-side at 58% 0%, rgb(147 0 255 / 20%), rgba(255, 255, 255, 0) 82%),radial-gradient(circle farthest-side at 48% 29%, rgb(222 162 0 / 24%), rgba(255, 255, 255, 0) 65%),radial-gradient(circle farthest-side at 24% 80%, rgb(0 255 158 / 5%), rgba(255, 255, 255, 0) 54%),linear-gradient(hsl(225 6% 10% / 1), #202124)',
+        },
+      }}
     >
       <Grid display="flex" flexDirection="column" rowGap="1rem">
         <Typography variant="h2">{event.attributes.title}</Typography>
@@ -127,40 +135,17 @@ const ScheduleModal = (props: Props) => {
   )
 }
 
-// hanatodo
 const WavyLine = () => {
-  const holder = {
-    // position: 'relative',
-    width: '100%',
-    height: '50px',
+  // css from https://css-generators.com/wavy-shapes/
+  const box = {
+    '--mask':
+      'radial-gradient(4px at 50% calc(100% + 1.80px),#0000 calc(99% - 1px),#000 calc(101% - 1px) 99%,#0000 101%) calc(50% - 6px) calc(50% - 2px + .5px)/12px 4px repeat-x, radial-gradient(4px at 50% -1.8px,#0000 calc(99% - 1px),#000 calc(101% - 1px) 99%,#0000 101%) 50% calc(50% + 2px)/12px 4px repeat-x',
+    '-webkit-mask': 'var(--mask)',
+    mask: 'var(--mask)',
+    background: '#878789',
+    height: '8px',
   }
-  const clip = {
-    // Clip edges, as some of the lines don't terminate nicely.
-    overflow: 'hidden',
-  }
-
-  const circle = {
-    //position: 'absolute',
-    width: '120%',
-    height: '20px',
-    background:
-      'radial-gradient(16px, transparent, transparent 4px, black 2px, black 10px, transparent 11px)',
-    backgroundSize: '30px 40px',
-  }
-
-  const circle2 = {
-    // Offset to make squigglies line up
-    top: '20px',
-    left: '-15px',
-    backgroundPosition: '0px -22px',
-  }
-
-  return (
-    <Box component="div" position="relative" style={{ ...holder, ...clip }}>
-      <Box component="div" position="absolute" style={circle}></Box>
-      <Box component="div" position="absolute" style={{ ...circle, ...circle2 }}></Box>
-    </Box>
-  )
+  return <Box component="div" style={box}></Box>
 }
 
 export default ScheduleModal

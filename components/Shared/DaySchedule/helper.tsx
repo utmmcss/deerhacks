@@ -2,11 +2,14 @@ import { Event, RespEvent } from '@/types/Event'
 
 export type ScheduleProps = {
   hours: Hour[]
+  //gridOccupancy: GridOccupancy
   /* first hour with events */
   firstHour: number
   /* last hour with events */
   lastHour: number
 }
+
+//type GridOccupancy = { [row: number]: { [column: number]: boolean } }
 
 type Hour = {
   /* events without end time */
@@ -94,109 +97,27 @@ const newProps = (newEvent: Event, curr?: ScheduleProps) => {
   if (!curr) {
     // default value for ScheduleProps if it doesn't exist yet for this day
     const hours = []
+    //const gridOccupancy: GridOccupancy = {}
     for (let i = 0; i < 24; i++) {
       hours.push({
         notificationEvents: [],
         eventsStarting: [],
       } as Hour)
+      // gridOccupancy[i] = {}
     }
     curr = { hours, firstHour: 0, lastHour: 24 }
   }
 
-  // dates aren't actually typed as Date when obtaining from API
-  newEvent.attributes.startTime = new Date(newEvent.attributes.startTime)
-  newEvent.attributes.endTime = new Date(newEvent.attributes.endTime ?? '')
-
   const hour = newEvent.attributes.startTime.getHours()
 
   // if no endTime, add to notificationEvents
-  if (isNaN(newEvent.attributes.endTime.valueOf())) {
-    var added = false
-    const newImportant = newEvent.attributes.important
-    for (let i = 0; i < curr.hours[hour].notificationEvents.length; i++) {
-      const event = curr.hours[hour].notificationEvents[i]
-      const currImportant = event.attributes.important
-
-      // if new event is important and current event is as well, compare lengths, add if starts earlier
-      if (newImportant && currImportant) {
-        if (newEvent.attributes.startTime < event.attributes.startTime) {
-          curr.hours[hour].notificationEvents.splice(i, 0, newEvent)
-          added = true
-          break
-        }
-      }
-
-      // if new event is important and current event is not, add
-      if (newImportant && !currImportant) {
-        curr.hours[hour].notificationEvents.splice(i, 0, newEvent)
-        added = true
-        break
-      }
-
-      // if new event is not important and current event is, don't add
-
-      // if new event is not important and current event is not, compare lengths, add if longer
-      if (!newImportant && !currImportant) {
-        if (newEvent.attributes.startTime < event.attributes.startTime) {
-          curr.hours[hour].notificationEvents.splice(i, 0, newEvent)
-          added = true
-          break
-        }
-      }
-    }
-    // if curr list empty or new event is last item
-    if (!added) {
-      curr.hours[hour].notificationEvents.push(newEvent)
-    }
+  if (!newEvent.attributes.endTime || isNaN(newEvent.attributes.endTime.valueOf())) {
+    curr.hours[hour].notificationEvents.push(newEvent)
     return curr
   }
 
-  var added = false
-
-  const newImportant = newEvent.attributes.important
-  const newEndTime = newEvent.attributes.endTime
-  const newDuration = newEndTime.getTime() - newEvent.attributes.startTime.getTime()
-
-  for (let i = 0; i < curr.hours[hour].eventsStarting.length; i++) {
-    const event = curr.hours[hour].eventsStarting[i]
-    const currImportant = event.attributes.important
-    const currEndTime = event.attributes.endTime
-    const currDuration = currEndTime
-      ? currEndTime.getTime() - event.attributes.startTime.getTime()
-      : 0
-
-    // if new event is important and current event is as well, compare lengths, add if longer
-    if (newImportant && currImportant) {
-      if (currEndTime && newDuration > currDuration) {
-        curr.hours[hour].eventsStarting.splice(i, 0, newEvent)
-        added = true
-        break
-      }
-    }
-
-    // if new event is important and current event is not, add to eventsStarting
-    if (newImportant && !currImportant) {
-      curr.hours[hour].eventsStarting.splice(i, 0, newEvent)
-      added = true
-      break
-    }
-
-    // if new event is not important and current event is, don't add
-
-    // if new event is not important and current event is not, compare lengths, add if longer
-    if (!newImportant && !currImportant) {
-      if (currEndTime && newDuration > currDuration) {
-        curr.hours[hour].eventsStarting.splice(i, 0, newEvent)
-        added = true
-        break
-      }
-    }
-  }
-
   // if curr list empty or new event is last item
-  if (!added) {
-    curr.hours[hour].eventsStarting.push(newEvent)
-  }
+  curr.hours[hour].eventsStarting.push(newEvent)
 
   return curr
 }
