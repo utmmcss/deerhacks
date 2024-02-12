@@ -20,34 +20,33 @@ const ScheduleCell = (props: Props) => {
   const tablet = useMediaQuery(theme.breakpoints.up('sm'))
   const desktop = useMediaQuery(theme.breakpoints.up('md'))
 
-  const shortEvent = !!event.attributes.endTime && isNaN(event.attributes.endTime.getTime())
+  // event is notification (short) if we set actual event time without end time
+  const shortEvent = event.attributes.actualEventTimes && !event.attributes.actualEventTimes.endTime
 
   const important = event.attributes.important
 
-  const margin = 4
+  const margin = 2
 
   return (
     <Tooltip title={event.attributes.title}>
       <Button
+        variant="outlined"
+        color={important ? 'primary' : 'secondary'}
         onClick={onClick}
         sx={{
+          boxShadow: 'inset 0 0 5px 5000px rgb(0 0 0 / 25%)',
           width: `calc(100% - ${margin * 2}px)`,
           height: `calc(100% - ${margin * 2}px)`,
           margin: `${margin}px`,
           padding: '0 0.5rem',
-          color: important ? 'common.black' : 'white',
-          transition: '0.2s all ease',
-          background: important
-            ? 'radial-gradient(at center, #f9fafd, #e5eeff)'
-            : //  'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.3), rgb(255 255 255)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgb(255 255 255) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.2), rgb(255 255 255) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgb(255 255 255) 76%), linear-gradient(rgb(32 33 36 / 0%), rgb(32 33 36 / 0%))'
-              'radial-gradient(circle closest-corner at 62% 60%, rgba(52, 139, 209, 0.3), rgba(255, 255, 255, 0)), radial-gradient(circle farthest-side at 75% 16%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0) 35%), radial-gradient(circle closest-corner at 32% 38%, rgba(87, 65, 174, 0.2), rgba(255, 255, 255, 0) 76%), radial-gradient(circle farthest-side at 69% 81%, rgba(255, 0, 48, 0.1), rgba(255, 255, 255, 0) 76%), linear-gradient(rgb(32, 33, 36), rgb(32, 33, 36))',
-          '&:hover': {
-            filter: 'brightness(1.1)',
-          },
+          backgroundColor: important ? 'rgba(144, 202, 249, 0.08)' : 'rgba(233, 233, 233, 0.08)',
           gridRow,
           gridColumn,
+          transition: 'all 0.3s ease',
+          '&:hover, &:focus-visible': {
+            backdropFilter: 'blur(10px)',
+          },
         }}
-        color={important ? 'secondary' : 'primary'}
       >
         {desktop && <ScheduleIcon event={event} />}
         <Typography
@@ -63,6 +62,7 @@ const ScheduleCell = (props: Props) => {
             fontSize: desktop ? 'small' : tablet ? 'x-small' : 'xx-small',
             maxHeight: '100%',
             ...(shortEvent && {
+              fontSize: 'x-small',
               overflowX: 'clip',
               whiteSpace: 'nowrap',
             }),

@@ -32,7 +32,7 @@ export type Event = {
     description: string
     location?: string
     startTime: Date
-    endTime?: Date
+    endTime: Date
     important: boolean
     host: EventHosts
     presenter?: string
@@ -40,7 +40,7 @@ export type Event = {
     /* used only when displaying event details in modal */
     actualEventTimes?: {
       startTime: Date
-      endTime: Date
+      endTime?: Date
     }
   }
 }

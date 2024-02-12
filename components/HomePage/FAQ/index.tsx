@@ -165,7 +165,17 @@ const FAQ = () => {
                       window.location.href = 'https://youtu.be/dQw4w9WgXcQ'
                     }}
                   >
-                    Anthony Tedja.
+                    Anthony Tedja
+                  </Link>{' '}
+                  but lowkey{' '}
+                  <Link
+                    rel="noopener"
+                    href="https://github.com/hana-dowe"
+                    target="_blank"
+                    underline="always"
+                    sx={{ opacity: 0.75 }}
+                  >
+                    Hana Dowe.
                   </Link>
                 </Typography>
               </AccordionDetails>

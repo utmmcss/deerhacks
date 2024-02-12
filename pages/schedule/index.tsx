@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { useState } from 'react'
 
+import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
@@ -121,6 +122,10 @@ const ScheduleLoader = () => {
             <BackButton navbar />
             <Typography variant="h1">Schedule</Typography>
             <Schedule events={data.data} />
+            <Alert severity="info" sx={{ width: '100%', mt: '1.5rem' }}>
+              Scheduled events and times are subject to change. Check this page for the most
+              up-to-date information. Any last minute changes will also be announced on Discord.
+            </Alert>
           </Container>
         </Fade>
       )}

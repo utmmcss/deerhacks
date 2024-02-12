@@ -2,7 +2,6 @@ import EventRoundedIcon from '@mui/icons-material/EventRounded'
 import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded'
 import Avatar from '@mui/material/Avatar'
 
-import MCSS from '@/components/HomePage/Sponsors/Assets/MCSS'
 import { Event } from '@/types/Event'
 
 type Props = {
@@ -43,15 +42,7 @@ const ScheduleIcon = (props: Props) => {
     )
   }
 
-  if (host === 'mcss') {
-    return (
-      <Avatar alt="mcss icon" sx={{ ...style }}>
-        <MCSS />
-      </Avatar>
-    )
-  }
-
-  const withBackground = ['amd', 'utmRobotics', 'utmsam', 'mlh'].includes(host)
+  const withBackground = ['utmRobotics', 'utmsam', 'mlh'].includes(host)
 
   return (
     <Avatar
@@ -60,8 +51,9 @@ const ScheduleIcon = (props: Props) => {
       sx={{
         ...style,
         color: 'inherit',
-        ...(withBackground && { backgroundColor: 'white' }),
+        ...(withBackground && { backgroundColor: event.attributes.important ? 'black' : 'white' }),
       }}
+      variant={withBackground ? 'circular' : 'square'}
     >
       <EventRoundedIcon />
     </Avatar>
