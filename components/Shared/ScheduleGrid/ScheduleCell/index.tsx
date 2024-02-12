@@ -1,3 +1,4 @@
+import PushPinIcon from '@mui/icons-material/PushPin'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
@@ -25,8 +26,6 @@ const ScheduleCell = (props: Props) => {
 
   const important = event.attributes.important
 
-  const margin = 2
-
   return (
     <Tooltip title={event.attributes.title}>
       <Button
@@ -35,9 +34,9 @@ const ScheduleCell = (props: Props) => {
         onClick={onClick}
         sx={{
           boxShadow: 'inset 0 0 5px 5000px rgb(0 0 0 / 25%)',
-          width: `calc(100% - ${margin * 2}px)`,
-          height: `calc(100% - ${margin * 2}px)`,
-          margin: `${margin}px`,
+          width: 'calc(100% - 2px)',
+          height: 'calc(100% - 2px)',
+          margin: '1px',
           padding: '0 0.5rem',
           backgroundColor: important ? 'rgba(144, 202, 249, 0.08)' : 'rgba(233, 233, 233, 0.08)',
           gridRow,
@@ -48,6 +47,17 @@ const ScheduleCell = (props: Props) => {
           },
         }}
       >
+        {important && (
+          <PushPinIcon
+            color="secondary"
+            sx={{
+              position: 'absolute',
+              top: '-0.5rem',
+              right: '-0.5rem',
+              transform: 'rotate(45deg)',
+            }}
+          />
+        )}
         {desktop && <ScheduleIcon event={event} />}
         <Typography
           sx={{

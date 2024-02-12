@@ -199,6 +199,7 @@ const fillGrid = (curr: ScheduleProps, maxCols: number) => {
       const eventIDsThisHour = Object.values(curr.hours[hour_i].eventsStarting).map((e) => e.id)
 
       // find the number of free columns to the right of the current column
+      // to simplify logic, assume there's no columns left if any event starts midway the current one, otherwise, we would have to change the last-event-in-hour logic
       var colsLeft = maxCols
       // for every hour this event lasts for
       for (let hour_k = startHour; hour_k < (endsPastHour ? endHour + 1 : endHour); hour_k++) {
@@ -296,12 +297,16 @@ const fillGrid = (curr: ScheduleProps, maxCols: number) => {
             column_l + extendAmount > currCol;
             column_l--
           ) {
-            // if some value exists, move it to the right by extendAmount
-            // replace the current column with the current event id
-            if (curr.gridOccupancy[hour_k][column_l]) {
+            // events to the left of currCol
+            if (column_l < currCol) {
+              // fills in columns where currCol < column_l + extendAmount < currCol + extendAmount
+              curr.gridOccupancy[hour_k][column_l + extendAmount] = event.id
+
+              // for events to right of current event, including the current event,
+              // if some value exists, shift it to the right by extendAmount
+            } else if (curr.gridOccupancy[hour_k][column_l]) {
               const otherId = curr.gridOccupancy[hour_k][column_l]
               curr.gridOccupancy[hour_k][column_l + extendAmount] = otherId
-              curr.gridOccupancy[hour_k][column_l] = event.id
             }
           }
         }

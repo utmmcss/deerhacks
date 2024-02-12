@@ -1,48 +1,68 @@
 import EventRoundedIcon from '@mui/icons-material/EventRounded'
+import FastfoodRoundedIcon from '@mui/icons-material/FastfoodRounded'
 import Avatar from '@mui/material/Avatar'
 
 import { Event } from '@/types/Event'
 
 type Props = {
   event: Event
-  chipIcon?: boolean
 }
 
 const ScheduleIcon = (props: Props) => {
-  const { event, chipIcon = false } = props
+  const { event } = props
 
   const style = {
-    width: 28,
-    height: 28,
+    width: 32,
+    height: 32,
+    color: 'inherit',
     backgroundColor: 'transparent',
   }
 
   const host = event.attributes.host
 
   if (host === 'deerhacks') {
+    if (event.attributes.type === 'food') {
+      return (
+        <Avatar sx={style}>
+          <FastfoodRoundedIcon />
+        </Avatar>
+      )
+    }
+
     return (
       <Avatar
         alt="deerhacks icon"
         src="icons/neon.png"
         sx={{
           ...style,
-          backgroundColor: 'black',
-          ...(event.attributes.important && !chipIcon && { border: 'solid 1.5px white' }),
+          transform: 'scale(1.5)',
         }}
-      />
+      >
+        <EventRoundedIcon />
+      </Avatar>
     )
   }
 
-  const withBackground = ['utmRobotics', 'utmsam', 'mlh'].includes(host)
+  const withBackground = [
+    'utmRobotics',
+    'utmsam',
+    'uber',
+    'thirstea',
+    'gdsc',
+    'amd',
+    'mlh',
+  ].includes(host)
 
   return (
     <Avatar
       alt={`${host} icon`}
-      src={`eventHosts/${host}.svg`}
+      src={`events/${host}.svg`}
       sx={{
         ...style,
-        color: 'inherit',
-        ...(withBackground && { backgroundColor: event.attributes.important ? 'black' : 'white' }),
+        '& img': {
+          height: 'auto',
+        },
+        ...(withBackground && { backgroundColor: 'white', padding: '2px' }),
       }}
       variant={withBackground ? 'circular' : 'square'}
     >

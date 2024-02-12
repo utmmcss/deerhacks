@@ -47,7 +47,7 @@ const ScheduleModal = (props: Props) => {
       open={open}
       title={
         <Grid display="flex" alignItems="center" columnGap="0.5rem" paddingRight="40px">
-          <ScheduleIcon event={event} chipIcon />
+          <ScheduleIcon event={event} />
           <Chip
             label={hostNames[event.attributes.host] ?? event.attributes.host}
             sx={{

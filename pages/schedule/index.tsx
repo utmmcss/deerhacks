@@ -53,11 +53,12 @@ const Schedule = (props: Props) => {
 
   return (
     <>
-      <Box component="div" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <Box component="div" display="flex" justifyContent="center" width="100%">
         <Tabs
+          variant="scrollable"
           value={tabIndex}
           onChange={(_, newIndex) => setTabIndex(newIndex)}
-          aria-label="basic tabs example"
+          sx={{ borderBottom: 1, borderColor: 'divider' }}
         >
           {days.map((day) => {
             const eventDate = new Date(day)

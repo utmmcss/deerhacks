@@ -83,7 +83,7 @@ const ScheduleGrid = (props: ScheduleProps) => {
               <Grid
                 key={`grid-line-${i}`}
                 gridRow={`${rowStart} / ${rowStart}`}
-                borderTop="1px rgb(255, 255, 255, 0.1) solid"
+                sx={{ borderTop: 1, borderColor: 'divider' }}
                 width="100%"
               />
             )
