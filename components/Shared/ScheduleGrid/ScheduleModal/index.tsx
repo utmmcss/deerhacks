@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
 import Modal from '@/components/Dashboard/Modal'
-import ScheduleIcon from '@/components/Shared/DaySchedule/ScheduleIcon'
+import ScheduleIcon from '@/components/Shared/ScheduleGrid/ScheduleIcon'
 import WavyDivider from '@/components/Shared/WavyDivider'
 import { Event, EventHosts } from '@/types/Event'
 

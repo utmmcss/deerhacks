@@ -3,7 +3,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import ScheduleIcon from '@/components/Shared/DaySchedule/ScheduleIcon'
+import ScheduleIcon from '@/components/Shared/ScheduleGrid/ScheduleIcon'
 import theme from '@/styles/theme'
 import { Event } from '@/types/Event'
 

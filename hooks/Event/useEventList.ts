@@ -1,3 +1,4 @@
+import { parseEvents } from '@/components/Shared/ScheduleGrid/helper'
 import { useAPI } from '@/contexts/API'
 
 type Props = {
@@ -13,7 +14,10 @@ export const useEventList = (props?: Props) => {
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    onSuccess: props?.onSuccess,
+    onSuccess: (resp) => {
+      resp.parsedData = parseEvents(resp.data)
+      props?.onSuccess?.()
+    },
     onError: props?.onError,
   })
 }

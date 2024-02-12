@@ -1,3 +1,5 @@
+import { ScheduleProps } from '@/components/Shared/ScheduleGrid/helper'
+
 export type EventListResp = {
   data: RespEvent[]
   meta: {
@@ -8,7 +10,10 @@ export type EventListResp = {
       total: number
     }
   }
+  parsedData: ParsedEventData
 }
+
+export type ParsedEventData = { [date: string]: ScheduleProps }
 
 export type RespEvent = {
   id: number

@@ -4,16 +4,16 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
-import { ScheduleProps } from '@/components/Shared/DaySchedule/helper'
-import ScheduleCell from '@/components/Shared/DaySchedule/ScheduleCell'
-import ScheduleModal from '@/components/Shared/DaySchedule/ScheduleModal'
+import { ScheduleProps } from '@/components/Shared/ScheduleGrid/helper'
+import ScheduleCell from '@/components/Shared/ScheduleGrid/ScheduleCell'
+import ScheduleModal from '@/components/Shared/ScheduleGrid/ScheduleModal'
 import theme from '@/styles/theme'
 import { Event } from '@/types/Event'
 
 const MINS_15 = 2
 const HOURS_1 = MINS_15 * 4
 
-const DaySchedule = (props: ScheduleProps) => {
+const ScheduleGrid = (props: ScheduleProps) => {
   const { hours, gridOccupancy, firstHour, lastHour } = props
 
   const desktop = useMediaQuery(theme.breakpoints.up('md'))
@@ -44,6 +44,7 @@ const DaySchedule = (props: ScheduleProps) => {
 
   return (
     <Grid display="flex" flexDirection="row" position="relative" columnGap="0.25rem">
+      {/* time labels */}
       <Grid
         display="grid"
         gridTemplateRows={`repeat(${gridHeight}, 12px)`}
@@ -64,6 +65,7 @@ const DaySchedule = (props: ScheduleProps) => {
           }
         )}
       </Grid>
+      {/* grid lines */}
       <Grid
         display="grid"
         gridTemplateRows={`repeat(${gridHeight}, 12px)`}
@@ -88,9 +90,9 @@ const DaySchedule = (props: ScheduleProps) => {
           }
         )}
       </Grid>
+      {/* event cells */}
       <Grid display="grid" gridTemplateRows={`repeat(${gridHeight}, 12px)`} width="100%">
         {hours.map((hour, numHour) => {
-          // remove and store occupied columns for this hour from the array
           const currentOccupancy = gridOccupancy[numHour]
           return (
             <Fragment key={`hour-${numHour}`}>
@@ -113,7 +115,6 @@ const DaySchedule = (props: ScheduleProps) => {
 
                 var colStart = -1
                 var colEnd = 1
-
                 for (const key in Object.keys(currentOccupancy)) {
                   if (currentOccupancy[key] === event.id) {
                     if (colStart === -1) {
@@ -155,4 +156,4 @@ const getTimeLabel = (hour: number) => {
   return pmHour < 10 ? `0${pmHour} pm` : `${pmHour} pm`
 }
 
-export default DaySchedule
+export default ScheduleGrid

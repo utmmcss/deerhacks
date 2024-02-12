@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { useState } from 'react'
 
-import Alert from '@mui/material/Alert'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
@@ -10,21 +9,20 @@ import Tabs from '@mui/material/Tabs'
 import Typography from '@mui/material/Typography'
 
 import BackButton from '@/components/Shared/BackButton'
-import DaySchedule from '@/components/Shared/DaySchedule'
-import { parseEvents } from '@/components/Shared/DaySchedule/helper'
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
+import ScheduleGrid from '@/components/Shared/ScheduleGrid'
+import { useToast } from '@/contexts/Toast'
 import { useEventList } from '@/hooks/Event/useEventList'
 import Error500Page from '@/pages/500'
-import { RespEvent } from '@/types/Event'
+import { ParsedEventData } from '@/types/Event'
 
 type Props = {
-  events: RespEvent[]
+  parsedEvents: ParsedEventData
 }
 
 const Schedule = (props: Props) => {
-  const { events } = props
+  const { parsedEvents } = props
 
-  const parsedEvents = parseEvents(events)
   const days = Object.keys(parsedEvents).sort(
     (a: string, b: string) => new Date(a).getTime() - new Date(b).getTime()
   )
@@ -95,7 +93,7 @@ const Schedule = (props: Props) => {
                   day: 'numeric',
                 })}
               </Typography>
-              <DaySchedule {...parsedEvents[day]} />
+              <ScheduleGrid {...parsedEvents[day]} />
             </Box>
           </Fade>
         )
@@ -105,7 +103,16 @@ const Schedule = (props: Props) => {
 }
 
 const ScheduleLoader = () => {
-  const { data, isLoading, isError } = useEventList()
+  const { setToast } = useToast()
+  const { data, isLoading, isError } = useEventList({
+    onSuccess: () => {
+      setToast({
+        type: 'info',
+        message:
+          'Note: Events are subject to change & any last minute changes will also be announced on Discord.',
+      })
+    },
+  })
 
   if (isError) return <Error500Page />
 
@@ -121,11 +128,7 @@ const ScheduleLoader = () => {
           <Container sx={{ minHeight: '100vh', flexDirection: 'column', justifyContent: 'start' }}>
             <BackButton navbar />
             <Typography variant="h1">Schedule</Typography>
-            <Schedule events={data.data} />
-            <Alert severity="info" sx={{ width: '100%', mt: '1.5rem' }}>
-              Scheduled events and times are subject to change. Check this page for the most
-              up-to-date information. Any last minute changes will also be announced on Discord.
-            </Alert>
+            <Schedule parsedEvents={data.parsedData} />
           </Container>
         </Fade>
       )}

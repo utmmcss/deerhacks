@@ -1,5 +1,4 @@
 import EventRoundedIcon from '@mui/icons-material/EventRounded'
-import RestaurantRoundedIcon from '@mui/icons-material/RestaurantRounded'
 import Avatar from '@mui/material/Avatar'
 
 import { Event } from '@/types/Event'
@@ -20,14 +19,6 @@ const ScheduleIcon = (props: Props) => {
 
   const host = event.attributes.host
 
-  if (event.attributes.type === 'food' && host === 'deerhacks' && !chipIcon) {
-    return (
-      <Avatar alt="food icon" sx={{ ...style, color: 'inherit' }}>
-        <RestaurantRoundedIcon />
-      </Avatar>
-    )
-  }
-
   if (host === 'deerhacks') {
     return (
       <Avatar
@@ -36,7 +27,7 @@ const ScheduleIcon = (props: Props) => {
         sx={{
           ...style,
           backgroundColor: 'black',
-          ...(event.attributes.important && !chipIcon && { border: 'solid 1px white' }),
+          ...(event.attributes.important && !chipIcon && { border: 'solid 1.5px white' }),
         }}
       />
     )
