@@ -16,6 +16,8 @@ export const qrContextOptions = [
   'day_2_lunch',
   'day_2_dinner',
   'day_3_breakfast',
+  'drink_bar',
+  'bubble_tea',
 ] as const
 
 export const qrContextLabels: { [key in QRCheckInContext]: string } = {
@@ -25,4 +27,6 @@ export const qrContextLabels: { [key in QRCheckInContext]: string } = {
   day_2_lunch: 'Saturday Lunch',
   day_2_dinner: 'Saturday Dinner',
   day_3_breakfast: 'Sunday Breakfast',
+  drink_bar: 'Drink Bar',
+  bubble_tea: 'Bubble Tea',
 }
