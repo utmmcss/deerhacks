@@ -7,6 +7,7 @@ import Fade from '@mui/material/Fade'
 import Grid from '@mui/material/Grid'
 
 import TileChecklist from '@/components/Dashboard/TileChecklist'
+import TileDevpost from '@/components/Dashboard/TileDevpost'
 import TileGallery from '@/components/Dashboard/TileGallery'
 import TileHackerPack from '@/components/Dashboard/TileHackerPack'
 import TileInstagram from '@/components/Dashboard/TileInstagram'
@@ -16,7 +17,6 @@ import TileRegistration from '@/components/Dashboard/TileRegistration'
 import TileScanner from '@/components/Dashboard/TileScanner'
 import TileSchedule from '@/components/Dashboard/TileSchedule'
 import TileStatus from '@/components/Dashboard/TileStatus'
-import TileTips from '@/components/Dashboard/TileTips'
 import TileUser from '@/components/Dashboard/TileUser'
 import TileUsersTable from '@/components/Dashboard/TileUsersTable'
 import TileVolunteerForm from '@/components/Dashboard/TileVolunteerForm'
@@ -120,7 +120,7 @@ const Dashboard = () => {
                     <TileChecklist />
                   </Grid>
                   <Grid item xs={6}>
-                    <TileTips status={user.status} />
+                    <TileDevpost />
                   </Grid>
                 </Grid>
               </Grid>
@@ -129,7 +129,7 @@ const Dashboard = () => {
                   <TileGallery />
                 </Grid>
                 <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
-                  <TileSchedule status={user.status} />
+                  <TileSchedule />
                 </Grid>
               </Grid>
               <Grid container spacing={2}>

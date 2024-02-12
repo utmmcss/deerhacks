@@ -45,7 +45,7 @@ const Featured = () => {
       <Grid item xs data-aos="fade" data-aos-offset="100" data-aos-once="false">
         <Tabs variant="scrollable" value={activeTab} onChange={handleChange}>
           {tabs.map((tab) => (
-            <Tab key={tab.title} label={tab.title} sx={{ borderRadius: '0.5rem 0.5rem 0 0' }} />
+            <Tab key={tab.title} label={tab.title} />
           ))}
         </Tabs>
       </Grid>

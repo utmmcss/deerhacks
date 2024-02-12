@@ -66,7 +66,7 @@ const events = (customFetch: CustomFetch) =>
       const res = await customFetch(
         'GET',
         'DH_CMS',
-        '/events?pagination[page]=1&pagination[pageSize]=100&sort[0]=StartTime&sort[1]=Important&sort[2]=EndTime'
+        '/events?pagination[page]=1&pagination[pageSize]=100&sort[0]=StartTime&sort[1]=Important:desc&sort[2]=EndTime:desc'
       )
       return res.data as EventListResp
     },
@@ -78,7 +78,7 @@ const photos = (customFetch: CustomFetch) =>
       const res = await customFetch(
         'GET',
         'DH_CMS',
-        '/photos?pagination[page]=1&pagination[pageSize]=100&populate[0]=Img&sort[0]=publishedAt'
+        '/photos?pagination[page]=1&pagination[pageSize]=100&populate[0]=Img&sort[0]=publishedAt:desc'
       )
       return res.data as PhotoListResp
     },

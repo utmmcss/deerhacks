@@ -484,6 +484,13 @@ const theme = createTheme(base, {
         },
       },
     },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          borderRadius: '0.5rem 0.5rem 0 0',
+        },
+      },
+    },
   },
 })
 

@@ -21,6 +21,8 @@ const Gallery = () => {
   const desktop = useMediaQuery(theme.breakpoints.up('md'))
   const tablet = useMediaQuery(theme.breakpoints.up('sm'))
 
+  const uploadLink = process.env.NEXT_PUBLIC_GALLERY_URL
+
   if (isError) return <Error500Page />
 
   return (
@@ -32,9 +34,52 @@ const Gallery = () => {
         <FullPageSpinner />
       ) : (
         <Fade in timeout={1000}>
-          <Container sx={{ flexDirection: 'column' }}>
+          <Container sx={{ minHeight: '100vh', flexDirection: 'column', justifyContent: 'start' }}>
             <BackButton navbar />
             <Typography variant="h1">Photo Gallery</Typography>
+            <Button
+              variant="outlined"
+              startIcon={<CameraEnhanceIcon />}
+              href={uploadLink ?? ''}
+              target="_blank"
+              rel="noopener"
+              disabled={!uploadLink}
+              sx={{
+                py: '1rem',
+                my: '1rem',
+                justifyContent: { xs: 'space-between', sm: 'auto' },
+                position: 'relative',
+                backgroundColor: theme.palette.background.default,
+                '&::after': {
+                  position: 'absolute',
+                  content: '""',
+                  inset: 0,
+                  zIndex: -1,
+                  width: '100%',
+                  height: '100%',
+                  filter: 'blur(15px)',
+                  background:
+                    'linear-gradient(to left,#d6551b,#db3a3a,#c844b0,#ae34d0,#8f55f5,#ae34d0,#c844b0,#db3a3a,#d6551b)',
+                  backgroundSize: '200% 200%',
+                  borderRadius: 'inherit',
+                  transition: 'all 0.5s ease',
+                  animation: 'animateGlow 2s linear infinite',
+                },
+                '&:hover::after': {
+                  transform: 'scale(1.2)',
+                },
+                '@keyframes animateGlow': {
+                  '0%': {
+                    backgroundPosition: '0% 50%',
+                  },
+                  '100%': {
+                    backgroundPosition: '200% 50%',
+                  },
+                },
+              }}
+            >
+              {!uploadLink ? 'Share your photos, coming soon!' : 'Share your photos here!'}
+            </Button>
             <ImageList
               variant="masonry"
               cols={desktop ? 3 : tablet ? 2 : 1}
@@ -51,10 +96,10 @@ const Gallery = () => {
               {data.data.map((item) => (
                 <ImageListItem key={item.id}>
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_DEERHACKS_CMS_BASE_URL}${
+                    src={
                       item.attributes.img.data.attributes.formats.large?.url ??
                       item.attributes.img.data.attributes.url
-                    }`}
+                    }
                     alt={item.attributes.alt}
                     width={0}
                     height={0}
@@ -70,17 +115,6 @@ const Gallery = () => {
                 </ImageListItem>
               ))}
             </ImageList>
-            <Button
-              variant="contained"
-              startIcon={<CameraEnhanceIcon />}
-              href="https://deerhacks.ca"
-              target="_blank"
-              rel="noopener"
-              disabled
-              sx={{ mt: '-4rem' }}
-            >
-              Share your photos, coming soon!
-            </Button>
           </Container>
         </Fade>
       )}

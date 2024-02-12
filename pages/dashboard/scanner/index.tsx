@@ -67,15 +67,7 @@ const QRCodeScanner = () => {
               sx={{ minHeight: '100vh', flexDirection: 'column', justifyContent: 'start' }}
             >
               <BackButton navbar text="Dashboard" href="/dashboard" />
-              <Typography
-                variant="h1"
-                display="flex"
-                alignItems="center"
-                textAlign="left"
-                gap="0.5rem"
-              >
-                QR Scanner
-              </Typography>
+              <Typography variant="h1">QR Scanner</Typography>
               <Container maxWidth="xs" sx={{ p: '0 !important', flexDirection: 'column' }}>
                 <Container sx={{ p: '0 !important' }}>
                   <QrScanner

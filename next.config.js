@@ -14,6 +14,11 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: 'deerhacks-cms-images.s3.**',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'cms.deerhacks.ca',
         pathname: '/uploads/**',
       },
