@@ -96,10 +96,10 @@ const Gallery = () => {
               {data.data.map((item) => (
                 <ImageListItem key={item.id}>
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_DEERHACKS_CMS_BASE_URL}${
+                    src={
                       item.attributes.img.data.attributes.formats.large?.url ??
                       item.attributes.img.data.attributes.url
-                    }`}
+                    }
                     alt={item.attributes.alt}
                     width={0}
                     height={0}
