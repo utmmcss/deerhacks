@@ -11,9 +11,17 @@ import Collapse from '@mui/material/Collapse'
 import Typography from '@mui/material/Typography'
 
 import { useEventList } from '@/hooks/Event/useEventList'
+import { UserStatus } from '@/types/User'
 
-const TileSchedule = () => {
-  const { data, isLoading, isError } = useEventList()
+type Props = {
+  status: UserStatus
+}
+
+const TileSchedule = (props: Props) => {
+  const { status } = props
+
+  const disabled = ['pending', 'registering', 'applied', 'selected', 'rejected'].includes(status)
+  const { data, isLoading, isError } = useEventList({ enabled: !disabled })
 
   const hasEvents = !isLoading && data?.data?.length !== 0
   const now = new Date()
@@ -25,7 +33,7 @@ const TileSchedule = () => {
     return nowPlusFiveMinutes <= eventDate
   })
 
-  if (isError || (!hasEvents && !isLoading)) {
+  if (disabled || isError || (!hasEvents && !isLoading)) {
     return (
       <Card variant="outlined" elevation={0}>
         <CardActionArea disabled>

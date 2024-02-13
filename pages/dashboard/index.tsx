@@ -129,7 +129,7 @@ const Dashboard = () => {
                   <TileGallery />
                 </Grid>
                 <Grid item xs={12} md={6} order={{ xs: 1, md: 2 }}>
-                  <TileSchedule />
+                  <TileSchedule status={user.status} />
                 </Grid>
               </Grid>
               <Grid container spacing={2}>
