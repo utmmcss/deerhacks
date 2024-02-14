@@ -1,4 +1,3 @@
-import PushPinIcon from '@mui/icons-material/PushPin'
 import Button from '@mui/material/Button'
 import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
@@ -58,17 +57,6 @@ const ScheduleCell = (props: Props) => {
           },
         }}
       >
-        {important && (
-          <PushPinIcon
-            color="secondary"
-            sx={{
-              position: 'absolute',
-              top: '-0.5rem',
-              right: '-0.5rem',
-              transform: 'rotate(45deg)',
-            }}
-          />
-        )}
         {desktop && <ScheduleIcon event={event} />}
         <Typography
           color="text.primary"

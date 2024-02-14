@@ -7,6 +7,8 @@ const INITIAL_FEATURE_TOGGLES = {
   dashboard: process.env.NEXT_PUBLIC_TOGGLE_DASHBOARD === 'true',
   // Toggle for admin user status updates
   statusUpdates: process.env.NEXT_PUBLIC_TOGGLE_STATUS_UPDATES === 'true',
+  // Toggle for admin internal fields show by default
+  internalFields: process.env.NEXT_PUBLIC_TOGGLE_INTERNAL_DEFAULT_VISIBLE === 'true',
 
   // TIME BASED TOGGLES
 
