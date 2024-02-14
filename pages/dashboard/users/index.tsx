@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
 import Typography from '@mui/material/Typography'
-import { DataGrid, FooterPropsOverrides } from '@mui/x-data-grid'
+import { DataGrid, FooterPropsOverrides, GridColumnVisibilityModel } from '@mui/x-data-grid'
 
 import Modal from '@/components/Dashboard/Modal'
 import FormReview from '@/components/Dashboard/RegistrationForms/Review'
@@ -77,6 +77,17 @@ const UsersTable = (props: Props) => {
   const [originalData, setOriginalData] = useState(data)
   const [users, setUsers] = useState(data)
   const [rowCount, setRowCount] = useState(totalUsers)
+  const [columnVisibilityModel, setColumnVisibilityModel] = useState<GridColumnVisibilityModel>({
+    first_name: true,
+    last_name: true,
+    id: true,
+    email: true,
+    status: true,
+    internal_status: toggles.internalFields,
+    internal_notes: toggles.internalFields,
+    application: true,
+  })
+
   useEffect(() => {
     if (!dataFetched) return
     setOriginalData(data)
@@ -161,6 +172,8 @@ const UsersTable = (props: Props) => {
         disableColumnFilter
         density="comfortable"
         disableRowSelectionOnClick
+        columnVisibilityModel={columnVisibilityModel}
+        onColumnVisibilityModelChange={(newModel) => setColumnVisibilityModel(newModel)}
       />
       <Suspense>
         <Modal

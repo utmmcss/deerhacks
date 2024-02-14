@@ -8,23 +8,27 @@ import Grow from '@mui/material/Grow'
 import IconButton from '@mui/material/IconButton'
 
 import { useAPI } from '@/contexts/API'
+import { UserStatus } from '@/types/User'
 import { QRCodeSVG } from 'qrcode.react'
 
 type Props = {
+  status: UserStatus
   qrCode: string
   open: boolean
   setOpen: (open: boolean) => void
 }
 
 const ModalQRCode = (props: Props) => {
-  const { open, qrCode, setOpen } = props
+  const { status, open, qrCode, setOpen } = props
 
   const api = useAPI()
 
   const handleClose = () => {
     setOpen(false)
-    // Refetch if user signs in
-    api.queryClient.invalidateQueries({ queryKey: ['userGet'] })
+    if (status === 'accepted') {
+      // Refetch if user signs in
+      api.queryClient.invalidateQueries({ queryKey: ['userGet'] })
+    }
   }
 
   return (

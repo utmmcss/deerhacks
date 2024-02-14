@@ -54,8 +54,10 @@ const TileRegistration = (props: Props) => {
           </Typography>
           <Typography variant="body2">
             {disabled
-              ? `Registration is unavailable ${
-                  status === 'pending' ? 'while email is unverified' : 'during this time'
+              ? `Registration is closed ${
+                  status === 'pending'
+                    ? 'while email is unverified'
+                    : 'during this time. Thanks for checking our DeerHacks!'
                 }`
               : status === 'registering'
               ? 'Get started on your registration for DeerHacks! Hacker applications are open until January 25'

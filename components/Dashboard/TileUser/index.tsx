@@ -202,7 +202,12 @@ const TileUser = (props: Props) => {
         </Grid>
       </Paper>
       <Suspense>
-        <ModalQRCode qrCode={user.qr_code} open={openQRCode} setOpen={setOpenQRCode} />
+        <ModalQRCode
+          status={user.status}
+          qrCode={user.qr_code}
+          open={openQRCode}
+          setOpen={setOpenQRCode}
+        />
       </Suspense>
       <Suspense>
         <ModalAccount user={user} open={openAccountDetails} setOpen={setOpenAccountDetails} />
