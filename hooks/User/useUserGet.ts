@@ -26,7 +26,7 @@ export const useUserGet = (props?: Props) => {
 /**
  * https://discord.com/developers/docs/reference#image-formatting-image-base-url
  */
-const getAvatar = (user: User) => {
+export const getAvatar = (user: User) => {
   const avatar = user.avatar
   if (avatar)
     return `https://cdn.discordapp.com/avatars/${user.discord_id}/${avatar}.${

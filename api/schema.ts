@@ -9,7 +9,7 @@ import {
 import { EmailVerifyReq, EmailVerifyResp } from '@/types/Email'
 import { EventListResp } from '@/types/Event'
 import { PhotoListResp } from '@/types/Photo'
-import { QRCheckInReq, QRCheckInResp } from '@/types/QRCode'
+import { QRCheckInReq, QRCheckInResp, QRUserGetParams } from '@/types/QRCode'
 import {
   UserGetResp,
   UserListParams,
@@ -89,6 +89,10 @@ const qrCodes = (customFetch: CustomFetch) =>
     qrCheckIn: async (args: QRCheckInReq) => {
       const res = await customFetch('POST', 'DH_BE', '/qr-check-in', args)
       return res.data as QRCheckInResp
+    },
+    qrUserInfo: async (args: QRUserGetParams) => {
+      const res = await customFetch('GET', 'DH_BE', `/admin-user-get?qrId=${args.qrId}`)
+      return res.data as UserGetResp
     },
   } as const)
 
