@@ -1,8 +1,6 @@
 import Head from 'next/head'
 import { Suspense, useState } from 'react'
 
-import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded'
-import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import CircularProgress from '@mui/material/CircularProgress'
 import Container from '@mui/material/Container'
 import Fade from '@mui/material/Fade'
@@ -11,40 +9,85 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
-import useMediaQuery from '@mui/material/useMediaQuery'
 
 import { APIError } from '@/api/types'
-import Modal from '@/components/Dashboard/Modal'
+import ModalScanner, { ScannerModalContext } from '@/components/Dashboard/ModalScanner'
 import BackButton from '@/components/Shared/BackButton'
 import FullPageSpinner from '@/components/Shared/FullPageSpinner'
 import { useAuth } from '@/contexts/Auth'
 import { useFeatureToggle } from '@/contexts/FeatureToggle'
 import { useToast } from '@/contexts/Toast'
 import { useQRCheckIn } from '@/hooks/QRCode/useQRCheckIn'
+import { useQRUserGet } from '@/hooks/QRCode/useQRUserGet'
 import Error401Page from '@/pages/401'
 import Error404Page from '@/pages/404'
-import theme from '@/styles/theme'
 import { QrScanner } from '@yudiel/react-qr-scanner'
-import { QRCheckInContext, QRCheckInResp, qrContextLabels, qrContextOptions } from 'types/QRCode'
+import { QRCheckInContext, qrContextLabels, qrContextOptions } from 'types/QRCode'
 
 const QRCodeScanner = () => {
   const [context, setContext] = useState<QRCheckInContext | ''>('')
-  const [result, setResult] = useState<QRCheckInResp>({ message: '', success: false })
+  const [modalContext, setModalContext] = useState<ScannerModalContext>({
+    message: '',
+    success: false,
+  })
   const [openResult, setOpenResult] = useState(false)
 
   const { user, loading, authenticated } = useAuth()
   const { toggles } = useFeatureToggle()
   const { setToast } = useToast()
 
-  const desktop = useMediaQuery(theme.breakpoints.up('sm'))
+  const { mutate: qrCheckIn, isLoading: qrCheckInLoading } = useQRCheckIn()
+  const { mutate: qrUserGet, isLoading: qrUserLoading } = useQRUserGet()
 
-  const { mutate: qrCheckIn, isLoading } = useQRCheckIn()
-
-  const enableScanner = !openResult && !isLoading
+  const enableScanner = !openResult && !qrCheckInLoading && !qrUserLoading
   const allowedStatuses = ['admin', 'moderator', 'volunteer']
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChangeContext = (event: SelectChangeEvent) => {
     setContext(event.target.value as QRCheckInContext)
+  }
+
+  const handleRegistration = (qrId: string) => {
+    qrUserGet(
+      { qrId },
+      {
+        onSuccess: (resp) => {
+          setModalContext({
+            user: resp.user,
+            qrId,
+          })
+          setOpenResult(true)
+        },
+        onError: (err) => {
+          const apiError = (err as APIError).apiError.err
+          setModalContext({
+            message: apiError.message ?? apiError.error,
+            success: false,
+          })
+          setOpenResult(true)
+        },
+      }
+    )
+  }
+
+  const handleCheckIn = (qrId: string) => {
+    if (!context) return
+    qrCheckIn(
+      { qrId, context },
+      {
+        onSuccess: (resp) => {
+          setModalContext(resp)
+          setOpenResult(true)
+        },
+        onError: (err) => {
+          const apiError = (err as APIError).apiError.err
+          setModalContext({
+            message: apiError.message ?? apiError.error,
+            success: false,
+          })
+          setOpenResult(true)
+        },
+      }
+    )
   }
 
   if (!toggles.dashboard || (user?.status && !allowedStatuses.includes(user.status))) {
@@ -72,25 +115,12 @@ const QRCodeScanner = () => {
                 <Container sx={{ p: '0 !important' }}>
                   <QrScanner
                     stopDecoding={!context || !enableScanner}
-                    onDecode={(result) => {
-                      if (!context) return
-                      qrCheckIn(
-                        { qrId: result, context },
-                        {
-                          onSuccess: (resp) => {
-                            setResult(resp)
-                            setOpenResult(true)
-                          },
-                          onError: (err) => {
-                            const apiError = (err as APIError).apiError.err
-                            setResult({
-                              message: apiError.message ?? apiError.error,
-                              success: false,
-                            })
-                            setOpenResult(true)
-                          },
-                        }
-                      )
+                    onDecode={(qrId) => {
+                      if (context === 'registration') {
+                        handleRegistration(qrId)
+                      } else {
+                        handleCheckIn(qrId)
+                      }
                     }}
                     onError={(error) =>
                       setToast({
@@ -109,7 +139,7 @@ const QRCodeScanner = () => {
                   <Select
                     value={context}
                     label="Select Context"
-                    onChange={handleChange}
+                    onChange={handleChangeContext}
                     error={!context}
                   >
                     {qrContextOptions.map((option) => (
@@ -127,72 +157,13 @@ const QRCodeScanner = () => {
             </Container>
           </Fade>
           <Suspense>
-            <Modal
+            <ModalScanner
               open={openResult}
-              title={result.success ? 'Success' : 'Error'}
-              onClose={() => setOpenResult(false)}
-              primaryButton={{
-                text: 'Continue',
-                size: 'large',
-                onClick: () => {
-                  setOpenResult(false)
-                },
-                fullWidth: !desktop,
-                sx: {
-                  color: result.success ? theme.palette.success.dark : theme.palette.error.dark,
-                },
-              }}
-              iconButtonSX={{
-                color: 'text.primary',
-              }}
-              PaperProps={{
-                elevation: 2,
-                sx: {
-                  backgroundColor: result.success
-                    ? theme.palette.success.dark
-                    : theme.palette.error.dark,
-                  m: '1rem',
-                  maxHeight: 'calc(100% - 2rem)',
-                  width: 'calc(100% - 2rem)',
-                },
-              }}
-              {...(!desktop && {
-                fullScreen: true,
-                PaperProps: {
-                  elevation: 2,
-
-                  sx: {
-                    backgroundColor: result.success
-                      ? theme.palette.success.dark
-                      : theme.palette.error.dark,
-                    m: '0',
-                    maxHeight: '100%',
-                    width: '100%',
-                  },
-                },
-              })}
-              dialogContentProps={{
-                sx: {
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                },
-              }}
-            >
-              {result.success ? (
-                <Typography fontSize="8rem">
-                  <TaskAltRoundedIcon color="secondary" fontSize="inherit" />
-                </Typography>
-              ) : (
-                <Typography fontSize="8rem">
-                  <ErrorOutlineRoundedIcon color="secondary" fontSize="inherit" />
-                </Typography>
-              )}
-              <Typography color="text.primary" textAlign="center">
-                {result.message}
-              </Typography>
-            </Modal>
+              setOpen={setOpenResult}
+              onConfirmCheckIn={handleCheckIn}
+              modalContext={modalContext}
+              isLoading={qrCheckInLoading || qrUserLoading}
+            />
           </Suspense>
         </>
       )}

@@ -1,3 +1,7 @@
+export type QRUserGetParams = {
+  qrId: string
+}
+
 export type QRCheckInReq = {
   qrId: string
   context: QRCheckInContext

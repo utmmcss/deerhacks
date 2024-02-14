@@ -14,6 +14,7 @@ import ScheduleGrid from '@/components/Shared/ScheduleGrid'
 import { useToast } from '@/contexts/Toast'
 import { useEventList } from '@/hooks/Event/useEventList'
 import Error500Page from '@/pages/500'
+import theme from '@/styles/theme'
 import { ParsedEventData } from '@/types/Event'
 
 type Props = {
@@ -44,6 +45,11 @@ const Schedule = (props: Props) => {
     return 0
   })
 
+  const handleSetTabIndex = (index: number) => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+    setTabIndex(index)
+  }
+
   const oneWeekFromNow = new Date(now.getTime() + 6 * 24 * 60 * 60 * 1000)
 
   const transitionDuration = {
@@ -53,11 +59,21 @@ const Schedule = (props: Props) => {
 
   return (
     <>
-      <Box component="div" display="flex" justifyContent="center" width="100%">
+      <Box
+        component="div"
+        display="flex"
+        justifyContent="center"
+        width="100%"
+        position="sticky"
+        top={0}
+        zIndex={1000}
+        mb="1rem"
+        sx={{ backgroundColor: theme.palette.background.default }}
+      >
         <Tabs
           variant="scrollable"
           value={tabIndex}
-          onChange={(_, newIndex) => setTabIndex(newIndex)}
+          onChange={(_, newIndex) => handleSetTabIndex(newIndex)}
           sx={{ borderBottom: 1, borderColor: 'divider' }}
         >
           {days.map((day) => {
