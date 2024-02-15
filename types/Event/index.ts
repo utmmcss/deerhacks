@@ -55,6 +55,7 @@ export const eventHosts = [
   'deerhacks',
   'mcss',
   'utmRobotics',
+  'esports',
   'gdsc',
   'cssc',
   'utmsam',

@@ -23,6 +23,7 @@ const ScheduleModal = (props: Props) => {
     deerhacks: 'DeerHacks',
     mcss: 'MCSS',
     utmRobotics: 'UTM Robotics',
+    esports: 'Esports',
     gdsc: 'GDSC',
     cssc: 'CSSC',
     utmsam: 'UTMSAM',
