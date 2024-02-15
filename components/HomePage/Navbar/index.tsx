@@ -177,6 +177,9 @@ const Navbar = (props: Props) => {
               title={toggles.dashboard ? 'Take me to my dashboard' : ''}
               placement="right"
               arrow
+              data-aos="fade"
+              data-aos-delay="500"
+              data-aos-duration="1000"
             >
               <Button
                 href="/login"

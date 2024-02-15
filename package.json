@@ -11,11 +11,13 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@babel/core": "^7.0.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.2",
     "@mui/icons-material": "^5.14.11",
     "@mui/material": "^5.14.8",
+    "@mui/system": "^5.15.7",
     "@mui/x-data-grid": "^6.18.7",
     "@pmndrs/assets": "^1.6.0",
     "@react-three/drei": "^9.83.8",
@@ -42,10 +44,11 @@
     "qrcode.react": "^3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-fast-marquee": "^1.6.4",
     "react-hook-form": "^7.48.2",
-    "sass": "^1.66.1",
-    "three": "^0.156.1",
+    "three": "0.155.0",
     "typescript": "5.2.2",
+    "webpack": "^5.9.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
