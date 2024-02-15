@@ -116,6 +116,7 @@ const QRCodeScanner = () => {
                   <QrScanner
                     stopDecoding={!context || !enableScanner}
                     onDecode={(qrId) => {
+                      if (!context || !enableScanner) return
                       if (context === 'registration') {
                         handleRegistration(qrId)
                       } else {

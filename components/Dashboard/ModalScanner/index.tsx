@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 import Modal from '@/components/Dashboard/Modal'
-import FullPageSpinner from '@/components/Shared/FullPageSpinner'
 import theme from '@/styles/theme'
 import { User } from '@/types/User'
 
@@ -45,7 +44,6 @@ const ModalScanner = (props: Props) => {
   const isValidateName = isUserModal && userContext.success === undefined
 
   const getModalTitle = () => {
-    if (isLoading) return ''
     if (isUserModal) {
       if (userContext.success === undefined) return 'Registration'
       return userContext.success ? 'Success' : 'Error'
@@ -56,7 +54,6 @@ const ModalScanner = (props: Props) => {
   const modalTitle = getModalTitle()
 
   const getModalColor = () => {
-    if (isLoading) return ''
     if (isUserModal) {
       if (userContext.success === undefined) return ''
       return userContext.success ? theme.palette.success.dark : theme.palette.error.dark
@@ -131,9 +128,7 @@ const ModalScanner = (props: Props) => {
         },
       }}
     >
-      {isLoading ? (
-        <FullPageSpinner />
-      ) : isUserModal ? (
+      {isUserModal ? (
         // Registration validate name before actual check-in
         <Grid
           display="flex"
