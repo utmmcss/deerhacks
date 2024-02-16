@@ -50,8 +50,6 @@ const Schedule = (props: Props) => {
     setTabIndex(index)
   }
 
-  const oneWeekFromNow = new Date(now.getTime() + 6 * 24 * 60 * 60 * 1000)
-
   const transitionDuration = {
     enter: 400,
     exit: 100,
@@ -78,17 +76,14 @@ const Schedule = (props: Props) => {
         >
           {days.map((day) => {
             const eventDate = new Date(day)
-            const configs: Intl.DateTimeFormatOptions =
-              eventDate < now || // eventDay is has passed OR
-              eventDate > oneWeekFromNow // eventDay is more than a week away from now
-                ? {
-                    month: 'short',
-                    day: 'numeric',
-                  }
-                : {
-                    weekday: 'long',
-                  }
-            return <Tab key={day} label={eventDate.toLocaleDateString('en-US', configs)} />
+            return (
+              <Tab
+                key={day}
+                label={eventDate.toLocaleDateString('en-US', {
+                  weekday: 'long',
+                })}
+              />
+            )
           })}
         </Tabs>
       </Box>
