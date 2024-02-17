@@ -63,7 +63,13 @@ const ModalQRCode = (props: Props) => {
         <Box component="div" display="flex" flexDirection="column" gap="1rem">
           <Alert severity="info">Turn up your brightness for sign-ins.</Alert>
           <Box component="div" display="flex" sx={{ borderRadius: '0.75rem', overflow: 'hidden' }}>
-            <QRCodeSVG value={qrCode} includeMargin style={{ height: 'auto', width: '100%' }} />
+            <QRCodeSVG
+              value={qrCode}
+              includeMargin
+              bgColor="#fff"
+              fgColor="#000"
+              style={{ height: 'auto', width: '100%' }}
+            />
           </Box>
         </Box>
       </DialogContent>
