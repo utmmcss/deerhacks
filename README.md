@@ -7,6 +7,10 @@
 [![Build Status](https://api.netlify.com/api/v1/badges/e85686f6-63b4-4028-94f2-c27d34c488d7/deploy-status)](https://app.netlify.com/sites/deerhacks/deploys)
 [![Website Status](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fdeerhacks.ca)](https://deerhacks.ca)
 
+## Open Source & Attribution
+
+This project is an open source archive of the DeerHacks 2024 Website & Dashboard and is licensed under the [GPL v3.0 License](LICENSE). We also ask that you keep the footer attribution to the original creators if you decide to use this project for any derivative works.
+
 ## Setup
 
 1. Run `yarn install` to install dependencies

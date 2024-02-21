@@ -78,7 +78,7 @@ const Gallery = () => {
                 },
               }}
             >
-              {!uploadLink ? 'Share your photos, coming soon!' : 'Share your photos here!'}
+              {!uploadLink ? 'Photo drive coming soon!' : 'Full photo drive here!'}
             </Button>
             <ImageList
               variant="masonry"

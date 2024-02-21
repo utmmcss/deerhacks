@@ -20,12 +20,15 @@ export type RespEvent = {
   attributes: {
     title: string
     description: string
-    location?: string
+    location?: string | null
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
     startTime: string
-    endTime?: string
+    endTime?: string | null
     important: boolean
     host: EventHosts
-    presenter?: string
+    presenter?: string | null
     type: EventTypes
   }
 }

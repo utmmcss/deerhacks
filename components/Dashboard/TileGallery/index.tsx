@@ -24,23 +24,23 @@ const TileGallery = (props: Props) => {
       sx={{
         width: '100%',
         background:
-          "linear-gradient( rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.25) ), url('/photos/2023.webp')",
+          "linear-gradient( rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25) ), url('/photos/2024.webp')",
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'top',
       }}
     >
       <CardActionArea href="/gallery" LinkComponent={NextLink}>
         <CardContent
           sx={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: resize ? { xs: '300px', md: '400px', lg: '500px' } : '329px',
+            justifyContent: 'end',
+            minHeight: resize
+              ? { xs: '300px', md: '400px', lg: '500px' }
+              : { xs: '300px', md: '250px', lg: '329px' },
           }}
         >
           <Typography
             variant="h1"
             display="flex"
-            alignItems="center"
             textAlign="left"
             gap="0.5rem"
             mb="0 !important"
@@ -52,18 +52,6 @@ const TileGallery = (props: Props) => {
           >
             <CameraEnhanceIcon fontSize="inherit" />
             Gallery
-          </Typography>
-          <Typography
-            color="text.primary"
-            variant="body2"
-            textAlign="center"
-            {...(resize && {
-              'data-aos': 'fade',
-              'data-aos-offset': '25',
-              'data-aos-once': 'false',
-            })}
-          >
-            DeerHacks in photos, contributed by you!
           </Typography>
         </CardContent>
       </CardActionArea>
