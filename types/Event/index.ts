@@ -38,17 +38,17 @@ export type Event = {
   attributes: {
     title: string
     description: string
-    location?: string
+    location?: string | null
     startTime: Date
     endTime: Date
     important: boolean
     host: EventHosts
-    presenter?: string
+    presenter?: string | null
     type: EventTypes
     /* used only when displaying event details in modal */
     actualEventTimes?: {
       startTime: Date
-      endTime?: Date
+      endTime?: Date | null
     }
   }
 }
