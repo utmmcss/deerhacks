@@ -173,23 +173,28 @@ const Navbar = (props: Props) => {
             top="2.5rem"
             left={{ xs: '1.5rem', lg: '2.5rem' }}
           >
-            <Tooltip
-              title={toggles.dashboard ? 'Take me to my dashboard' : ''}
-              placement="right"
-              arrow
-              data-aos="fade"
-              data-aos-delay="500"
-              data-aos-duration="1000"
-            >
-              <Button
-                href="/login"
-                component={NextLink}
-                disabled={!toggles.dashboard}
-                sx={{ p: '0', borderRadius: '50%' }}
+            {toggles.dashboard ? (
+              <Tooltip
+                title="Take me to my dashboard"
+                placement="right"
+                arrow
+                data-aos="fade"
+                data-aos-delay="500"
+                data-aos-duration="1000"
               >
-                <Image src="/icons/neon.png" alt="DeerHacks Logo" width={80} height={80} priority />
-              </Button>
-            </Tooltip>
+                <Button href="/login" component={NextLink} sx={{ p: '0', borderRadius: '50%' }}>
+                  <Image
+                    src="/icons/neon.png"
+                    alt="DeerHacks Logo"
+                    width={80}
+                    height={80}
+                    priority
+                  />
+                </Button>
+              </Tooltip>
+            ) : (
+              <Image src="/icons/neon.png" alt="DeerHacks Logo" width={80} height={80} priority />
+            )}
           </Box>
           <span />
           <Slide in={!loading} timeout={500} mountOnEnter>

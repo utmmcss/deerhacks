@@ -20,12 +20,15 @@ export type RespEvent = {
   attributes: {
     title: string
     description: string
-    location?: string
+    location?: string | null
+    createdAt: string
+    updatedAt: string
+    publishedAt: string
     startTime: string
-    endTime?: string
+    endTime?: string | null
     important: boolean
     host: EventHosts
-    presenter?: string
+    presenter?: string | null
     type: EventTypes
   }
 }
@@ -35,17 +38,17 @@ export type Event = {
   attributes: {
     title: string
     description: string
-    location?: string
+    location?: string | null
     startTime: Date
     endTime: Date
     important: boolean
     host: EventHosts
-    presenter?: string
+    presenter?: string | null
     type: EventTypes
     /* used only when displaying event details in modal */
     actualEventTimes?: {
       startTime: Date
-      endTime?: Date
+      endTime?: Date | null
     }
   }
 }

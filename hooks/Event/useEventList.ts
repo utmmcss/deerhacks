@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const useEventList = (props?: Props) => {
-  return useAPI().useQuery(['eventList', null], {
+  return useAPI().useQuery(['mockEventList', null], {
     enabled: props?.enabled,
     retry: false,
     staleTime: Infinity,
