@@ -7,7 +7,7 @@ type Props = {
 }
 
 export const usePhotoList = (props?: Props) => {
-  return useAPI().useQuery(['photoList', null], {
+  return useAPI().useQuery(['mockPhotoList', null], {
     enabled: props?.enabled,
     retry: false,
     staleTime: Infinity,
