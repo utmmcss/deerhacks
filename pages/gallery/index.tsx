@@ -87,10 +87,12 @@ const Gallery = () => {
               sx={{
                 width: '100%',
                 columnGap: '1rem !important',
-                WebkitMaskImage:
-                  '-webkit-gradient(linear, left 90%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))',
-                maskImage:
-                  '-webkit-gradient(linear, left 90%, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))',
+                WebkitMaskImage: `-webkit-gradient(linear, left ${
+                  desktop ? '90%' : tablet ? '95%' : '98%'
+                }, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))`,
+                maskImage: `-webkit-gradient(linear, left ${
+                  desktop ? '90%' : tablet ? '95%' : '98%'
+                }, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))`,
               }}
             >
               {data.data.map((item) => (
