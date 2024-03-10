@@ -77,7 +77,7 @@ const Menu = (props: MenuProps) => {
             <Tooltip title="LinkedIn">
               <Link
                 rel="noopener"
-                href="https://linkedin.com/showcase/deerhacks"
+                href="https://linkedin.com/company/deerhacks"
                 target="_blank"
                 display="flex"
               >

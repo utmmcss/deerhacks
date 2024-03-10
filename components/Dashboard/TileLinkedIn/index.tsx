@@ -9,7 +9,7 @@ const TileLinkedIn = () => {
     <Card>
       <CardActionArea
         rel="noopener"
-        href="https://linkedin.com/showcase/deerhacks"
+        href="https://linkedin.com/company/deerhacks"
         target="_blank"
         sx={{ background: '#0a66c2' }}
       >
