@@ -42,7 +42,7 @@ const Footer = () => {
             <Tooltip title="LinkedIn" placement="top">
               <Link
                 rel="noopener"
-                href="https://linkedin.com/showcase/deerhacks"
+                href="https://linkedin.com/company/deerhacks"
                 target="_blank"
                 display="flex"
               >
