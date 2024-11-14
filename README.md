@@ -1,11 +1,11 @@
 # DeerHacks
 
-[![DeerHacks Image](public/backgrounds/collage_close.jpg)](https://deerhacks.ca)
+[![DeerHacks Image](public/backgrounds/collage_close.jpg)](https://2024.deerhacks.ca)
 
 > DeerHacks Hackathon 2024 Dashboard
 
 [![Build Status](https://api.netlify.com/api/v1/badges/e85686f6-63b4-4028-94f2-c27d34c488d7/deploy-status)](https://app.netlify.com/sites/deerhacks/deploys)
-[![Website Status](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2Fdeerhacks.ca)](https://deerhacks.ca)
+[![Website Status](https://img.shields.io/website?down_color=red&down_message=offline&up_color=green&up_message=online&url=https%3A%2F%2F2024.deerhacks.ca)](https://deerhacks.ca)
 
 ## Open Source & Attribution
 

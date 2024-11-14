@@ -8,7 +8,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <meta charSet="utf-8" />
-        <link rel="canonical" href="https://deerhacks.ca" />
+        <link rel="canonical" href="https://2024.deerhacks.ca" />
         <meta
           name="description"
           content="DeerHacks is the largest annual hackathon at University of Toronto Mississauga. Join us on February 16-18, 2024 for a weekend of prizes, development, and innovation!"
